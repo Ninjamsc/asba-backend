@@ -31,11 +31,12 @@ public class FrontEndConfigurationDaoTest {
 
     @Test
     public void create() throws Exception {
+        FrontEndConfiguration configuration = dao.get(1l);
         assertEquals(0, dao.countAll());
         FrontEndConfiguration entity = createFrontEndConfiguration();
-        Long id = dao.save(entity);
+        dao.saveOrUpdate(entity);
         assertEquals(1, dao.countAll());
-        assertEquals(entity, dao.findById(id));
+        assertEquals(entity, dao.get(entity.getId()));
     }
 
     FrontEndConfiguration createFrontEndConfiguration(){

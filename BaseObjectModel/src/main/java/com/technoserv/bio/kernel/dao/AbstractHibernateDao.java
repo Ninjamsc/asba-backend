@@ -30,7 +30,7 @@ public abstract class AbstractHibernateDao<ID extends Serializable,T extends Bas
 		Type type = getClass().getGenericSuperclass();
 		while (type != null) {
 			if(type instanceof ParameterizedType) {
-				persistentClass = (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[0];
+				persistentClass = (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[1];
 				break;
 			} else if (type instanceof Class) {
 				type = ((Class) type).getGenericSuperclass();
@@ -39,7 +39,7 @@ public abstract class AbstractHibernateDao<ID extends Serializable,T extends Bas
     }
 
     @SuppressWarnings("unchecked")
-    public T findById(Long id) {
+    public T get(ID id) {
         T t = (T) getSession().get(getPersistentClass(), id);
         return t;
     }

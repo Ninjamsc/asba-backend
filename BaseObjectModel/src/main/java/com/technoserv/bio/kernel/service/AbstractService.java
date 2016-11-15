@@ -14,7 +14,7 @@ public abstract class AbstractService<ID extends Serializable,T extends BaseEnti
 
     @Transactional(readOnly = true)
     public T findById(ID id) {
-        return getDao().findById(id);
+        return getDao().get(id);
     }
 
     @Transactional
@@ -24,7 +24,7 @@ public abstract class AbstractService<ID extends Serializable,T extends BaseEnti
 
     @Transactional
     public void delete(ID id) {
-        T entity = dao.findById(id);
+        T entity = dao.get(id);
         if (entity != null) {
             dao.delete(entity);
         }
