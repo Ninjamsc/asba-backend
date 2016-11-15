@@ -10,22 +10,24 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by VBasakov on 15.11.2016.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/testContext.xml")
+@Transactional
 public class FrontEndConfigurationDaoTest {
 
     @Autowired
     FrontEndConfigurationDao dao;
 
     @Before
-    private void setUp(){}
+    public void setUp(){}
 
     @After
-    private void tearDown(){}
+    public void tearDown(){}
 
     @Test
     public void create() throws Exception {

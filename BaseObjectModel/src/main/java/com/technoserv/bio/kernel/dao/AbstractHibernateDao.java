@@ -4,6 +4,7 @@ import com.technoserv.bio.kernel.model.BaseEntity;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
@@ -13,7 +14,7 @@ import java.util.List;
 public abstract class AbstractHibernateDao<ID extends Serializable,T extends BaseEntity<ID>> implements Dao<ID,T> {
 
     private Class<T> persistentClass;
-
+    @Autowired
     protected SessionFactory sessionFactory;
 
     public void setSessionFactory(SessionFactory sessionFactory) {
