@@ -2,6 +2,7 @@ package com.technoserv.bio.kernel.model.objectmodel;
 
 import com.technoserv.bio.kernel.model.BaseEntity;
 
+import javax.persistence.Id;
 import java.util.Date;
 
 public abstract class AbstractObject extends BaseEntity<Long> {
