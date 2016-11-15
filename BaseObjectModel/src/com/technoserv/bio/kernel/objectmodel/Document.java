@@ -4,5 +4,5 @@ public class Document extends AbstractObject {
 	DocumentType	documentType;
 	String			origImageURL; //TODO String http URL
 	String			faceSquare; //TODO String HTTP URL
-	Convolution[]	allConvolutions; // если есть несколько шаблонов нескольких версий сети
+	Convolution[]	allConvolutions; // РµСЃР»Рё РµСЃС‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ С€Р°Р±Р»РѕРЅРѕРІ РЅРµСЃРєРѕР»СЊРєРёС… РІРµСЂСЃРёР№ СЃРµС‚Рё
 }

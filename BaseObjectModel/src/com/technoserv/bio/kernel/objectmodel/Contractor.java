@@ -4,6 +4,6 @@ public class Contractor extends AbstractObject {
 
 	String contractorName;
 	StopList[] contractorLists;
-	float similarityThresold; // мера схожести
-	Document[] loadedImages; //загруженные банком фотографии (со свертками итп)
+	float similarityThresold; // РјРµСЂР° СЃС…РѕР¶РµСЃС‚Рё
+	Document[] loadedImages; //Р·Р°РіСЂСѓР¶РµРЅРЅС‹Рµ Р±Р°РЅРєРѕРј С„РѕС‚РѕРіСЂР°С„РёРё (СЃРѕ СЃРІРµСЂС‚РєР°РјРё РёС‚Рї)
 }

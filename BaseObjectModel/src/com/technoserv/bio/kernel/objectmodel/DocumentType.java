@@ -2,9 +2,9 @@ package com.technoserv.bio.kernel.objectmodel;
 
 public enum DocumentType {
 
-	SCAN(1), // со сканера 
-	PHOTO(2),  // c веб камеры
-	EXTERNAL(3); // то, что банки грузят в стоп листы
+	SCAN(1), // СЃРѕ СЃРєР°РЅРµСЂР° 
+	PHOTO(2),  // c РІРµР± РєР°РјРµСЂС‹
+	EXTERNAL(3); // С‚Рѕ, С‡С‚Рѕ Р±Р°РЅРєРё РіСЂСѓР·СЏС‚ РІ СЃС‚РѕРї Р»РёСЃС‚С‹
 	private int code;
 	
 	 

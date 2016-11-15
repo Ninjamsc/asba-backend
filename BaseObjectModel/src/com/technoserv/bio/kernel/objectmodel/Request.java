@@ -1,7 +1,7 @@
 package com.technoserv.bio.kernel.objectmodel;
 
 public class Request extends AbstractObject {
-	String			bpmRequestNumber; // номер заявки из BPM
-	Document		scannedDocument; // cсканированное изображение
-	Document		cameraDocument;  // изображение с веб камеры
+	String			bpmRequestNumber; // РЅРѕРјРµСЂ Р·Р°СЏРІРєРё РёР· BPM
+	Document		scannedDocument; // cСЃРєР°РЅРёСЂРѕРІР°РЅРЅРѕРµ РёР·РѕР±СЂР°Р¶РµРЅРёРµ
+	Document		cameraDocument;  // РёР·РѕР±СЂР°Р¶РµРЅРёРµ СЃ РІРµР± РєР°РјРµСЂС‹
 }

@@ -1,5 +1,5 @@
 package com.technoserv.bio.kernel.objectmodel;
 
 public class BPMReport extends AbstractObject {
- // объект необходим для передачи в Oracle BPM комплекта документов (скан и фото) из АСБА
+ // РѕР±СЉРµРєС‚ РЅРµРѕР±С…РѕРґРёРј РґР»СЏ РїРµСЂРµРґР°С‡Рё РІ Oracle BPM РєРѕРјРїР»РµРєС‚Р° РґРѕРєСѓРјРµРЅС‚РѕРІ (СЃРєР°РЅ Рё С„РѕС‚Рѕ) РёР· РђРЎР‘Рђ
 }

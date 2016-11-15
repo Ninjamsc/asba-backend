@@ -3,6 +3,6 @@ package com.technoserv.bio.kernel.objectmodel;
 import java.util.Date;
 
 public abstract class AbstractObject {
-	Integer id; // уникальный идентификатор объекта
-	Date objectDate; // дата создания объекта
+	Integer id; // СѓРЅРёРєР°Р»СЊРЅС‹Р№ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РѕР±СЉРµРєС‚Р°
+	Date objectDate; // РґР°С‚Р° СЃРѕР·РґР°РЅРёСЏ РѕР±СЉРµРєС‚Р°
 }
