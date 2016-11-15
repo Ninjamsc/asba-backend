@@ -33,6 +33,13 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.5</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- REST -->
 
         <dependency>
@@ -178,6 +185,12 @@
             <version>1.5.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.glassfish.hk2/hk2-utils -->
+        <!--<dependency>-->
+            <!--<groupId>org.glassfish.hk2</groupId>-->
+            <!--<artifactId>hk2-utils</artifactId>-->
+            <!--<version>2.5.0-b28</version>-->
+        <!--</dependency>-->
 
 
     </dependencies>
