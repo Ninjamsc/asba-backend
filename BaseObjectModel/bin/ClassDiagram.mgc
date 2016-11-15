@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClassDiagram>
+    <Class name="com.technoserv.bio.kernel.objectmodel.Convolution"
+        x="87" y="428">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="com.technoserv.bio.kernel.objectmodel.AbstractObject"/>
+        <Association
+            destinationClassName="com.technoserv.bio.kernel.objectmodel.StopList"
+            endpointName="stopListEntries" kind="Simple"/>
+    </Class>
+    <Class name="com.technoserv.bio.kernel.objectmodel.DocumentType"
+        x="100" y="54">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+    <Class name="com.technoserv.bio.kernel.objectmodel.Person" x="466" y="96">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="com.technoserv.bio.kernel.objectmodel.AbstractObject"/>
+    </Class>
+    <Class name="com.technoserv.bio.kernel.objectmodel.StopList" x="392" y="640">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="com.technoserv.bio.kernel.objectmodel.AbstractObject"/>
+        <Association
+            destinationClassName="com.technoserv.bio.kernel.objectmodel.Contractor"
+            endpointName="owner" kind="Simple"/>
+    </Class>
+    <Class name="com.technoserv.bio.kernel.objectmodel.Contractor"
+        x="826" y="474">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="com.technoserv.bio.kernel.objectmodel.AbstractObject"/>
+        <Association
+            destinationClassName="com.technoserv.bio.kernel.objectmodel.Document"
+            endpointName="loadedImages" kind="Simple"/>
+        <Association
+            destinationClassName="com.technoserv.bio.kernel.objectmodel.StopList"
+            endpointName="contractorLists" kind="Simple"/>
+    </Class>
+    <Class name="com.technoserv.bio.kernel.objectmodel.Document" x="99" y="247">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+        <Extension destinationClassName="com.technoserv.bio.kernel.objectmodel.AbstractObject"/>
+        <Association
+            destinationClassName="com.technoserv.bio.kernel.objectmodel.DocumentType"
+            endpointName="documentType" kind="Simple"/>
+        <Association
+            destinationClassName="com.technoserv.bio.kernel.objectmodel.Convolution"
+            endpointName="allConvolutions" kind="Simple"/>
+    </Class>
+    <Class name="com.technoserv.bio.kernel.objectmodel.AbstractObject"
+        x="562" y="248">
+        <AttributesDisplayFilter public-accepted="true"
+            private-accepted="true" protected-accepted="true"
+            default-accepted="true" static-accepted="false"/>
+        <MethodDisplayFilter public-accepted="true"
+            private-accepted="false" protected-accepted="false"
+            default-accepted="false" static-accepted="false"
+            accessors-accepted="false" constructors-accepted="false"/>
+    </Class>
+</ClassDiagram>

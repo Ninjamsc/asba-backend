@@ -1,0 +1,71 @@
+{
+	"_comment": "Отчет с результатами сравнения от АСБА к WFM",
+	"wfNumber": 13169,
+	"IIN": 11154,
+	"username": "OperatorName",
+	"timestamp": "timestamp",
+	"scannedPictureURL": "http://www.ru/",
+	"scannedPicturePreviewURL": "http://www.ru/",
+	"webCamPictureURL": "http://www.ru/",
+	"webCamPicturePreviewURL": "http://www.ru/",
+	"BlackLists": [
+		{
+			"listId": "1",
+			"listName": "ListName 1",
+			"photo": [
+				{
+					"url": "http://www.ru/photo1",
+					"similarity": "0.985"
+				},
+				{
+					"url": "http://www.ru/photo1",
+					"similarity": "0.996"
+				}
+			]
+		},
+		{
+			"listId": "2",
+			"listName": "ListName 2",
+			"photo": [
+				{
+					"url": "http://www.ru/photo1",
+					"similarity": "0.985"
+				},
+				{
+					"url": "http://www.ru/photo2",
+					"similarity": "0.996"
+				}
+			]
+		}
+	],
+	"Rules": [
+		{
+			"RuleId": "1",
+			"RuleName": "Rule 1",
+			"photo": [
+				{
+					"url": "http://www.ru/photo1",
+					"similarity": "0.996"
+				},
+				{
+					"url": "http://www.ru/photo2",
+					"similarity": "0.996"
+				}
+			]
+		},
+		{
+			"RuleId": "2",
+			"RuleName": "Rule 2",
+			"photo": [
+				{
+					"url": "http://www.ru/photo1",
+					"similarity": "0.995"
+				},
+				{
+					"url": "http://www.ru/photo2",
+					"similarity": "0.995"
+				}
+			]
+		}
+	]
+}
