@@ -1,4 +1,4 @@
-package com.technoserv.bio.kernel.configuration;
+package com.technoserv.bio.kernel.model.configuration;
 
 public enum FrontEndType {
 

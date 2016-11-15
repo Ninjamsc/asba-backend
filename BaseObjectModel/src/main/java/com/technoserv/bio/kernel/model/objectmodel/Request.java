@@ -1,4 +1,4 @@
-package com.technoserv.bio.kernel.objectmodel;
+package com.technoserv.bio.kernel.model.objectmodel;
 
 public class Request extends AbstractObject {
 	String			bpmRequestNumber; // номер заявки из BPM

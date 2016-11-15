@@ -1,4 +1,4 @@
-package com.technoserv.bio.kernel.objectmodel;
+package com.technoserv.bio.kernel.model.objectmodel;
 
 public class StopList extends AbstractObject {
 	// Стоп лист. Стоп лист состоит из массива сверток. 
