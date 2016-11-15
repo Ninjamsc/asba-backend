@@ -1,8 +1,8 @@
 package com.technoserv.bio.kernel.objectmodel;
 
 public class Convolution extends AbstractObject {
-	byte[]		convolution; // сам бинарный вектор свертки
-	int			cnnVersion; // версия нейронной сети, с помощью которой свертка получена
-	StopList[]	stopListEntries; // список ссылок на Стоп листов, в которые входит эта свертка
+	byte[]		convolution; // СЃР°Рј Р±РёРЅР°СЂРЅС‹Р№ РІРµРєС‚РѕСЂ СЃРІРµСЂС‚РєРё
+	int			cnnVersion; // РІРµСЂСЃРёСЏ РЅРµР№СЂРѕРЅРЅРѕР№ СЃРµС‚Рё, СЃ РїРѕРјРѕС‰СЊСЋ РєРѕС‚РѕСЂРѕР№ СЃРІРµСЂС‚РєР° РїРѕР»СѓС‡РµРЅР°
+	StopList[]	stopListEntries; // СЃРїРёСЃРѕРє СЃСЃС‹Р»РѕРє РЅР° РЎС‚РѕРї Р»РёСЃС‚РѕРІ, РІ РєРѕС‚РѕСЂС‹Рµ РІС…РѕРґРёС‚ СЌС‚Р° СЃРІРµСЂС‚РєР°
 
 }
