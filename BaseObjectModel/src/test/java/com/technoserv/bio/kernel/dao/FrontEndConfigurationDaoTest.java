@@ -31,13 +31,33 @@ public class FrontEndConfigurationDaoTest {
 
     @Test
     public void create() throws Exception {
-        FrontEndConfiguration configuration = dao.get(1l);
-        assertNull(configuration);
+        FrontEndConfiguration frontEndConfiguration = dao.get(1L);
+        assertNull(frontEndConfiguration);
         assertEquals(0, dao.countAll());
         FrontEndConfiguration entity = createFrontEndConfiguration();
         dao.saveOrUpdate(entity);
         assertEquals(1, dao.countAll());
         assertEquals(entity, dao.get(entity.getId()));
+    }
+
+    @Test
+    public void update() throws Exception {
+        FrontEndConfiguration entity = createFrontEndConfiguration();
+        dao.saveOrUpdate(entity);
+        FrontEndConfiguration frontEndConfiguration = dao.get(entity.getId());
+        assertEquals(frontEndConfiguration, entity);
+        entity.setVersion(2);
+        dao.saveOrUpdate(entity);
+        assertEquals(2, dao.get(entity.getId()).getVersion()+0);
+    }
+
+    @Test
+    public void delete() throws Exception {
+        FrontEndConfiguration entity = createFrontEndConfiguration();
+        dao.saveOrUpdate(entity);
+        assertNotNull(dao.get(entity.getId()));
+        dao.delete(entity);
+        assertNull(dao.get(entity.getId()));
     }
 
     FrontEndConfiguration createFrontEndConfiguration(){
