@@ -1,8 +1,10 @@
-package com.technoserv.bio.kernel.dao;
+package com.technoserv.bio.kernel.dao.configuration;
 
 import com.technoserv.bio.kernel.dao.configuration.api.FrontEndConfigurationDao;
 import com.technoserv.bio.kernel.model.configuration.FrontEndConfiguration;
 import org.junit.After;
+
+import static com.technoserv.bio.kernel.util.TestUtil.generateFrontEndConfiguration;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,19 +34,19 @@ public class FrontEndConfigurationDaoTest {
     public void tearDown(){}
 
     @Test
-    public void create() throws Exception {
+    public void createFrontEndConfiguration() throws Exception {
         FrontEndConfiguration frontEndConfiguration = dao.get(1L);
         assertNull(frontEndConfiguration);
         assertEquals(0, dao.countAll());
-        FrontEndConfiguration entity = createFrontEndConfiguration();
+        FrontEndConfiguration entity = generateFrontEndConfiguration();
         dao.saveOrUpdate(entity);
         assertEquals(1, dao.countAll());
         assertEquals(entity, dao.get(entity.getId()));
     }
 
     @Test
-    public void update() throws Exception {
-        FrontEndConfiguration entity = createFrontEndConfiguration();
+    public void updateFrontEndConfiguration() throws Exception {
+        FrontEndConfiguration entity = generateFrontEndConfiguration();
         dao.saveOrUpdate(entity);
         FrontEndConfiguration frontEndConfiguration = dao.get(entity.getId());
         assertEquals(frontEndConfiguration, entity);
@@ -54,18 +56,12 @@ public class FrontEndConfigurationDaoTest {
     }
 
     @Test
-    public void delete() throws Exception {
-        FrontEndConfiguration entity = createFrontEndConfiguration();
+    public void deleteFrontEndConfiguration() throws Exception {
+        FrontEndConfiguration entity = generateFrontEndConfiguration();
         dao.saveOrUpdate(entity);
         assertNotNull(dao.get(entity.getId()));
         dao.delete(entity);
         assertNull(dao.get(entity.getId()));
     }
 
-    FrontEndConfiguration createFrontEndConfiguration(){
-        FrontEndConfiguration result = new FrontEndConfiguration();
-        result.setVersion(1);
-        result.setObjectDate(new Date());
-        return result;
-    }
 }
