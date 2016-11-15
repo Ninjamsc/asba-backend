@@ -56,7 +56,14 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.2.4.Final</version>
+            <version>3.4.0.GA</version>
+        </dependency>
+
+        <!--Spring-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
         </dependency>
 
         <dependency>
@@ -147,4 +154,8 @@
             </build>
         </profile>
     </profiles>
+    <properties>
+        <spring.version>3.1.4.RELEASE</spring.version>
+    </properties>
+
 </project>

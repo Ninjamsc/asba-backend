@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
-public class FrontEndConfiguration { //todo ... //extends AbstractObject {
+public class FrontEndConfiguration extends AbstractObject {
 
 	@Column
 	private Integer version; // TODO: string val

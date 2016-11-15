@@ -1,8 +1,10 @@
 package com.technoserv.bio.kernel.model.objectmodel;
 
+import com.technoserv.bio.kernel.model.BaseEntity;
+
 import java.util.Date;
 
-public abstract class AbstractObject {
+public abstract class AbstractObject extends BaseEntity<Long> {
 	/**
 	 *  уникальный идентификатор объекта
 	 */
