@@ -39,7 +39,7 @@ public abstract class AbstractHibernateDao<ID extends Serializable,T extends Bas
     }
 
     @SuppressWarnings("unchecked")
-    public T findById(Long id) {
+    public T get(ID id) {
         T t = (T) getSession().get(getPersistentClass(), id);
         return t;
     }
