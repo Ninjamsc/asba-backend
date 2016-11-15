@@ -16,22 +16,21 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 /**
  * Created by Adrey on 15.11.2016.
  */
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration("/testContext.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("/testContext.xml")
 public class FrontEndConfigurationResourceTest {
 
-//    @Autowired
-//    private FrontEndConfigurationResource resource;
+    @Autowired
+    private FrontEndConfigurationResource resource;
 
     @Autowired
     private FrontEndConfigurationService service;
 
     @Test
-    @Ignore
     public void get() throws Exception {
         FrontEndConfiguration entity = new FrontEndConfiguration();
         long id = service.save(entity);
-//        FrontEndConfiguration result = resource.get(id);
-//        Assert.assertEquals(id, result.getId().longValue());
+        FrontEndConfiguration result = resource.get(id);
+        Assert.assertEquals(id, result.getId().longValue());
     }
 }
