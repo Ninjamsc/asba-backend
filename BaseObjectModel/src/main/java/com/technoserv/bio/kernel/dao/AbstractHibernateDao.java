@@ -20,8 +20,6 @@ public abstract class AbstractHibernateDao<ID extends Serializable,T extends Bas
         this.sessionFactory = sessionFactory;
     }
 
-
-
     public Class<T> getPersistentClass() {
         return persistentClass;
     }
@@ -50,8 +48,8 @@ public abstract class AbstractHibernateDao<ID extends Serializable,T extends Bas
     }
 
     @SuppressWarnings("unchecked")
-    public Long save(T entity) {
-        return (Long) getSession().save(entity);
+    public ID save(T entity) {
+        return (ID) getSession().save(entity);
     }
 
     @SuppressWarnings("unchecked")

@@ -7,22 +7,22 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.Serializable;
 import java.util.List;
 
-public abstract class AbstractService<ID extends Serializable,T extends BaseEntity<ID>, D extends Dao<ID,T>> implements Service<T> {
+public abstract class AbstractService<ID extends Serializable,T extends BaseEntity<ID>, D extends Dao<ID,T>> implements Service<ID,T> {
 
     protected D dao;
 
     @Transactional(readOnly = true)
-    public T findById(Long id) {
+    public T findById(ID id) {
         return getDao().findById(id);
     }
 
     @Transactional
-    public Long save(T entity) {
+    public ID save(T entity) {
         return dao.save(entity);
     }
 
     @Transactional
-    public void delete(Long id) {
+    public void delete(ID id) {
         T entity = dao.findById(id);
         if (entity != null) {
             dao.delete(entity);
@@ -44,7 +44,7 @@ public abstract class AbstractService<ID extends Serializable,T extends BaseEnti
         dao.saveOrUpdate(entity);
     }
 
-    public D getDao() {
+    protected D getDao() {
         return dao;
     }
 
@@ -53,5 +53,7 @@ public abstract class AbstractService<ID extends Serializable,T extends BaseEnti
 		return dao.countAll();
 	}
 
-    public abstract void setDao(D dao);
+    public void setDao(D dao) {
+        this.dao = dao;
+    }
 }
