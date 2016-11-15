@@ -1,6 +1,5 @@
 package com.technoserv.bio.kernel.model.configuration;
 
-import com.avaje.ebean.Ebean;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,9 +13,9 @@ public class FrontEndConfigurationTest {
         int version = 1;
         FrontEndConfiguration frontEndConfiguration = new FrontEndConfiguration();
         frontEndConfiguration.setVersion(version);
-        Ebean.save(frontEndConfiguration);
+        //Ebean.save(frontEndConfiguration);
 
-        FrontEndConfiguration result = Ebean.find(FrontEndConfiguration.class).where().eq("version", version).findList().get(0);
+        FrontEndConfiguration result = null;//Ebean.find(FrontEndConfiguration.class).where().eq("version", version).findList().get(0);
 
         Assert.assertEquals(frontEndConfiguration.getVersion(), result.getVersion());
     }

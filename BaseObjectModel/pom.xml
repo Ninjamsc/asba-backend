@@ -12,6 +12,13 @@
 
 	<dependencies>
 
+        <!-- log4j -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+
         <!-- REST -->
 
         <dependency>
@@ -47,15 +54,15 @@
         <!-- ORM -->
 
         <dependency>
-            <groupId>org.avaje.ebean</groupId>
-            <artifactId>ebean</artifactId>
-            <version>9.1.1</version>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>5.2.4.Final</version>
         </dependency>
 
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.39</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>9.4.1212.jre7</version>
         </dependency>
 
         <!-- Test -->
@@ -94,37 +101,6 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-
-            <plugin>
-                <groupId>org.avaje.ebeanorm</groupId>
-                <artifactId>avaje-ebeanorm-mavenenhancer</artifactId>
-                <version>4.11.1</version>
-                <executions>
-                    <execution>
-                        <id>main</id>
-                        <phase>process-classes</phase>
-                        <configuration>
-                            <packages>com.technoserv.bio.kernel.model.**</packages>
-                            <transformArgs>debug=1</transformArgs>
-                        </configuration>
-                        <goals>
-                            <goal>enhance</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>test</id>
-                        <phase>process-test-classes</phase>
-                        <configuration>
-                            <packages>com.technoserv.bio.kernel.model.**</packages>
-                            <transformArgs>debug=1</transformArgs>
-                        </configuration>
-                        <goals>
-                            <goal>enhance</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
         </plugins>
 	</build>
     <profiles>

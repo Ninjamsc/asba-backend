@@ -1,9 +1,14 @@
 package com.technoserv.bio.kernel.model.objectmodel;
 
+import java.util.List;
+
 public class Contractor extends AbstractObject {
 
-	String contractorName;
-	StopList[] contractorLists;
-	float similarityThresold; // мера схожести
-	Document[] loadedImages; //загруженные банком фотографии (со свертками итп)
+    private String contractorName;
+    private StopList[] contractorLists;
+    private float similarityThresold; // мера схожести
+    /**
+     * загруженные банком фотографии (со свертками итп)
+     */
+    private List<Document> loadedImages; //
 }
