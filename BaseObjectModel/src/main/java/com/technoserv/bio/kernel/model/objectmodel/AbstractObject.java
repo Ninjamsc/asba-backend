@@ -11,13 +11,14 @@ public abstract class AbstractObject extends BaseEntity<Long> {
      * уникальный идентификатор объекта
      */
     @Id
+    @Column(name = "ID")
     @GeneratedValue
     private Long id;
     /**
      * дата создания объекта
      */
-    @Column
     @Temporal(value = TemporalType.DATE)
+    @Column(name = "OBJECT_DATE")
     private Date objectDate;
 
     public Long getId() {

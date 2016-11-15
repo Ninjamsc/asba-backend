@@ -21,7 +21,7 @@ public class Convolution extends AbstractObject {
      * список ссылок на Стоп листов, в которые входит эта свертка
      */
     @Column
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
     private List<StopList> stopListEntries;
 
     public byte[] getConvolution() {

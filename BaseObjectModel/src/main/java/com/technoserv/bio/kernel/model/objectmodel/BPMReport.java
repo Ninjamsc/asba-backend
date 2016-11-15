@@ -9,11 +9,11 @@ import javax.persistence.*;
 @Table(name="BMP_REPORTS")
 public class BPMReport extends AbstractObject {
 
-    @JoinColumn
-    @ManyToOne
+    @JoinColumn(name = "SCAN_ID", referencedColumnName = "ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Document scan; //TODO main
-    @JoinColumn
-    @ManyToOne
+    @JoinColumn(name = "PHOTO_ID", referencedColumnName = "ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Document photo;
 
     public Document getScan() {
