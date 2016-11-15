@@ -27,6 +27,8 @@ public class Document extends AbstractObject {
     public DocumentType getDocumentType() {
         return DocumentType.parse(documentType);
     }
+
     public void setDocumentType(DocumentType documentType) {
         this.documentType = documentType.getCode();
     }
+}

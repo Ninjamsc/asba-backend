@@ -1,9 +1,6 @@
 package com.technoserv.bio.kernel.model.objectmodel;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * объект необходим для передачи в Oracle BPM комплекта документов (скан и фото) из АСБА
@@ -12,10 +9,10 @@ import javax.persistence.Table;
 @Table(name="BMP_REPORTS")
 public class BPMReport extends AbstractObject {
 
-    @Column
+    @JoinColumn
     @ManyToOne
     private Document scan; //TODO main
-    @Column
+    @JoinColumn
     @ManyToOne
     private Document photo;
 

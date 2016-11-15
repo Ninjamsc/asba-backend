@@ -13,13 +13,13 @@ public class Request extends AbstractObject {
     /**
      * cканированное изображение
      */
-    @Column
+    @JoinColumn
     @ManyToOne
     private Document scannedDocument;
     /**
      * изображение с веб камеры
      */
-    @Column
+    @JoinColumn
     @ManyToOne
     private Document cameraDocument;
 
