@@ -1,4 +1,4 @@
-package com.technoserv.bio.kernel.objectmodel;
+package com.technoserv.bio.kernel.model.objectmodel;
 
 public class Contractor extends AbstractObject {
 

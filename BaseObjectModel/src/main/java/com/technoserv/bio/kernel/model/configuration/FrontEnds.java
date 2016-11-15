@@ -1,6 +1,6 @@
-package com.technoserv.bio.kernel.configuration;
+package com.technoserv.bio.kernel.model.configuration;
 
-import com.technoserv.bio.kernel.objectmodel.AbstractObject;
+import com.technoserv.bio.kernel.model.objectmodel.AbstractObject;
 
 public class FrontEnds extends AbstractObject {
 

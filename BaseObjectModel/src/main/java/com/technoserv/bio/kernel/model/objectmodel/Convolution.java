@@ -1,4 +1,4 @@
-package com.technoserv.bio.kernel.objectmodel;
+package com.technoserv.bio.kernel.model.objectmodel;
 
 public class Convolution extends AbstractObject {
 	byte[]		convolution; // сам бинарный вектор свертки
