@@ -2,9 +2,20 @@ package com.technoserv.bio.kernel.model.configuration;
 
 import com.technoserv.bio.kernel.model.objectmodel.AbstractObject;
 
-public class FrontEndConfiguration extends AbstractObject {
+import javax.persistence.Column;
+import javax.persistence.Entity;
 
-	  Integer version; // TODO: string val
-	
+@Entity
+public class FrontEndConfiguration { //todo ... //extends AbstractObject {
+
+	@Column
+	private Integer version; // TODO: string val
 	// key value
+
+	public Integer getVersion() {
+		return version;
+	}
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
 }
