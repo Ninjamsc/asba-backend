@@ -4,9 +4,11 @@ import com.technoserv.bio.kernel.dao.objectmodel.api.ContractorDao;
 import com.technoserv.bio.kernel.model.objectmodel.Contractor;
 import com.technoserv.bio.kernel.service.AbstractService;
 import com.technoserv.bio.kernel.service.objectmodel.api.ContractorService;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by sergey on 15.11.2016.
  */
+@Service
 public class ContractorServiceImpl extends AbstractService<Long, Contractor,ContractorDao> implements ContractorService{
 }

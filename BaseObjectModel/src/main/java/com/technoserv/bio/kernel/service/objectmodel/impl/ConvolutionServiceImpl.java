@@ -4,9 +4,11 @@ import com.technoserv.bio.kernel.dao.objectmodel.api.ConvolutionDao;
 import com.technoserv.bio.kernel.model.objectmodel.Convolution;
 import com.technoserv.bio.kernel.service.AbstractService;
 import com.technoserv.bio.kernel.service.objectmodel.api.ConvolutionService;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by sergey on 15.11.2016.
  */
+@Service
 public class ConvolutionServiceImpl extends AbstractService<Long, Convolution,ConvolutionDao> implements ConvolutionService{
 }
