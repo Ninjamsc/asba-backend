@@ -32,6 +32,7 @@ public class FrontEndConfigurationDaoTest {
     @Test
     public void create() throws Exception {
         FrontEndConfiguration configuration = dao.get(1l);
+        assertNull(configuration);
         assertEquals(0, dao.countAll());
         FrontEndConfiguration entity = createFrontEndConfiguration();
         dao.saveOrUpdate(entity);
