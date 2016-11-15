@@ -12,7 +12,7 @@ public interface Dao<ID extends Serializable,T extends BaseEntity<ID>> {
      * @param id - идентификатор сущности.
      * @return сущность
      */
-    public T findById(ID id);
+    public T get(ID id);
 
     public void saveOrUpdate(T entity);
 

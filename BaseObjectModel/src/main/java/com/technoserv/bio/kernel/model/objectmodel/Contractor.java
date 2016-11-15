@@ -9,7 +9,6 @@ public class Contractor extends AbstractObject {
 
     @Column(name = "NAME")
     private String contractorName;
-    @Column
     @ManyToMany
     private List<StopList> contractorLists;
     /**
@@ -20,7 +19,6 @@ public class Contractor extends AbstractObject {
     /**
      * загруженные банком фотографии (со свертками итп)
      */
-    @Column
     @OneToMany
     private List<Document> loadedImages;
 

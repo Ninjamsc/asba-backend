@@ -12,7 +12,6 @@ public class Person extends AbstractObject {
 	/**
 	 * массив всех заявок
 	 */
-	@Column
 	@OneToMany
 	private List<Request> dossier;
 	/**

@@ -20,7 +20,6 @@ public class Convolution extends AbstractObject {
     /**
      * список ссылок на Стоп листов, в которые входит эта свертка
      */
-    @Column
     @OneToMany
     private List<StopList> stopListEntries;
 
