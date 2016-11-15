@@ -4,6 +4,8 @@ import com.technoserv.bio.kernel.dao.objectmodel.api.StopListDao;
 import com.technoserv.bio.kernel.model.objectmodel.StopList;
 import com.technoserv.bio.kernel.service.AbstractService;
 import com.technoserv.bio.kernel.service.objectmodel.api.StopListService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,4 +13,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class StopListServiceImpl extends AbstractService<Long, StopList,StopListDao> implements StopListService{
+    @Override
+    @Autowired
+    @Qualifier("stopListDao")
+    public void setDao(StopListDao dao) {
+        this.dao = dao;
+    }
 }

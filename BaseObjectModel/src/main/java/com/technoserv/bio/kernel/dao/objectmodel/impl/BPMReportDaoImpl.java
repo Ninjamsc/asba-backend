@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Created by sergey on 15.11.2016.
  */
-@Repository
+@Repository("bpmReportDao")
 public class BPMReportDaoImpl extends AbstractHibernateDao<Long,BPMReport> implements BPMReportDao {
 }

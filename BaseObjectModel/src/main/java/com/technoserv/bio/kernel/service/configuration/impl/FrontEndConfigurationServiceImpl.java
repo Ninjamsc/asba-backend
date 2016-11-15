@@ -4,6 +4,8 @@ import com.technoserv.bio.kernel.dao.configuration.api.FrontEndConfigurationDao;
 import com.technoserv.bio.kernel.model.configuration.FrontEndConfiguration;
 import com.technoserv.bio.kernel.service.AbstractService;
 import com.technoserv.bio.kernel.service.configuration.api.FrontEndConfigurationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 
@@ -13,5 +15,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class FrontEndConfigurationServiceImpl extends AbstractService<Long, FrontEndConfiguration,FrontEndConfigurationDao> implements FrontEndConfigurationService {
 
-
+    @Override
+    @Autowired
+    @Qualifier("frontEndConfigurationDao")
+    public void setDao(FrontEndConfigurationDao dao) {
+        this.dao = dao;
+    }
 }
