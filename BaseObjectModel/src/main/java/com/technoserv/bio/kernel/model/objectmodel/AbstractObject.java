@@ -19,10 +19,9 @@ public abstract class AbstractObject extends BaseEntity<Long> {
     /**
      * дата создания объекта
      */
-    @Generated(GenerationTime.INSERT)
     @Temporal(value = TemporalType.DATE)
-    @Column(name = "OBJECT_DATE", updatable = false)
-    private Date objectDate;
+    @Column(name = "OBJECT_DATE", nullable = false, updatable = false)
+    private Date objectDate = new Date();
 
     public Long getId() {
         return id;

@@ -12,6 +12,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+
 /**
  * Created by VBasakov on 15.11.2016.
  */
@@ -63,6 +65,7 @@ public class FrontEndConfigurationDaoTest {
     FrontEndConfiguration createFrontEndConfiguration(){
         FrontEndConfiguration result = new FrontEndConfiguration();
         result.setVersion(1);
+        result.setObjectDate(new Date());
         return result;
     }
 }
