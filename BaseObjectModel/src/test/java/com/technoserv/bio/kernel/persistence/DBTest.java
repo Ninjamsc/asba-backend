@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/testContext.xml")
 @Transactional
-public class FrontEndConfigurationTest {
+public class DBTest {
 
     @Autowired
     private SessionFactory sessionFactory;

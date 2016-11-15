@@ -3,6 +3,7 @@ package com.technoserv.bio.kernel.rest;
 import com.technoserv.bio.kernel.dao.configuration.api.FrontEndConfigurationDao;
 import com.technoserv.bio.kernel.dao.configuration.impl.FrontEndConfigurationDaoImpl;
 import com.technoserv.bio.kernel.model.configuration.FrontEndConfiguration;
+import com.technoserv.bio.kernel.service.configuration.api.FrontEndConfigurationService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,13 +21,14 @@ public class FrontEndConfigurationResourceTest {
 
     @Autowired
     private FrontEndConfigurationResource resource;
+
     @Autowired
-    private FrontEndConfigurationDao dao;
+    private FrontEndConfigurationService service;
 
     @Test
     public void get() throws Exception {
         FrontEndConfiguration entity = new FrontEndConfiguration();
-        long id = dao.save(entity);
+        long id = service.save(entity);
         FrontEndConfiguration result = resource.get(id);
         Assert.assertEquals(id, result.getId().longValue());
     }
