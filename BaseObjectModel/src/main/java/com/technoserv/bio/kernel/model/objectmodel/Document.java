@@ -32,7 +32,6 @@ public class Document extends AbstractObject {
     /**
      * если есть несколько шаблонов нескольких версий сети
      */
-    @Column
     @OneToMany
     private List<Convolution> allConvolutions;
 
