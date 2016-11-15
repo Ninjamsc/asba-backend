@@ -2,6 +2,7 @@ package com.technoserv.bio.kernel.service;
 
 import com.technoserv.bio.kernel.dao.Dao;
 import com.technoserv.bio.kernel.model.BaseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
@@ -9,6 +10,7 @@ import java.util.List;
 
 public abstract class AbstractService<ID extends Serializable,T extends BaseEntity<ID>, D extends Dao<ID,T>> implements Service<ID,T> {
 
+    @Autowired
     protected D dao;
 
     @Transactional(readOnly = true)

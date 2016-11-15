@@ -1,6 +1,8 @@
 package com.technoserv.bio.kernel.persistenc;
 
 import com.technoserv.bio.kernel.model.configuration.FrontEndConfiguration;
+import com.technoserv.bio.kernel.service.configuration.api.FrontEndConfigurationService;
+import com.technoserv.bio.kernel.service.configuration.impl.FrontEndConfigurationServiceImpl;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.Before;
@@ -26,6 +28,9 @@ public class SomeTest {
     @Autowired
     private SessionFactory sessionFactory;
     private Session currentSession;
+
+    @Autowired
+    private FrontEndConfigurationService frontEndConfigurationService;
 
     @Before
     public void openSession() {
