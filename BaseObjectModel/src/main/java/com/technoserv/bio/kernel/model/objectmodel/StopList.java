@@ -1,9 +1,6 @@
 package com.technoserv.bio.kernel.model.objectmodel;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -22,6 +19,7 @@ public class StopList extends AbstractObject {
      * список банков, которым доступен этот список
      */
     @ManyToMany
+    @JoinTable(name = "STOP_LISTS_CONTRACTORS", joinColumns = {@JoinColumn(name = "CONTRACTOR_ID")}, inverseJoinColumns = {@JoinColumn(name = "STOP_LISTS_ID")})
     private List<Contractor> owner;
     /**
      * true - список доступен всем контракторам

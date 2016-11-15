@@ -3,6 +3,9 @@ package com.technoserv.bio.kernel.model.objectmodel;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * свертка
+ */
 @Entity
 @Table(name = "CONVOLUTIONS")
 public class Convolution extends AbstractObject {

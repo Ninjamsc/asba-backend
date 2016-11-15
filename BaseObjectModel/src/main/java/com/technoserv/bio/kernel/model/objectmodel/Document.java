@@ -12,6 +12,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
 
+/**
+ * Документ
+ */
 @Entity
 @Table(name = "DOCUMENTS")
 @TypeDefs({@TypeDef(name = "AgencyType", typeClass = EnumUserType.class, parameters = {

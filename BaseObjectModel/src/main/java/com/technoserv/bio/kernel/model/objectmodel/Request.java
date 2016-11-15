@@ -2,6 +2,9 @@ package com.technoserv.bio.kernel.model.objectmodel;
 
 import javax.persistence.*;
 
+/**
+ * TODO описание
+ */
 @Entity
 @Table(name = "REQUESTS")
 public class Request extends AbstractObject {

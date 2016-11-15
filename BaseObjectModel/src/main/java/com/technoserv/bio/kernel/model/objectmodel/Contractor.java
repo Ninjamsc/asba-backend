@@ -3,6 +3,9 @@ package com.technoserv.bio.kernel.model.objectmodel;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * подрядчик
+ */
 @Entity
 @Table(name = "CONTRACTORS")
 public class Contractor extends AbstractObject {
