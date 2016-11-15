@@ -13,14 +13,14 @@ public class Request extends AbstractObject {
     /**
      * cканированное изображение
      */
-    @JoinColumn
-    @ManyToOne
+    @JoinColumn(name = "SCAN_DOC_ID", referencedColumnName = "ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Document scannedDocument;
     /**
      * изображение с веб камеры
      */
-    @JoinColumn
-    @ManyToOne
+    @JoinColumn(name = "CAM_DOC_ID", referencedColumnName = "ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Document cameraDocument;
 
     public String getBpmRequestNumber() {
