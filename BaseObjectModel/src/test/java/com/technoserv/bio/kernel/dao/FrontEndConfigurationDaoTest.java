@@ -22,10 +22,10 @@ public class FrontEndConfigurationDaoTest {
     FrontEndConfigurationDao dao;
 
     @Before
-    private void setUp(){}
+    public void setUp(){}
 
     @After
-    private void tearDown(){}
+    public void tearDown(){}
 
     @Test
     public void create() throws Exception {
