@@ -8,14 +8,15 @@ import javax.persistence.Entity;
 @Entity
 public class FrontEndConfiguration extends AbstractObject {
 
-	@Column
-	private Integer version; // TODO: string val
-	// key value
+    @Column
+    private Integer version; // TODO: string val
+    // key value
 
-	public Integer getVersion() {
-		return version;
-	}
-	public void setVersion(Integer version) {
-		this.version = version;
-	}
+    public Integer getVersion() {
+        return version;
+    }
+
+    public void setVersion(Integer version) {
+        this.version = version;
+    }
 }
