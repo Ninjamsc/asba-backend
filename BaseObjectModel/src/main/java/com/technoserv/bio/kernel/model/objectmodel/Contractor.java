@@ -3,14 +3,18 @@ package com.technoserv.bio.kernel.model.objectmodel;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * подрядчик
+ */
 @Entity
 @Table(name = "CONTRACTORS")
 public class Contractor extends AbstractObject {
 
     @Column(name = "NAME")
     private String contractorName;
-    @Column
+
     @ManyToMany
+    @JoinTable(name = "CONTRACTORS_STOP_LISTS", joinColumns = {@JoinColumn(name = "CONTRACTORS_ID")}, inverseJoinColumns = {@JoinColumn(name = "STOP_LISTS_ID")})
     private List<StopList> contractorLists;
     /**
      * мера схожести
@@ -20,8 +24,9 @@ public class Contractor extends AbstractObject {
     /**
      * загруженные банком фотографии (со свертками итп)
      */
-    @Column
-    @OneToMany
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "LOADED_IMAGE_ID", referencedColumnName = "ID")
     private List<Document> loadedImages;
 
     public String getContractorName() {

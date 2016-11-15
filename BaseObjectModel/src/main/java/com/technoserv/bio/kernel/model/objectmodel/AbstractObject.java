@@ -1,6 +1,8 @@
 package com.technoserv.bio.kernel.model.objectmodel;
 
 import com.technoserv.bio.kernel.model.BaseEntity;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,13 +13,15 @@ public abstract class AbstractObject extends BaseEntity<Long> {
      * уникальный идентификатор объекта
      */
     @Id
+    @Column(name = "ID")
     @GeneratedValue
     private Long id;
     /**
      * дата создания объекта
      */
-    @Column
+    @Generated(GenerationTime.INSERT)
     @Temporal(value = TemporalType.DATE)
+    @Column(name = "OBJECT_DATE", updatable = false)
     private Date objectDate;
 
     public Long getId() {

@@ -6,13 +6,15 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.List;
 
+/**
+ *-
+ */
 @Entity
 @Table(name = "PERSONS")
 public class Person extends AbstractObject {
 	/**
 	 * массив всех заявок
 	 */
-	@Column
 	@OneToMany
 	private List<Request> dossier;
 	/**

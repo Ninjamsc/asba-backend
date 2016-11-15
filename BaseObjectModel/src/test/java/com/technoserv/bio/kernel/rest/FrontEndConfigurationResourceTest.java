@@ -1,11 +1,9 @@
 package com.technoserv.bio.kernel.rest;
 
-import com.technoserv.bio.kernel.dao.configuration.api.FrontEndConfigurationDao;
-import com.technoserv.bio.kernel.dao.configuration.impl.FrontEndConfigurationDaoImpl;
+
 import com.technoserv.bio.kernel.model.configuration.FrontEndConfiguration;
 import com.technoserv.bio.kernel.service.configuration.api.FrontEndConfigurationService;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,6 @@ public class FrontEndConfigurationResourceTest {
 
     @Autowired
     private FrontEndConfigurationResource resource;
-
     @Autowired
     private FrontEndConfigurationService service;
 

@@ -1,6 +1,5 @@
 package com.technoserv.bio.kernel.model.objectmodel;
 
-import com.technoserv.bio.kernel.model.configuration.FrontEndType;
 
 public enum DocumentType {
 
@@ -17,7 +16,7 @@ public enum DocumentType {
         return code;
     }
 
-    public static DocumentType parse(int id) {
+    public static DocumentType getByCode(int id) {
         DocumentType type = null; // Default
         for (DocumentType item : DocumentType.values()) {
             if (item.getCode() == id) {

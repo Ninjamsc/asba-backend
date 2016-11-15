@@ -13,7 +13,7 @@ public class FrontEnds extends AbstractObject {
 
     @Column(name = "FE_TYPE")
     private int feType;
-    @Column
+    @Column(name = "VERSION")
     private Integer version; // TODO:нужно major minor
     //TODO: нужно сделать массив объетов класса. у каждого объекта ссылка на установенную ему конфигурацию и версию АРМ
 
