@@ -1,9 +1,6 @@
-package com.technoserv.bio.kernel.persistenc;
+package com.technoserv.bio.kernel.persistence;
 
 import com.technoserv.bio.kernel.model.configuration.FrontEndConfiguration;
-import com.technoserv.bio.kernel.service.configuration.api.FrontEndConfigurationService;
-import com.technoserv.bio.kernel.service.configuration.impl.FrontEndConfigurationServiceImpl;
-import com.technoserv.bio.kernel.service.objectmodel.api.ConvolutionService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.Before;
@@ -24,17 +21,12 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/testContext.xml")
 @Transactional
-public class SomeTest {
+public class FrontEndConfigurationTest {
 
     @Autowired
     private SessionFactory sessionFactory;
     private Session currentSession;
 
-    @Autowired
-    private FrontEndConfigurationService frontEndConfigurationService;
-
-    @Autowired
-    private ConvolutionService convolutionService;
 
     @Before
     public void openSession() {
@@ -48,7 +40,7 @@ public class SomeTest {
 
     @Test
     public void shouldHaveNoObjectsAtStart() {
-        List<?> results = currentSession.createQuery("from Foo").list();
+        List<?> results = currentSession.createQuery("from FrontEndConfiguration").list();
         assertTrue(results.isEmpty());
     }
 
@@ -66,7 +58,7 @@ public class SomeTest {
     public void shouldBeABleToQueryForObjects() {
         shouldBeAbleToPersistAnObject();
 
-        assertEquals(1, currentSession.createQuery("from Foo where name = 'Bar'").list().size());
-        assertEquals(0, currentSession.createQuery("from Foo where name = 'Baz'").list().size());
+        assertEquals(1, currentSession.createQuery("from FrontEndConfiguration where version = 1").list().size());
+        assertEquals(0, currentSession.createQuery("from FrontEndConfiguration where version = 2").list().size());
     }
 }
