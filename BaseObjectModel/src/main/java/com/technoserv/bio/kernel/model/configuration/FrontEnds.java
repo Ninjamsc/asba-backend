@@ -20,16 +20,16 @@ import javax.persistence.Table;
 public class FrontEnds extends AbstractObject {
 
     @Column(name = "FE_TYPE")
-    private int feType;
+    private FrontEndType feType;
     @Column(name = "VERSION")
     private Integer version; // TODO:нужно major minor
     //TODO: нужно сделать массив объетов класса. у каждого объекта ссылка на установенную ему конфигурацию и версию АРМ
 
     public FrontEndType getFeType() {
-        return FrontEndType.parse(feType);
+        return feType;
     }
     public void setFeType(FrontEndType feType) {
-        this.feType = feType.getCode();
+        this.feType = feType;
     }
 
     public Integer getVersion() {
