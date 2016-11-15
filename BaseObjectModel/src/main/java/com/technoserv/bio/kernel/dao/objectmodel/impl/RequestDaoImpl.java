@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Created by sergey on 15.11.2016.
  */
-@Repository
+@Repository("requestDao")
 public class RequestDaoImpl  extends AbstractHibernateDao<Long,Request> implements RequestDao {
 }

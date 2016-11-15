@@ -4,6 +4,8 @@ import com.technoserv.bio.kernel.dao.objectmodel.api.ContractorDao;
 import com.technoserv.bio.kernel.model.objectmodel.Contractor;
 import com.technoserv.bio.kernel.service.AbstractService;
 import com.technoserv.bio.kernel.service.objectmodel.api.ContractorService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,4 +13,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ContractorServiceImpl extends AbstractService<Long, Contractor,ContractorDao> implements ContractorService{
+    @Override
+    @Autowired
+    @Qualifier("contractorDao")
+    public void setDao(ContractorDao dao) {
+        this.dao = dao;
+    }
 }

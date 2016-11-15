@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Created by sergey on 15.11.2016.
  */
-@Repository
+@Repository("frontEndsDao")
 public class FrontEndsDaoImpl extends AbstractHibernateDao<Long,FrontEnds> implements FrontEndsDao {
 }

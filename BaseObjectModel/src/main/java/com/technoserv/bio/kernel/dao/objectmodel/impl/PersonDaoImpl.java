@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 /**
  * Created by sergey on 15.11.2016.
  */
-@Repository
+@Repository("personDao")
 public class PersonDaoImpl  extends AbstractHibernateDao<Long,Person> implements PersonDao {
 }
