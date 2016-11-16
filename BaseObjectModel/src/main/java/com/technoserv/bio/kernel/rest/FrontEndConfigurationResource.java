@@ -41,7 +41,7 @@ public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndCo
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     @Path("/{id}")
-    public FrontEndConfiguration get(@QueryParam("id") Long id) {
+    public FrontEndConfiguration get(@PathParam("id") Long id) {
         return super.get(id);
     }
 
@@ -66,7 +66,7 @@ public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndCo
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     @Path("/{id}")
-    public Response delete(@QueryParam("id") Long id) {
+    public Response delete(@PathParam("id") Long id) {
         return super.delete(id);
     }
 }
