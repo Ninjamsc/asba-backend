@@ -28,6 +28,10 @@ public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndCo
         return service;
     }
 
+    /**
+     * Список всех конфигураций
+     * @return Список всех конфигураций
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -37,6 +41,11 @@ public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndCo
         return super.list();
     }
 
+    /**
+     * Получить конфигурацию по ID
+     * @param id идентификатор.
+     * @return Конфигурация по ID
+     */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -47,6 +56,11 @@ public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndCo
         return super.get(id);
     }
 
+    /**
+     * Добавить конфигурацию.
+     * @param entity добавляемая конфигурация.
+     * @return Идентификатор добавленной конфигурации.
+     */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -55,7 +69,11 @@ public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndCo
     public Long add(FrontEndConfiguration entity) {
         return super.add(entity);
     }
-
+    /**
+     * Обновить конфигурацию.
+     * @param entity Обновляемая конфигурация.
+     * @return ок
+     */
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -64,7 +82,11 @@ public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndCo
     public Response update(FrontEndConfiguration entity) {
         return super.update(entity);
     }
-
+    /**
+     * удалить конфигурацию.
+     * @param id удаляемой конфигурации.
+     * @return ок
+     */
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
