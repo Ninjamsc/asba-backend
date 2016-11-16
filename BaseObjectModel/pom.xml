@@ -181,6 +181,13 @@
         </dependency>
 
         <dependency>
+            <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+            <artifactId>jersey-test-framework-provider-inmemory</artifactId>
+            <version>2.23.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>1.4.192</version>
@@ -192,14 +199,6 @@
             <artifactId>swagger-jersey2-jaxrs</artifactId>
             <version>1.5.0</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.glassfish.hk2/hk2-utils -->
-        <!--<dependency>-->
-            <!--<groupId>org.glassfish.hk2</groupId>-->
-            <!--<artifactId>hk2-utils</artifactId>-->
-            <!--<version>2.5.0-b28</version>-->
-        <!--</dependency>-->
-
 
     </dependencies>
 
@@ -216,6 +215,7 @@
 				</configuration>
 			</plugin>
         </plugins>
+        <finalName>${project.name}</finalName>
 	</build>
     <profiles>
         <profile>
@@ -238,7 +238,7 @@
                         <configuration>
                             <url>http://localhost:8080/</url>
                             <server>tomcat</server>
-                            <path>/</path>
+                            <path>/${project.name}</path>
                         </configuration>
                     </plugin>
 
@@ -257,7 +257,6 @@
                         <filtering>false</filtering>
                     </resource>
                 </resources>
-                <finalName>${project.name}</finalName>
             </build>
         </profile>
     </profiles>
