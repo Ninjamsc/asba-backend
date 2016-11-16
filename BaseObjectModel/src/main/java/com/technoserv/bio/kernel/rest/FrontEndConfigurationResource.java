@@ -32,9 +32,8 @@ public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndCo
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
-    @Path("list")
     public Collection<FrontEndConfiguration> list() {
-        return getBaseService().getAll();
+        return super.list();
     }
 
     @GET
@@ -43,7 +42,7 @@ public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndCo
     @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     @Path("/{id}")
     public FrontEndConfiguration get(@QueryParam("id") Long id) {
-        return getBaseService().findById(id);
+        return super.get(id);
     }
 
     @POST
@@ -51,7 +50,7 @@ public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndCo
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     public Long add(FrontEndConfiguration entity) {
-        return getBaseService().save(entity);
+        return super.add(entity);
     }
 
     @PUT
@@ -59,8 +58,7 @@ public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndCo
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     public Response update(FrontEndConfiguration entity) {
-        getBaseService().saveOrUpdate(entity);
-        return Response.ok().build();
+        return super.update(entity);
     }
 
     @DELETE
@@ -69,7 +67,6 @@ public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndCo
     @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     @Path("/{id}")
     public Response delete(@QueryParam("id") Long id) {
-        getBaseService().delete(id);
-        return Response.ok().build();
+        return super.delete(id);
     }
 }
