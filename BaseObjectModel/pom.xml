@@ -238,7 +238,7 @@
                         <configuration>
                             <url>http://localhost:8080/</url>
                             <server>tomcat</server>
-                            <path>/${project.name}</path>
+                            <path>/</path>
                         </configuration>
                     </plugin>
 
