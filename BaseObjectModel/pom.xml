@@ -236,9 +236,9 @@
                         <artifactId>tomcat7-maven-plugin</artifactId>
                         <version>2.2</version>
                         <configuration>
-                            <url>http://www.sdorohov.ru/api/</url>
+                            <url>http://localhost:8080/</url>
                             <server>tomcat</server>
-                            <path>/</path>
+                            <path>/${project.name}</path>
                         </configuration>
                     </plugin>
 
