@@ -236,7 +236,7 @@
                         <artifactId>tomcat7-maven-plugin</artifactId>
                         <version>2.2</version>
                         <configuration>
-                            <url>http://www.sdorohov.ru/</url>
+                            <url>http://www.sdorohov.ru/api/</url>
                             <server>tomcat</server>
                             <path>/</path>
                         </configuration>
