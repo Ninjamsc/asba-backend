@@ -38,7 +38,7 @@ public class JmsConsumer {
     }
 
     public void onRetry(RetryMessage message) {
-        if(message.getTryCount()<maxTryCount) {
+        if(message.getTryCount()<=maxTryCount) {
             if (!httpRestClient.put(message.getMessage())) {
                 message.incTryCount();
                 jmsTemplate.convertAndSend(message);
