@@ -26,7 +26,7 @@ public class JmsConsumer {
     @Autowired
     private JmsTemplate jmsTemplate;
 
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy_hh_mm_ss");
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy_hh_mm_ss_SSSSSS");
 
     @Value("${http.rest.client.retry}")
     public int maxTryCount;
