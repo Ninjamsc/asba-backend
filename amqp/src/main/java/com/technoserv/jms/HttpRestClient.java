@@ -22,7 +22,7 @@ public class HttpRestClient {
     //TODO Найти другое место для URL
 
     @Value("${http.rest.client.url}")
-    public static final String URL = "http://www.google.ru/";
+    private String url;
 
 
     private RestTemplate rest = new RestTemplate();
@@ -32,7 +32,7 @@ public class HttpRestClient {
             log.info("SENDING MESSAGE: '" + message + "'");
         }
         try {
-            rest.put(URI.create(URL), message);
+            rest.put(URI.create(url), message);
             if(log.isInfoEnabled()) {
                 log.info("SENDING MESSAGE: '" + message + "' DONE");
             }
