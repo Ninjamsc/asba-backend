@@ -19,12 +19,14 @@
     <bean id="amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
         <!-- brokerURL, You may have different IP or port -->
         <constructor-arg index="0" value="tcp://localhost:61616" />
+        <property name="trustAllPackages" value="true"/>
     </bean>
 
     <!-- Pooled Spring connection factory -->
     <bean id="connectionFactory"
           class="org.springframework.jms.connection.CachingConnectionFactory">
         <constructor-arg ref="amqConnectionFactory" />
+
     </bean>
 
     <!-- ======================================================= -->
@@ -57,8 +59,8 @@
         container-type="default"
         connection-factory="connectionFactory"
         acknowledge="auto">
-            <jms:listener destination="internal.queue" ref="jmsConsumer" method="onReceive" />
             <jms:listener destination="external.queue" ref="jmsConsumer" method="onReceive" />
+            <jms:listener destination="internal.queue" ref="jmsConsumer" method="onRetry" />
     </jms:listener-container>
 
 

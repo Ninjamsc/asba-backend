@@ -15,9 +15,7 @@ public class JmsClientTest {
     public static void main(String[] args) {
         JmsTemplate template = new JmsTemplate();
         template.setConnectionFactory(connectionFactory());
-        template.setDefaultDestinationName("external.queue");
-
-        template.convertAndSend("internal.queue","Test message");
+        template.convertAndSend("external.queue","Test message");
     }
 
     public static ConnectionFactory connectionFactory(){
