@@ -5,6 +5,8 @@ import com.technoserv.jms.trusted.RetryMessage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.jms.core.JmsTemplate;
 
 import java.io.File;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@PropertySource("classpath:httpRestClient.properties")
 public class JmsConsumer {
 
     private static final Log log = LogFactory.getLog(JmsConsumer.class);
@@ -25,7 +28,8 @@ public class JmsConsumer {
 
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy_hh_mm_ss");
 
-    public static final int MAX_TRY_COUNT = 10;
+    @Value("${http.rest.client.retry}")
+    public int maxTryCount;
 
     public void onReceive(String message) {
         if(!httpRestClient.put(message)) {
@@ -34,7 +38,7 @@ public class JmsConsumer {
     }
 
     public void onRetry(RetryMessage message) {
-        if(message.getTryCount()<MAX_TRY_COUNT) {
+        if(message.getTryCount()<maxTryCount) {
             if (!httpRestClient.put(message.getMessage())) {
                 message.incTryCount();
                 jmsTemplate.convertAndSend(message);
