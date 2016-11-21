@@ -19,11 +19,8 @@ public class HttpRestClient {
 
     private static final Log log = LogFactory.getLog(HttpRestClient.class);
 
-    //TODO Найти другое место для URL
-
     @Value("${http.rest.client.url}")
     private String url;
-
 
     private RestTemplate rest = new RestTemplate();
 
