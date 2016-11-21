@@ -5,7 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -30,12 +30,25 @@ public class HttpRestClient {
         }
         try {
             rest.put(URI.create(url), message);
+            /* Вариант использования
+            ResponseEntity<String> response = rest.exchange(URI.create(url), HttpMethod.POST, new HttpEntity<String>(message), String.class);*/
             if(log.isInfoEnabled()) {
                 log.info("SENDING MESSAGE: '" + message + "' DONE");
             }
             return true;
-        } catch (RestClientException e) {
-            log.error(e.getMessage(), e);
+        } catch (HttpClientErrorException e) {
+            switch (e.getStatusCode()){
+                case INTERNAL_SERVER_ERROR://some buisness logic will be here
+                case UNPROCESSABLE_ENTITY://some buisness logic will be here
+                case REQUEST_ENTITY_TOO_LARGE://some buisness logic will be here
+                default:
+                    if (e.getStatusCode() != null){
+                        log.error(String.format("%s:  %s", e.getStatusCode(), e.getMessage()), e);
+                    } else {
+                        log.error(e.getMessage(), e);
+                    }
+            }
+
         }
         return false;
     }
