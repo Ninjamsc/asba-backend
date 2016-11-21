@@ -34,9 +34,8 @@ public class HttpRestClient {
                 log.info("SENDING MESSAGE: '" + message + "' DONE");
             }
             return true;
-        }catch (RestClientException e) {
-            //todo сделать обработку исключений
-            e.printStackTrace();
+        } catch (RestClientException e) {
+            log.error(e.getMessage(), e);
         }
         return false;
     }
