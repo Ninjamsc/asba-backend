@@ -35,7 +35,7 @@ public class ArmRequestJmsConsumer {
 
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy_hh_mm_ss_SSSSSS");
 
-    @Value("${http.rest.client.retry}")
+    @Value("${arm-retry.queue.maxRetryCount}")
     public int maxTryCount;
 
     public void onReceive(String message) {
