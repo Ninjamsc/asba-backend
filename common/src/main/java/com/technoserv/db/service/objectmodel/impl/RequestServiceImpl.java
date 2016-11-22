@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+
 /**
  * Created by sergey on 15.11.2016.
  */
@@ -22,5 +24,9 @@ public class RequestServiceImpl extends AbstractService<Long, Request,RequestDao
 
     public Request findByOrderNumber(Long id) {
         return dao.findByOrderNumber(id);
+    }
+
+    public Collection<Request> findNotProcessed() {
+        return dao.findNotProcessed();
     }
 }
