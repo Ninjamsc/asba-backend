@@ -11,6 +11,8 @@ import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import com.technoserv.rest.request.Base64Photo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
 
 import javax.inject.Inject;
 import java.util.Collection;
@@ -38,6 +40,9 @@ public class RequestProcessor implements Runnable{
     @Inject
     private CompareServiceRestClient сompareServiceRestClient;
 
+    @Autowired
+    private JmsTemplate jmsTemplate;
+
     public RequestProcessor() {
     }
 
@@ -51,7 +56,6 @@ public class RequestProcessor implements Runnable{
 
     @Override
     public void run() {
-        //todo cron
         for (Request request : findRequestForProcessing()) {
             // шаг 4 построение шаблона
             // компонент 7. Сервис построения шаблонов(биометрическое ядро)
@@ -68,7 +72,8 @@ public class RequestProcessor implements Runnable{
             CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
             compareServiceRequest.setScanTemplate(analizedScannedTemplate.template);
             compareServiceRequest.setWebTemplate(analizedWebCamTemplate.template);
-            String result = сompareServiceRestClient.compare(compareServiceRequest);
+            String compareResult = сompareServiceRestClient.compare(compareServiceRequest);
+            jmsTemplate.convertAndSend(compareResult);
         }
     }
 }
