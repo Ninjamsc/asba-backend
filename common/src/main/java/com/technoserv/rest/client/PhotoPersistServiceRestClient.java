@@ -1,6 +1,7 @@
 package com.technoserv.rest.client;
 
 import com.technoserv.rest.request.Base64Photo;
+import com.technoserv.rest.request.PhotoSaveRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,8 +62,33 @@ public class PhotoPersistServiceRestClient {
         }
         return null;
     }
-    public String putPhoto(String base64photo) {
-        throw new NotImplementedException();//todo implement;
+    public String putPhoto(String timestamp, String file_content, String file_name) {
+        PhotoSaveRequest request = new PhotoSaveRequest(timestamp, file_content, file_name);
+
+        if(log.isInfoEnabled()) {
+            log.info("SAVING PHOTO: '" + file_name + "'");
+        }
+        try {
+            String url = String.format(urlTemplate, file_name);
+            ResponseEntity<String> response = rest.getForEntity(URI.create(url), String.class);
+            if(log.isInfoEnabled()) {
+                log.info("SAVING PHOTO: '" + url + "' DONE");
+            }
+            return response.getBody();
+        } catch (HttpClientErrorException e) {
+            switch (e.getStatusCode()){
+                case INTERNAL_SERVER_ERROR:log.error("Прочие ошибки");break;
+                case BAD_REQUEST:log.error("Неполный/неверный запрос");break;
+                default:
+                    if (e.getStatusCode() != null){
+                        log.error(String.format("%s:  %s", e.getStatusCode(), e.getMessage()), e);
+                    } else {
+                        log.error(e.getMessage(), e);
+                    }
+            }
+
+        }
+        return null;
     }
 
 }
