@@ -13,6 +13,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.inject.Inject;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -40,9 +41,9 @@ public class RequestProcessor implements Runnable{
     public RequestProcessor() {
     }
 
-    public List<Request> findRequestForProcessing(){
+    public Collection<Request> findRequestForProcessing(){
         //todo Найти заявки для обработки;
-        return requestService.getAll(); //todo criteria search
+        return requestService.findNotProcessed(); //todo criteria search
     }
 
     public void process() {
