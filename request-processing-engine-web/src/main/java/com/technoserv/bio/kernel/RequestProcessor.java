@@ -5,6 +5,7 @@ import com.technoserv.bio.kernel.dao.configuration.rest.response.PhotoTemplate;
 import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.service.objectmodel.api.RequestService;
 import com.technoserv.rest.client.PhotoPersistServiceRestClient;
+import com.technoserv.rest.request.Base64Photo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -46,7 +47,7 @@ public class RequestProcessor implements Runnable{
 
             //сохраняю с 11; Это должно быть в Consumer
             // 4. построение шаблона;
-            String base64photo = "base 64 photo string";
+            Base64Photo base64photo = photoPersistServiceRestClient.getPhoto(request.getScannedDocument().getOrigImageURL());
             PhotoTemplate template = templateBuilderServiceRestClient.getPhotoTemplate(base64photo);
             //иду в 5-8; Analize
 

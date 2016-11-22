@@ -30,16 +30,15 @@ public class TemplateBuilderServiceRestClient {
 
     private RestTemplate rest = new RestTemplate();
 
-    public PhotoTemplate getPhotoTemplate(String base64photo) {
+    public PhotoTemplate getPhotoTemplate(Base64Photo request) {
         if(log.isInfoEnabled()) {
-            log.info("REQUESTING TEMPLATE: '" + base64photo + "'");
+            log.info("REQUESTING TEMPLATE: '" + request.photos + "'");
         }
         try {
-//            rest.put(URI.create(url), base64photo);
-            Base64Photo request = new Base64Photo(base64photo);
-            ResponseEntity<PhotoTemplate> response = rest.exchange(URI.create(url), HttpMethod.POST, new HttpEntity<Base64Photo>(request), PhotoTemplate.class);
+            //todo request -> json with jackson
+            ResponseEntity<PhotoTemplate> response = rest.exchange(URI.create(url), HttpMethod.PUT, new HttpEntity<>(request), PhotoTemplate.class);
             if(log.isInfoEnabled()) {
-                log.info("SENDING MESSAGE: '" + base64photo + "' DONE");
+                log.info("REQUESTING TEMPLATE: DONE");
             }
             return response.getBody();
         } catch (HttpClientErrorException e) {
