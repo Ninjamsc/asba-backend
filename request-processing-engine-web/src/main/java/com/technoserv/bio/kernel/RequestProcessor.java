@@ -68,10 +68,10 @@ public class RequestProcessor implements Runnable{
             // компонент 8 Сервис анализа изображений
             PhotoAnalyzeResult scannedAnalyze = photoAnalizerServiceRestClient.analizePhoto("scannedTemplate");
             PhotoAnalyzeResult analizedAnalyze  = photoAnalizerServiceRestClient.analizePhoto("webCamTemplate");
-            if (scannedAnalyze != null){
+            if (scannedAnalyze != null || scannedAnalyze.problem != null){
                 //todo обработка ошибки
             }
-            if (analizedAnalyze != null){
+            if (analizedAnalyze != null || analizedAnalyze.problem != null){
                 //todo обработка ошибки
             }
             //шаг в 6 Сравнение со списками

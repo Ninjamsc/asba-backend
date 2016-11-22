@@ -1,5 +1,6 @@
 package com.technoserv.bio.kernel.dao.configuration.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.technoserv.bio.kernel.dao.configuration.rest.response.PhotoAnalyzeResult;
 import com.technoserv.bio.kernel.dao.configuration.rest.response.PhotoTemplate;
 import com.technoserv.rest.request.Base64Photo;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.net.URI;
 
 /**
@@ -49,7 +51,7 @@ public class PhotoAnalizerServiceRestClient {
                 //todo унаследовать от HttpStatus и добавить/заменить наши
                 case NOT_EXTENDED://
                     log.error("510 ошибка анализа изображения");
-                    break;
+                    return deserializeError(e.getResponseBodyAsString());
                 case BAD_REQUEST:
                     log.error("Неполный/неверный запрос");
                     break;
@@ -60,5 +62,17 @@ public class PhotoAnalizerServiceRestClient {
 
         }
         return null;
+    }
+
+    private PhotoAnalyzeResult deserializeError(String json){
+        ObjectMapper mapper = new ObjectMapper();
+        PhotoAnalyzeResult res = null;
+        try {
+            res = mapper.readValue(json, PhotoAnalyzeResult.class);
+        } catch (IOException e) {
+            e.printStackTrace();
+            log.error("Ошибка десериализации ответа сервера");
+        }
+        return res;
     }
 }
