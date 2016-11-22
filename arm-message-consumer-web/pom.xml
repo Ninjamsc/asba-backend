@@ -18,7 +18,7 @@
 
         <dependency>
             <groupId>com.technoserv</groupId>
-            <artifactId>db-service-api</artifactId>
+            <artifactId>common</artifactId>
             <version>1.0.0</version>
         </dependency>
         <dependency>

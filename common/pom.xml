@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>db-service-api</artifactId>
-    <name>DB Service API</name>
+    <artifactId>common</artifactId>
+    <name>Common module</name>
 
     <dependencies>
         <!--ORM-->

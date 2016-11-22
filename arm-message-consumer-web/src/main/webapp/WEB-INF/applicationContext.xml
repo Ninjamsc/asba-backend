@@ -8,7 +8,7 @@
     <context:annotation-config/>
     <tx:annotation-driven />
     <import resource="activeMQContext.xml"/>
-    <import resource="classpath:db-service-api-context.xml"/>
+    <import resource="classpath:common-context.xml"/>
     <import resource="data-source-context.xml"/>
 
 </beans>

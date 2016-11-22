@@ -20,7 +20,7 @@
 
         <dependency>
             <groupId>com.technoserv</groupId>
-            <artifactId>db-service-api</artifactId>
+            <artifactId>common</artifactId>
             <version>1.0.0</version>
         </dependency>
 
@@ -171,6 +171,11 @@
             <groupId>io.swagger</groupId>
             <artifactId>swagger-jersey2-jaxrs</artifactId>
             <version>1.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.technoserv</groupId>
+            <artifactId>common</artifactId>
+            <version>1.0.0</version>
         </dependency>
 
     </dependencies>
