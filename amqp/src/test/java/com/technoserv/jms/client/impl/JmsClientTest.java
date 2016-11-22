@@ -20,10 +20,11 @@ import java.util.Arrays;
 @ContextConfiguration("/testContext.xml")
 public class JmsClientTest {
 
-    @Autowired
-    private BrokerService brokerService;
+//    @Autowired
+//    private BrokerService brokerService;
 
-    public static void main(String[] args) {
+    @Test
+    public void testSendMessage() {
         JmsTemplate template = new JmsTemplate();
         template.setConnectionFactory(connectionFactory());
         template.convertAndSend("external.queue","Test message");

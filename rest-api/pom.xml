@@ -117,7 +117,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
-            <version>3.4.0.GA</version>
+            <version>${hibernate.version}</version>
         </dependency>
 
         <!--Spring-->
@@ -148,7 +148,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
-            <version>3.0.6.RELEASE</version>
+            <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency> <!--  needed to get AOPs around the test cases -->
@@ -261,7 +261,8 @@
         </profile>
     </profiles>
     <properties>
-        <spring.version>3.1.4.RELEASE</spring.version>
+        <spring.version>4.3.0.RELEASE</spring.version>
+        <hibernate.version>4.3.6.Final</hibernate.version>
     </properties>
 
 </project>

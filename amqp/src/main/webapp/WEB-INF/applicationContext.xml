@@ -10,6 +10,6 @@
 
     <bean id="httpRestClient" class="com.technoserv.jms.HttpRestClient"/>
 
-    <import resource="activeMQContext2.xml"/>
+    <import resource="activeMQContext.xml"/>
 
 </beans>

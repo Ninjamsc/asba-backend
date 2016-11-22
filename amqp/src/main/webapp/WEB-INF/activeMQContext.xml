@@ -60,7 +60,7 @@
         connection-factory="connectionFactory"
         acknowledge="auto">
             <jms:listener destination="external.queue" ref="jmsConsumer" method="onReceive" />
-            <jms:listener destination="internal.queue" ref="jmsConsumer" method="onRetry" />
+            <jms:listener destination="internal.queue" ref="jmsConsumer" method="onReceive" />
     </jms:listener-container>
 
 

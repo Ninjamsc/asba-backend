@@ -1,15 +1,7 @@
 package com.technoserv.bio.kernel.model.objectmodel;
 
 
-import com.technoserv.bio.kernel.enumeration.EnumUserType;
-import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -17,14 +9,10 @@ import java.util.List;
  */
 @Entity
 @Table(name = "DOCUMENTS")
-@TypeDefs({@TypeDef(name = "AgencyType", typeClass = EnumUserType.class, parameters = {
-        @Parameter(name = "enumClass", value = "com.technoserv.bio.kernel.model.objectmodel.DocumentType"),
-        @Parameter(name = "identifierMethod", value = "getCode"),
-        @Parameter(name = "valueOfMethod", value = "getByCode")})})
-
 public class Document extends AbstractObject {
 
     @Column(name = "DOCUMENT_TYPE")
+    @Enumerated(EnumType.STRING)
     private DocumentType documentType;
 
     @Column(name = "ORIG_IMAGE_URL")
