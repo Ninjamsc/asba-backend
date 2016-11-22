@@ -19,4 +19,8 @@ public class RequestServiceImpl extends AbstractService<Long, Request,RequestDao
     public void setDao(RequestDao dao) {
         this.dao = dao;
     }
+
+    public Request findByOrderNumber(Long id) {
+        return dao.findByOrderNumber(id);
+    }
 }

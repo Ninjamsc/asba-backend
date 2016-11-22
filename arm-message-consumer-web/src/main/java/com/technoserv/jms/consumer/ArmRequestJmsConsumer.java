@@ -1,7 +1,8 @@
 package com.technoserv.jms.consumer;
 
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.technoserv.db.model.objectmodel.Document;
+import com.technoserv.db.model.objectmodel.DocumentType;
 import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.service.objectmodel.api.RequestService;
 import com.technoserv.jms.trusted.ArmRequestRetryMessage;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jms.core.JmsTemplate;
 
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -29,21 +31,21 @@ public class ArmRequestJmsConsumer {
 
     @Autowired
     private JmsTemplate jmsTemplate;
-
     @Autowired
     private RequestService requestService;
-
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy_hh_mm_ss_SSSSSS");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy_hh_mm_ss_SSSSSS");
 
     @Value("${arm-retry.queue.maxRetryCount}")
     public int maxTryCount;
 
+    @Transactional
     public void onReceive(String message) {
         if(!saveRequest(message)) {
             jmsTemplate.convertAndSend(new ArmRequestRetryMessage(message));
         }
     }
 
+    @Transactional
     public void onReceive(ArmRequestRetryMessage message) {
         if(message.getTryCount()<=maxTryCount) {
             if (!saveRequest(message.getMessage())) {
@@ -59,24 +61,58 @@ public class ArmRequestJmsConsumer {
         }
     }
 
-    public boolean saveRequest(String request) {
+    private boolean saveRequest(String request) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             RequestDTO requestDTO = objectMapper.readValue(request, RequestDTO.class);
+
+            String scannedPicture = requestDTO.getScannedPicturePreviewURL(); //TODO ...
+            String webCamPicture = requestDTO.getScannedPicturePreviewURL(); //
+            Document photo;
+            Document scan;
             //TODO Find request to add
-            //Request request = requestService.findByUid(requestDTO.getUid());
-            //todo merge requestDto to request
-            ///request.set...()
+            Request requestEntity = requestService.findByOrderNumber(requestDTO.getWfNumber());
+            if(requestEntity != null) { //TODO discuss что куда и когда и в каком формате доки
+                // TODO соответствие между дто и ентити
+                photo = requestEntity.getCameraDocument();
+                scan = requestEntity.getScannedDocument();
+            } else {
+                requestEntity = new Request();
+                photo = new Document();
+                scan = new Document();
+            }
+            if(requestDTO.getType() == RequestDTO.Type.PREVIEW) {
+                photo.setFaceSquare(requestDTO.getWebCamPicturePreviewURL());
+                photo.setDocumentType(DocumentType.PHOTO);
+
+                scan.setFaceSquare(requestDTO.getScannedPicturePreviewURL());
+                scan.setDocumentType(DocumentType.SCAN);
+
+                requestEntity.setCameraDocument(photo);
+                requestEntity.setScannedDocument(scan);
+            } else {
+                photo.setOrigImageURL(requestDTO.getWebCamPicturePreviewURL());
+                photo.setDocumentType(DocumentType.PHOTO);
+
+                scan.setOrigImageURL(requestDTO.getScannedPicturePreviewURL());
+                scan.setDocumentType(DocumentType.SCAN);
+
+                requestEntity.setCameraDocument(photo);
+                requestEntity.setScannedDocument(scan);
+            }
+            requestEntity.setBpmRequestNumber("" + requestDTO.getWfNumber());
+            requestEntity.setObjectDate(new Date());
             //Todo save request
-            // requestService.saveOrUpdate(request);
+            requestService.saveOrUpdate(requestEntity);
+            return true;
         } catch (IOException e) {
             log.error(e);
+            return false;
         }
-        return false;
     }
 
     private void writeToFile(ArmRequestRetryMessage message) throws IOException {
-        File file = new File("arm_req_" + simpleDateFormat.format(new Date()) + ".txt");
+        File file = new File("arm_req_" + DATE_FORMAT.format(new Date()) + ".txt");
         log.info("create file " + file.getAbsolutePath());
         if (!file.exists()) {
             file.createNewFile();
