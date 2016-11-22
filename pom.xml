@@ -3,16 +3,56 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>ru.compasslabs</groupId>
-	<artifactId>tech</artifactId>
+	<groupId>com.technoserv</groupId>
+	<artifactId>technoserv-root</artifactId>
 	<version>1.0.0</version>
 	<packaging>pom</packaging>
 
-	<name>tech</name>
+	<name>Root Module</name>
 
     <modules>
-        <module>amqp</module>
+        <module>db-service-api</module>
+        <module>json-delivery-service-web</module>
         <module>rest-api</module>
     </modules>
+
+    <properties>
+        <spring.version>4.3.0.RELEASE</spring.version>
+        <hibernate.version>4.3.6.Final</hibernate.version>
+    </properties>
+
+    <dependencies>
+        <!--Spring-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 </project>
