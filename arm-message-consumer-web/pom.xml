@@ -15,6 +15,12 @@
     <name>ARM Message Consumer Web</name>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.technoserv</groupId>
+            <artifactId>db-service-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
@@ -99,9 +105,17 @@
             <scope>test</scope>
         </dependency>
 
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.8.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
+        <finalName>arm-consumer</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -120,7 +134,7 @@
                     <version>2.4</version>
                     <configuration>
                         <warSourceDirectory>src/main/webapp</warSourceDirectory>
-                        <warName>ampq</warName>
+                        <warName>arm-consumer</warName>
                         <failOnMissingWebXml>false</failOnMissingWebXml>
                     </configuration>
                 </plugin>
@@ -137,6 +151,5 @@
                 <!--</plugin>-->
             </plugins>
         </pluginManagement>
-        <finalName>arm</finalName>
     </build>
 </project>

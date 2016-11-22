@@ -1,17 +1,14 @@
 package com.technoserv.jms.client.impl;
 
-import com.technoserv.jms.trusted.RetryMessage;
-import org.apache.activemq.broker.BrokerService;
+import com.technoserv.jms.trusted.JsonDeliveryRetryMessage;
 import org.apache.activemq.spring.ActiveMQConnectionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.jms.ConnectionFactory;
-import java.util.Arrays;
 
 /**
 * Created by Adrey on 20.11.2016.
@@ -34,7 +31,7 @@ public class JmsClientTest {
     public void internalIT() throws Exception {
         JmsTemplate template = new JmsTemplate();
         template.setConnectionFactory(internalConnectionFactory());
-        template.convertAndSend("internal.queue", new RetryMessage("Test message"));
+        template.convertAndSend("internal.queue", new JsonDeliveryRetryMessage("Test message"));
 
     }
 

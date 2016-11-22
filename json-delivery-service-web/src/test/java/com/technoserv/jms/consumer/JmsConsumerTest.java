@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class JmsConsumerTest {
 
     @Autowired
-    JmsConsumer consumer;
+    JsonDeliveryJmsConsumer consumer;
 
     @Test
     public void good(){

@@ -5,18 +5,18 @@ import java.io.Serializable;
 /**
  * Created by sergey on 20.11.2016.
  */
-public class RetryMessage implements Serializable {
+public class ArmRequestRetryMessage implements Serializable {
     /**
      * Тело сообщения
      */
     private String message;
 
     /**
-     * Кол-во ретраев отправки.
+     * Кол-во ретраев сохранения.
      */
     private int tryCount;
 
-    public RetryMessage(String message) {
+    public ArmRequestRetryMessage(String message) {
         this.message = message;
         tryCount = 1;
     }

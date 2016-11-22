@@ -3,7 +3,7 @@ package com.technoserv.db.model.objectmodel;
 import javax.persistence.*;
 
 /**
- * TODO описание
+ * Запрос от ARM в json-delivery-service-web
  */
 @Entity
 @Table(name = "REQUESTS")

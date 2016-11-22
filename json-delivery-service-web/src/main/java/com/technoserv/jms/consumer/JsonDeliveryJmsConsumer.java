@@ -1,7 +1,7 @@
 package com.technoserv.jms.consumer;
 
 import com.technoserv.jms.HttpRestClient;
-import com.technoserv.jms.trusted.RetryMessage;
+import com.technoserv.jms.trusted.JsonDeliveryRetryMessage;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +16,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @PropertySource("classpath:httpRestClient.properties")
-public class JmsConsumer {
+public class JsonDeliveryJmsConsumer {
 
-    private static final Log log = LogFactory.getLog(JmsConsumer.class);
+    private static final Log log = LogFactory.getLog(JsonDeliveryJmsConsumer.class);
 
     @Autowired
     private HttpRestClient httpRestClient;
@@ -33,11 +33,11 @@ public class JmsConsumer {
 
     public void onReceive(String message) {
         if(!httpRestClient.put(message)) {
-            jmsTemplate.convertAndSend(new RetryMessage(message));
+            jmsTemplate.convertAndSend(new JsonDeliveryRetryMessage(message));
         }
     }
 
-    public void onReceive(RetryMessage message) {
+    public void onReceive(JsonDeliveryRetryMessage message) {
         if(message.getTryCount()<=maxTryCount) {
             if (!httpRestClient.put(message.getMessage())) {
                 message.incTryCount();
@@ -52,7 +52,7 @@ public class JmsConsumer {
         }
     }
 
-    private void writeToFile(RetryMessage message) throws IOException {
+    private void writeToFile(JsonDeliveryRetryMessage message) throws IOException {
         File file = new File(simpleDateFormat.format(new Date()) + ".txt");
         log.info("create file " + file.getAbsolutePath());
         if (!file.exists()) {
