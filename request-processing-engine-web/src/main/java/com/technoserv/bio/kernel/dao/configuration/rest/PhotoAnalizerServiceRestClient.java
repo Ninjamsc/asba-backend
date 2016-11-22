@@ -30,29 +30,31 @@ public class PhotoAnalizerServiceRestClient {
     private RestTemplate rest = new RestTemplate();
 
     public PhotoTemplate getPhotoTemplate(String base64photo) {
-        if(log.isInfoEnabled()) {
+        if (log.isInfoEnabled()) {
             log.info("REQUESTING TEMPLATE: '" + base64photo + "'");
         }
         try {
 //            rest.put(URI.create(url), base64photo);
             Base64Photo request = new Base64Photo(base64photo);
-            ResponseEntity<PhotoTemplate> response = rest.exchange(URI.create(url), HttpMethod.POST, new HttpEntity<Base64Photo>(request), PhotoTemplate.class);
-            if(log.isInfoEnabled()) {
+            ResponseEntity<PhotoTemplate> response = rest.exchange(URI.create(url), HttpMethod.PUT, new HttpEntity<Base64Photo>(request), PhotoTemplate.class);
+            if (log.isInfoEnabled()) {
                 log.info("SENDING MESSAGE: '" + base64photo + "' DONE");
             }
             return response.getBody();
         } catch (HttpClientErrorException e) {
-            switch (e.getStatusCode()){
+            switch (e.getStatusCode()) {
                 /*Стандартные названия ошибок не совпадают с нашей документацией
                  * только коды */
                 //todo унаследовать от HttpStatus и добавить/заменить наши
-                //todo 512	outOfMemory на GPU, такого номера просто нет, скорее всего exception будет другой
                 case NOT_EXTENDED://
-                    log.error("510 base64 не является фотографией");
-                case NETWORK_AUTHENTICATION_REQUIRED:
-                    log.error("511 не удалось рассчитать биометрический шаблон. Внутренняя ошибка (в CUDA)");
+                    log.error("510 ошибка анализа изображения");
+                    break;
+                case BAD_REQUEST:
+                    log.error("Неполный/неверный запрос");
+                    break;
                 case INTERNAL_SERVER_ERROR:
-                    default: log.error("Неизвестная ошибка");
+                default:
+                    log.error("Неизвестная ошибка");
             }
 
         }

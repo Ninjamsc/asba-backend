@@ -31,28 +31,31 @@ public class TemplateBuilderServiceRestClient {
     private RestTemplate rest = new RestTemplate();
 
     public PhotoTemplate getPhotoTemplate(Base64Photo request) {
-        if(log.isInfoEnabled()) {
+        if (log.isInfoEnabled()) {
             log.info("REQUESTING TEMPLATE: '" + request.photos + "'");
         }
         try {
             //todo request -> json with jackson
             ResponseEntity<PhotoTemplate> response = rest.exchange(URI.create(url), HttpMethod.PUT, new HttpEntity<>(request), PhotoTemplate.class);
-            if(log.isInfoEnabled()) {
+            if (log.isInfoEnabled()) {
                 log.info("REQUESTING TEMPLATE: DONE");
             }
             return response.getBody();
         } catch (HttpClientErrorException e) {
-            switch (e.getStatusCode()){
+            switch (e.getStatusCode()) {
                 /*Стандартные названия ошибок не совпадают с нашей документацией
                  * только коды */
                 //todo унаследовать от HttpStatus и добавить/заменить наши
                 //todo 512	outOfMemory на GPU, такого номера просто нет, скорее всего exception будет другой
                 case NOT_EXTENDED://
                     log.error("510 base64 не является фотографией");
+                    break;
                 case NETWORK_AUTHENTICATION_REQUIRED:
                     log.error("511 не удалось рассчитать биометрический шаблон. Внутренняя ошибка (в CUDA)");
+                    break;
                 case INTERNAL_SERVER_ERROR:
-                    default: log.error("Неизвестная ошибка");
+                default:
+                    log.error("Неизвестная ошибка");
             }
 
         }
