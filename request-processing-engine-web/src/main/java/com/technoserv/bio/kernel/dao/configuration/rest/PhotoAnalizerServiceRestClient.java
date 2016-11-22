@@ -29,7 +29,7 @@ public class PhotoAnalizerServiceRestClient {
 
     private RestTemplate rest = new RestTemplate();
 
-    public PhotoTemplate getPhotoTemplate(String base64photo) {
+    public PhotoTemplate analizePhoto(String base64photo) { //todo make correct implementation
         if (log.isInfoEnabled()) {
             log.info("REQUESTING TEMPLATE: '" + base64photo + "'");
         }

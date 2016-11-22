@@ -1,6 +1,9 @@
 package com.technoserv.bio.kernel;
 
+import com.technoserv.bio.kernel.dao.configuration.rest.CompareServiceRestClient;
+import com.technoserv.bio.kernel.dao.configuration.rest.PhotoAnalizerServiceRestClient;
 import com.technoserv.bio.kernel.dao.configuration.rest.TemplateBuilderServiceRestClient;
+import com.technoserv.bio.kernel.dao.configuration.rest.request.CompareServiceRequest;
 import com.technoserv.bio.kernel.dao.configuration.rest.response.PhotoTemplate;
 import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.service.objectmodel.api.RequestService;
@@ -28,11 +31,17 @@ public class RequestProcessor implements Runnable{
     @Inject
     private PhotoPersistServiceRestClient photoPersistServiceRestClient;
 
+    @Inject
+    private PhotoAnalizerServiceRestClient photoAnalizerServiceRestClient;
+
+    @Inject
+    private CompareServiceRestClient сompareServiceRestClient;
+
     public RequestProcessor() {
     }
 
     public List<Request> findRequestForProcessing(){
-        //считываю с 10. Сервис хранения БД;
+        //todo Найти заявки для обработки;
         return requestService.getAll(); //todo criteria search
     }
 
@@ -44,15 +53,22 @@ public class RequestProcessor implements Runnable{
     public void run() {
         //todo cron
         for (Request request : findRequestForProcessing()) {
-
-            //сохраняю с 11; Это должно быть в Consumer
-            // 4. построение шаблона;
-            Base64Photo base64photo = photoPersistServiceRestClient.getPhoto(request.getScannedDocument().getOrigImageURL());
-            PhotoTemplate template = templateBuilderServiceRestClient.getPhotoTemplate(base64photo);
-            //иду в 5-8; Analize
-
-            //иду в 6-9;
-            //кладу 2;
+            // шаг 4 построение шаблона
+            // компонент 7. Сервис построения шаблонов(биометрическое ядро)
+            Base64Photo scannedPhoto = photoPersistServiceRestClient.getPhoto(request.getScannedDocument().getOrigImageURL());
+            Base64Photo webCamPhoto = photoPersistServiceRestClient.getPhoto(request.getCameraDocument().getOrigImageURL());
+            PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(scannedPhoto);
+            PhotoTemplate webCamTemplate = templateBuilderServiceRestClient.getPhotoTemplate(webCamPhoto);
+            //шаг 5 Построение фильтров
+            // компонент 8 Сервис анализа изображений
+            PhotoTemplate analizedScannedTemplate = photoAnalizerServiceRestClient.analizePhoto("scannedTemplate");
+            PhotoTemplate analizedWebCamTemplate = photoAnalizerServiceRestClient.analizePhoto("webCamTemplate");
+            //шаг в 6 Сравнение со списками
+            // компонент 9 Сервис сравнения
+            CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
+            compareServiceRequest.setScanTemplate(analizedScannedTemplate.template);
+            compareServiceRequest.setWebTemplate(analizedWebCamTemplate.template);
+            String result = сompareServiceRestClient.compare(compareServiceRequest);
         }
     }
 }
