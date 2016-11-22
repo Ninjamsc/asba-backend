@@ -42,8 +42,7 @@ public class RequestProcessor implements Runnable{
     }
 
     public Collection<Request> findRequestForProcessing(){
-        //todo Найти заявки для обработки;
-        return requestService.findNotProcessed(); //todo criteria search
+        return requestService.findNotProcessed();
     }
 
     public void process() {
