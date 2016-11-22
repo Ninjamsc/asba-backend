@@ -177,7 +177,6 @@
     </dependencies>
 
 	<build>
-
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -189,7 +188,7 @@
 				</configuration>
 			</plugin>
         </plugins>
-        <finalName>${project.name}</finalName>
+        <finalName>rpe</finalName>
 	</build>
     <profiles>
         <profile>
@@ -212,7 +211,7 @@
                         <configuration>
                             <url>http://localhost:8080/</url>
                             <server>tomcat</server>
-                            <path>/${project.name}</path>
+                            <path>/${project.build.finalName}</path>
                         </configuration>
                     </plugin>
 
