@@ -1,7 +1,7 @@
-package com.technoserv.bio.kernel.rest;
+package com.technoserv.bio.kernel.dao.configuration.rest;
 
-import com.technoserv.bio.kernel.rest.request.TemplateBuilderRequest;
-import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
+import com.technoserv.bio.kernel.dao.configuration.rest.response.PhotoTemplate;
+import com.technoserv.rest.request.Base64Photo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,9 +20,9 @@ import java.net.URI;
  */
 @Service
 @PropertySource("classpath:TemplateBuilderServiceRestClient.properties")
-public class TemplateBuilderServiceRestClient {
+public class PhotoAnalizerServiceRestClient {
 
-    private static final Log log = LogFactory.getLog(TemplateBuilderServiceRestClient.class);
+    private static final Log log = LogFactory.getLog(PhotoAnalizerServiceRestClient.class);
 
     @Value("${http.rest.client.url}")
     private String url;
@@ -35,8 +35,8 @@ public class TemplateBuilderServiceRestClient {
         }
         try {
 //            rest.put(URI.create(url), base64photo);
-            TemplateBuilderRequest request = new TemplateBuilderRequest(base64photo);
-            ResponseEntity<PhotoTemplate> response = rest.exchange(URI.create(url), HttpMethod.POST, new HttpEntity<TemplateBuilderRequest>(request), PhotoTemplate.class);
+            Base64Photo request = new Base64Photo(base64photo);
+            ResponseEntity<PhotoTemplate> response = rest.exchange(URI.create(url), HttpMethod.POST, new HttpEntity<Base64Photo>(request), PhotoTemplate.class);
             if(log.isInfoEnabled()) {
                 log.info("SENDING MESSAGE: '" + base64photo + "' DONE");
             }

@@ -1,4 +1,4 @@
-package com.technoserv.bio.kernel.rest;
+package com.technoserv.bio.kernel.dao.configuration.rest;
 
 
 import com.fasterxml.jackson.databind.SerializationFeature;

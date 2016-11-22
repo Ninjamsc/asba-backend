@@ -1,4 +1,4 @@
-package com.technoserv.bio.kernel.rest.request;
+package com.technoserv.bio.kernel.dao.configuration.rest.request;
 
 import java.util.Collection;
 

@@ -1,9 +1,10 @@
 package com.technoserv.bio.kernel;
 
-import com.technoserv.bio.kernel.rest.TemplateBuilderServiceRestClient;
-import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
+import com.technoserv.bio.kernel.dao.configuration.rest.TemplateBuilderServiceRestClient;
+import com.technoserv.bio.kernel.dao.configuration.rest.response.PhotoTemplate;
 import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.service.objectmodel.api.RequestService;
+import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -23,6 +24,9 @@ public class RequestProcessor implements Runnable{
     @Inject
     private TemplateBuilderServiceRestClient templateBuilderServiceRestClient;
 
+    @Inject
+    private PhotoPersistServiceRestClient photoPersistServiceRestClient;
+
     public RequestProcessor() {
     }
 
@@ -40,14 +44,12 @@ public class RequestProcessor implements Runnable{
         //todo cron
         for (Request request : findRequestForProcessing()) {
 
-            //считываю с 11;
+            //сохраняю с 11; Это должно быть в Consumer
             // 4. построение шаблона;
+            String base64photo = "base 64 photo string";
+            PhotoTemplate template = templateBuilderServiceRestClient.getPhotoTemplate(base64photo);
+            //иду в 5-8; Analize
 
-            PhotoTemplate template = templateBuilderServiceRestClient.getPhotoTemplate("base 64 photo string");
-
-
-
-            //иду в 5-8;
             //иду в 6-9;
             //кладу 2;
         }
