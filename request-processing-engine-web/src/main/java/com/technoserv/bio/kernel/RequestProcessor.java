@@ -4,6 +4,7 @@ import com.technoserv.bio.kernel.dao.configuration.rest.CompareServiceRestClient
 import com.technoserv.bio.kernel.dao.configuration.rest.PhotoAnalizerServiceRestClient;
 import com.technoserv.bio.kernel.dao.configuration.rest.TemplateBuilderServiceRestClient;
 import com.technoserv.bio.kernel.dao.configuration.rest.request.CompareServiceRequest;
+import com.technoserv.bio.kernel.dao.configuration.rest.response.PhotoAnalyzeResult;
 import com.technoserv.bio.kernel.dao.configuration.rest.response.PhotoTemplate;
 import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.service.objectmodel.api.RequestService;
@@ -65,15 +66,22 @@ public class RequestProcessor implements Runnable{
             PhotoTemplate webCamTemplate = templateBuilderServiceRestClient.getPhotoTemplate(webCamPhoto);
             //шаг 5 Построение фильтров
             // компонент 8 Сервис анализа изображений
-            PhotoTemplate analizedScannedTemplate = photoAnalizerServiceRestClient.analizePhoto("scannedTemplate");
-            PhotoTemplate analizedWebCamTemplate = photoAnalizerServiceRestClient.analizePhoto("webCamTemplate");
+            PhotoAnalyzeResult scannedAnalyze = photoAnalizerServiceRestClient.analizePhoto("scannedTemplate");
+            PhotoAnalyzeResult analizedAnalyze  = photoAnalizerServiceRestClient.analizePhoto("webCamTemplate");
+            if (scannedAnalyze != null){
+                //todo обработка ошибки
+            }
+            if (analizedAnalyze != null){
+                //todo обработка ошибки
+            }
             //шаг в 6 Сравнение со списками
             // компонент 9 Сервис сравнения
             CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
-            compareServiceRequest.setScanTemplate(analizedScannedTemplate.template);
-            compareServiceRequest.setWebTemplate(analizedWebCamTemplate.template);
+            compareServiceRequest.setScanTemplate(scannedTemplate.template);
+            compareServiceRequest.setWebTemplate(webCamTemplate.template);
             String compareResult = сompareServiceRestClient.compare(compareServiceRequest);
             jmsTemplate.convertAndSend(compareResult);
+            //todo обработка ошибок, уточнить
         }
     }
 }

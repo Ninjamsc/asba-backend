@@ -1,5 +1,6 @@
 package com.technoserv.bio.kernel.dao.configuration.rest;
 
+import com.technoserv.bio.kernel.dao.configuration.rest.response.PhotoAnalyzeResult;
 import com.technoserv.bio.kernel.dao.configuration.rest.response.PhotoTemplate;
 import com.technoserv.rest.request.Base64Photo;
 import org.apache.commons.logging.Log;
@@ -29,14 +30,14 @@ public class PhotoAnalizerServiceRestClient {
 
     private RestTemplate rest = new RestTemplate();
 
-    public PhotoTemplate analizePhoto(String base64photo) { //todo make correct implementation
+    public PhotoAnalyzeResult analizePhoto(String base64photo) { //todo make correct implementation
         if (log.isInfoEnabled()) {
             log.info("REQUESTING TEMPLATE: '" + base64photo + "'");
         }
         try {
 //            rest.put(URI.create(url), base64photo);
             Base64Photo request = new Base64Photo(base64photo);
-            ResponseEntity<PhotoTemplate> response = rest.exchange(URI.create(url), HttpMethod.PUT, new HttpEntity<Base64Photo>(request), PhotoTemplate.class);
+            ResponseEntity<PhotoAnalyzeResult> response = rest.exchange(URI.create(url), HttpMethod.PUT, new HttpEntity<Base64Photo>(request), PhotoAnalyzeResult.class);
             if (log.isInfoEnabled()) {
                 log.info("SENDING MESSAGE: '" + base64photo + "' DONE");
             }
