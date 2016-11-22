@@ -1,6 +1,7 @@
 package com.technoserv.bio.kernel;
 
 import com.technoserv.bio.kernel.rest.TemplateBuilderServiceRestClient;
+import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
 import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.service.objectmodel.api.RequestService;
 import org.apache.commons.logging.Log;
@@ -42,7 +43,7 @@ public class RequestProcessor implements Runnable{
             //считываю с 11;
             // 4. построение шаблона;
 
-            templateBuilderServiceRestClient.getPhotoTemplate("base 64 photo string");
+            PhotoTemplate template = templateBuilderServiceRestClient.getPhotoTemplate("base 64 photo string");
 
 
 

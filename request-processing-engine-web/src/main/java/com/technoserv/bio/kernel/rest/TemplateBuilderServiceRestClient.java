@@ -1,9 +1,14 @@
 package com.technoserv.bio.kernel.rest;
 
+import com.technoserv.bio.kernel.rest.request.TemplateBuilderRequest;
+import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -24,36 +29,33 @@ public class TemplateBuilderServiceRestClient {
 
     private RestTemplate rest = new RestTemplate();
 
-    public boolean getPhotoTemplate(String base64photo) {
+    public PhotoTemplate getPhotoTemplate(String base64photo) {
         if(log.isInfoEnabled()) {
             log.info("REQUESTING TEMPLATE: '" + base64photo + "'");
         }
         try {
-            rest.put(URI.create(url), base64photo);
-            /* Вариант использования
-            ResponseEntity<String> response = rest.exchange(URI.create(url), HttpMethod.POST, new HttpEntity<String>(base64photo), String.class);*/
+//            rest.put(URI.create(url), base64photo);
+            TemplateBuilderRequest request = new TemplateBuilderRequest(base64photo);
+            ResponseEntity<PhotoTemplate> response = rest.exchange(URI.create(url), HttpMethod.POST, new HttpEntity<TemplateBuilderRequest>(request), PhotoTemplate.class);
             if(log.isInfoEnabled()) {
                 log.info("SENDING MESSAGE: '" + base64photo + "' DONE");
             }
-            return true;
+            return response.getBody();
         } catch (HttpClientErrorException e) {
-            /**                  /* Шаблон URL вызова	HTTPS://<hostname>:<port>/api/bio/build
-             Метод	PUT
-             Коды возврата	200 OK	Успешная операция
-             510	base64 не является фотографией
-             511	не удалось рассчитать биометрический шаблон. Внутренняя ошибка (в CUDA)
-             512	outOfMemory на GPU
-             500 ERROR	Прочие ошибки
-
-             {
-             photos: '"base64 encoded image'"
-             }
-             */
             switch (e.getStatusCode()){
-
+                /*Стандартные названия ошибок не совпадают с нашей документацией
+                 * только коды */
+                //todo унаследовать от HttpStatus и добавить/заменить наши
+                //todo 512	outOfMemory на GPU, такого номера просто нет, скорее всего exception будет другой
+                case NOT_EXTENDED://
+                    log.error("510 base64 не является фотографией");
+                case NETWORK_AUTHENTICATION_REQUIRED:
+                    log.error("511 не удалось рассчитать биометрический шаблон. Внутренняя ошибка (в CUDA)");
+                case INTERNAL_SERVER_ERROR:
+                    default: log.error("Неизвестная ошибка");
             }
 
         }
-        return false;
+        return null;
     }
 }

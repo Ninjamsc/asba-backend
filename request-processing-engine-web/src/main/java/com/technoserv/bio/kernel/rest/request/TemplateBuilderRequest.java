@@ -8,5 +8,11 @@ package com.technoserv.bio.kernel.rest.request;
 public class TemplateBuilderRequest {
 
     /** base46 encoded изображение */
-    public String photo;
+    public String photos;
+
+    public TemplateBuilderRequest() {}
+
+    public TemplateBuilderRequest(String base64photo) {
+
+    }
 }

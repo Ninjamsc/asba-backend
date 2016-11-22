@@ -19,7 +19,7 @@ public class PhotoPersistService {
 
     private static final Log log = LogFactory.getLog(PhotoPersistService.class);
 
-    @Value("${http.rest.client.url}")
+    @Value("${http.template.builder.service.url}")
     private String url;
 
     private RestTemplate rest = new RestTemplate();
