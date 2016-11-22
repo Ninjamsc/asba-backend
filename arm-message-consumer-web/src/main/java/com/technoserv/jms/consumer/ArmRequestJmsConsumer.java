@@ -7,19 +7,25 @@ import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.service.objectmodel.api.RequestService;
 import com.technoserv.jms.trusted.ArmRequestRetryMessage;
 import com.technoserv.jms.trusted.RequestDTO;
+import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jms.core.JmsTemplate;
+import sun.misc.BASE64Encoder;
 
 import javax.transaction.Transactional;
+import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
+import java.util.Random;
+import java.util.UUID;
 
 /**
  * Created by sergey on 22.11.2016.
@@ -31,8 +37,13 @@ public class ArmRequestJmsConsumer {
 
     @Autowired
     private JmsTemplate jmsTemplate;
+
     @Autowired
     private RequestService requestService;
+
+    @Autowired
+    private PhotoPersistServiceRestClient photoServiceClient;
+
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy_hh_mm_ss_SSSSSS");
 
     @Value("${arm-retry.queue.maxRetryCount}")
@@ -68,6 +79,11 @@ public class ArmRequestJmsConsumer {
 
             String scannedPicture = requestDTO.getScannedPicturePreviewURL(); //TODO ...
             String webCamPicture = requestDTO.getScannedPicturePreviewURL(); //
+            String scannedGuid = DatatypeConverter.printBase64Binary(UUID.randomUUID().toString().getBytes());
+            String webCamGuid = DatatypeConverter.printBase64Binary(UUID.randomUUID().toString().getBytes());
+
+            String scannedPictureURL = photoServiceClient.putPhoto(requestDTO.getTimestamp().toString(), scannedPicture, scannedGuid);
+            String webCamPictureURL = photoServiceClient.putPhoto(requestDTO.getTimestamp().toString(), webCamPicture, webCamGuid);
             Document photo;
             Document scan;
             //TODO Find request to add
@@ -87,19 +103,19 @@ public class ArmRequestJmsConsumer {
 
                 scan.setFaceSquare(requestDTO.getScannedPicturePreviewURL());
                 scan.setDocumentType(DocumentType.SCAN);
-
-                requestEntity.setCameraDocument(photo);
-                requestEntity.setScannedDocument(scan);
             } else {
                 photo.setOrigImageURL(requestDTO.getWebCamPicturePreviewURL());
                 photo.setDocumentType(DocumentType.PHOTO);
 
                 scan.setOrigImageURL(requestDTO.getScannedPicturePreviewURL());
                 scan.setDocumentType(DocumentType.SCAN);
-
-                requestEntity.setCameraDocument(photo);
-                requestEntity.setScannedDocument(scan);
             }
+
+            photo.setOrigImageURL(webCamPictureURL);
+            scan.setOrigImageURL(scannedPictureURL);
+
+            requestEntity.setCameraDocument(photo);
+            requestEntity.setScannedDocument(scan);
             requestEntity.setBpmRequestNumber("" + requestDTO.getWfNumber());
             requestEntity.setObjectDate(new Date());
             //Todo save request
