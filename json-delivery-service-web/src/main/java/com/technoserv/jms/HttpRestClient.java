@@ -39,8 +39,8 @@ public class HttpRestClient {
         } catch (HttpClientErrorException e) {
             switch (e.getStatusCode()){
                 case INTERNAL_SERVER_ERROR://some buisness logic will be here
-                case UNPROCESSABLE_ENTITY://some buisness logic will be here
-                case REQUEST_ENTITY_TOO_LARGE://some buisness logic will be here
+                case NOT_IMPLEMENTED://some buisness logic will be here
+                case BAD_GATEWAY://some buisness logic will be here
                 default:
                     if (e.getStatusCode() != null){
                         log.error(String.format("%s:  %s", e.getStatusCode(), e.getMessage()), e);

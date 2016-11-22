@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+	        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	">
+
+    <bean id="requestProcessor" class="com.technoserv.bio.kernel.RequestProcessor"/>
+
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="requestProcessor"/>
+        <property name="targetMethod" value="process"/>
+    </bean>
+
+    <bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <!-- see the example of method invoking job above -->
+        <property name="jobDetail" ref="jobDetail"/>
+        <!-- 1 seconds -->
+        <property name="startDelay" value="1000"/>
+        <!-- repeat every 5 second -->
+        <property name="repeatInterval" value="5000"/>
+    </bean>
+
+    <!--<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">-->
+        <!--<property name="jobDetail" ref="job"/>-->
+        <!--&lt;!&ndash; run every morning at 6 AM &ndash;&gt;-->
+        <!--<property name="cronExpression" value="0 0 6 * * ?"/>-->
+    <!--</bean>-->
+
+    <!--<bean name="job" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">-->
+    <!--<property name="jobClass" value="com.technoserv.bio.kernel.scheduler.RequestProcessingJob"/>-->
+    <!--<property name="jobDataAsMap">-->
+    <!--<map>-->
+    <!--<entry key="timeout" value="5000"/>-->
+    <!--</map>-->
+    <!--</property>-->
+    <!--</bean>-->
+
+</beans>
