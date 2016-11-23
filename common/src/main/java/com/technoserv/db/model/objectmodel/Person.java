@@ -17,7 +17,7 @@ public class Person extends BaseEntity<Long> {
      * ИИН персоны в WorkFlow
      */
     @Id
-    @Column(name = "IIN")
+    @Column(name = "ID")
     private Long id;
     /**
      * массив всех заявок
