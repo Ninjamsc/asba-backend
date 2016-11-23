@@ -1,6 +1,7 @@
 package com.technoserv.bio.kernel.rest;
 
 
+import com.technoserv.bio.kernel.rest.exception.CompareServiceException;
 import com.technoserv.bio.kernel.rest.request.CompareServiceRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -8,7 +9,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -38,17 +39,13 @@ public class CompareServiceRestClient {
                 log.info("REQUESTING TEMPLATE: DONE");
             }
             return response.getBody();
-        } catch (HttpClientErrorException e) {
-            switch (e.getStatusCode()){
-                /*Стандартные названия ошибок не совпадают с нашей документацией
-                 * только коды */
-                //todo унаследовать от HttpStatus и добавить/заменить наши
-                //todo 512	outOfMemory на GPU, такого номера просто нет, скорее всего exception будет другой
-                case BAD_REQUEST: log.error("Неполный/неверный запрос"); break;
-                case INTERNAL_SERVER_ERROR:
-                default: log.error("Неизвестная ошибка");
+        } catch (RestClientResponseException e) {
+            switch (e.getRawStatusCode()){
+                /*Стандартные названия ошибок не совпадают с нашей документацией только коды */
+                case 400://BAD_REQUEST:
+                case 500://INTERNAL_SERVER_ERROR:
+                default: throw new CompareServiceException(e.getResponseBodyAsString());
             }
         }
-        return null;
     }
 }

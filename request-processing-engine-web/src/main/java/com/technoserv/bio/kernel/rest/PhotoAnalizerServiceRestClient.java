@@ -11,10 +11,13 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.net.URI;
+
+import static org.springframework.http.HttpStatus.NOT_EXTENDED;
 
 /**
  * Created by VBasakov on 22.11.2016.
@@ -42,15 +45,13 @@ public class PhotoAnalizerServiceRestClient {
                 log.info("SENDING MESSAGE: '" + base64photo + "' DONE");
             }
             return response.getBody();
-        } catch (HttpClientErrorException e) {
-            switch (e.getStatusCode()) {
+        } catch (RestClientResponseException e) {
+            switch (e.getRawStatusCode()) {
                 //На первом этапе сервис выполняется в виде заглушки, всегда возвращающей HTTP 200 ОК.
-                /*Стандартные названия ошибок не совпадают с нашей документацией
-                 * только коды */
-                //todo унаследовать от HttpStatus и добавить/заменить наши
-                case NOT_EXTENDED://log.error("510 ошибка анализа изображения");
-                case BAD_REQUEST://log.error("Неполный/неверный запрос");
-                case INTERNAL_SERVER_ERROR:
+                /*Стандартные названия ошибок не совпадают с нашей документацией  только коды */
+                case 510://log.error("510 ошибка анализа изображения");
+                case 400://log.error("Неполный/неверный запрос");
+                case 500://log.error("Прочие ошибки");
                 default:
                     throw new PhotoAnalizerServiceException(e.getResponseBodyAsString());
             }
