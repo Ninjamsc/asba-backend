@@ -12,10 +12,10 @@ import java.util.Collection;
  * Created by sergey on 15.11.2016.
  */
 @Repository("requestDao")
-public class RequestDaoImpl extends AbstractHibernateDao<Long,Request> implements RequestDao {
+public class RequestDaoImpl extends AbstractHibernateDao<Long, Request> implements RequestDao {
     public Request findByOrderNumber(Long id) {
         return (Request) getSession().createCriteria(getPersistentClass())
-                .add(Property.forName("bpmRequestNumber").eq(id)).uniqueResult();
+                .add(Property.forName("wfmID").eq(id)).uniqueResult();
     }
 
     public Collection<Request> findNotProcessed() {

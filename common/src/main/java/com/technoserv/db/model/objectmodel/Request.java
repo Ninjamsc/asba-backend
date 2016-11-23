@@ -1,6 +1,9 @@
 package com.technoserv.db.model.objectmodel;
 
+import com.technoserv.db.model.BaseEntity;
+
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * REQUESTS	Хранилище заявок на биометрическую идентификацию, полученных от АРМ.
@@ -9,14 +12,22 @@ import javax.persistence.*;
  **/
 @Entity
 @Table(name = "REQUESTS")
-public class Request extends AbstractObject {
+public class Request extends  BaseEntity<Long> {
 
     public enum Status {SAVED, IN_PROCESS, SUCCESS, FAILED};
     /**
      * номер заявки из BPM
      */
+    @Id
     @Column(name = "WFM_ID", unique = true)
-    private String wfmID;
+    private Long id;
+
+    /**
+     * дата создания объекта
+     */
+    @Temporal(value = TemporalType.DATE)
+    @Column(name = "INS_DATE", nullable = false, updatable = false)
+    private Date objectDate = new Date();
 
     @Column(name = "STATUS", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -40,18 +51,16 @@ public class Request extends AbstractObject {
     @Column(name = "INS_USER", nullable = false)
     private String insUser;
 
-    public String getWfmID() {
-        return wfmID;
-    }
-
-    public void setWfmID(String wfmID) {
-        this.wfmID = wfmID;
+    public Long getId() {
+        return id;
+    } //TODO ...
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Document getScannedDocument() {
         return scannedDocument;
     }
-
     public void setScannedDocument(Document scannedDocument) {
         this.scannedDocument = scannedDocument;
     }
@@ -59,7 +68,6 @@ public class Request extends AbstractObject {
     public Document getCameraDocument() {
         return cameraDocument;
     }
-
     public void setCameraDocument(Document cameraDocument) {
         this.cameraDocument = cameraDocument;
     }
@@ -74,7 +82,6 @@ public class Request extends AbstractObject {
     public String getLogin() {
         return login;
     }
-
     public void setLogin(String login) {
         this.login = login;
     }
@@ -82,8 +89,14 @@ public class Request extends AbstractObject {
     public String getInsUser() {
         return insUser;
     }
-
     public void setInsUser(String insUser) {
         this.insUser = insUser;
+    }
+
+    public Date getObjectDate() {
+        return objectDate;
+    }
+    public void setObjectDate(Date objectDate) {
+        this.objectDate = objectDate;
     }
 }

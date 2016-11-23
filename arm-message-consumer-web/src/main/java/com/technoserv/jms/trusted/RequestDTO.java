@@ -1,25 +1,36 @@
 package com.technoserv.jms.trusted;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 import org.apache.commons.net.ntp.TimeStamp;
 
 /**
  * Created by sergey on 22.11.2016.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class RequestDTO {
 
-    public enum Type{FULL_FRAME, PREVIEW};
+    public enum Type{PREVIEW, FULLFRAME;
+        @JsonValue
+        String getValue() {
+            return this.toString().toLowerCase();
+        }
+    };
 
     @JsonProperty("_comment")
     private String comment;
+    @JsonProperty("wfmid")
     private long wfNumber;
-    @JsonProperty("IIN")
+    @JsonProperty("iin")
     private long iin;
     private String username;
     private Type type;
     private TimeStamp timestamp;
-    private String webCamPicturePreviewURL; //TODO ...
-    private String scannedPicturePreviewURL; //TODO ...
+    @JsonProperty("camPic")
+    private String webCameraPicture;
+    @JsonProperty("scanPic")
+    private String scannedPicture;
 
     public String getComment() {
         return comment;
@@ -55,18 +66,18 @@ public class RequestDTO {
         this.timestamp = timestamp;
     }
 
-    public String getWebCamPicturePreviewURL() {
-        return webCamPicturePreviewURL;
+    public String getWebCameraPicture() {
+        return webCameraPicture;
     }
-    public void setWebCamPicturePreviewURL(String webCamPicturePreviewURL) {
-        this.webCamPicturePreviewURL = webCamPicturePreviewURL;
+    public void setWebCameraPicture(String webCameraPicture) {
+        this.webCameraPicture = webCameraPicture;
     }
 
-    public String getScannedPicturePreviewURL() {
-        return scannedPicturePreviewURL;
+    public String getScannedPicture() {
+        return scannedPicture;
     }
-    public void setScannedPicturePreviewURL(String scannedPicturePreviewURL) {
-        this.scannedPicturePreviewURL = scannedPicturePreviewURL;
+    public void setScannedPicture(String scannedPicture) {
+        this.scannedPicture = scannedPicture;
     }
 
     public Type getType() {

@@ -1,6 +1,7 @@
 package com.technoserv.bio.kernel.dao.objectmodel;
 
 import com.technoserv.db.dao.objectmodel.api.DocumentDao;
+import com.technoserv.db.dao.objectmodel.api.DocumentTypeDao;
 import com.technoserv.db.model.objectmodel.Document;
 import com.technoserv.db.model.objectmodel.DocumentType;
 import org.junit.After;
@@ -24,23 +25,30 @@ import static org.junit.Assert.*;
 public class DocumentDaoTest {
 
     @Autowired
-    DocumentDao dao;
+    private DocumentDao dao;
+    @Autowired
+    private DocumentTypeDao documentTypeDao;
 
     @Before
-    public void setUp(){}
+    public void setUp(){
+        documentTypeDao.save(new DocumentType(DocumentType.Type.ANY, "sfsdfdsf"));
+    }
 
     @After
     public void tearDown(){}
 
     @Test
     public void createDocument() throws Exception {
+        DocumentType documentType = documentTypeDao.findByType(DocumentType.Type.ANY);
         Document document = dao.get(1L);
         assertNull(document);
         assertEquals(0, dao.countAll());
         Document entity = generateDocument();
+        entity.setDocumentType(documentType);
         dao.saveOrUpdate(entity);
         assertEquals(1, dao.countAll());
         assertEquals(entity, dao.get(entity.getId()));
+        assertEquals(DocumentType.Type.ANY.getValue(), entity.getDocumentType().getId().longValue());
     }
 
     @Test

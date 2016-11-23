@@ -11,7 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.technoserv.bio.kernel.util.TestUtil.generateRequest;
 import static org.junit.Assert.*;
 
 /**
@@ -48,9 +47,9 @@ public class RequestDaoTest {
         dao.saveOrUpdate(entity);
         Request request = dao.get(entity.getId());
         assertEquals(request, entity);
-        entity.setWfmID("13");
+        entity.setId(1L);
         dao.saveOrUpdate(entity);
-        assertEquals("13", dao.get(entity.getId()).getWfmID());
+        assertEquals(1L, dao.get(entity.getId()).getId().longValue());
     }
 
     @Test
@@ -60,5 +59,16 @@ public class RequestDaoTest {
         assertNotNull(dao.get(entity.getId()));
         dao.delete(entity);
         assertNull(dao.get(entity.getId()));
+    }
+
+    public static Request generateRequest(){
+        Request result = new Request();
+        result.setId(1L);
+        result.setInsUser("1");
+        result.setLogin("1");
+        result.setStatus(Request.Status.SAVED);
+//        result.setCameraDocument(generateDocument());
+//        result.setScannedDocument(generateDocument());
+        return result;
     }
 }
