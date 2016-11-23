@@ -24,4 +24,6 @@ public interface Dao<ID extends Serializable,T extends BaseEntity<ID>> {
     public List<T> getAll();
 
 	public int countAll();
+
+    List<T> getAll(int page, int max);
 }

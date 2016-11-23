@@ -53,5 +53,11 @@ public abstract class AbstractService<ID extends Serializable,T extends BaseEnti
 		return dao.countAll();
 	}
 
+    @Transactional(readOnly = true)
+    public List<T> getAll(int page, int max) {
+
+        return dao.getAll(page,max);
+    }
+
     public abstract void setDao(D dao);
 }

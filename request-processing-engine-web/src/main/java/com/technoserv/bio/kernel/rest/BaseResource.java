@@ -16,6 +16,9 @@ public abstract class BaseResource<K extends Serializable, T extends BaseEntity<
     public Collection<T> list() {
          return getBaseService().getAll();
     }
+    public Collection<T> list(int page,int max) {
+         return getBaseService().getAll(page, max);
+    }
 
     public T get(K id) {
         return getBaseService().findById(id);

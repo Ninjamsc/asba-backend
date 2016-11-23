@@ -9,6 +9,7 @@ import com.technoserv.db.service.objectmodel.api.RequestService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -32,8 +33,8 @@ public class RequestResource extends BaseResource<Long,Request> {
     }
 
     /**
-     * Список всех конфигураций
-     * @return Список всех конфигураций
+     * Список всех заявок
+     * @return Список всех заявок
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -45,7 +46,7 @@ public class RequestResource extends BaseResource<Long,Request> {
     }
 
     /**
-     * Получить конфигурацию по ID
+     * Получить заявку по ID
      * @param id идентификатор.
      * @return Конфигурация по ID
      */
@@ -60,9 +61,9 @@ public class RequestResource extends BaseResource<Long,Request> {
     }
 
     /**
-     * Добавить конфигурацию.
+     * Добавить заявку.
      * @param entity добавляемая конфигурация.
-     * @return Идентификатор добавленной конфигурации.
+     * @return Идентификатор добавленной заявки.
      */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -73,8 +74,8 @@ public class RequestResource extends BaseResource<Long,Request> {
         return super.add(entity);
     }
     /**
-     * Обновить конфигурацию.
-     * @param entity Обновляемая конфигурация.
+     * Обновить заявку.
+     * @param entity Обновляемая заявка.
      * @return ок
      */
     @PUT
@@ -86,8 +87,8 @@ public class RequestResource extends BaseResource<Long,Request> {
         return super.update(entity);
     }
     /**
-     * удалить конфигурацию.
-     * @param id удаляемой конфигурации.
+     * удалить заявку.
+     * @param id удаляемой заявки.
      * @return ок
      */
     @DELETE

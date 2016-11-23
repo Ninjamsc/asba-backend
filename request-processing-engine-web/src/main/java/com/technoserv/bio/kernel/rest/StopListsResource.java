@@ -10,6 +10,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -32,8 +33,8 @@ public class StopListsResource extends BaseResource<Long,StopList> {
     }
 
     /**
-     * Список всех конфигураций
-     * @return Список всех конфигураций
+     * Список всех стоп листов
+     * @return Список всех стоп листов
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -45,9 +46,9 @@ public class StopListsResource extends BaseResource<Long,StopList> {
     }
 
     /**
-     * Получить конфигурацию по ID
+     * Получить стоп лист по ID
      * @param id идентификатор.
-     * @return Конфигурация по ID
+     * @return заявка по ID
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -60,9 +61,9 @@ public class StopListsResource extends BaseResource<Long,StopList> {
     }
 
     /**
-     * Добавить конфигурацию.
+     * Добавить стоп лист.
      * @param entity добавляемая конфигурация.
-     * @return Идентификатор добавленной конфигурации.
+     * @return Идентификатор добавленной заявки.
      */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -73,8 +74,8 @@ public class StopListsResource extends BaseResource<Long,StopList> {
         return super.add(entity);
     }
     /**
-     * Обновить конфигурацию.
-     * @param entity Обновляемая конфигурация.
+     * Обновить стоп лист.
+     * @param entity Обновляемая заявка.
      * @return ок
      */
     @PUT
@@ -86,8 +87,8 @@ public class StopListsResource extends BaseResource<Long,StopList> {
         return super.update(entity);
     }
     /**
-     * удалить конфигурацию.
-     * @param id удаляемой конфигурации.
+     * удалить стоп лист.
+     * @param id удаляемой заявки.
      * @return ок
      */
     @DELETE

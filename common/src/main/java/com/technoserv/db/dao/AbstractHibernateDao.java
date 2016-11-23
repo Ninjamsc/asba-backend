@@ -74,4 +74,8 @@ public abstract class AbstractHibernateDao<ID extends Serializable,T extends Bas
         return sessionFactory.getCurrentSession();
     }
 
+    @SuppressWarnings("unchecked")
+    public List<T> getAll(int page, int max) {
+        return getSession().createCriteria(getPersistentClass()).setMaxResults(max).setFirstResult(page * max).list();
+    }
 }
