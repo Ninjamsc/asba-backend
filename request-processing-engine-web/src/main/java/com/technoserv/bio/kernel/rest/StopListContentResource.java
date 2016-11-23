@@ -16,8 +16,7 @@ import javax.ws.rs.core.MediaType;
  * Created by sergey on 23.11.2016.
  */
 @Component
-
-@Api(value = "stop-list-content")
+//@Api(value = "stop-list-content")
 public class StopListContentResource {
 
     @Autowired
