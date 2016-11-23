@@ -3,7 +3,8 @@ package com.technoserv.jms.trusted;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-import org.apache.commons.net.ntp.TimeStamp;
+
+import java.sql.Timestamp;
 
 /**
  * Created by sergey on 22.11.2016.
@@ -26,7 +27,7 @@ public class RequestDTO {
     private long iin;
     private String username;
     private Type type;
-    private TimeStamp timestamp;
+    private Timestamp timestamp;
     @JsonProperty("camPic")
     private String webCameraPicture;
     @JsonProperty("scanPic")
@@ -59,10 +60,10 @@ public class RequestDTO {
         this.username = username;
     }
 
-    public TimeStamp getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
-    public void setTimestamp(TimeStamp timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 

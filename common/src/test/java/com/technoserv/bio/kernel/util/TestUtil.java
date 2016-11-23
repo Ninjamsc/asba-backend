@@ -38,8 +38,8 @@ public class TestUtil {
 
     public static Person generatePerson(){
         Person result = new Person();
-        setObjectDate(result);
-        result.setIin("1");
+        //setObjectDate(result); TODO ...
+        result.setId(1L);
         return result;
     }
 

@@ -3,6 +3,8 @@ package com.technoserv.db.model.objectmodel;
 import com.technoserv.db.model.BaseEntity;
 
 import javax.persistence.*;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -12,7 +14,7 @@ import java.util.Date;
  **/
 @Entity
 @Table(name = "REQUESTS")
-public class Request extends  BaseEntity<Long> {
+public class Request extends BaseEntity<Long> {
 
     public enum Status {SAVED, IN_PROCESS, SUCCESS, FAILED};
     /**
@@ -53,6 +55,11 @@ public class Request extends  BaseEntity<Long> {
 
     @Column(name = "INS_USER", nullable = false)
     private String insUser;
+
+    //from request
+    @Column(name = "TIMESTAMP") //TODO absent in db model
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date orderDate;
 
     public Long getId() {
         return id;
@@ -109,5 +116,13 @@ public class Request extends  BaseEntity<Long> {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public Timestamp getTimestamp() {
+        return new Timestamp(orderDate.getTime());
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.orderDate = new Date(timestamp.getTime());
     }
 }

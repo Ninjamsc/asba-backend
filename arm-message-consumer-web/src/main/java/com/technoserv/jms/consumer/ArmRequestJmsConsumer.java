@@ -117,6 +117,7 @@ public class ArmRequestJmsConsumer {
                 scan.setDocumentType(documentTypeService.findByType(DocumentType.Type.SCANNER));
             }
 
+            requestEntity.setTimestamp(requestDTO.getTimestamp());
             requestEntity.setCameraDocument(webCam);
             requestEntity.setScannedDocument(scan);
             requestEntity.setId(requestDTO.getWfNumber());

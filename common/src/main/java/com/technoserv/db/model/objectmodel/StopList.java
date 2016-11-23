@@ -18,7 +18,7 @@ public class StopList extends AbstractObject {
     /**
      * список банков, которым доступен этот список
      */
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(name = "STOP_LISTS_CONTENTS", joinColumns = {@JoinColumn(name = "DOC_ID")}, inverseJoinColumns = {@JoinColumn(name = "LISTS_ID")})
     private List<Document> owner;
 
