@@ -5,6 +5,8 @@ import com.technoserv.bio.kernel.rest.response.PhotoAnalyzeResult;
 import com.technoserv.rest.request.Base64Photo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +20,12 @@ import java.net.URI;
  * Created by VBasakov on 22.11.2016.
  */
 @Service
-//@PropertySource("classpath:TemplateBuilderServiceRestClient.properties")
-public class PhotoAnalizerServiceRestClient {
+@PropertySource("classpath:photoAnalyzerServiceRestClient.properties")
+public class PhotoAnalyzerServiceRestClient {
 
-    private static final Log log = LogFactory.getLog(PhotoAnalizerServiceRestClient.class);
+    private static final Log log = LogFactory.getLog(PhotoAnalyzerServiceRestClient.class);
 
-//    @Value("${http.rest.client.url}")
-    //todo fix it
+    @Value("${http.photo.analyzer.service.url}")
     private String url;
 
     private RestTemplate rest = new RestTemplate();
@@ -32,7 +33,7 @@ public class PhotoAnalizerServiceRestClient {
     /**
      * В случае успеха (библиотека анализа изображений не нашла несоответствий) возврат HTTP 200 OK безJSON документа
      * */
-    public void analizePhoto(String base64photo) { //todo make correct implementation
+    public void analizePhoto(String base64photo) {
         if (log.isInfoEnabled()) {
             log.info("ANALYZING TEMPLATE: '" + base64photo + "'");
         }

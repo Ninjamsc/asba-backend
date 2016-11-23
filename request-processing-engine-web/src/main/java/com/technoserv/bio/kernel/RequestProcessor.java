@@ -1,7 +1,7 @@
 package com.technoserv.bio.kernel;
 
 import com.technoserv.bio.kernel.rest.client.CompareServiceRestClient;
-import com.technoserv.bio.kernel.rest.client.PhotoAnalizerServiceRestClient;
+import com.technoserv.bio.kernel.rest.client.PhotoAnalyzerServiceRestClient;
 import com.technoserv.bio.kernel.rest.client.TemplateBuilderServiceRestClient;
 import com.technoserv.bio.kernel.rest.exception.RestClientException;
 import com.technoserv.bio.kernel.rest.request.CompareServiceRequest;
@@ -35,7 +35,7 @@ public class RequestProcessor implements Runnable{
     private PhotoPersistServiceRestClient photoPersistServiceRestClient;
 
     @Autowired
-    private PhotoAnalizerServiceRestClient photoAnalizerServiceRestClient;
+    private PhotoAnalyzerServiceRestClient photoAnalyzerServiceRestClient;
 
     @Autowired
     private CompareServiceRestClient сompareServiceRestClient;
@@ -67,8 +67,8 @@ public class RequestProcessor implements Runnable{
                 PhotoTemplate webCamTemplate = templateBuilderServiceRestClient.getPhotoTemplate(webCamPhoto);
                 //шаг 5 Построение фильтров
                 // компонент 8 Сервис анализа изображений
-                photoAnalizerServiceRestClient.analizePhoto("scannedTemplate");
-                photoAnalizerServiceRestClient.analizePhoto("webCamTemplate");
+                photoAnalyzerServiceRestClient.analizePhoto("scannedTemplate");
+                photoAnalyzerServiceRestClient.analizePhoto("webCamTemplate");
                 //шаг в 6 Сравнение со списками
                 // компонент 9 Сервис сравнения
                 CompareServiceRequest compareServiceRequest = new CompareServiceRequest();

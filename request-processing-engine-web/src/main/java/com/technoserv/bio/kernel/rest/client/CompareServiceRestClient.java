@@ -5,6 +5,8 @@ import com.technoserv.bio.kernel.rest.exception.CompareServiceException;
 import com.technoserv.bio.kernel.rest.request.CompareServiceRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +20,12 @@ import java.net.URI;
  * Created by VBasakov on 22.11.2016.
  */
 @Service
-//@PropertySource("classpath:compareServiceRestClient.properties")
+@PropertySource("classpath:compareServiceRestClient.properties")
 public class CompareServiceRestClient {
 
     private static final Log log = LogFactory.getLog(CompareServiceRestClient.class);
 
-//    @Value("${http.compare.service.client.url}")
-    //TODO fix it
+    @Value("${http.compare.service.client.url}")
     private String url;
     private RestTemplate rest = new RestTemplate();
 
