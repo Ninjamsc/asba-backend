@@ -40,7 +40,7 @@ public class RequestDaoImpl extends AbstractHibernateDao<Long, Request> implemen
         Criteria criteria = getSession().createCriteria(getPersistentClass());
         criteria.createCriteria("scannedDocument","sd");
         criteria.createCriteria("cameraDocument","cd");
-        
+
         Disjunction disjunction = Restrictions.disjunction();
 
         Conjunction conjunction = Restrictions.conjunction();
@@ -53,7 +53,6 @@ public class RequestDaoImpl extends AbstractHibernateDao<Long, Request> implemen
         criteria.add(disjunction);
 
         criteria.add(Property.forName("status").eq(Request.Status.SAVED));
-        return getSession().createCriteria(getPersistentClass())
-                .add(Property.forName("status").eq(Request.Status.SAVED)).add(Property.forName("objectDate").ge(calendar.getTime())).list();
+        return criteria.list();
     }
 }
