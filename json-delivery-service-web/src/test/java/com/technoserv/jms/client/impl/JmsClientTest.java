@@ -1,6 +1,7 @@
 package com.technoserv.jms.client.impl;
 
 import com.technoserv.jms.trusted.JsonDeliveryRetryMessage;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.apache.activemq.spring.ActiveMQConnectionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +16,7 @@ import javax.jms.ConnectionFactory;
 */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/testContext.xml")
+@Ignore
 public class JmsClientTest {
 
 //    @Autowired
