@@ -72,6 +72,19 @@ public class ArmRequestJmsConsumer {
     private boolean saveRequest(String request) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
+            //todo переделать маппинг из очереди 1 в сервиc фоток и Request
+            /**
+             * "_comment": "Это запрос от АРМ в back-end с парой фоток на сравнение",
+             "token":"0LfQsNGH0LXQvCDQstGLINC/0L7RgtGA0LDRgtC40LvQuCDQstGA0LXQvNGPINC90LAg0LTQtdC60L7QtNC40YDQvtCy0LDQvdC40LU/",
+             "wfmid": 13169,
+             "iin": 11154,
+             "username": "OperatorName",
+             "timestamp": "timestamp",
+             "type": "fullframe",
+             "camPic": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAA==",
+             "scanPic": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/=="
+             }
+             */
             RequestDTO requestDTO = objectMapper.readValue(request, RequestDTO.class);
 
             String scannedPicture = requestDTO.getScannedPicturePreviewURL(); //TODO ...
