@@ -21,12 +21,13 @@ import java.net.URI;
  * Created by VBasakov on 22.11.2016.
  */
 @Service
-@PropertySource("classpath:compareServiceRestClient.properties")
+//@PropertySource("classpath:compareServiceRestClient.properties")
 public class CompareServiceRestClient {
 
     private static final Log log = LogFactory.getLog(CompareServiceRestClient.class);
 
-    @Value("${http.compare.service.client.url}")
+//    @Value("${http.compare.service.client.url}")
+    //TODO fix it
     private String url;
     private RestTemplate rest = new RestTemplate();
 

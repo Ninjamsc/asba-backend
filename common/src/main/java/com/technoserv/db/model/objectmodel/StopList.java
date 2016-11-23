@@ -19,8 +19,8 @@ public class StopList extends AbstractObject {
      * список банков, которым доступен этот список
      */
     @ManyToMany
-    @JoinTable(name = "STOP_LISTS_CONTRACTORS", joinColumns = {@JoinColumn(name = "CONTRACTOR_ID")}, inverseJoinColumns = {@JoinColumn(name = "STOP_LISTS_ID")})
-    private List<Contractor> owner;
+    @JoinTable(name = "STOP_LISTS_CONTENTS", joinColumns = {@JoinColumn(name = "DOC_ID")}, inverseJoinColumns = {@JoinColumn(name = "LISTS_ID")})
+    private List<Document> owner;
     /**
      * true - список доступен всем контракторам
      */
@@ -35,11 +35,11 @@ public class StopList extends AbstractObject {
         this.stopListName = stopListName;
     }
 
-    public List<Contractor> getOwner() {
+    public List<Document> getOwner() {
         return owner;
     }
 
-    public void setOwner(List<Contractor> owner) {
+    public void setOwner(List<Document> owner) {
         this.owner = owner;
     }
 

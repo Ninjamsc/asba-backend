@@ -48,9 +48,9 @@ public class PersonDaoTest {
         dao.saveOrUpdate(entity);
         Person person = dao.get(entity.getId());
         assertEquals(person, entity);
-        entity.setPersonNumber("13");
+        entity.setIin("13");
         dao.saveOrUpdate(entity);
-        assertEquals("13", dao.get(entity.getId()).getPersonNumber());
+        assertEquals("13", dao.get(entity.getId()).getIin());
     }
 
     @Test

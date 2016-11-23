@@ -3,8 +3,10 @@ package com.technoserv.db.model.objectmodel;
 import javax.persistence.*;
 
 /**
- * Запрос от ARM в json-delivery-service-web
- */
+ * REQUESTS	Хранилище заявок на биометрическую идентификацию, полученных от АРМ.
+ * Заявка связывает сканированное изображение (Документ),
+ * Изображение с Веб Камеры с номером заявки (wfmId)
+ **/
 @Entity
 @Table(name = "REQUESTS")
 public class Request extends AbstractObject {
@@ -13,9 +15,10 @@ public class Request extends AbstractObject {
     /**
      * номер заявки из BPM
      */
-    @Column(name = "BMP_REQUEST_NUMBER", unique = true)
-    private String bpmRequestNumber;
-    @Column(name = "STATUS")
+    @Column(name = "WFM_ID", unique = true)
+    private String wfmID;
+
+    @Column(name = "STATUS", nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
     /**
@@ -27,16 +30,22 @@ public class Request extends AbstractObject {
     /**
      * изображение с веб камеры
      */
-    @JoinColumn(name = "CAM_DOC_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "WEB_DOC_ID", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Document cameraDocument;
 
-    public String getBpmRequestNumber() {
-        return bpmRequestNumber;
+    @Column(name = "LOGIN_USER", nullable = false)
+    private String login;
+
+    @Column(name = "INS_USER", nullable = false)
+    private String insUser;
+
+    public String getWfmID() {
+        return wfmID;
     }
 
-    public void setBpmRequestNumber(String bpmRequestNumber) {
-        this.bpmRequestNumber = bpmRequestNumber;
+    public void setWfmID(String wfmID) {
+        this.wfmID = wfmID;
     }
 
     public Document getScannedDocument() {
@@ -60,5 +69,21 @@ public class Request extends AbstractObject {
     }
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getInsUser() {
+        return insUser;
+    }
+
+    public void setInsUser(String insUser) {
+        this.insUser = insUser;
     }
 }

@@ -29,47 +29,27 @@ public class TestUtil {
     public static Document generateDocument(){
         Document result = new Document();
         setObjectDate(result);
-        result.setDocumentType(DocumentType.PHOTO);
+        result.setDescription("Description");
+//        result.setDocumentType(DocumentType.PHOTO);
         result.setFaceSquare("faceSquare_" + result.getObjectDate());
         result.setOrigImageURL("origImageURL_" + result.getObjectDate());
-        return result;
-    }
-
-    public static BPMReport generateBPMReport(){
-        BPMReport result = new BPMReport();
-        setObjectDate(result);
-        result.setPhoto(generateDocument());
-        result.setScan(generateDocument());
-        return result;
-    }
-
-    public static Contractor generateContractor(){
-        Contractor result = new Contractor();
-        setObjectDate(result);
-        result.setContractorName("testContractorName");
-        result.setSimilarityThreshold(12.45f);
-        return result;
-    }
-
-    public static Convolution generateConvolution(){
-        Convolution result = new Convolution();
-        setObjectDate(result);
-        result.setCnnVersion(1);
-        result.setConvolution(new byte[]{1,2,4});
         return result;
     }
 
     public static Person generatePerson(){
         Person result = new Person();
         setObjectDate(result);
-        result.setPersonNumber("1");
+        result.setIin("1");
         return result;
     }
 
     public static Request generateRequest(){
         Request result = new Request();
         setObjectDate(result);
-        result.setBpmRequestNumber("1");
+        result.setWfmID("1");
+        result.setInsUser("1");
+        result.setLogin("1");
+        result.setStatus(Request.Status.SAVED);
 //        result.setCameraDocument(generateDocument());
 //        result.setScannedDocument(generateDocument());
         return result;

@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jms.core.JmsTemplate;
-import sun.misc.BASE64Encoder;
 
 import javax.transaction.Transactional;
 import javax.xml.bind.DatatypeConverter;
@@ -22,9 +21,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Base64;
 import java.util.Date;
-import java.util.Random;
 import java.util.UUID;
 
 /**
@@ -99,16 +96,16 @@ public class ArmRequestJmsConsumer {
             }
             if(requestDTO.getType() == RequestDTO.Type.PREVIEW) {
                 photo.setFaceSquare(requestDTO.getWebCamPicturePreviewURL());
-                photo.setDocumentType(DocumentType.PHOTO);
+//                photo.setDocumentType(DocumentType.PHOTO);
 
                 scan.setFaceSquare(requestDTO.getScannedPicturePreviewURL());
-                scan.setDocumentType(DocumentType.SCAN);
+//                scan.setDocumentType(DocumentType.SCAN);
             } else {
                 photo.setOrigImageURL(requestDTO.getWebCamPicturePreviewURL());
-                photo.setDocumentType(DocumentType.PHOTO);
+//                photo.setDocumentType(DocumentType.PHOTO);
 
                 scan.setOrigImageURL(requestDTO.getScannedPicturePreviewURL());
-                scan.setDocumentType(DocumentType.SCAN);
+//                scan.setDocumentType(DocumentType.SCAN);
             }
 
             photo.setOrigImageURL(webCamPictureURL);
@@ -116,7 +113,7 @@ public class ArmRequestJmsConsumer {
 
             requestEntity.setCameraDocument(photo);
             requestEntity.setScannedDocument(scan);
-            requestEntity.setBpmRequestNumber("" + requestDTO.getWfNumber());
+            requestEntity.setWfmID("" + requestDTO.getWfNumber());
             requestEntity.setObjectDate(new Date());
             //Todo save request
             requestService.saveOrUpdate(requestEntity);

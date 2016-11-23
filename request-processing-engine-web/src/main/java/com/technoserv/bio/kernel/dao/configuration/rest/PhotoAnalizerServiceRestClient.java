@@ -22,12 +22,13 @@ import java.net.URI;
  * Created by VBasakov on 22.11.2016.
  */
 @Service
-@PropertySource("classpath:TemplateBuilderServiceRestClient.properties")
+//@PropertySource("classpath:TemplateBuilderServiceRestClient.properties")
 public class PhotoAnalizerServiceRestClient {
 
     private static final Log log = LogFactory.getLog(PhotoAnalizerServiceRestClient.class);
 
-    @Value("${http.rest.client.url}")
+//    @Value("${http.rest.client.url}")
+    //todo fix it
     private String url;
 
     private RestTemplate rest = new RestTemplate();

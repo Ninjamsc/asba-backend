@@ -7,7 +7,9 @@ import javax.persistence.Table;
 import java.util.List;
 
 /**
- *-
+ *Хранилище связок ИИН,
+ * который идентифицирует заявителя
+ * с полученными во время оформления заявки биометрическими материалами (фото)
  */
 @Entity
 @Table(name = "PERSONS")
@@ -20,8 +22,8 @@ public class Person extends AbstractObject {
 	/**
 	 * ИИН персоны в WorkFlow
 	 */
-	@Column(name = "PERSON_NUMBER")
-	private String personNumber;
+	@Column(name = "IIN")
+	private String iin;
 
 	public List<Request> getDossier() {
 		return dossier;
@@ -30,10 +32,10 @@ public class Person extends AbstractObject {
 		this.dossier = dossier;
 	}
 
-	public String getPersonNumber() {
-		return personNumber;
+	public String getIin() {
+		return iin;
 	}
-	public void setPersonNumber(String personNumber) {
-		this.personNumber = personNumber;
+	public void setIin(String iin) {
+		this.iin = iin;
 	}
 }

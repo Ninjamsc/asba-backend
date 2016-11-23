@@ -11,8 +11,11 @@ import java.util.List;
 @Table(name = "DOCUMENTS")
 public class Document extends AbstractObject {
 
-    @Column(name = "DOCUMENT_TYPE")
-    @Enumerated(EnumType.STRING)
+    @Column(name = "DESCRIPTION", nullable = false)
+    private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "DOC_TYPE_ID", referencedColumnName = "ID")
     private DocumentType documentType;
 
     @Column(name = "ORIG_IMAGE_URL")
@@ -20,11 +23,6 @@ public class Document extends AbstractObject {
 
     @Column(name = "FACE_SQUARE")
     private String faceSquare; //TODO String HTTP URL
-    /**
-     * если есть несколько шаблонов нескольких версий сети
-     */
-    @OneToMany
-    private List<Convolution> allConvolutions;
 
     public DocumentType getDocumentType() {
         return documentType;
@@ -50,11 +48,11 @@ public class Document extends AbstractObject {
         this.faceSquare = faceSquare;
     }
 
-    public List<Convolution> getAllConvolutions() {
-        return allConvolutions;
+    public String getDescription() {
+        return description;
     }
 
-    public void setAllConvolutions(List<Convolution> allConvolutions) {
-        this.allConvolutions = allConvolutions;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

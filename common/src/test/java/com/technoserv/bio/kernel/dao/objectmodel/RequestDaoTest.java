@@ -48,9 +48,9 @@ public class RequestDaoTest {
         dao.saveOrUpdate(entity);
         Request request = dao.get(entity.getId());
         assertEquals(request, entity);
-        entity.setBpmRequestNumber("13");
+        entity.setWfmID("13");
         dao.saveOrUpdate(entity);
-        assertEquals("13", dao.get(entity.getId()).getBpmRequestNumber());
+        assertEquals("13", dao.get(entity.getId()).getWfmID());
     }
 
     @Test
