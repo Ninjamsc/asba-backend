@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("personDao")
 public class PersonDaoImpl extends AbstractHibernateDao<Long,Person> implements PersonDao {
+
     public Person history(Long iin) {
         Criteria criteria = getSession().createCriteria(getPersistentClass()).add(Property.forName("id").eq(iin));
         criteria.createCriteria("dossier","d", JoinType.INNER_JOIN);
