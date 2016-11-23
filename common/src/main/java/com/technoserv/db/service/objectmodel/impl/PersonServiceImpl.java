@@ -7,6 +7,7 @@ import com.technoserv.db.service.objectmodel.api.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by sergey on 15.11.2016.
@@ -18,5 +19,11 @@ public class PersonServiceImpl extends AbstractService<Long, Person,PersonDao> i
     @Qualifier("personDao")
     public void setDao(PersonDao dao) {
         this.dao = dao;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Person history(Integer iin) {
+        return dao.history(iin);
     }
 }

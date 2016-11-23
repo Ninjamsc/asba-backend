@@ -1,6 +1,7 @@
 package com.technoserv.jms.consumer;
 
 import com.technoserv.jms.trusted.RequestDTO;
+import com.technoserv.utils.JsonUtils;
 import org.junit.Assert;
 import org.junit.Test;
 

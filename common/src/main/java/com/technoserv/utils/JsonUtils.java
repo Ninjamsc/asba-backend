@@ -1,4 +1,4 @@
-package com.technoserv.jms.consumer;
+package com.technoserv.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
