@@ -24,6 +24,7 @@ import java.sql.Timestamp;
  * Created by sergey on 23.11.2016.
  */
 @Component
+@Path("")
 @Api(value = "Request")
 public class RequestResource {
 

@@ -1,6 +1,7 @@
 package com.technoserv.bio.kernel.rest;
 
 
+import com.technoserv.bio.kernel.rest.exception.TemplateBuilderServiceException;
 import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
 import com.technoserv.rest.request.Base64Photo;
 import org.apache.commons.logging.Log;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -40,24 +42,16 @@ public class TemplateBuilderServiceRestClient {
                 log.info("REQUESTING TEMPLATE: DONE");
             }
             return response.getBody();
-        } catch (HttpClientErrorException e) {
-            switch (e.getStatusCode()) {
-                /*Стандартные названия ошибок не совпадают с нашей документацией
-                 * только коды */
-                //todo унаследовать от HttpStatus и добавить/заменить наши
-                //todo 512	outOfMemory на GPU, такого номера просто нет, скорее всего exception будет другой
-                case NOT_EXTENDED://
-                    log.error("510 base64 не является фотографией");
-                    break;
-                case NETWORK_AUTHENTICATION_REQUIRED:
-                    log.error("511 не удалось рассчитать биометрический шаблон. Внутренняя ошибка (в CUDA)");
-                    break;
-                case INTERNAL_SERVER_ERROR:
+        } catch (RestClientResponseException e) {
+            switch (e.getRawStatusCode()) {
+                /*Стандартные названия http-ошибок не совпадают с нашей документацией только коды */
+                case 510://log.error("510 base64 не является фотографией");
+                case 511://log.error("511 не удалось рассчитать биометрический шаблон. Внутренняя ошибка (в CUDA)");
+                case 500:
+                case 512://512	outOfMemory на GPU,
                 default:
-                    log.error("Неизвестная ошибка");
+                    throw new TemplateBuilderServiceException(e.getResponseBodyAsString());
             }
-
         }
-        return null;
     }
 }

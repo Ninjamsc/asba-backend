@@ -1,5 +1,6 @@
 package com.technoserv.bio.kernel.rest;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -45,10 +46,15 @@ public class UtilTest {
             "\n" +
             "}\n";
 
+    static String jsonProblem = "{\"problem\":4}";
+
     public static void main(String[] args) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Response obj = mapper.readValue(json, Response.class);
         System.out.println(obj);
+        JsonNode node = mapper.readValue(jsonProblem, JsonNode.class);
+        int problem = node.get("problem").asInt();
+        System.out.println(problem);
     }
 
     private static class Response{
