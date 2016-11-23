@@ -46,9 +46,9 @@ public class RequestServiceImpl extends AbstractService<Long, Request,RequestDao
     }
 
     @Transactional
-    public Long createOrder(Long iin, String username) {
+    public Long createOrder(Long iin, Long wfmId, String username) {
         Request request = new Request();
-        request.setId(iin);
+        request.setId(wfmId);
         request.setLogin(username);
         save(request);
         Person person = new Person();

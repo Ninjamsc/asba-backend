@@ -24,7 +24,7 @@ public class Request extends BaseEntity<Long> {
     @Column(name = "WFM_ID", unique = true)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(columnDefinition = "PERSON_ID",referencedColumnName = "ID")
     private Person person;
     /**
@@ -36,7 +36,7 @@ public class Request extends BaseEntity<Long> {
 
     @Column(name = "STATUS", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status status = Status.SAVED;
     /**
      * cканированное изображение
      */
@@ -53,7 +53,7 @@ public class Request extends BaseEntity<Long> {
     @Column(name = "LOGIN_USER", nullable = false)
     private String login;
 
-    @Column(name = "INS_USER", nullable = false)
+    @Column(name = "INS_USER")
     private String insUser;
 
     //from request
