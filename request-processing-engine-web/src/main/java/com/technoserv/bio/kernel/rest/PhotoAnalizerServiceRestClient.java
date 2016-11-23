@@ -1,6 +1,7 @@
 package com.technoserv.bio.kernel.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.technoserv.bio.kernel.rest.exception.PhotoAnalizerServiceException;
 import com.technoserv.bio.kernel.rest.response.PhotoAnalyzeResult;
 import com.technoserv.rest.request.Base64Photo;
 import org.apache.commons.logging.Log;
@@ -35,31 +36,26 @@ public class PhotoAnalizerServiceRestClient {
             log.info("REQUESTING TEMPLATE: '" + base64photo + "'");
         }
         try {
-//            rest.put(URI.create(url), base64photo);
             Base64Photo request = new Base64Photo(base64photo);
-            ResponseEntity<PhotoAnalyzeResult> response = rest.exchange(URI.create(url), HttpMethod.PUT, new HttpEntity<Base64Photo>(request), PhotoAnalyzeResult.class);
+            ResponseEntity<PhotoAnalyzeResult> response = rest.exchange(URI.create(url), HttpMethod.PUT, new HttpEntity<>(request), PhotoAnalyzeResult.class);
             if (log.isInfoEnabled()) {
                 log.info("SENDING MESSAGE: '" + base64photo + "' DONE");
             }
             return response.getBody();
         } catch (HttpClientErrorException e) {
             switch (e.getStatusCode()) {
+                //На первом этапе сервис выполняется в виде заглушки, всегда возвращающей HTTP 200 ОК.
                 /*Стандартные названия ошибок не совпадают с нашей документацией
                  * только коды */
                 //todo унаследовать от HttpStatus и добавить/заменить наши
-                case NOT_EXTENDED://
-                    log.error("510 ошибка анализа изображения");
-                    return deserializeError(e.getResponseBodyAsString());
-                case BAD_REQUEST:
-                    log.error("Неполный/неверный запрос");
-                    break;
+                case NOT_EXTENDED://log.error("510 ошибка анализа изображения");
+                case BAD_REQUEST://log.error("Неполный/неверный запрос");
                 case INTERNAL_SERVER_ERROR:
                 default:
-                    log.error("Неизвестная ошибка");
+                    throw new PhotoAnalizerServiceException(e.getResponseBodyAsString());
             }
-
         }
-        return null;
+
     }
 
     private PhotoAnalyzeResult deserializeError(String json){

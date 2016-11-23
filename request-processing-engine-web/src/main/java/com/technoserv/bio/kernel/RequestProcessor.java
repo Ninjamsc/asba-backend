@@ -59,6 +59,7 @@ public class RequestProcessor implements Runnable{
     @Override
     public void run() {
         for (Request request : findRequestForProcessing()) {
+            updateRequestStatus(request, Request.Status.IN_PROCESS);
             // шаг 4 построение шаблона
             // компонент 7. Сервис построения шаблонов(биометрическое ядро)
             Base64Photo scannedPhoto = photoPersistServiceRestClient.getPhoto(request.getScannedDocument().getOrigImageURL());
