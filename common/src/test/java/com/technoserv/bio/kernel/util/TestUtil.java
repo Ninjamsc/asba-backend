@@ -26,11 +26,11 @@ public class TestUtil {
         return result;
     }
 
-    public static Document generateDocument(){
+    public static Document generateDocument(DocumentType type){
         Document result = new Document();
         setObjectDate(result);
         result.setDescription("Description");
-//        result.setDocumentType(DocumentType.PHOTO);
+        result.setDocumentType(type);
         result.setFaceSquare("faceSquare_" + result.getObjectDate());
         result.setOrigImageURL("origImageURL_" + result.getObjectDate());
         return result;
