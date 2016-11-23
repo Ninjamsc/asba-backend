@@ -48,8 +48,8 @@ public class PersonDaoTest {
         dao.saveOrUpdate(entity);
         Person person = dao.get(entity.getId());
         assertEquals(person, entity);
-        entity.setId(13L);
-        dao.saveOrUpdate(entity);
+//        entity.setId(13L);
+//        dao.save(entity);
 //        assertEquals(13L, dao.get(entity.getId()).getId().longValue());
 
         //todo разобраться с тестом

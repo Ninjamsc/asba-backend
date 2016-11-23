@@ -23,7 +23,7 @@ public class PersonServiceImpl extends AbstractService<Long, Person,PersonDao> i
 
     @Override
     @Transactional(readOnly = true)
-    public Person history(Integer iin) {
+    public Person history(Long iin) {
         return dao.history(iin);
     }
 }

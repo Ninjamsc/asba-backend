@@ -28,8 +28,8 @@ public class PersonResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     @Path("/{INN}")
-    public Person history(@PathParam("IIN")Integer iin) {
-        return personService.history(iin);
+    public Person history(@PathParam("iin")Long id) {
+        return personService.history(id);
     }
 
 }
