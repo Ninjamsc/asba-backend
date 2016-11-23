@@ -59,7 +59,7 @@ public class Request extends BaseEntity<Long> {
     //from request
     @Column(name = "TIMESTAMP") //TODO absent in db model
     @Temporal(TemporalType.TIMESTAMP)
-    private Timestamp timestamp;
+    private Date orderDate;
 
     public Long getId() {
         return id;
@@ -119,10 +119,10 @@ public class Request extends BaseEntity<Long> {
     }
 
     public Timestamp getTimestamp() {
-        return timestamp;
+        return new Timestamp(orderDate.getTime());
     }
 
     public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
+        this.orderDate = new Date(timestamp.getTime());
     }
 }
