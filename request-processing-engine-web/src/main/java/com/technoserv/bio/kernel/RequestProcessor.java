@@ -12,6 +12,7 @@ import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import com.technoserv.rest.request.Base64Photo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 
@@ -21,23 +22,24 @@ import java.util.Collection;
 /**
  * Created by Adrey on 22.11.2016.
  */
+//@Service(name = "requestProcessor")
 public class RequestProcessor implements Runnable{
 
     private static final Log logger = LogFactory.getLog(RequestProcessor.class);
 
-    @Inject
+    @Autowired
     private RequestService requestService;
 
-    @Inject
+    @Autowired
     private TemplateBuilderServiceRestClient templateBuilderServiceRestClient;
 
-    @Inject
+    @Autowired
     private PhotoPersistServiceRestClient photoPersistServiceRestClient;
 
-    @Inject
+    @Autowired
     private PhotoAnalizerServiceRestClient photoAnalizerServiceRestClient;
 
-    @Inject
+    @Autowired
     private CompareServiceRestClient сompareServiceRestClient;
 
     @Autowired

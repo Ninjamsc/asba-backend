@@ -1,11 +1,11 @@
 package com.technoserv.bio.kernel.rest;
 
-
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 import com.technoserv.db.model.configuration.FrontEndConfiguration;
+import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.service.Service;
-import com.technoserv.db.service.configuration.api.FrontEndConfigurationService;
+import com.technoserv.db.service.objectmodel.api.RequestService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,17 +15,20 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.Collection;
 
+/**
+ * Created by sergey on 23.11.2016.
+ */
 @Component
-@Path("/rest/front-end-configuration")
-@Api(value = "front-end-configuration")
-public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndConfiguration> {
+@Path("/rest/request")
+@Api(value = "Request")
+public class RequestResource extends BaseResource<Long,Request> {
 
     @Autowired
-    private FrontEndConfigurationService service;
+    private RequestService requestService;
 
     @Override
-    protected Service<Long, FrontEndConfiguration> getBaseService() {
-        return service;
+    protected Service<Long, Request> getBaseService() {
+        return requestService;
     }
 
     /**
@@ -37,7 +40,7 @@ public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndCo
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     @Override
-    public Collection<FrontEndConfiguration> list() {
+    public Collection<Request> list() {
         return super.list();
     }
 
@@ -52,7 +55,7 @@ public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndCo
     @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     @Path("/{id}")
     @Override
-    public FrontEndConfiguration get(@PathParam("id") Long id) {
+    public Request get(@PathParam("id") Long id) {
         return super.get(id);
     }
 
@@ -66,7 +69,7 @@ public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndCo
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     @Override
-    public Long add(FrontEndConfiguration entity) {
+    public Long add(Request entity) {
         return super.add(entity);
     }
     /**
@@ -79,7 +82,7 @@ public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndCo
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     @Override
-    public Response update(FrontEndConfiguration entity) {
+    public Response update(Request entity) {
         return super.update(entity);
     }
     /**
