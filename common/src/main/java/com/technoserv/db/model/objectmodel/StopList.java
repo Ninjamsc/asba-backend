@@ -21,6 +21,9 @@ public class StopList extends AbstractObject {
     @ManyToMany
     @JoinTable(name = "STOP_LISTS_CONTENTS", joinColumns = {@JoinColumn(name = "DOC_ID")}, inverseJoinColumns = {@JoinColumn(name = "LISTS_ID")})
     private List<Document> owner;
+
+    @Column(name = "SIMILARITY")
+    private Double similarity;
     /**
      * true - список доступен всем контракторам
      */
@@ -49,5 +52,13 @@ public class StopList extends AbstractObject {
 
     public void setCommon(boolean common) {
         isCommon = common;
+    }
+
+    public Double getSimilarity() {
+        return similarity;
+    }
+
+    public void setSimilarity(Double similarity) {
+        this.similarity = similarity;
     }
 }

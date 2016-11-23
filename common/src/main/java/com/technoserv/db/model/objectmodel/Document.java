@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.util.List;
 
 /**
- * Документ
+ * DOCUMENTS	Хранилище документов. Каждый документ - это связка между фотографией полного кадра, превью лица с нее
  */
 @Entity
 @Table(name = "DOCUMENTS")
@@ -23,6 +23,9 @@ public class Document extends AbstractObject {
 
     @Column(name = "FACE_SQUARE")
     private String faceSquare; //TODO String HTTP URL
+
+    @OneToMany(mappedBy = "document")
+    private List<BioTemplate> bioTemplates;
 
     public DocumentType getDocumentType() {
         return documentType;
@@ -54,5 +57,13 @@ public class Document extends AbstractObject {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<BioTemplate> getBioTemplates() {
+        return bioTemplates;
+    }
+
+    public void setBioTemplates(List<BioTemplate> bioTemplates) {
+        this.bioTemplates = bioTemplates;
     }
 }
