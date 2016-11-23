@@ -1,9 +1,6 @@
 package com.technoserv.db.model.objectmodel;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 /**
@@ -17,7 +14,7 @@ public class Person extends AbstractObject {
 	/**
 	 * массив всех заявок
 	 */
-	@OneToMany
+	@OneToMany(mappedBy = "person")
 	private List<Request> dossier;
 	/**
 	 * ИИН персоны в WorkFlow
