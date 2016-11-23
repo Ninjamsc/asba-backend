@@ -22,13 +22,13 @@ public class JmsClientTest {
 //    @Autowired
 //    private BrokerService brokerService;
 
-    @Test
-    @Ignore
-    public void testSendMessage() {
-        JmsTemplate template = new JmsTemplate();
-        template.setConnectionFactory(connectionFactory());
-        template.convertAndSend("external.queue","Test message");
-    }
+//    @Test
+//    @Ignore
+//    public void testSendMessage() {
+//        JmsTemplate template = new JmsTemplate();
+//        template.setConnectionFactory(connectionFactory());
+//        template.convertAndSend("external.queue","Test message");
+//    }
 
     @Test
     public void internalIT() throws Exception {

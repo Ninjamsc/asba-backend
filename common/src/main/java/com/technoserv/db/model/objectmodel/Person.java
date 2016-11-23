@@ -3,6 +3,8 @@ package com.technoserv.db.model.objectmodel;
 import com.technoserv.db.model.BaseEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,7 +25,7 @@ public class Person extends BaseEntity<Long> {
      * массив всех заявок
      */
     @OneToMany
-    private List<Request> dossier;
+    private List<Request> dossier = new ArrayList<Request>();
 
     public List<Request> getDossier() {
         return dossier;

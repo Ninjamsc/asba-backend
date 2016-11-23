@@ -53,7 +53,7 @@ public class Request extends BaseEntity<Long> {
     @Column(name = "LOGIN_USER", nullable = false)
     private String login;
 
-    @Column(name = "INS_USER", nullable = false)
+    @Column(name = "INS_USER")
     private String insUser;
 
     //from request
