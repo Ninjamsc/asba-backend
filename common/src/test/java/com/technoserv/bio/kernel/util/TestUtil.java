@@ -58,7 +58,6 @@ public class TestUtil {
     public static StopList generateStopList(){
         StopList result = new StopList();
         setObjectDate(result);
-        result.setCommon(true);
         result.setStopListName("StopListName");
         return result;
     }

@@ -24,11 +24,6 @@ public class StopList extends AbstractObject {
 
     @Column(name = "SIMILARITY")
     private Double similarity;
-    /**
-     * true - список доступен всем контракторам
-     */
-    @Column(name = "IS_COMMON")
-    private boolean isCommon;
 
     public String getStopListName() {
         return stopListName;
@@ -44,14 +39,6 @@ public class StopList extends AbstractObject {
 
     public void setOwner(List<Document> owner) {
         this.owner = owner;
-    }
-
-    public boolean isCommon() {
-        return isCommon;
-    }
-
-    public void setCommon(boolean common) {
-        isCommon = common;
     }
 
     public Double getSimilarity() {
