@@ -37,6 +37,7 @@ public class RequestResource {
         @JsonProperty("_comment")
         private String comment;
         private Long iin;
+        private Long wfmId;
         private String username;
 
         public String getComment() {
@@ -51,6 +52,13 @@ public class RequestResource {
         }
         public void setIin(Long iin) {
             this.iin = iin;
+        }
+
+        public Long getWfmId() {
+            return wfmId;
+        }
+        public void setWfmId(Long wfmId) {
+            this.wfmId = wfmId;
         }
 
         public String getUsername() {
@@ -225,7 +233,9 @@ public class RequestResource {
     @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     @Path("/db/rest/request/")
     public Long add(CreateOrderRequest createOrderRequest) {
-        return requestService.createOrder(createOrderRequest.getIin(), createOrderRequest.getUsername());
+        return requestService.createOrder(createOrderRequest.getIin(),
+                createOrderRequest.getWfmId(),
+                createOrderRequest.getUsername());
     }
 
     /**
