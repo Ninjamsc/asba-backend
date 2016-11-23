@@ -18,4 +18,11 @@ public class BioTemplate extends AbstractObject {
     @JoinColumn(name = "DOC_ID", referencedColumnName = "ID")
     private Document document;
 
+    public Document getDocument() {
+        return document;
+    }
+
+    public void setDocument(Document document) {
+        this.document = document;
+    }
 }
