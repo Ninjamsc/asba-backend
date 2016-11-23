@@ -31,7 +31,7 @@ import java.util.UUID;
 /**
  * Created by sergey on 22.11.2016.
  */
-//@PropertySource("classpath:arm-consumer.properties")
+@PropertySource("classpath:arm-consumer.properties")
 public class ArmRequestJmsConsumer {
 
     private static final Log log = LogFactory.getLog(ArmRequestJmsConsumer.class);
@@ -51,8 +51,7 @@ public class ArmRequestJmsConsumer {
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy_hh_mm_ss_SSSSSS");
 
-//    @Value("${arm-retry.queue.maxRetryCount}")
-    //TODO fix me
+    @Value("${arm-retry.queue.maxRetryCount}")
     private static Integer maxTryCount = 10;
 
     @Transactional
