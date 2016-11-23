@@ -46,7 +46,7 @@ public class TestUtil {
     public static Request generateRequest(){
         Request result = new Request();
         setObjectDate(result);
-        result.setWfmID("1");
+        result.setWfmID(1L);
         result.setInsUser("1");
         result.setLogin("1");
         result.setStatus(Request.Status.SAVED);

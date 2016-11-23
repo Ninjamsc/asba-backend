@@ -19,4 +19,8 @@ public class DocumentTypeServiceImpl extends AbstractService<Long, DocumentType,
     public void setDao(DocumentTypeDao dao) {
         this.dao = dao;
     }
+
+    public DocumentType findByType(DocumentType.Type type) {
+        return getDao().findByType(type);
+    }
 }

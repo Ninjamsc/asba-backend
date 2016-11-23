@@ -9,7 +9,7 @@ import java.util.Collection;
 /**
  * Created by sergey on 15.11.2016.
  */
-public interface RequestDao extends Dao<Long,Request> {
+public interface RequestDao extends Dao<Long, Request> {
     Request findByOrderNumber(Long id);
     Collection<Request> findNotProcessed();
 }

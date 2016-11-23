@@ -48,7 +48,7 @@ public class RequestDaoTest {
         dao.saveOrUpdate(entity);
         Request request = dao.get(entity.getId());
         assertEquals(request, entity);
-        entity.setWfmID("13");
+        entity.setWfmID(1L);
         dao.saveOrUpdate(entity);
         assertEquals("13", dao.get(entity.getId()).getWfmID());
     }
@@ -60,5 +60,16 @@ public class RequestDaoTest {
         assertNotNull(dao.get(entity.getId()));
         dao.delete(entity);
         assertNull(dao.get(entity.getId()));
+    }
+
+    public static Request generateRequest(){
+        Request result = new Request();
+        result.setWfmID(1L);
+        result.setInsUser("1");
+        result.setLogin("1");
+        result.setStatus(Request.Status.SAVED);
+//        result.setCameraDocument(generateDocument());
+//        result.setScannedDocument(generateDocument());
+        return result;
     }
 }

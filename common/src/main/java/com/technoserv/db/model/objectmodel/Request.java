@@ -1,5 +1,7 @@
 package com.technoserv.db.model.objectmodel;
 
+import com.technoserv.db.model.BaseEntity;
+
 import javax.persistence.*;
 
 /**
@@ -15,8 +17,9 @@ public class Request extends AbstractObject {
     /**
      * номер заявки из BPM
      */
+    @Id
     @Column(name = "WFM_ID", unique = true)
-    private String wfmID;
+    private Long wfmID;
 
     @Column(name = "STATUS", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -40,11 +43,18 @@ public class Request extends AbstractObject {
     @Column(name = "INS_USER", nullable = false)
     private String insUser;
 
-    public String getWfmID() {
+    public Long getId() {
+        return wfmID;
+    } //TODO ...
+    public void setId(Long id) {
+        this.wfmID = id;
+    }
+
+    public Long getWfmID() {
         return wfmID;
     }
 
-    public void setWfmID(String wfmID) {
+    public void setWfmID(Long wfmID) {
         this.wfmID = wfmID;
     }
 
