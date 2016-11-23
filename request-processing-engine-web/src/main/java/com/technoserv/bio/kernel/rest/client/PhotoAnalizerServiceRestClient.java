@@ -1,6 +1,5 @@
-package com.technoserv.bio.kernel.rest;
+package com.technoserv.bio.kernel.rest.client;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.technoserv.bio.kernel.rest.exception.PhotoAnalizerServiceException;
 import com.technoserv.bio.kernel.rest.response.PhotoAnalyzeResult;
 import com.technoserv.rest.request.Base64Photo;
@@ -10,14 +9,10 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
 import java.net.URI;
-
-import static org.springframework.http.HttpStatus.NOT_EXTENDED;
 
 /**
  * Created by VBasakov on 22.11.2016.

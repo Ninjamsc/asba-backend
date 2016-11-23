@@ -1,4 +1,4 @@
-package com.technoserv.bio.kernel.rest;
+package com.technoserv.bio.kernel.rest.client;
 
 
 import com.technoserv.bio.kernel.rest.exception.CompareServiceException;

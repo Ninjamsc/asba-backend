@@ -1,11 +1,10 @@
 package com.technoserv.bio.kernel;
 
-import com.technoserv.bio.kernel.rest.CompareServiceRestClient;
-import com.technoserv.bio.kernel.rest.PhotoAnalizerServiceRestClient;
-import com.technoserv.bio.kernel.rest.TemplateBuilderServiceRestClient;
+import com.technoserv.bio.kernel.rest.client.CompareServiceRestClient;
+import com.technoserv.bio.kernel.rest.client.PhotoAnalizerServiceRestClient;
+import com.technoserv.bio.kernel.rest.client.TemplateBuilderServiceRestClient;
 import com.technoserv.bio.kernel.rest.exception.RestClientException;
 import com.technoserv.bio.kernel.rest.request.CompareServiceRequest;
-import com.technoserv.bio.kernel.rest.response.PhotoAnalyzeResult;
 import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
 import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.service.objectmodel.api.RequestService;
@@ -13,11 +12,9 @@ import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import com.technoserv.rest.request.Base64Photo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.jvnet.hk2.annotations.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 
-import javax.inject.Inject;
 import java.util.Collection;
 
 /**
