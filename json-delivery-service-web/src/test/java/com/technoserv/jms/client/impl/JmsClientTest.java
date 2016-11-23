@@ -23,6 +23,7 @@ public class JmsClientTest {
 //    private BrokerService brokerService;
 
     @Test
+    @Ignore
     public void testSendMessage() {
         JmsTemplate template = new JmsTemplate();
         template.setConnectionFactory(connectionFactory());
