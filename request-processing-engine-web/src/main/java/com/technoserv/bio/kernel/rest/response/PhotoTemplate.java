@@ -1,4 +1,4 @@
-package com.technoserv.bio.kernel.dao.configuration.rest.response;
+package com.technoserv.bio.kernel.rest.response;
 
 /**
  * Массив template содержит построенный сервисом биометрический шаблон

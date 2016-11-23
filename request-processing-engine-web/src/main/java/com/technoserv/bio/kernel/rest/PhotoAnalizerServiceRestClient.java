@@ -1,13 +1,10 @@
-package com.technoserv.bio.kernel.dao.configuration.rest;
+package com.technoserv.bio.kernel.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.technoserv.bio.kernel.dao.configuration.rest.response.PhotoAnalyzeResult;
-import com.technoserv.bio.kernel.dao.configuration.rest.response.PhotoTemplate;
+import com.technoserv.bio.kernel.rest.response.PhotoAnalyzeResult;
 import com.technoserv.rest.request.Base64Photo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;

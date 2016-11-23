@@ -1,4 +1,4 @@
-package com.technoserv.bio.kernel.dao.configuration.rest.request;
+package com.technoserv.bio.kernel.rest.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,11 +1,11 @@
 package com.technoserv.bio.kernel;
 
-import com.technoserv.bio.kernel.dao.configuration.rest.CompareServiceRestClient;
-import com.technoserv.bio.kernel.dao.configuration.rest.PhotoAnalizerServiceRestClient;
-import com.technoserv.bio.kernel.dao.configuration.rest.TemplateBuilderServiceRestClient;
-import com.technoserv.bio.kernel.dao.configuration.rest.request.CompareServiceRequest;
-import com.technoserv.bio.kernel.dao.configuration.rest.response.PhotoAnalyzeResult;
-import com.technoserv.bio.kernel.dao.configuration.rest.response.PhotoTemplate;
+import com.technoserv.bio.kernel.rest.CompareServiceRestClient;
+import com.technoserv.bio.kernel.rest.PhotoAnalizerServiceRestClient;
+import com.technoserv.bio.kernel.rest.TemplateBuilderServiceRestClient;
+import com.technoserv.bio.kernel.rest.request.CompareServiceRequest;
+import com.technoserv.bio.kernel.rest.response.PhotoAnalyzeResult;
+import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
 import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.service.objectmodel.api.RequestService;
 import com.technoserv.rest.client.PhotoPersistServiceRestClient;
@@ -17,7 +17,6 @@ import org.springframework.jms.core.JmsTemplate;
 
 import javax.inject.Inject;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by Adrey on 22.11.2016.
