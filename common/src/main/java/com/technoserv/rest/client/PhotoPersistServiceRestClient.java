@@ -1,5 +1,6 @@
 package com.technoserv.rest.client;
 
+import com.technoserv.rest.exception.PhotoPersistServiceException;
 import com.technoserv.rest.request.Base64Photo;
 import com.technoserv.rest.request.PhotoSaveRequest;
 import org.apache.commons.logging.Log;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -46,21 +48,15 @@ public class PhotoPersistServiceRestClient {
                 log.info("REQUESTING PHOTO: '" + url + "' DONE");
             }
             return response.getBody();
-        } catch (HttpClientErrorException e) {
-            switch (e.getStatusCode()){
-                case INTERNAL_SERVER_ERROR:log.error("Прочие ошибки");break;
-                case NOT_FOUND:log.error("Фото не найдено");break;
-                case BAD_REQUEST:log.error("Неполный/неверный запрос");break;
+        } catch (RestClientResponseException e) {
+            switch (e.getRawStatusCode()){
+                case 500://log.error("Прочие ошибки");break;
+                case 404://log.error("Фото не найдено");break;
+                case 400://log.error("Неполный/неверный запрос");break;
                 default:
-                    if (e.getStatusCode() != null){
-                        log.error(String.format("%s:  %s", e.getStatusCode(), e.getMessage()), e);
-                    } else {
-                        log.error(e.getMessage(), e);
-                    }
+                    throw new PhotoPersistServiceException(e.getResponseBodyAsString());
             }
-
         }
-        return null;
     }
     public String putPhoto(String timestamp, String file_content, String file_name) {
         PhotoSaveRequest request = new PhotoSaveRequest(timestamp, file_content, file_name);
@@ -71,25 +67,21 @@ public class PhotoPersistServiceRestClient {
         try {
             String url = String.format(urlTemplate, file_name);
             //todo request -> json with jackson
-            ResponseEntity<String> response = rest.postForEntity(URI.create(url), request, String.class);
+            ResponseEntity<String> response = rest.exchange(URI.create(url), HttpMethod.PUT, new HttpEntity<PhotoSaveRequest>(request), String.class);
+
             if(log.isInfoEnabled()) {
                 log.info("SAVING PHOTO: '" + url + "' DONE");
             }
             return response.getBody();
-        } catch (HttpClientErrorException e) {
-            switch (e.getStatusCode()){
-                case INTERNAL_SERVER_ERROR:log.error("Прочие ошибки");break;
-                case BAD_REQUEST:log.error("Неполный/неверный запрос");break;
+        } catch (RestClientResponseException e) {
+            switch (e.getRawStatusCode()){
+                case 500://log.error("Прочие ошибки");break;
+                case 400://log.error("Неполный/неверный запрос");break;
                 default:
-                    if (e.getStatusCode() != null){
-                        log.error(String.format("%s:  %s", e.getStatusCode(), e.getMessage()), e);
-                    } else {
-                        log.error(e.getMessage(), e);
-                    }
+                    throw new PhotoPersistServiceException(e.getResponseBodyAsString());
             }
 
         }
-        return null;
     }
 
 }

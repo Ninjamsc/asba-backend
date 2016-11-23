@@ -1,4 +1,4 @@
-package com.technoserv.bio.kernel.rest.exception;
+package com.technoserv.rest.exception;
 
 /**
  * Created by VBasakov on 23.11.2016.

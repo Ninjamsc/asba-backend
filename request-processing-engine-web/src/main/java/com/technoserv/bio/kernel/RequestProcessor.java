@@ -3,7 +3,7 @@ package com.technoserv.bio.kernel;
 import com.technoserv.bio.kernel.rest.client.CompareServiceRestClient;
 import com.technoserv.bio.kernel.rest.client.PhotoAnalyzerServiceRestClient;
 import com.technoserv.bio.kernel.rest.client.TemplateBuilderServiceRestClient;
-import com.technoserv.bio.kernel.rest.exception.RestClientException;
+import com.technoserv.rest.exception.RestClientException;
 import com.technoserv.bio.kernel.rest.request.CompareServiceRequest;
 import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
 import com.technoserv.db.model.objectmodel.Request;

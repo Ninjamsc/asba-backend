@@ -39,9 +39,9 @@ public class PhotoAnalyzerServiceRestClient {
         }
         try {
             Base64Photo request = new Base64Photo(base64photo);
-            ResponseEntity<PhotoAnalyzeResult> response = rest.exchange(URI.create(url), HttpMethod.PUT, new HttpEntity<>(request), PhotoAnalyzeResult.class);
+            rest.exchange(URI.create(url), HttpMethod.PUT, new HttpEntity<>(request), PhotoAnalyzeResult.class);
             if (log.isInfoEnabled()) {
-                log.info("ANALYZING TEMPLATE: '" + base64photo + "' DONE");
+                log.info("ANALYZING TEMPLATE:  DONE");
             }
         } catch (RestClientResponseException e) {
             switch (e.getRawStatusCode()) {
