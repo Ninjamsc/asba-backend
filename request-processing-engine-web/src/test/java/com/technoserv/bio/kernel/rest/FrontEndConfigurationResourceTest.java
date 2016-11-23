@@ -1,6 +1,7 @@
 package com.technoserv.bio.kernel.rest;
 
 
+import com.technoserv.bio.kernel.rest.resource.FrontEndConfigurationResource;
 import com.technoserv.db.model.configuration.FrontEndConfiguration;
 import com.technoserv.db.service.configuration.api.FrontEndConfigurationService;
 import org.junit.Assert;

@@ -1,16 +1,13 @@
-package com.technoserv.bio.kernel.rest;
+package com.technoserv.bio.kernel.rest.resource;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
-import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.model.objectmodel.StopList;
 import com.technoserv.db.service.Service;
 import com.technoserv.db.service.objectmodel.api.StopListService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
