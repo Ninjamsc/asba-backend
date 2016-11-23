@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
  * Created by sergey on 23.11.2016.
  */
 @Component
-@Path("/rest/person")
+@Path("/db/rest")
 @Api(value = "Person")
 public class PersonResource {
 
@@ -27,7 +27,7 @@ public class PersonResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
-    @Path("/{INN}")
+    @Path("/{inn}")
     public Person history(@PathParam("iin")Long id) {
         return personService.history(id);
     }
