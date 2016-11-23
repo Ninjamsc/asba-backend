@@ -22,6 +22,9 @@ public class Request extends  BaseEntity<Long> {
     @Column(name = "WFM_ID", unique = true)
     private Long id;
 
+    @ManyToOne
+    @JoinColumn(columnDefinition = "PERSON_ID",referencedColumnName = "ID")
+    private Person person;
     /**
      * дата создания объекта
      */
@@ -98,5 +101,13 @@ public class Request extends  BaseEntity<Long> {
     }
     public void setObjectDate(Date objectDate) {
         this.objectDate = objectDate;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 }
