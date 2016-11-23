@@ -82,6 +82,12 @@ public class RequestProcessor implements Runnable{
             String compareResult = сompareServiceRestClient.compare(compareServiceRequest);
             jmsTemplate.convertAndSend(compareResult);
             //todo обработка ошибок, уточнить
+            updateRequestStatus(request, Request.Status.SUCCESS);
         }
+    }
+
+    private void updateRequestStatus(Request request, Request.Status status) {
+        request.setStatus(status);
+        requestService.saveOrUpdate(request);
     }
 }
