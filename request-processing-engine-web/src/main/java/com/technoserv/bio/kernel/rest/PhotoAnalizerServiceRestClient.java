@@ -34,17 +34,19 @@ public class PhotoAnalizerServiceRestClient {
 
     private RestTemplate rest = new RestTemplate();
 
-    public PhotoAnalyzeResult analizePhoto(String base64photo) { //todo make correct implementation
+    /**
+     * В случае успеха (библиотека анализа изображений не нашла несоответствий) возврат HTTP 200 OK безJSON документа
+     * */
+    public void analizePhoto(String base64photo) { //todo make correct implementation
         if (log.isInfoEnabled()) {
-            log.info("REQUESTING TEMPLATE: '" + base64photo + "'");
+            log.info("ANALYZING TEMPLATE: '" + base64photo + "'");
         }
         try {
             Base64Photo request = new Base64Photo(base64photo);
             ResponseEntity<PhotoAnalyzeResult> response = rest.exchange(URI.create(url), HttpMethod.PUT, new HttpEntity<>(request), PhotoAnalyzeResult.class);
             if (log.isInfoEnabled()) {
-                log.info("SENDING MESSAGE: '" + base64photo + "' DONE");
+                log.info("ANALYZING TEMPLATE: '" + base64photo + "' DONE");
             }
-            return response.getBody();
         } catch (RestClientResponseException e) {
             switch (e.getRawStatusCode()) {
                 //На первом этапе сервис выполняется в виде заглушки, всегда возвращающей HTTP 200 ОК.
@@ -57,17 +59,5 @@ public class PhotoAnalizerServiceRestClient {
             }
         }
 
-    }
-
-    private PhotoAnalyzeResult deserializeError(String json){
-        ObjectMapper mapper = new ObjectMapper();
-        PhotoAnalyzeResult res = null;
-        try {
-            res = mapper.readValue(json, PhotoAnalyzeResult.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-            log.error("Ошибка десериализации ответа сервера");
-        }
-        return res;
     }
 }

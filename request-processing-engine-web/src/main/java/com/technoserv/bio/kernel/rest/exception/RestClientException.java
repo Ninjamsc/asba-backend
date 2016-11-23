@@ -11,8 +11,7 @@ public abstract class RestClientException extends RuntimeException{
         this.error = error;
     }
 
-    @Override
-    public String toString() {
+    public String toJSON() {
         return String.format("{\"%s\":%s}", getServiceName(), error);
     }
 

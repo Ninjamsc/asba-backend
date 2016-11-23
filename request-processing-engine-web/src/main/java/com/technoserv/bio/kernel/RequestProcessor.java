@@ -3,6 +3,7 @@ package com.technoserv.bio.kernel;
 import com.technoserv.bio.kernel.rest.CompareServiceRestClient;
 import com.technoserv.bio.kernel.rest.PhotoAnalizerServiceRestClient;
 import com.technoserv.bio.kernel.rest.TemplateBuilderServiceRestClient;
+import com.technoserv.bio.kernel.rest.exception.RestClientException;
 import com.technoserv.bio.kernel.rest.request.CompareServiceRequest;
 import com.technoserv.bio.kernel.rest.response.PhotoAnalyzeResult;
 import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
@@ -59,32 +60,30 @@ public class RequestProcessor implements Runnable{
     @Override
     public void run() {
         for (Request request : findRequestForProcessing()) {
-            updateRequestStatus(request, Request.Status.IN_PROCESS);
-            // шаг 4 построение шаблона
-            // компонент 7. Сервис построения шаблонов(биометрическое ядро)
-            Base64Photo scannedPhoto = photoPersistServiceRestClient.getPhoto(request.getScannedDocument().getOrigImageURL());
-            Base64Photo webCamPhoto = photoPersistServiceRestClient.getPhoto(request.getCameraDocument().getOrigImageURL());
-            PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(scannedPhoto);
-            PhotoTemplate webCamTemplate = templateBuilderServiceRestClient.getPhotoTemplate(webCamPhoto);
-            //шаг 5 Построение фильтров
-            // компонент 8 Сервис анализа изображений
-            PhotoAnalyzeResult scannedAnalyze = photoAnalizerServiceRestClient.analizePhoto("scannedTemplate");
-            PhotoAnalyzeResult analizedAnalyze  = photoAnalizerServiceRestClient.analizePhoto("webCamTemplate");
-            if (scannedAnalyze != null || scannedAnalyze.problem != null){
-                //todo обработка ошибки
+            try {
+                updateRequestStatus(request, Request.Status.IN_PROCESS);
+                // шаг 4 построение шаблона
+                // компонент 7. Сервис построения шаблонов(биометрическое ядро)
+                Base64Photo scannedPhoto = photoPersistServiceRestClient.getPhoto(request.getScannedDocument().getOrigImageURL());
+                Base64Photo webCamPhoto = photoPersistServiceRestClient.getPhoto(request.getCameraDocument().getOrigImageURL());
+                PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(scannedPhoto);
+                PhotoTemplate webCamTemplate = templateBuilderServiceRestClient.getPhotoTemplate(webCamPhoto);
+                //шаг 5 Построение фильтров
+                // компонент 8 Сервис анализа изображений
+                photoAnalizerServiceRestClient.analizePhoto("scannedTemplate");
+                photoAnalizerServiceRestClient.analizePhoto("webCamTemplate");
+                //шаг в 6 Сравнение со списками
+                // компонент 9 Сервис сравнения
+                CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
+                compareServiceRequest.setScanTemplate(scannedTemplate.template);
+                compareServiceRequest.setWebTemplate(webCamTemplate.template);
+                String compareResult = сompareServiceRestClient.compare(compareServiceRequest);
+                jmsTemplate.convertAndSend(compareResult);
+                updateRequestStatus(request, Request.Status.SUCCESS);
+            } catch (RestClientException ex){
+                updateRequestStatus(request, Request.Status.FAILED);
+                jmsTemplate.convertAndSend(ex.toJSON());
             }
-            if (analizedAnalyze != null || analizedAnalyze.problem != null){
-                //todo обработка ошибки
-            }
-            //шаг в 6 Сравнение со списками
-            // компонент 9 Сервис сравнения
-            CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
-            compareServiceRequest.setScanTemplate(scannedTemplate.template);
-            compareServiceRequest.setWebTemplate(webCamTemplate.template);
-            String compareResult = сompareServiceRestClient.compare(compareServiceRequest);
-            jmsTemplate.convertAndSend(compareResult);
-            //todo обработка ошибок, уточнить
-            updateRequestStatus(request, Request.Status.SUCCESS);
         }
     }
 
