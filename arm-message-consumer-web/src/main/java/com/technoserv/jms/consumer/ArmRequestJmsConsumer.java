@@ -61,15 +61,6 @@ public class ArmRequestJmsConsumer {
     public ArmRequestJmsConsumer() {
     }
 
-    public ArmRequestJmsConsumer(JmsTemplate jmsTemplate, RequestService requestService, PersonService personService, PhotoPersistServiceRestClient photoServiceClient, DocumentService documentService, DocumentTypeService documentTypeService) {
-        this.jmsTemplate = jmsTemplate;
-        this.requestService = requestService;
-        this.personService = personService;
-        this.photoServiceClient = photoServiceClient;
-        this.documentService = documentService;
-        this.documentTypeService = documentTypeService;
-    }
-
     @Transactional
     public void onReceive(String message) {
         if(!saveRequest(message)) {
