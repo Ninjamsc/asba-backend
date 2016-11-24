@@ -1,5 +1,7 @@
 package com.technoserv.bio.kernel.rest.exception;
 
+import com.technoserv.rest.exception.RestClientException;
+
 /**
  * Created by VBasakov on 23.11.2016.
  */
