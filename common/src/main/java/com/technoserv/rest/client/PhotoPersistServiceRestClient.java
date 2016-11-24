@@ -69,7 +69,7 @@ public class PhotoPersistServiceRestClient {
             if(log.isInfoEnabled()) {
                 log.info("SAVING PHOTO: '" + url + "' DONE");
             }
-            return response.getBody();
+            return finalUrl;
         } catch (RestClientResponseException e) {
             switch (e.getRawStatusCode()){
                 case 500://log.error("Прочие ошибки");break;
