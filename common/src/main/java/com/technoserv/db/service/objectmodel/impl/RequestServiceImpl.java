@@ -13,8 +13,8 @@ import com.technoserv.db.service.objectmodel.api.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.Collection;
 
 /**
@@ -37,10 +37,12 @@ public class RequestServiceImpl extends AbstractService<Long, Request,RequestDao
         this.dao = dao;
     }
 
+    @Transactional(readOnly = true)
     public Request findByOrderNumber(Long id) {
         return dao.findByOrderNumber(id);
     }
 
+    @Transactional(readOnly = true)
     public Collection<Request> findNotProcessed() {
         return dao.findNotProcessed();
     }
@@ -48,7 +50,8 @@ public class RequestServiceImpl extends AbstractService<Long, Request,RequestDao
     @Transactional
     public Long createOrder(Long iin, Long wfmId, String username) {
         Request request = new Request();
-        Person person = new Person();
+        Person person = personService.findById(iin);
+        person = person != null ? person : new Person();
         request.setId(wfmId);
         request.setLogin(username);
         request.setPerson(person);

@@ -123,7 +123,8 @@ public class ArmRequestJmsConsumer {
             documentService.saveOrUpdate(scan);
             documentService.saveOrUpdate(webCam);
 
-            Person person = new Person();
+            Person person = personService.findById(requestDTO.getIin());
+            person = person != null ? person : new Person();
             requestEntity.setPerson(person);
             person.setId(requestDTO.getIin());
             person.getDossier().add(requestEntity);
