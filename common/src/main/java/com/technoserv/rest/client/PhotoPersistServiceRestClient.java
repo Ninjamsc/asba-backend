@@ -66,7 +66,7 @@ public class PhotoPersistServiceRestClient {
             HttpHeaders requestHeaders = new HttpHeaders();
             requestHeaders.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<PhotoSaveRequest> requestEntity = new HttpEntity<PhotoSaveRequest>(request,requestHeaders);
-            ResponseEntity<String> response = rest.exchange(URI.create(finalUrl), HttpMethod.PUT, requestEntity, String.class);
+            ResponseEntity<String> response = rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, String.class);
 
             if(log.isInfoEnabled()) {
                 log.info("SAVING PHOTO: '" + url + "' DONE");
@@ -83,5 +83,22 @@ public class PhotoPersistServiceRestClient {
 
         }
     }
+
+//    public static void main(String[] args) {
+//        String url = "http://localhost:8080/storage/rest/image";
+//        String file_name = "1";
+//        String file_content = "content";
+//        String urlTemplate = String.format("%s/%s.jpg", url, "%s");
+//        String finalUrl = String.format(urlTemplate, file_name);
+//        System.out.println(finalUrl);
+//        RestTemplate rest = new RestTemplate();
+//        HttpHeaders requestHeaders = new HttpHeaders();
+//        requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+//        PhotoSaveRequest request = new PhotoSaveRequest(file_content, file_name);
+//        HttpEntity<PhotoSaveRequest> requestEntity = new HttpEntity<PhotoSaveRequest>(request,requestHeaders);
+//        ResponseEntity<String> response = rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, String.class);
+//
+//
+//    }
 
 }
