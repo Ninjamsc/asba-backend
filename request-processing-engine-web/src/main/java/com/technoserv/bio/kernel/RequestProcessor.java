@@ -72,11 +72,12 @@ public class RequestProcessor {
         for (Request request : requestList) {
             try {
                 updateRequestStatus(request, Request.Status.IN_PROCESS);
-                // шаг 4 построение шаблона
-                // компонент 7. Сервис построения шаблонов(биометрическое ядро)
+
                 Base64Photo scannedPhoto = photoPersistServiceRestClient.getPhoto(request.getScannedDocument().getOrigImageURL());
                 Base64Photo webCamPhoto = photoPersistServiceRestClient.getPhoto(request.getCameraDocument().getOrigImageURL());
 
+                // шаг 4 построение шаблона
+                // компонент 7. Сервис построения шаблонов(биометрическое ядро)
                 PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(scannedPhoto);
                 addBioTemplateToDocument(request, request.getScannedDocument(), scannedTemplate);
 
