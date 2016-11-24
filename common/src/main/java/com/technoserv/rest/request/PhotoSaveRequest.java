@@ -9,16 +9,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public class PhotoSaveRequest {
 
-    public String timestamp;
-
     @JsonProperty("file-content")
     public String file_content;
 
     @JsonProperty("file-name")
     public String file_name;
 
-    public PhotoSaveRequest(String timestamp, String file_content, String file_name) {
-        this.timestamp = timestamp;
+    public PhotoSaveRequest(String file_content, String file_name) {
         this.file_content = file_content;
         this.file_name = file_name;
     }

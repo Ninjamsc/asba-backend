@@ -88,8 +88,8 @@ public class ArmRequestJmsConsumer {
             String scannedGuid = DatatypeConverter.printBase64Binary(UUID.randomUUID().toString().getBytes());
             String webCamGuid = DatatypeConverter.printBase64Binary(UUID.randomUUID().toString().getBytes());
 
-            String scannedPictureURL = photoServiceClient.putPhoto(requestDTO.getTimestamp().toString(), scannedPicture, scannedGuid);
-            String webCamPictureURL = photoServiceClient.putPhoto(requestDTO.getTimestamp().toString(), webCamPicture, webCamGuid);
+            String scannedPictureURL = photoServiceClient.putPhoto(scannedPicture, scannedGuid);
+            String webCamPictureURL = photoServiceClient.putPhoto(webCamPicture, webCamGuid);
             Document webCam;
             Document scan;
             //TODO Find request to add

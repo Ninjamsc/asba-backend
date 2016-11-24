@@ -55,11 +55,11 @@ public class PhotoPersistServiceRestClient {
             }
         }
     }
-    public String putPhoto(String timestamp, String file_content, String file_name) {
-        PhotoSaveRequest request = new PhotoSaveRequest(timestamp, file_content, file_name);
+    public String putPhoto(String file_content, String file_name) {
+        PhotoSaveRequest request = new PhotoSaveRequest(file_content, file_name);
 
         if(log.isInfoEnabled()) {
-            log.info("SAVING PHOTO: '" + file_name + "'");
+            log.info("SAVING PHOTO: '" + file_name + "'" + " content:'" + file_content+"'");
         }
         try {
             String urlTemplate = String.format("%s/%s.jpg", url, "%s");
