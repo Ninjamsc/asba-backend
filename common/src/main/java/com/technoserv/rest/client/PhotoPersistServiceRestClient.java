@@ -30,8 +30,6 @@ public class PhotoPersistServiceRestClient {
     @Value("${http.photo.persist.service.url}")
     private String url;
 
-    private String urlTemplate = String.format("HTTPS://%s/storage/rest/image/%s.jpg", url, "%s");
-
     private RestTemplate rest = new RestTemplate();
 
     public Base64Photo getPhoto(String guid) {
@@ -39,10 +37,11 @@ public class PhotoPersistServiceRestClient {
             log.info("REQUESTING PHOTO: '" + guid + "'");
         }
         try {
-            String url = String.format(urlTemplate, guid);
-            ResponseEntity<Base64Photo> response = rest.getForEntity(URI.create(url), Base64Photo.class);
+            String urlTemplate = String.format("%s/%s.jpg", url, "%s");
+            String finalUrl = String.format(urlTemplate, guid);
+            ResponseEntity<Base64Photo> response = rest.getForEntity(URI.create(finalUrl), Base64Photo.class);
             if(log.isInfoEnabled()) {
-                log.info("REQUESTING PHOTO: '" + url + "' DONE");
+                log.info("REQUESTING PHOTO: '" + finalUrl + "' DONE");
             }
             return response.getBody();
         } catch (RestClientResponseException e) {
