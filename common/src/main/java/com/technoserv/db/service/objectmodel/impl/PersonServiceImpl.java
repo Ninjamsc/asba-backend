@@ -21,7 +21,6 @@ public class PersonServiceImpl extends AbstractService<Long, Person,PersonDao> i
         this.dao = dao;
     }
 
-    @Override
     @Transactional(readOnly = true)
     public Person history(Long iin) {
         return dao.history(iin);
