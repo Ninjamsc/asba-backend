@@ -7,9 +7,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientResponseException;
@@ -65,7 +63,9 @@ public class PhotoPersistServiceRestClient {
             String urlTemplate = String.format("%s/%s.jpg", url, "%s");
             String finalUrl = String.format(urlTemplate, file_name);
             //todo request -> json with jackson
-            HttpEntity<PhotoSaveRequest> requestEntity = new HttpEntity<PhotoSaveRequest>(request);
+            HttpHeaders requestHeaders = new HttpHeaders();
+            requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<PhotoSaveRequest> requestEntity = new HttpEntity<PhotoSaveRequest>(request,requestHeaders);
             ResponseEntity<String> response = rest.exchange(URI.create(finalUrl), HttpMethod.PUT, requestEntity, String.class);
 
             if(log.isInfoEnabled()) {
