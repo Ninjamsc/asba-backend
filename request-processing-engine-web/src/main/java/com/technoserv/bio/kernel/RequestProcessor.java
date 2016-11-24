@@ -1,6 +1,5 @@
 package com.technoserv.bio.kernel;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.technoserv.bio.kernel.rest.client.CompareServiceRestClient;
 import com.technoserv.bio.kernel.rest.client.PhotoAnalyzerServiceRestClient;
@@ -82,8 +81,8 @@ public class RequestProcessor {
                 addBioTemplateToDocument(request.getCameraDocument(), webCamTemplate);
                 //шаг 5 Построение фильтров
                 // компонент 8 Сервис анализа изображений
-                photoAnalyzerServiceRestClient.analizePhoto("scannedTemplate");
-                photoAnalyzerServiceRestClient.analizePhoto("webCamTemplate");
+                photoAnalyzerServiceRestClient.analyzePhoto("scannedTemplate");
+                photoAnalyzerServiceRestClient.analyzePhoto("webCamTemplate");
                 //шаг в 6 Сравнение со списками
                 // компонент 9 Сервис сравнения
                 CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
