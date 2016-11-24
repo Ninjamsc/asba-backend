@@ -43,7 +43,7 @@ public class DocumentDaoTest {
         Document document = dao.get(1L);
         assertNull(document);
         assertEquals(0, dao.countAll());
-        Document entity = generateDocument();
+        Document entity = generateDocument(documentType);
         entity.setDocumentType(documentType);
         dao.saveOrUpdate(entity);
         assertEquals(1, dao.countAll());
@@ -53,7 +53,8 @@ public class DocumentDaoTest {
 
     @Test
     public void updateDocument() throws Exception {
-        Document entity = generateDocument();
+        DocumentType documentType = documentTypeDao.findByType(DocumentType.Type.ANY);
+        Document entity = generateDocument(documentType);
         dao.saveOrUpdate(entity);
         Document document = dao.get(entity.getId());
         assertEquals(document, entity);
@@ -64,7 +65,8 @@ public class DocumentDaoTest {
 
     @Test
     public void deleteDocument() throws Exception {
-        Document entity = generateDocument();
+        DocumentType documentType = documentTypeDao.findByType(DocumentType.Type.ANY);
+        Document entity = generateDocument(documentType);
         dao.saveOrUpdate(entity);
         assertNotNull(dao.get(entity.getId()));
         dao.delete(entity);

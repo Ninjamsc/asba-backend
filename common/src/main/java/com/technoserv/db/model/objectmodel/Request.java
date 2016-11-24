@@ -119,7 +119,7 @@ public class Request extends BaseEntity<Long> {
     }
 
     public Timestamp getTimestamp() {
-        return new Timestamp(orderDate.getTime());
+        return orderDate != null ? new Timestamp(orderDate.getTime()) : new Timestamp(0);
     }
 
     public void setTimestamp(Timestamp timestamp) {

@@ -48,10 +48,11 @@ public class RequestServiceImpl extends AbstractService<Long, Request,RequestDao
     @Transactional
     public Long createOrder(Long iin, Long wfmId, String username) {
         Request request = new Request();
+        Person person = new Person();
         request.setId(wfmId);
         request.setLogin(username);
+        request.setPerson(person);
         save(request);
-        Person person = new Person();
         person.setId(iin);
         person.getDossier().add(request);
         return personService.save(person);
@@ -66,7 +67,11 @@ public class RequestServiceImpl extends AbstractService<Long, Request,RequestDao
         document.setFaceSquare(fullFrameUrl);
         document.setDocumentType(documentTypeService.findByType(type));
         documentService.save(document);
-        request.setScannedDocument(document);
+        if(DocumentType.Type.SCANNER == type){
+            request.setScannedDocument(document);
+        } else if (DocumentType.Type.WEB_CAM == type) {
+            request.setCameraDocument(document);
+        }
         saveOrUpdate(request);
     }
 }

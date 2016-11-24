@@ -12,7 +12,7 @@ import java.util.List;
 public class Document extends AbstractObject {
 
     @Column(name = "DESCRIPTION", nullable = false)
-    private String description;
+    private String description = "UNKNOWN";
 
     @ManyToOne
     @JoinColumn(name = "DOC_TYPE_ID", referencedColumnName = "ID")

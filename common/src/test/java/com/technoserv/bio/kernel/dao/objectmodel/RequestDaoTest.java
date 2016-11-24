@@ -1,6 +1,8 @@
 package com.technoserv.bio.kernel.dao.objectmodel;
 
+import com.technoserv.db.dao.objectmodel.api.PersonDao;
 import com.technoserv.db.dao.objectmodel.api.RequestDao;
+import com.technoserv.db.model.objectmodel.Person;
 import com.technoserv.db.model.objectmodel.Request;
 import org.junit.After;
 import org.junit.Before;
@@ -23,6 +25,8 @@ public class RequestDaoTest {
 
     @Autowired
     RequestDao dao;
+    @Autowired
+    PersonDao personDao;
 
     @Before
     public void setUp(){}
@@ -59,6 +63,18 @@ public class RequestDaoTest {
         assertNotNull(dao.get(entity.getId()));
         dao.delete(entity);
         assertNull(dao.get(entity.getId()));
+    }
+
+    @Test
+    public void saveWithPerson() {
+        Request request = new Request();
+        request.setId(111L);
+        request.setLogin("username");
+        dao.save(request);
+        Person person = new Person();
+        person.setId(555L);
+        person.getDossier().add(request);
+        personDao.save(person);
     }
 
     public static Request generateRequest(){

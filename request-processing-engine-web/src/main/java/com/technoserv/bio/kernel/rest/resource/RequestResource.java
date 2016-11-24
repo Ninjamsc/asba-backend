@@ -214,10 +214,14 @@ public class RequestResource {
         getRequestResponse.setIin(person.getId());
         getRequestResponse.setUsername(request.getLogin());
         getRequestResponse.setTimestamp(request.getTimestamp());
-        getRequestResponse.setPreviewCamURL(request.getCameraDocument().getOrigImageURL());
-        getRequestResponse.setFullframeCamURL(request.getCameraDocument().getFaceSquare());
-        getRequestResponse.setPreviewScanURL(request.getScannedDocument().getOrigImageURL());
-        getRequestResponse.setFullframeScanURL(request.getScannedDocument().getFaceSquare());
+        getRequestResponse.setPreviewCamURL(request.getCameraDocument() != null ?
+                request.getCameraDocument().getOrigImageURL() : "");
+        getRequestResponse.setFullframeCamURL(request.getCameraDocument() != null ?
+                request.getCameraDocument().getFaceSquare() : "");
+        getRequestResponse.setPreviewScanURL(request.getScannedDocument() != null ?
+                request.getScannedDocument().getOrigImageURL() : "");
+        getRequestResponse.setFullframeScanURL(request.getScannedDocument() != null ?
+                request.getScannedDocument().getFaceSquare() : "");
         return getRequestResponse;
     }
 

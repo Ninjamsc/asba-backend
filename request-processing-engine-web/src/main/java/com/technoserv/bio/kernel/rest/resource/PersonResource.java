@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
  * Created by sergey on 23.11.2016.
  */
 @Component
-@Path("/db/rest")
+@Path("/db/rest/person")
 @Api(value = "Person")
 public class PersonResource {
 
