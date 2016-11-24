@@ -50,14 +50,14 @@ public class PhotoPersistServiceRestClient {
         }
     }
     public String putPhoto(String file_content, String file_name) {
+        file_name = String.format("%s.jpg", file_name);
         PhotoSaveRequest request = new PhotoSaveRequest(file_content, file_name);
 
         if(log.isInfoEnabled()) {
             log.info("SAVING PHOTO: '" + file_name + "'" + " content:'" + file_content+"'");
         }
         try {
-            String urlTemplate = String.format("%s/%s.jpg", url, "%s");
-            String finalUrl = String.format(urlTemplate, file_name);
+            String finalUrl = String.format("%s/%s", url, file_name);
             //todo request -> json with jackson
             HttpHeaders requestHeaders = new HttpHeaders();
             requestHeaders.setContentType(MediaType.APPLICATION_JSON);
