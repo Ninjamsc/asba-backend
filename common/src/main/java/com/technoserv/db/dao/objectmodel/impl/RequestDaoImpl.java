@@ -23,7 +23,7 @@ public class RequestDaoImpl extends AbstractHibernateDao<Long, Request> implemen
     private static final int AMOUNT_TTL = -15;//Колличество прибавляемых единиц
     private static final int FIELD_TTL = Calendar.MINUTE;//Единицап измерения времени
 
-    public Request findByOrderNumber(Long id) {
+    public Request findByOrderNumber(Long id) { //TODO ...
         return (Request) getSession().createCriteria(getPersistentClass())
                 .add(Property.forName("id").eq(id)).uniqueResult();
     }

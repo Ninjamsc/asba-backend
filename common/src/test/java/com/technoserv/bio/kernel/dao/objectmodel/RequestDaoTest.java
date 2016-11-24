@@ -5,6 +5,7 @@ import com.technoserv.db.dao.objectmodel.api.RequestDao;
 import com.technoserv.db.model.objectmodel.Person;
 import com.technoserv.db.model.objectmodel.Request;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -75,6 +76,16 @@ public class RequestDaoTest {
         person.setId(555L);
         person.getDossier().add(request);
         personDao.save(person);
+    }
+
+    @Test
+    public void findTest() {
+        Request request = new Request();
+        request.setId(111L);
+        request.setLogin("username");
+        dao.save(request);
+        Request result = dao.findByOrderNumber(111L);
+        Assert.assertEquals(111L, result.getId().longValue());
     }
 
     public static Request generateRequest(){
