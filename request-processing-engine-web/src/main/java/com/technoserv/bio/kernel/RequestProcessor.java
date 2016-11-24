@@ -79,6 +79,7 @@ public class RequestProcessor {
                 addBioTemplateToDocument(request.getScannedDocument(), scannedTemplate);
 
                 PhotoTemplate webCamTemplate = templateBuilderServiceRestClient.getPhotoTemplate(webCamPhoto);
+                addBioTemplateToDocument(request.getCameraDocument(), webCamTemplate);
                 //шаг 5 Построение фильтров
                 // компонент 8 Сервис анализа изображений
                 photoAnalyzerServiceRestClient.analizePhoto("scannedTemplate");
