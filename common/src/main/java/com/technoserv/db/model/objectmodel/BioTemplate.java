@@ -26,7 +26,7 @@ public class BioTemplate extends AbstractObject {
     @Column(name = "INS_USER")
     private String insUser;
 
-    @Column(name = "TEMPLATE_VECTOR")
+    @Column(name = "TEMPLATE_VECTOR",length = 2000)
     private String templateVector;
 
     public Document getDocument() {
