@@ -27,13 +27,10 @@ public class PhotoPersistServiceRestClient {
 
     private static final Log log = LogFactory.getLog(PhotoPersistServiceRestClient.class);
 
-    @Value("${http.photo.persist.service.hostname}")
-    private String hostname;
+    @Value("${http.photo.persist.service.url}")
+    private String url;
 
-    @Value("${http.photo.persist.service.port}")
-    private String port;
-
-    private String urlTemplate = String.format("HTTPS://%s:%s/storage/rest/image/%s.jpg", hostname, port, "%s");
+    private String urlTemplate = String.format("HTTPS://%s/storage/rest/image/%s.jpg", url, "%s");
 
     private RestTemplate rest = new RestTemplate();
 
