@@ -2,6 +2,7 @@ package com.technoserv.db.model.objectmodel;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +26,7 @@ public class Document extends AbstractObject {
     private String faceSquare; //TODO String HTTP URL
 
     @OneToMany(mappedBy = "document")
-    private List<BioTemplate> bioTemplates;
+    private List<BioTemplate> bioTemplates = new ArrayList<BioTemplate>();
 
     public DocumentType getDocumentType() {
         return documentType;

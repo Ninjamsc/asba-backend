@@ -60,8 +60,7 @@ public class RequestProcessor {
     @Autowired
     private BioTemplateVersionService bioTemplateVersionService;
 
-    public RequestProcessor() {
-    }
+    public RequestProcessor(){};
 
     public Collection<Request> findRequestForProcessing(){
         return requestService.findNotProcessed();
@@ -130,5 +129,37 @@ public class RequestProcessor {
     private void updateRequestStatus(Request request, Request.Status status) {
         request.setStatus(status);
         requestService.saveOrUpdate(request);
+    }
+
+    public void setRequestService(RequestService requestService) {
+        this.requestService = requestService;
+    }
+
+    public void setTemplateBuilderServiceRestClient(TemplateBuilderServiceRestClient templateBuilderServiceRestClient) {
+        this.templateBuilderServiceRestClient = templateBuilderServiceRestClient;
+    }
+
+    public void setPhotoPersistServiceRestClient(PhotoPersistServiceRestClient photoPersistServiceRestClient) {
+        this.photoPersistServiceRestClient = photoPersistServiceRestClient;
+    }
+
+    public void setPhotoAnalyzerServiceRestClient(PhotoAnalyzerServiceRestClient photoAnalyzerServiceRestClient) {
+        this.photoAnalyzerServiceRestClient = photoAnalyzerServiceRestClient;
+    }
+
+    public void setСompareServiceRestClient(CompareServiceRestClient сompareServiceRestClient) {
+        this.сompareServiceRestClient = сompareServiceRestClient;
+    }
+
+    public void setJmsTemplate(JmsTemplate jmsTemplate) {
+        this.jmsTemplate = jmsTemplate;
+    }
+
+    public void setBioTemplateService(BioTemplateService bioTemplateService) {
+        this.bioTemplateService = bioTemplateService;
+    }
+
+    public void setBioTemplateVersionService(BioTemplateVersionService bioTemplateVersionService) {
+        this.bioTemplateVersionService = bioTemplateVersionService;
     }
 }

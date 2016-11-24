@@ -72,7 +72,6 @@ public class ArmRequestJmsConsumerTest {
         Assert.assertNotNull(requestEntity.getScannedDocument().getOrigImageURL());
     }
 
-    @Transactional
     private void saveIncoming(String fileName) throws Exception {
         String request = TestUtils.readFile(fileName);
         consumer.saveRequest(request);
