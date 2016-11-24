@@ -33,6 +33,6 @@ public class DocumentTypeDaoImpl extends AbstractHibernateDao<Long,DocumentType>
 
     public DocumentType findByType(DocumentType.Type type) {
         return (DocumentType) getSession().createCriteria(getPersistentClass())
-                .add(Property.forName("id").eq(type.getValue())).uniqueResult();
+                .add(Property.forName("type").eq(type)).uniqueResult();
     }
 }

@@ -12,6 +12,8 @@ import javax.persistence.*;
 @Table(name = "DOCUMENTS_TYPES")
 @Cacheable
 public class DocumentType extends BaseEntity<Long> {
+
+
     /**
      * 0 - ANY
      * 1 - SCANNER
@@ -34,13 +36,21 @@ public class DocumentType extends BaseEntity<Long> {
         this.id = type.getValue();
     }
     public DocumentType(Type type, String description) {
-        this.id = type.getValue();
+        this.type = type;
         this.description = description;
     }
 
     @Id
     @Column(name = "ID")
+    @GeneratedValue
     private Long id;
+
+    @Column(name = "TYPE",unique = true)
+    @Enumerated(EnumType.STRING)
+    private Type type;
+
+    @Column(name = "DESCRIPTION", nullable = false)
+    private String description;
 
     public Long getId() {
         return id;
@@ -49,8 +59,13 @@ public class DocumentType extends BaseEntity<Long> {
         this.id = id;
     }
 
-    @Column(name = "DESCRIPTION", nullable = false)
-    private String description;
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
 
     public String getDescription() {
         return description;

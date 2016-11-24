@@ -31,7 +31,7 @@ public class DocumentDaoTest {
 
     @Before
     public void setUp(){
-        documentTypeDao.save(new DocumentType(DocumentType.Type.ANY, "sfsdfdsf"));
+//        documentTypeDao.save(new DocumentType(DocumentType.Type.ANY, "sfsdfdsf"));
     }
 
     @After
@@ -48,7 +48,7 @@ public class DocumentDaoTest {
         dao.saveOrUpdate(entity);
         assertEquals(1, dao.countAll());
         assertEquals(entity, dao.get(entity.getId()));
-        assertEquals(DocumentType.Type.ANY.getValue(), entity.getDocumentType().getId().longValue());
+        assertEquals(DocumentType.Type.ANY.getValue(), entity.getDocumentType().getType().getValue());
     }
 
     @Test
@@ -59,7 +59,7 @@ public class DocumentDaoTest {
         Document document = dao.get(entity.getId());
         assertEquals(document, entity);
 //        entity.setDocumentType(DocumentType.EXTERNAL);
-        dao.saveOrUpdate(entity);
+//        dao.saveOrUpdate(entity);
 //        assertEquals(DocumentType.EXTERNAL, dao.get(entity.getId()).getDocumentType());
     }
 
