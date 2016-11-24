@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
  * Created by sergey on 23.11.2016.
  */
 @Repository("bioTemplateVersionDao")
-public class BioTemplateVersionDaoImpl extends AbstractHibernateDao<Long, BioTemplateVersion> implements BioTemplateVersionDao {
+public class BioTemplateVersionDaoImpl extends AbstractHibernateDao<Integer, BioTemplateVersion> implements BioTemplateVersionDao {
 }

@@ -1,8 +1,15 @@
 package com.technoserv.bio.kernel;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.technoserv.bio.kernel.rest.client.CompareServiceRestClient;
 import com.technoserv.bio.kernel.rest.client.PhotoAnalyzerServiceRestClient;
 import com.technoserv.bio.kernel.rest.client.TemplateBuilderServiceRestClient;
+import com.technoserv.db.model.objectmodel.BioTemplate;
+import com.technoserv.db.model.objectmodel.BioTemplateVersion;
+import com.technoserv.db.model.objectmodel.Document;
+import com.technoserv.db.service.objectmodel.api.BioTemplateService;
+import com.technoserv.db.service.objectmodel.api.BioTemplateVersionService;
 import com.technoserv.rest.exception.RestClientException;
 import com.technoserv.bio.kernel.rest.request.CompareServiceRequest;
 import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
@@ -15,7 +22,10 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created by Adrey on 22.11.2016.
@@ -43,6 +53,12 @@ public class RequestProcessor {
     @Autowired
     private JmsTemplate jmsTemplate;
 
+    @Autowired
+    private BioTemplateService bioTemplateService;
+
+    @Autowired
+    private BioTemplateVersionService bioTemplateVersionService;
+
     public RequestProcessor() {
     }
 
@@ -60,6 +76,8 @@ public class RequestProcessor {
                 Base64Photo scannedPhoto = photoPersistServiceRestClient.getPhoto(request.getScannedDocument().getOrigImageURL());
                 Base64Photo webCamPhoto = photoPersistServiceRestClient.getPhoto(request.getCameraDocument().getOrigImageURL());
                 PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(scannedPhoto);
+                addBioTemplateToDocument(request.getScannedDocument(), scannedTemplate);
+
                 PhotoTemplate webCamTemplate = templateBuilderServiceRestClient.getPhotoTemplate(webCamPhoto);
                 //шаг 5 Построение фильтров
                 // компонент 8 Сервис анализа изображений
@@ -74,11 +92,35 @@ public class RequestProcessor {
                 jmsTemplate.convertAndSend(compareResult);
                 updateRequestStatus(request, Request.Status.SUCCESS);
             } catch (RestClientException ex){
+                ex.printStackTrace();
                 updateRequestStatus(request, Request.Status.FAILED);
                 jmsTemplate.convertAndSend(ex.toJSON());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
+
+    private void addBioTemplateToDocument(Document document, PhotoTemplate scannedTemplate) throws IOException {
+
+        BioTemplate bioTemplate = new BioTemplate();
+        ObjectMapper objectMapper = new ObjectMapper();
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        objectMapper.writeValue(byteArrayOutputStream,scannedTemplate.template);
+        bioTemplate.setTemplateVector(byteArrayOutputStream.toByteArray());
+        BioTemplateVersion bioTemplateVersion = bioTemplateVersionService.findById(scannedTemplate.version);
+        if(bioTemplateVersion==null) {
+            bioTemplateVersion = new BioTemplateVersion();
+            bioTemplateVersion.setId(scannedTemplate.version);
+            bioTemplateVersion.setObjectDate(new Date());
+            bioTemplateVersion.setDescription("Версия " + scannedTemplate.version );
+        }
+        bioTemplate.setBioTemplateVersion(bioTemplateVersion);
+        bioTemplateVersionService.saveOrUpdate(bioTemplateVersion);
+        bioTemplateService.saveOrUpdate(bioTemplate);
+        document.getBioTemplates().add(bioTemplate);
+    }
+
 
     private void updateRequestStatus(Request request, Request.Status status) {
         request.setStatus(status);
