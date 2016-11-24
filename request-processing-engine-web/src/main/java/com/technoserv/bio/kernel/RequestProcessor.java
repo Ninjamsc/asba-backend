@@ -26,6 +26,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Adrey on 22.11.2016.
@@ -68,22 +69,24 @@ public class RequestProcessor {
 
     public void process() {
         logger.debug("RequestProcessor process order");
-        for (Request request : findRequestForProcessing()) {
+        Collection<Request> requestList = findRequestForProcessing();
+        for (Request request : requestList) {
             try {
                 updateRequestStatus(request, Request.Status.IN_PROCESS);
                 // шаг 4 построение шаблона
                 // компонент 7. Сервис построения шаблонов(биометрическое ядро)
                 Base64Photo scannedPhoto = photoPersistServiceRestClient.getPhoto(request.getScannedDocument().getOrigImageURL());
                 Base64Photo webCamPhoto = photoPersistServiceRestClient.getPhoto(request.getCameraDocument().getOrigImageURL());
+
                 PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(scannedPhoto);
-                addBioTemplateToDocument(request.getScannedDocument(), scannedTemplate);
+                addBioTemplateToDocument(request, request.getScannedDocument(), scannedTemplate);
 
                 PhotoTemplate webCamTemplate = templateBuilderServiceRestClient.getPhotoTemplate(webCamPhoto);
-                addBioTemplateToDocument(request.getCameraDocument(), webCamTemplate);
+                addBioTemplateToDocument(request, request.getCameraDocument(), webCamTemplate);
                 //шаг 5 Построение фильтров
                 // компонент 8 Сервис анализа изображений
-                photoAnalyzerServiceRestClient.analizePhoto("scannedTemplate");
-                photoAnalyzerServiceRestClient.analizePhoto("webCamTemplate");
+                photoAnalyzerServiceRestClient.analizePhoto(scannedPhoto.photos);
+                photoAnalyzerServiceRestClient.analizePhoto(webCamPhoto.photos);
                 //шаг в 6 Сравнение со списками
                 // компонент 9 Сервис сравнения
                 CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
@@ -102,9 +105,10 @@ public class RequestProcessor {
         }
     }
 
-    private void addBioTemplateToDocument(Document document, PhotoTemplate scannedTemplate) throws IOException {
+    private void addBioTemplateToDocument(Request request,Document document, PhotoTemplate scannedTemplate) throws IOException {
 
         BioTemplate bioTemplate = new BioTemplate();
+        bioTemplate.setInsUser(request.getInsUser());
         ObjectMapper objectMapper = new ObjectMapper();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         objectMapper.writeValue(byteArrayOutputStream,scannedTemplate.template);
