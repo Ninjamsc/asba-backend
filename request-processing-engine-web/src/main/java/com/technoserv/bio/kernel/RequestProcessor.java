@@ -1,6 +1,5 @@
 package com.technoserv.bio.kernel;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.technoserv.bio.kernel.rest.client.CompareServiceRestClient;
 import com.technoserv.bio.kernel.rest.client.PhotoAnalyzerServiceRestClient;
@@ -72,11 +71,12 @@ public class RequestProcessor {
         for (Request request : requestList) {
             try {
                 updateRequestStatus(request, Request.Status.IN_PROCESS);
-                // шаг 4 построение шаблона
-                // компонент 7. Сервис построения шаблонов(биометрическое ядро)
+
                 Base64Photo scannedPhoto = photoPersistServiceRestClient.getPhoto(request.getScannedDocument().getOrigImageURL());
                 Base64Photo webCamPhoto = photoPersistServiceRestClient.getPhoto(request.getCameraDocument().getOrigImageURL());
 
+                // шаг 4 построение шаблона
+                // компонент 7. Сервис построения шаблонов(биометрическое ядро)
                 PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(scannedPhoto);
                 addBioTemplateToDocument(request, request.getScannedDocument(), scannedTemplate);
 
@@ -84,8 +84,8 @@ public class RequestProcessor {
                 addBioTemplateToDocument(request, request.getCameraDocument(), webCamTemplate);
                 //шаг 5 Построение фильтров
                 // компонент 8 Сервис анализа изображений
-                photoAnalyzerServiceRestClient.analizePhoto(scannedPhoto.photos);
-                photoAnalyzerServiceRestClient.analizePhoto(webCamPhoto.photos);
+                photoAnalyzerServiceRestClient.analyzePhoto(scannedPhoto.photos);
+                photoAnalyzerServiceRestClient.analyzePhoto(webCamPhoto.photos);
                 //шаг в 6 Сравнение со списками
                 // компонент 9 Сервис сравнения
                 CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
