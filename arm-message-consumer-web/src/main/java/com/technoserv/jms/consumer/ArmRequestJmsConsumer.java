@@ -3,9 +3,11 @@ package com.technoserv.jms.consumer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.technoserv.db.model.objectmodel.Document;
 import com.technoserv.db.model.objectmodel.DocumentType;
+import com.technoserv.db.model.objectmodel.Person;
 import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.service.objectmodel.api.DocumentService;
 import com.technoserv.db.service.objectmodel.api.DocumentTypeService;
+import com.technoserv.db.service.objectmodel.api.PersonService;
 import com.technoserv.db.service.objectmodel.api.RequestService;
 import com.technoserv.jms.trusted.ArmRequestRetryMessage;
 import com.technoserv.jms.trusted.RequestDTO;
@@ -41,6 +43,8 @@ public class ArmRequestJmsConsumer {
 
     @Autowired
     private RequestService requestService;
+    @Autowired
+    private PersonService personService;
 
     @Autowired
     private PhotoPersistServiceRestClient photoServiceClient;
@@ -116,6 +120,14 @@ public class ArmRequestJmsConsumer {
                 scan.setFaceSquare(scannedPictureURL);
                 scan.setDocumentType(documentTypeService.findByType(DocumentType.Type.SCANNER));
             }
+            documentService.saveOrUpdate(scan);
+            documentService.saveOrUpdate(webCam);
+
+            Person person = new Person();
+            requestEntity.setPerson(person);
+            person.setId(requestDTO.getIin());
+            person.getDossier().add(requestEntity);
+            personService.saveOrUpdate(person);
 
             requestEntity.setTimestamp(requestDTO.getTimestamp());
             requestEntity.setCameraDocument(webCam);
