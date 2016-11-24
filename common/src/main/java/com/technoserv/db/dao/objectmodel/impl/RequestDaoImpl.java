@@ -20,7 +20,7 @@ import java.util.Date;
 @Repository("requestDao")
 public class RequestDaoImpl extends AbstractHibernateDao<Long, Request> implements RequestDao {
 
-    private static final int AMOUNT_TTL = -15;//Колличество прибавляемых единиц
+    private static final int AMOUNT_TTL = -1;//Колличество прибавляемых единиц
     private static final int FIELD_TTL = Calendar.MINUTE;//Единицап измерения времени
 
     public Request findByOrderNumber(Long id) { //TODO ...
