@@ -38,7 +38,9 @@ public class PersonResource {
     public PersonResponse history(@PathParam("iin")Long id) {
         PersonResponse response = new PersonResponse();
         Person person = personService.history(id);
-
+        if(person==null) {
+            return null;
+        }
         //response.setTimestamp(); TODO ...
         response.setIin(person.getId());
 
