@@ -110,7 +110,7 @@ public class ArmRequestJmsConsumer {
                 scan.setOrigImageURL(scannedPictureURL);
                 scan.setDocumentType(documentTypeService.findByType(DocumentType.Type.SCANNER));
             } if (requestDTO.getType() == RequestDTO.Type.FULLFRAME) {
-                webCam.setFaceSquare(requestDTO.getWebCameraPicture());
+                webCam.setFaceSquare(webCamPictureURL);
                 webCam.setDocumentType(documentTypeService.findByType(DocumentType.Type.WEB_CAM));
 
                 scan.setFaceSquare(scannedPictureURL);
