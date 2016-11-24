@@ -15,6 +15,13 @@ import java.util.List;
 @Entity
 @Table(name = "PERSONS")
 public class Person extends BaseEntity<Long> {
+
+    public Person() {
+    }
+    public Person(Long id) {
+        this.id = id;
+    }
+
     /**
      * ИИН персоны в WorkFlow
      */

@@ -17,6 +17,12 @@ import java.util.Date;
 @Table(name = "REQUESTS")
 public class Request extends BaseEntity<Long> {
 
+    public Request() {
+    }
+    public Request(long id) {
+        this.id = id;
+    }
+
     public enum Status {SAVED, IN_PROCESS, SUCCESS, FAILED};
     /**
      * номер заявки из BPM

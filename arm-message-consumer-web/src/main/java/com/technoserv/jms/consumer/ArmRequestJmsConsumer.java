@@ -58,6 +58,18 @@ public class ArmRequestJmsConsumer {
     @Value("${arm-retry.queue.maxRetryCount}")
     private static Integer maxTryCount = 10;
 
+    public ArmRequestJmsConsumer() {
+    }
+
+    public ArmRequestJmsConsumer(JmsTemplate jmsTemplate, RequestService requestService, PersonService personService, PhotoPersistServiceRestClient photoServiceClient, DocumentService documentService, DocumentTypeService documentTypeService) {
+        this.jmsTemplate = jmsTemplate;
+        this.requestService = requestService;
+        this.personService = personService;
+        this.photoServiceClient = photoServiceClient;
+        this.documentService = documentService;
+        this.documentTypeService = documentTypeService;
+    }
+
     @Transactional
     public void onReceive(String message) {
         if(!saveRequest(message)) {
@@ -103,7 +115,7 @@ public class ArmRequestJmsConsumer {
                 webCam = requestEntity.getCameraDocument();
                 scan = requestEntity.getScannedDocument();
             } else {
-                requestEntity = new Request();
+                requestEntity = new Request(requestDTO.getWfNumber());
                 webCam = new Document();
                 scan = new Document();
             }
@@ -124,9 +136,8 @@ public class ArmRequestJmsConsumer {
             documentService.saveOrUpdate(webCam);
 
             Person person = personService.findById(requestDTO.getIin());
-            person = person != null ? person : new Person();
+            person = person != null ? person : new Person(requestDTO.getIin());
             requestEntity.setPerson(person);
-            person.setId(requestDTO.getIin());
             person.getDossier().add(requestEntity);
             personService.saveOrUpdate(person);
 
@@ -134,7 +145,6 @@ public class ArmRequestJmsConsumer {
             requestEntity.setCameraDocument(webCam);
             requestEntity.setScannedDocument(scan);
             requestEntity.setLogin(requestDTO.getUsername());
-            requestEntity.setId(requestDTO.getWfNumber());
             requestEntity.setObjectDate(new Date());
             //Todo save request
             requestService.saveOrUpdate(requestEntity);
