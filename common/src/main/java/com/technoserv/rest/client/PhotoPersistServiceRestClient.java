@@ -66,7 +66,6 @@ public class PhotoPersistServiceRestClient {
             String finalUrl = String.format(urlTemplate, file_name);
             //todo request -> json with jackson
             HttpEntity<PhotoSaveRequest> requestEntity = new HttpEntity<PhotoSaveRequest>(request);
-            requestEntity.getHeaders().add("Content-type","application/json");
             ResponseEntity<String> response = rest.exchange(URI.create(finalUrl), HttpMethod.PUT, requestEntity, String.class);
 
             if(log.isInfoEnabled()) {
