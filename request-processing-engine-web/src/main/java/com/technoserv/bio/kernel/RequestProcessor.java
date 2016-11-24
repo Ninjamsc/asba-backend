@@ -21,7 +21,7 @@ import java.util.Collection;
  * Created by Adrey on 22.11.2016.
  */
 //@Service(name = "requestProcessor")
-public class RequestProcessor implements Runnable{
+public class RequestProcessor {
 
     private static final Log logger = LogFactory.getLog(RequestProcessor.class);
 
@@ -52,10 +52,6 @@ public class RequestProcessor implements Runnable{
 
     public void process() {
         logger.debug("RequestProcessor process order");
-    }
-
-    @Override
-    public void run() {
         for (Request request : findRequestForProcessing()) {
             try {
                 updateRequestStatus(request, Request.Status.IN_PROCESS);
