@@ -45,6 +45,7 @@ public class PhotoPersistServiceRestClient {
             }
             return response.getBody();
         } catch (RestClientResponseException e) {
+            log.error(e);
             switch (e.getRawStatusCode()){
                 case 500://log.error("Прочие ошибки");break;
                 case 404://log.error("Фото не найдено");break;
@@ -71,6 +72,7 @@ public class PhotoPersistServiceRestClient {
             }
             return finalUrl;
         } catch (RestClientResponseException e) {
+            log.error(e);
             switch (e.getRawStatusCode()){
                 case 500://log.error("Прочие ошибки");break;
                 case 400://log.error("Неполный/неверный запрос");break;
