@@ -83,4 +83,26 @@
         </dependency>
     </dependencies>
 
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <data-source-context.xml.name>data-source-context-dev.xml</data-source-context.xml.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <data-source-context.xml.name>data-source-context-prod.xml</data-source-context.xml.name>
+            </properties>
+        </profile>
+    </profiles>
+
 </project>

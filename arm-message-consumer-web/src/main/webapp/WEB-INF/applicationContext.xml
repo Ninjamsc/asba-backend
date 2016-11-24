@@ -10,6 +10,6 @@
     <bean id="photoServiceClient" class="com.technoserv.rest.client.PhotoPersistServiceRestClient"/>
     <import resource="activeMQContext.xml"/>
     <import resource="classpath:common-context.xml"/>
-    <import resource="data-source-context.xml"/>
+    <import resource="${data-source-context.xml.name}"/>
 
 </beans>
