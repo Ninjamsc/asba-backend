@@ -18,10 +18,10 @@ public class Document extends AbstractObject {
     @JoinColumn(name = "DOC_TYPE_ID", referencedColumnName = "ID")
     private DocumentType documentType;
 
-    @Column(name = "ORIG_IMAGE_URL")
+    @Column(name = "ORIG_IMAGE_URL", length = 2048)
     private String origImageURL; //TODO String http URL
 
-    @Column(name = "FACE_SQUARE")
+    @Column(name = "FACE_SQUARE", length = 2048)
     private String faceSquare; //TODO String HTTP URL
 
     @OneToMany(mappedBy = "document")
