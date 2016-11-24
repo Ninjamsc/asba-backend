@@ -120,6 +120,7 @@ public class ArmRequestJmsConsumer {
             requestEntity.setTimestamp(requestDTO.getTimestamp());
             requestEntity.setCameraDocument(webCam);
             requestEntity.setScannedDocument(scan);
+            requestEntity.setLogin(requestDTO.getUsername());
             requestEntity.setId(requestDTO.getWfNumber());
             requestEntity.setObjectDate(new Date());
             //Todo save request
