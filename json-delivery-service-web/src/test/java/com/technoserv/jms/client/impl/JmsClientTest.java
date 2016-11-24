@@ -31,6 +31,7 @@ public class JmsClientTest {
 //    }
 
     @Test
+    @Ignore
     public void internalIT() throws Exception {
         JmsTemplate template = new JmsTemplate();
         template.setConnectionFactory(internalConnectionFactory());
