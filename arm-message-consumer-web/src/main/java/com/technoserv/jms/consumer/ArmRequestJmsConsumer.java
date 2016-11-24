@@ -24,9 +24,8 @@ import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
@@ -58,26 +57,12 @@ public class ArmRequestJmsConsumer {
     @Value("${arm-retry.queue.maxRetryCount}")
     private static Integer maxTryCount = 10;
 
-    public ArmRequestJmsConsumer() {
-    }
-
-    public ArmRequestJmsConsumer(JmsTemplate jmsTemplate, RequestService requestService, PersonService personService, PhotoPersistServiceRestClient photoServiceClient, DocumentService documentService, DocumentTypeService documentTypeService) {
-        this.jmsTemplate = jmsTemplate;
-        this.requestService = requestService;
-        this.personService = personService;
-        this.photoServiceClient = photoServiceClient;
-        this.documentService = documentService;
-        this.documentTypeService = documentTypeService;
-    }
-
-    @Transactional
     public void onReceive(String message) {
         if(!saveRequest(message)) {
             jmsTemplate.convertAndSend(new ArmRequestRetryMessage(message));
         }
     }
 
-    @Transactional
     public void onReceive(ArmRequestRetryMessage message) {
         if(message.getTryCount()<=maxTryCount) {
             if (!saveRequest(message.getMessage())) {
@@ -115,7 +100,8 @@ public class ArmRequestJmsConsumer {
                 webCam = requestEntity.getCameraDocument();
                 scan = requestEntity.getScannedDocument();
             } else {
-                requestEntity = new Request(requestDTO.getWfNumber());
+                requestEntity = new Request();
+                requestEntity.setId(requestDTO.getWfNumber());
                 webCam = new Document();
                 scan = new Document();
             }
@@ -134,10 +120,13 @@ public class ArmRequestJmsConsumer {
             }
             documentService.saveOrUpdate(scan);
             documentService.saveOrUpdate(webCam);
-
             Person person = personService.findById(requestDTO.getIin());
-            person = person != null ? person : new Person(requestDTO.getIin());
+            if(person==null) {
+                person = new Person();
+                person.setDossier(new ArrayList<Request>());
+            }
             requestEntity.setPerson(person);
+            person.setId(requestDTO.getIin());
             person.getDossier().add(requestEntity);
             personService.saveOrUpdate(person);
 

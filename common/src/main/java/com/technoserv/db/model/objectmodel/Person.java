@@ -31,7 +31,7 @@ public class Person extends BaseEntity<Long> {
     /**
      * массив всех заявок
      */
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "person")
     private List<Request> dossier = new ArrayList<Request>();
 
     public List<Request> getDossier() {
