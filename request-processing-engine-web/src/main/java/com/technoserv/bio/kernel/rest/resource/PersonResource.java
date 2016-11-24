@@ -23,7 +23,7 @@ import java.util.Collections;
  * Created by sergey on 23.11.2016.
  */
 @Component
-@Path("/db/rest/person")
+@Path("/db/rest/IIN")
 @Api(value = "Person")
 public class PersonResource {
 
