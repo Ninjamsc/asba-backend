@@ -1,5 +1,6 @@
 package com.technoserv.db.model.objectmodel;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.technoserv.db.model.BaseEntity;
 
 import javax.persistence.*;

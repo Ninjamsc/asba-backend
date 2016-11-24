@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class PersonServiceImpl extends AbstractService<Long, Person,PersonDao> implements PersonService {
-    @Override
     @Autowired
     @Qualifier("personDao")
     public void setDao(PersonDao dao) {
