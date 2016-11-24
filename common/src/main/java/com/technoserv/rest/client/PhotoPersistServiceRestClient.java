@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.net.URI;
 
@@ -30,16 +28,14 @@ public class PhotoPersistServiceRestClient {
 
     private RestTemplate rest = new RestTemplate();
 
-    public Base64Photo getPhoto(String guid) {
+    public Base64Photo getPhoto(String photoUrl) {
         if(log.isInfoEnabled()) {
-            log.info("REQUESTING PHOTO: '" + guid + "'");
+            log.info("REQUESTING PHOTO: '" + photoUrl + "'");
         }
         try {
-            String urlTemplate = String.format("%s/%s.jpg", url, "%s");
-            String finalUrl = String.format(urlTemplate, guid);
-            ResponseEntity<Base64Photo> response = rest.getForEntity(URI.create(finalUrl), Base64Photo.class);
+            ResponseEntity<Base64Photo> response = rest.getForEntity(URI.create(photoUrl), Base64Photo.class);
             if(log.isInfoEnabled()) {
-                log.info("REQUESTING PHOTO: '" + finalUrl + "' DONE");
+                log.info("REQUESTING PHOTO: '" + photoUrl + "' DONE");
             }
             return response.getBody();
         } catch (RestClientResponseException e) {
