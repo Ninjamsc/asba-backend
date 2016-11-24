@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.net.URI;
 
@@ -30,16 +28,14 @@ public class PhotoPersistServiceRestClient {
 
     private RestTemplate rest = new RestTemplate();
 
-    public Base64Photo getPhoto(String guid) {
+    public Base64Photo getPhoto(String photoUrl) {
         if(log.isInfoEnabled()) {
-            log.info("REQUESTING PHOTO: '" + guid + "'");
+            log.info("REQUESTING PHOTO: '" + photoUrl + "'");
         }
         try {
-            String urlTemplate = String.format("%s/%s.jpg", url, "%s");
-            String finalUrl = String.format(urlTemplate, guid);
-            ResponseEntity<Base64Photo> response = rest.getForEntity(URI.create(finalUrl), Base64Photo.class);
+            ResponseEntity<Base64Photo> response = rest.getForEntity(URI.create(photoUrl), Base64Photo.class);
             if(log.isInfoEnabled()) {
-                log.info("REQUESTING PHOTO: '" + finalUrl + "' DONE");
+                log.info("REQUESTING PHOTO: '" + photoUrl + "' DONE");
             }
             return response.getBody();
         } catch (RestClientResponseException e) {
@@ -54,14 +50,14 @@ public class PhotoPersistServiceRestClient {
         }
     }
     public String putPhoto(String file_content, String file_name) {
+        file_name = String.format("%s.jpg", file_name);
         PhotoSaveRequest request = new PhotoSaveRequest(file_content, file_name);
 
         if(log.isInfoEnabled()) {
             log.info("SAVING PHOTO: '" + file_name + "'" + " content:'" + file_content+"'");
         }
         try {
-            String urlTemplate = String.format("%s/%s.jpg", url, "%s");
-            String finalUrl = String.format(urlTemplate, file_name);
+            String finalUrl = String.format("%s/%s", url, file_name);
             //todo request -> json with jackson
             HttpHeaders requestHeaders = new HttpHeaders();
             requestHeaders.setContentType(MediaType.APPLICATION_JSON);
