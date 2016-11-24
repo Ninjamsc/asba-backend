@@ -2,10 +2,12 @@ package com.technoserv.jms.consumer;
 
 import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by Adrey on 24.11.2016.
  */
+@Service
 @Profile("test")
 public class MockPhotoServiceClient extends PhotoPersistServiceRestClient {
 
