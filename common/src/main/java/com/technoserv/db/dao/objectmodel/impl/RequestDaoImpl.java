@@ -25,7 +25,7 @@ public class RequestDaoImpl extends AbstractHibernateDao<Long, Request> implemen
 
     public Request findByOrderNumber(Long id) {
         return (Request) getSession().createCriteria(getPersistentClass())
-                .add(Property.forName("wfmID").eq(id)).uniqueResult();
+                .add(Property.forName("id").eq(id)).uniqueResult();
     }
 
     /**
