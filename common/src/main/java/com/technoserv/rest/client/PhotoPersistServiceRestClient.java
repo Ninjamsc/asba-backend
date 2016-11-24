@@ -61,9 +61,10 @@ public class PhotoPersistServiceRestClient {
             log.info("SAVING PHOTO: '" + file_name + "'");
         }
         try {
-            String url = String.format(urlTemplate, file_name);
+            String urlTemplate = String.format("%s/%s.jpg", url, "%s");
+            String finalUrl = String.format(urlTemplate, file_name);
             //todo request -> json with jackson
-            ResponseEntity<String> response = rest.exchange(URI.create(url), HttpMethod.PUT, new HttpEntity<PhotoSaveRequest>(request), String.class);
+            ResponseEntity<String> response = rest.exchange(URI.create(finalUrl), HttpMethod.PUT, new HttpEntity<PhotoSaveRequest>(request), String.class);
 
             if(log.isInfoEnabled()) {
                 log.info("SAVING PHOTO: '" + url + "' DONE");
