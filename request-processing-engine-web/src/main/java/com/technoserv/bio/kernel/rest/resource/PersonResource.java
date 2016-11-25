@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 import com.technoserv.db.model.objectmodel.Person;
 import com.technoserv.db.model.objectmodel.Request;
-import com.technoserv.db.model.objectmodel.StopList;
 import com.technoserv.db.service.objectmodel.api.PersonService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +13,8 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.sql.Timestamp;
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 /**
  * Created by sergey on 23.11.2016.
@@ -45,7 +42,7 @@ public class PersonResource {
         response.setIin(person.getId());
 
         for (Request request : person.getDossier() ) {
-            RequestResource.GetRequestResponse requestResponse = new RequestResource.GetRequestResponse();
+            HistoryRequestResponse requestResponse = new HistoryRequestResponse();
             requestResponse.setWfmid(request.getId());
             requestResponse.setUsername(request.getLogin());
             requestResponse.setTimestamp(request.getTimestamp());
@@ -62,12 +59,88 @@ public class PersonResource {
         return response;
     }
 
+    public static class HistoryRequestResponse {
+        @JsonProperty("_comment")
+        private String comment;
+        private String username;
+        private Long wfmid;
+        private Timestamp timestamp;
+        private String previewCamURL;
+        private String fullframeCamURL;
+        private String previewScanURL;
+        private String fullframeScanURL;
+
+        public String getComment() {
+            return comment;
+        }
+
+        public void setComment(String comment) {
+            this.comment = comment;
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public Long getWfmid() {
+            return wfmid;
+        }
+
+        public void setWfmid(Long wfmid) {
+            this.wfmid = wfmid;
+        }
+
+        public Timestamp getTimestamp() {
+            return timestamp;
+        }
+
+        public void setTimestamp(Timestamp timestamp) {
+            this.timestamp = timestamp;
+        }
+
+        public String getPreviewCamURL() {
+            return previewCamURL;
+        }
+
+        public void setPreviewCamURL(String previewCamURL) {
+            this.previewCamURL = previewCamURL;
+        }
+
+        public String getFullframeCamURL() {
+            return fullframeCamURL;
+        }
+
+        public void setFullframeCamURL(String fullframeCamURL) {
+            this.fullframeCamURL = fullframeCamURL;
+        }
+
+        public String getPreviewScanURL() {
+            return previewScanURL;
+        }
+
+        public void setPreviewScanURL(String previewScanURL) {
+            this.previewScanURL = previewScanURL;
+        }
+
+        public String getFullframeScanURL() {
+            return fullframeScanURL;
+        }
+
+        public void setFullframeScanURL(String fullframeScanURL) {
+            this.fullframeScanURL = fullframeScanURL;
+        }
+    }
+
     public static class PersonResponse {
         @JsonProperty("_comment")
         private String comment;
         private Long iin;
         private Timestamp timestamp;
-        private Collection<RequestResource.GetRequestResponse> dossier = new ArrayList<>();
+        private Collection<HistoryRequestResponse> dossier = new ArrayList<>();
 
         public String getComment() {
             return comment;
@@ -93,11 +166,11 @@ public class PersonResource {
             this.timestamp = timestamp;
         }
 
-        public Collection<RequestResource.GetRequestResponse> getDossier() {
+        public Collection<HistoryRequestResponse> getDossier() {
             return dossier;
         }
 
-        public void setDossier(Collection<RequestResource.GetRequestResponse> dossier) {
+        public void setDossier(Collection<HistoryRequestResponse> dossier) {
             this.dossier = dossier;
         }
     }
