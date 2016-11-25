@@ -15,6 +15,35 @@ public class MockCompareServiceClient extends CompareServiceRestClient {
 
     @Override
     public String compare(CompareServiceRequest request) {
-        return "COMPARED";
+        return "{\n" +
+                "    \"blackLists\": {\n" +
+                "        \"listId\": \"1\",\n" +
+                "        \"listName\": \"List 1\",\n" +
+                "        \"photo\": [\n" +
+                "            {\n" +
+                "                \"similarity\": \"13.169\",\n" +
+                "                \"url\": \"url1\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"similarity\": \"13.169\",\n" +
+                "                \"url\": \"url2\"\n" +
+                "            }\n" +
+                "        ]\n" +
+                "    },\n" +
+                "    \"rules\": {\n" +
+                "        \"photo\": [\n" +
+                "            {\n" +
+                "                \"similarity\": \"13.169\",\n" +
+                "                \"url\": \"url1\"\n" +
+                "            },\n" +
+                "            {\n" +
+                "                \"similarity\": \"13.169\",\n" +
+                "                \"url\": \"url2\"\n" +
+                "            }\n" +
+                "        ],\n" +
+                "        \"ruleId\": \"1\",\n" +
+                "        \"ruleName\": \"Rule1\"\n" +
+                "    }\n" +
+                "}";
     }
 }

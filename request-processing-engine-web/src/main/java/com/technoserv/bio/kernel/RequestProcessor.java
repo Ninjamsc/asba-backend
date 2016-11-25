@@ -1,6 +1,8 @@
 package com.technoserv.bio.kernel;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.technoserv.bio.kernel.rest.client.CompareServiceRestClient;
 import com.technoserv.bio.kernel.rest.client.PhotoAnalyzerServiceRestClient;
 import com.technoserv.bio.kernel.rest.client.TemplateBuilderServiceRestClient;
@@ -21,11 +23,10 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Adrey on 22.11.2016.
@@ -62,9 +63,14 @@ public class RequestProcessor {
     @Autowired
     private BioTemplateTypeService bioTemplateTypeService;
 
-    public RequestProcessor(){};
+    private ObjectMapper objectMapper = new ObjectMapper();
 
-    public Collection<Request> findRequestForProcessing(){
+    SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yy.HH.mm.ss");
+
+    public RequestProcessor() {}
+
+
+    public Collection<Request> findRequestForProcessing() {
         return requestService.findNotProcessed();
     }
 
@@ -117,13 +123,24 @@ public class RequestProcessor {
                 compareServiceRequest.setWebTemplate(webCamTemplate.template);
                 String compareResult = сompareServiceRestClient.compare(compareServiceRequest);
                 writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate Done: " + new String(compareResult.getBytes()));
+                JsonNode  result = objectMapper.readValue(compareResult, JsonNode.class);
+                ((ObjectNode) result).put("wfNumber", request.getId());
+                ((ObjectNode) result).put("IIN", request.getPerson().getId());
+                ((ObjectNode) result).put("username", request.getLogin());
+                String timestamp = DATE_FORMAT.format(request.getTimestamp());
+                ((ObjectNode) result).put("timestamp", timestamp);
+                ((ObjectNode) result).put("scannedPictureURL", request.getScannedDocument().getFaceSquare());
+                ((ObjectNode) result).put("scannedPicturePreviewURL", request.getScannedDocument().getOrigImageURL());
+                ((ObjectNode) result).put("webCamPictureURL", request.getCameraDocument().getFaceSquare());
+                ((ObjectNode) result).put("webCamPicturePreviewURL", request.getCameraDocument().getOrigImageURL());
                 writeLog("Send compareServiceRequest");
-                jmsTemplate.convertAndSend(compareResult);
+                writeLog(result.toString());
+                jmsTemplate.convertAndSend(result.toString());
                 writeLog("Send compareServiceRequest Done");
                 writeLog("Update request status to SUCCESS for id = '" + request.getId() + "'");
                 updateRequestStatus(request, Request.Status.SUCCESS);
                 writeLog("Update request status to SUCCESS for id = '" + request.getId() + "' Done");
-            } catch (RestClientException ex){
+            } catch (RestClientException ex) {
                 ex.printStackTrace();
                 writeLog("Update request status to FAILED for id = '" + request.getId() + "'");
                 updateRequestStatus(request, Request.Status.FAILED);
@@ -138,15 +155,14 @@ public class RequestProcessor {
         }
     }
 
-    private void addBioTemplateToDocument(Request request,Document document, PhotoTemplate scannedTemplate) throws IOException {
+    private void addBioTemplateToDocument(Request request, Document document, PhotoTemplate scannedTemplate) throws IOException {
 
         BioTemplate bioTemplate = new BioTemplate();
         bioTemplate.setInsUser(request.getInsUser());
-        ObjectMapper objectMapper = new ObjectMapper();
         bioTemplate.setTemplateVector(JsonUtils.serializeJson(scannedTemplate.template));
         bioTemplate.setDocument(document);
         BioTemplateVersion bioTemplateVersion = bioTemplateVersionService.findById((long) scannedTemplate.version);
-        if(bioTemplateVersion==null) {
+        if (bioTemplateVersion == null) {
             bioTemplateVersion = new BioTemplateVersion();
             bioTemplateVersion.setId((long) scannedTemplate.version);
             bioTemplateVersion.setObjectDate(new Date());
@@ -155,7 +171,7 @@ public class RequestProcessor {
         }
         bioTemplate.setBioTemplateVersion(bioTemplateVersion);
         BioTemplateType bioTemplateType = bioTemplateTypeService.findById((long) scannedTemplate.type);
-        if(bioTemplateType==null) {
+        if (bioTemplateType == null) {
             bioTemplateType = new BioTemplateType();
             bioTemplateType.setId((long) scannedTemplate.type);
             bioTemplateType.setDescription("Новый тип " + scannedTemplate.type);
@@ -165,7 +181,6 @@ public class RequestProcessor {
 
         bioTemplateService.saveOrUpdate(bioTemplate);
     }
-
 
     private void updateRequestStatus(Request request, Request.Status status) {
         request.setStatus(status);
