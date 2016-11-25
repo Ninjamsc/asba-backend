@@ -31,13 +31,13 @@ public class CompareServiceRestClient {
 
     public String compare(CompareServiceRequest request) {
         if(log.isInfoEnabled()) {
-            log.info("REQUESTING TEMPLATE: '" + request + "'");
+            log.info("COMPARING TEMPLATE: '" + request + "'");
         }
         try {
             //todo request -> json with jackson
             ResponseEntity<String> response = rest.exchange(URI.create(url), HttpMethod.PUT, new HttpEntity<>(request), String.class);
             if(log.isInfoEnabled()) {
-                log.info("REQUESTING TEMPLATE: DONE");
+                log.info("COMPARING TEMPLATE: DONE");
             }
             return response.getBody();
         } catch (RestClientResponseException e) {
