@@ -113,8 +113,8 @@ public class RequestProcessor {
                 // компонент 9 Сервис сравнения
                 writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate");
                 CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
-                compareServiceRequest.setScanTemplate(JsonUtils.serializeJson(scannedTemplate.template));
-                compareServiceRequest.setWebTemplate(JsonUtils.serializeJson(webCamTemplate.template));
+                compareServiceRequest.setScanTemplate(scannedTemplate.template);
+                compareServiceRequest.setWebTemplate(webCamTemplate.template);
                 String compareResult = сompareServiceRestClient.compare(compareServiceRequest);
                 writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate Done: " + new String(compareResult.getBytes()));
                 writeLog("Send compareServiceRequest");
