@@ -89,7 +89,7 @@ public class BioTemplateTest {
         reader.close();
         String fileString = fileData.toString();
         System.out.println(fileString);
-        bioTemplate.setTemplateVector(fileString.getBytes());
+        bioTemplate.setTemplateVector(fileString);
         return bioTemplate;
     }
 }
