@@ -32,14 +32,14 @@ public class PhotoAnalyzerServiceRestClient {
     /**
      * В случае успеха (библиотека анализа изображений не нашла несоответствий) возврат HTTP 200 OK безJSON документа
      * */
-    public void analyzePhoto(byte[] base64photo) {
+    public void analyzePhoto(byte[] request) {
         if (log.isInfoEnabled()) {
-            log.info("ANALYZING TEMPLATE: '" + base64photo + "'");
+            log.info("ANALYZING TEMPLATE: '" + request + "'");
         }
         try {
             HttpHeaders requestHeaders = new HttpHeaders();
-            requestHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            HttpEntity<byte[]> requestEntity = new HttpEntity<byte[]>(base64photo,requestHeaders);
+            requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<Base64Photo> requestEntity = new HttpEntity<Base64Photo>(new Base64Photo(request),requestHeaders);
             rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, PhotoAnalyzeResult.class);
             if (log.isInfoEnabled()) {
                 log.info("ANALYZING TEMPLATE:  DONE");
@@ -48,9 +48,9 @@ public class PhotoAnalyzerServiceRestClient {
             switch (e.getRawStatusCode()) {
                 //На первом этапе сервис выполняется в виде заглушки, всегда возвращающей HTTP 200 ОК.
                 /*Стандартные названия ошибок не совпадают с нашей документацией  только коды */
-                case 510://log.error("510 ошибка анализа изображения");
-                case 400://log.error("Неполный/неверный запрос");
-                case 500://log.error("Прочие ошибки");
+                case 510:log.error("510 ошибка анализа изображения");
+                case 400:log.error("Неполный/неверный запрос");
+//                case 500://log.error("Прочие ошибки");
                 default:
                     throw new PhotoAnalizerServiceException(e.getResponseBodyAsString());
             }

@@ -8,9 +8,9 @@ package com.technoserv.rest.request;
 public class Base64Photo {
 
     /** base46 encoded изображение */
-    public String photos;
+    public String photo;
 
-    public Base64Photo(String base64photo) {
-
+    public Base64Photo(byte[] base64photo) {
+        photo = new String(base64photo);
     }
 }
