@@ -45,6 +45,8 @@ public class TemplateBuilderServiceRestClient {
             }
             return response.getBody();
         } catch (RestClientResponseException e) {
+            System.out.println("BUILDER BIO TEMPLATE ERROR Code: " + e.getRawStatusCode());
+            e.printStackTrace();
             switch (e.getRawStatusCode()) {
                 /*Стандартные названия http-ошибок не совпадают с нашей документацией только коды */
                 case 510://log.error("510 base64 не является фотографией");
