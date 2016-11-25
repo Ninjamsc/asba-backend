@@ -1,6 +1,5 @@
 package com.technoserv.bio.kernel;
 
-import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.technoserv.bio.kernel.rest.client.CompareServiceRestClient;
 import com.technoserv.bio.kernel.rest.client.PhotoAnalyzerServiceRestClient;
@@ -60,8 +59,7 @@ public class RequestProcessor {
     @Autowired
     private BioTemplateVersionService bioTemplateVersionService;
 
-    public RequestProcessor() {
-    }
+    public RequestProcessor(){};
 
     public Collection<Request> findRequestForProcessing(){
         return requestService.findNotProcessed();
@@ -73,11 +71,12 @@ public class RequestProcessor {
         for (Request request : requestList) {
             try {
                 updateRequestStatus(request, Request.Status.IN_PROCESS);
-                // шаг 4 построение шаблона
-                // компонент 7. Сервис построения шаблонов(биометрическое ядро)
+
                 Base64Photo scannedPhoto = photoPersistServiceRestClient.getPhoto(request.getScannedDocument().getOrigImageURL());
                 Base64Photo webCamPhoto = photoPersistServiceRestClient.getPhoto(request.getCameraDocument().getOrigImageURL());
 
+                // шаг 4 построение шаблона
+                // компонент 7. Сервис построения шаблонов(биометрическое ядро)
                 PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(scannedPhoto);
                 addBioTemplateToDocument(request, request.getScannedDocument(), scannedTemplate);
 
@@ -85,8 +84,8 @@ public class RequestProcessor {
                 addBioTemplateToDocument(request, request.getCameraDocument(), webCamTemplate);
                 //шаг 5 Построение фильтров
                 // компонент 8 Сервис анализа изображений
-                photoAnalyzerServiceRestClient.analizePhoto(scannedPhoto.photos);
-                photoAnalyzerServiceRestClient.analizePhoto(webCamPhoto.photos);
+                photoAnalyzerServiceRestClient.analyzePhoto(scannedPhoto.photos);
+                photoAnalyzerServiceRestClient.analyzePhoto(webCamPhoto.photos);
                 //шаг в 6 Сравнение со списками
                 // компонент 9 Сервис сравнения
                 CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
@@ -130,5 +129,37 @@ public class RequestProcessor {
     private void updateRequestStatus(Request request, Request.Status status) {
         request.setStatus(status);
         requestService.saveOrUpdate(request);
+    }
+
+    public void setRequestService(RequestService requestService) {
+        this.requestService = requestService;
+    }
+
+    public void setTemplateBuilderServiceRestClient(TemplateBuilderServiceRestClient templateBuilderServiceRestClient) {
+        this.templateBuilderServiceRestClient = templateBuilderServiceRestClient;
+    }
+
+    public void setPhotoPersistServiceRestClient(PhotoPersistServiceRestClient photoPersistServiceRestClient) {
+        this.photoPersistServiceRestClient = photoPersistServiceRestClient;
+    }
+
+    public void setPhotoAnalyzerServiceRestClient(PhotoAnalyzerServiceRestClient photoAnalyzerServiceRestClient) {
+        this.photoAnalyzerServiceRestClient = photoAnalyzerServiceRestClient;
+    }
+
+    public void setСompareServiceRestClient(CompareServiceRestClient сompareServiceRestClient) {
+        this.сompareServiceRestClient = сompareServiceRestClient;
+    }
+
+    public void setJmsTemplate(JmsTemplate jmsTemplate) {
+        this.jmsTemplate = jmsTemplate;
+    }
+
+    public void setBioTemplateService(BioTemplateService bioTemplateService) {
+        this.bioTemplateService = bioTemplateService;
+    }
+
+    public void setBioTemplateVersionService(BioTemplateVersionService bioTemplateVersionService) {
+        this.bioTemplateVersionService = bioTemplateVersionService;
     }
 }
