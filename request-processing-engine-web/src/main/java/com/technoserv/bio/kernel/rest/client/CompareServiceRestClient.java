@@ -43,10 +43,11 @@ public class CompareServiceRestClient {
             }
             return response.getBody();
         } catch (RestClientResponseException e) {
+            log.error("COMPARING TEMPLATE ERROR CODE " + e.getRawStatusCode());
             switch (e.getRawStatusCode()){
                 /*Стандартные названия ошибок не совпадают с нашей документацией только коды */
-                case 400://BAD_REQUEST:
-                case 500://INTERNAL_SERVER_ERROR:
+                case 400:log.error("BAD_REQUEST");//BAD_REQUEST:
+                case 500:log.error("INTERNAL_SERVER_ERROR");//INTERNAL_SERVER_ERROR:
                 default: throw new CompareServiceException(e.getResponseBodyAsString());
             }
         }
