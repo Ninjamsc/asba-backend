@@ -114,7 +114,7 @@ public class RequestProcessor {
                 writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate");
                 CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
                 compareServiceRequest.setScanTemplate(JsonUtils.serializeJson(scannedTemplate.template));
-                compareServiceRequest.setWebTemplate(webCamTemplate.template);
+                compareServiceRequest.setWebTemplate(JsonUtils.serializeJson(webCamTemplate.template));
                 String compareResult = сompareServiceRestClient.compare(compareServiceRequest);
                 writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate Done: " + new String(compareResult.getBytes()));
                 writeLog("Send compareServiceRequest");
@@ -143,7 +143,7 @@ public class RequestProcessor {
         BioTemplate bioTemplate = new BioTemplate();
         bioTemplate.setInsUser(request.getInsUser());
         ObjectMapper objectMapper = new ObjectMapper();
-        bioTemplate.setTemplateVector(scannedTemplate.template);
+        bioTemplate.setTemplateVector(JsonUtils.serializeJson(scannedTemplate.template));
         bioTemplate.setDocument(document);
         BioTemplateVersion bioTemplateVersion = bioTemplateVersionService.findById((long) scannedTemplate.version);
         if(bioTemplateVersion==null) {

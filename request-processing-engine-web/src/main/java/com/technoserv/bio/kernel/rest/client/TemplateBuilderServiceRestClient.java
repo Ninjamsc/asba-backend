@@ -59,4 +59,9 @@ public class TemplateBuilderServiceRestClient {
             }
         }
     }
+
+    //для теста
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }

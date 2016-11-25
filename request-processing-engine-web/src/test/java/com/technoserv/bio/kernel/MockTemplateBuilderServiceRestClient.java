@@ -17,7 +17,7 @@ public class MockTemplateBuilderServiceRestClient extends TemplateBuilderService
     public PhotoTemplate getPhotoTemplate(byte[] request) {
         PhotoTemplate photoTemplate = new PhotoTemplate();
         photoTemplate.version = 1;
-        photoTemplate.template = JsonUtils.serializeJson(new double[]{1.1, 1.2});
+        photoTemplate.template = new double[]{1.1, 1.2};
         return photoTemplate;
     }
 }
