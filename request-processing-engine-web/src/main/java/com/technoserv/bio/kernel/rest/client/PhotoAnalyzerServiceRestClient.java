@@ -3,13 +3,12 @@ package com.technoserv.bio.kernel.rest.client;
 import com.technoserv.bio.kernel.rest.exception.PhotoAnalizerServiceException;
 import com.technoserv.bio.kernel.rest.response.PhotoAnalyzeResult;
 import com.technoserv.rest.request.Base64Photo;
+import com.technoserv.rest.request.PhotoSaveRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
@@ -26,7 +25,7 @@ public class PhotoAnalyzerServiceRestClient {
     private static final Log log = LogFactory.getLog(PhotoAnalyzerServiceRestClient.class);
 
     @Value("${http.photo.analyzer.service.url}")
-    private String url;
+    private String url = "http://localhost:8080/quality/rest/test";
 
     private RestTemplate rest = new RestTemplate();
 
@@ -39,7 +38,10 @@ public class PhotoAnalyzerServiceRestClient {
         }
         try {
             Base64Photo request = new Base64Photo(base64photo);
-            rest.exchange(URI.create(url), HttpMethod.PUT, new HttpEntity<>(request), PhotoAnalyzeResult.class);
+            HttpHeaders requestHeaders = new HttpHeaders();
+            requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<Base64Photo> requestEntity = new HttpEntity<Base64Photo>(request,requestHeaders);
+            rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, PhotoAnalyzeResult.class);
             if (log.isInfoEnabled()) {
                 log.info("ANALYZING TEMPLATE:  DONE");
             }
@@ -54,6 +56,12 @@ public class PhotoAnalyzerServiceRestClient {
                     throw new PhotoAnalizerServiceException(e.getResponseBodyAsString());
             }
         }
+
+    }
+
+    public static void main(String[] args) {
+        PhotoAnalyzerServiceRestClient restClient = new PhotoAnalyzerServiceRestClient();
+        restClient.analyzePhoto("/9j/4AAQSkZJRgABA");
 
     }
 }

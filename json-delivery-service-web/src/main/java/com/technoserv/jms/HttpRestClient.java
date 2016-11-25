@@ -4,6 +4,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -29,7 +33,11 @@ public class HttpRestClient {
             log.info("SENDING MESSAGE: '" + message + "'");
         }
         try {
-            rest.put(URI.create(url), message);
+            HttpHeaders requestHeaders = new HttpHeaders();
+            requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<String> requestEntity = new HttpEntity<String>(message,requestHeaders);
+            rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, String.class);
+//            rest.put(URI.create(url), message);
             /* Вариант использования
             ResponseEntity<String> response = rest.exchange(URI.create(url), HttpMethod.POST, new HttpEntity<String>(message), String.class);*/
             if(log.isInfoEnabled()) {

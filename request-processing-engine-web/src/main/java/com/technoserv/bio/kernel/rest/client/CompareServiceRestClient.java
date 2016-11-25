@@ -3,13 +3,12 @@ package com.technoserv.bio.kernel.rest.client;
 
 import com.technoserv.bio.kernel.rest.exception.CompareServiceException;
 import com.technoserv.bio.kernel.rest.request.CompareServiceRequest;
+import com.technoserv.rest.request.Base64Photo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
@@ -35,7 +34,10 @@ public class CompareServiceRestClient {
         }
         try {
             //todo request -> json with jackson
-            ResponseEntity<String> response = rest.exchange(URI.create(url), HttpMethod.PUT, new HttpEntity<>(request), String.class);
+            HttpHeaders requestHeaders = new HttpHeaders();
+            requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<CompareServiceRequest> requestEntity = new HttpEntity<CompareServiceRequest>(request,requestHeaders);
+            ResponseEntity<String> response = rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, String.class);
             if(log.isInfoEnabled()) {
                 log.info("COMPARING TEMPLATE: DONE");
             }
