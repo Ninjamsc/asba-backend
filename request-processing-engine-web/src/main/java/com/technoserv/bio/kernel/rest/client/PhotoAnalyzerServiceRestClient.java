@@ -32,15 +32,14 @@ public class PhotoAnalyzerServiceRestClient {
     /**
      * В случае успеха (библиотека анализа изображений не нашла несоответствий) возврат HTTP 200 OK безJSON документа
      * */
-    public void analyzePhoto(String base64photo) {
+    public void analyzePhoto(byte[] base64photo) {
         if (log.isInfoEnabled()) {
             log.info("ANALYZING TEMPLATE: '" + base64photo + "'");
         }
         try {
-            Base64Photo request = new Base64Photo(base64photo);
             HttpHeaders requestHeaders = new HttpHeaders();
             requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<Base64Photo> requestEntity = new HttpEntity<Base64Photo>(request,requestHeaders);
+            HttpEntity<byte[]> requestEntity = new HttpEntity<byte[]>(base64photo,requestHeaders);
             rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, PhotoAnalyzeResult.class);
             if (log.isInfoEnabled()) {
                 log.info("ANALYZING TEMPLATE:  DONE");
@@ -62,7 +61,7 @@ public class PhotoAnalyzerServiceRestClient {
     public static void main(String[] args) {
         PhotoAnalyzerServiceRestClient restClient = new PhotoAnalyzerServiceRestClient();
         restClient.url = "http://localhost:8080/quality/rest/test";
-        restClient.analyzePhoto("/9j/4AAQSkZJRgABA");
+        restClient.analyzePhoto("/9j/4AAQSkZJRgABA".getBytes());
 
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class MockPhotoAnalyzerServiceClient extends PhotoAnalyzerServiceRestClient {
 
     @Override
-    public void analyzePhoto(String base64photo) {
+    public void analyzePhoto(byte[] base64photo) {
 
     }
 }

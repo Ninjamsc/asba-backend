@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Profile;
 public class MockTemplateBuilderServiceRestClient extends TemplateBuilderServiceRestClient {
 
     @Override
-    public PhotoTemplate getPhotoTemplate(Base64Photo request) {
+    public PhotoTemplate getPhotoTemplate(byte[] request) {
         PhotoTemplate photoTemplate = new PhotoTemplate();
         photoTemplate.version = 1;
         photoTemplate.template = new double[]{1.1, 1.2};

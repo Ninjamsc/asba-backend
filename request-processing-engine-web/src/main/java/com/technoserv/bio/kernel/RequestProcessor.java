@@ -78,10 +78,10 @@ public class RequestProcessor {
                 writeLog("Update request status to IN_PROCESS for id = '" + request.getId() + "'");
                 updateRequestStatus(request, Request.Status.IN_PROCESS);
                 writeLog("Download photo");
-                Base64Photo scannedPhoto = photoPersistServiceRestClient.getPhoto(request.getScannedDocument().getOrigImageURL());
-                writeLog("Downloaded scannedPhoto '" + scannedPhoto.photos + "'");
-                Base64Photo webCamPhoto = photoPersistServiceRestClient.getPhoto(request.getCameraDocument().getOrigImageURL());
-                writeLog("Downloaded webCamPhoto '" + webCamPhoto.photos + "'");
+                byte[] scannedPhoto = photoPersistServiceRestClient.getPhoto(request.getScannedDocument().getOrigImageURL());
+                writeLog("Downloaded scannedPhoto '" + scannedPhoto + "'");
+                byte[] webCamPhoto = photoPersistServiceRestClient.getPhoto(request.getCameraDocument().getOrigImageURL());
+                writeLog("Downloaded webCamPhoto '" + webCamPhoto + "'");
                 // шаг 4 построение шаблона
                 // компонент 7. Сервис построения шаблонов(биометрическое ядро)
                 writeLog("scannedPhoto -> scannedTemplate");
@@ -99,12 +99,12 @@ public class RequestProcessor {
                 writeLog("saving webCamTemplate - done");
                 //шаг 5 Построение фильтров
                 // компонент 8 Сервис анализа изображений
-                writeLog("analyze scannedPhoto " + scannedPhoto.photos);
-                photoAnalyzerServiceRestClient.analyzePhoto(scannedPhoto.photos);
+                writeLog("analyze scannedPhoto " + scannedPhoto);
+                photoAnalyzerServiceRestClient.analyzePhoto(scannedPhoto);
                 writeLog("analyze scannedPhoto Done");
 
                 writeLog("analyze webCamPhoto");
-                photoAnalyzerServiceRestClient.analyzePhoto(webCamPhoto.photos);
+                photoAnalyzerServiceRestClient.analyzePhoto(webCamPhoto);
                 writeLog("analyze webCamPhoto Done");
                 //шаг в 6 Сравнение со списками
                 // компонент 9 Сервис сравнения

@@ -8,11 +8,13 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.util.Arrays;
 
 /**
  * Created by VBasakov on 22.11.2016.
@@ -26,14 +28,24 @@ public class PhotoPersistServiceRestClient {
     @Value("${http.photo.persist.service.url}")
     private String url;
 
-    private RestTemplate rest = new RestTemplate();
+    private  RestTemplate rest = new RestTemplate();
 
-    public Base64Photo getPhoto(String photoUrl) {
+    public PhotoPersistServiceRestClient() {
+        this.rest = new RestTemplate();
+        this.rest.getMessageConverters().add(new ByteArrayHttpMessageConverter());
+    }
+
+    public byte[] getPhoto(String photoUrl) {
         if(log.isInfoEnabled()) {
             log.info("REQUESTING PHOTO: '" + photoUrl + "'");
         }
         try {
-            ResponseEntity<Base64Photo> response = rest.getForEntity(URI.create(photoUrl), Base64Photo.class);
+            HttpHeaders  headers = new HttpHeaders();
+            headers.setAccept(Arrays.asList(MediaType.APPLICATION_OCTET_STREAM));
+
+            HttpEntity<String> entity = new HttpEntity<String>(headers);
+
+            ResponseEntity<byte[]> response = rest.exchange(URI.create(photoUrl), HttpMethod.GET, entity, byte[].class);
             if(log.isInfoEnabled()) {
                 log.info("REQUESTING PHOTO: '" + photoUrl + "' DONE");
             }

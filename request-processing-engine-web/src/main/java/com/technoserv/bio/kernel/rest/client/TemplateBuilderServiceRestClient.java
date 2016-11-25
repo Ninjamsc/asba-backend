@@ -30,15 +30,15 @@ public class TemplateBuilderServiceRestClient {
 
     private RestTemplate rest = new RestTemplate();
 
-    public PhotoTemplate getPhotoTemplate(Base64Photo request) {
+    public PhotoTemplate getPhotoTemplate(byte[] request) {
         if (log.isInfoEnabled()) {
-            log.info("BUILDER BIO TEMPLATE: '" + request.photos + "'");
+            log.info("BUILDER BIO TEMPLATE: '" + request + "'");
         }
         try {
             //todo request -> json with jackson
             HttpHeaders requestHeaders = new HttpHeaders();
             requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<Base64Photo> requestEntity = new HttpEntity<Base64Photo>(request,requestHeaders);
+            HttpEntity<byte[]> requestEntity = new HttpEntity<byte[]>(request,requestHeaders);
             ResponseEntity<PhotoTemplate> response = rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, PhotoTemplate.class);
             if (log.isInfoEnabled()) {
                 log.info("BUILDER BIO TEMPLATE: DONE");
