@@ -30,7 +30,7 @@ public class BioTemplateTest {
     }
 
     @Test
-    public void saveWithBigDataest() throws IOException {
+    public void saveWithBigDataTest() throws IOException {
         BioTemplate bioTemplate = createBioTemplateWithBigData();
         bioTemplateDao.saveOrUpdate(bioTemplate);
 
