@@ -30,7 +30,7 @@ public class CompareServiceRestClient {
 
     public String compare(CompareServiceRequest request) {
         if(log.isInfoEnabled()) {
-            log.info("COMPARING TEMPLATE: '" + request + "'");
+            log.info(url + " COMPARING TEMPLATE: '" + request + "'");
         }
         try {
             //todo request -> json with jackson
