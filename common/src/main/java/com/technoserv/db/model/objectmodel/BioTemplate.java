@@ -16,11 +16,11 @@ public class BioTemplate extends AbstractObject {
     private Document document;
 
     @ManyToOne
-    @JoinColumn(name = "BTMPLT_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "BTMPLT_ID", referencedColumnName = "BTMPLT_ID")
     private BioTemplateType bioTemplateType;
 
     @ManyToOne
-    @JoinColumn(name = "BTMPLV_ID", referencedColumnName = "ID")
+    @JoinColumn(name = "BTMPLV_ID", referencedColumnName = "BTMPLV_ID")
     private BioTemplateVersion bioTemplateVersion;
 
     @Column(name = "INS_USER")
