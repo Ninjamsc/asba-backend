@@ -51,8 +51,8 @@ public class TemplateBuilderServiceRestClient {
                 /*Стандартные названия http-ошибок не совпадают с нашей документацией только коды */
                 case 510:log.error("510 base64 не является фотографией");
                 case 511:log.error("511 не удалось рассчитать биометрический шаблон. Внутренняя ошибка (в CUDA)");
-                case 500:log.error("500 Internal Server Error");
-                case 512:log.error("512 outOfMemory на GPU");
+//                case 500:log.error("500 Internal Server Error");
+//                case 512:log.error("512 outOfMemory на GPU");
                 default:
                     throw new TemplateBuilderServiceException(e.getResponseBodyAsString());
             }
