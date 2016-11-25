@@ -9,6 +9,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.*;
+
 /**
  * Created by sergey on 25.11.2016.
  */
@@ -23,6 +25,13 @@ public class BioTemplateTest {
     @Test
     public void saveTest() {
         BioTemplate bioTemplate = createBioTemplate();
+        bioTemplateDao.saveOrUpdate(bioTemplate);
+
+    }
+
+    @Test
+    public void saveWithBigDataest() throws IOException {
+        BioTemplate bioTemplate = createBioTemplateWithBigData();
         bioTemplateDao.saveOrUpdate(bioTemplate);
 
     }
@@ -60,6 +69,27 @@ public class BioTemplateTest {
                 "            -0.07011004,  0.05036785, -0.05941105\n" +
                 "]" +
                 "}"));
+        return bioTemplate;
+    }
+
+    private BioTemplate createBioTemplateWithBigData() throws IOException {
+        BioTemplate bioTemplate = new BioTemplate();
+        bioTemplate.setInsUser("1");
+
+        StringBuffer fileData = new StringBuffer();
+        ClassLoader classLoader = getClass().getClassLoader();
+        File file = new File(classLoader.getResource("textFileWithBigData.txt").getFile());
+        BufferedReader reader = new BufferedReader(new FileReader(file));
+        char[] buf = new char[1024];
+        int numRead = 0;
+        while ((numRead = reader.read(buf)) != -1) {
+            String readData = String.valueOf(buf, 0, numRead);
+            fileData.append(readData);
+        }
+        reader.close();
+        String fileString = fileData.toString();
+        System.out.println(fileString);
+        bioTemplate.setTemplateVector(fileString.getBytes());
         return bioTemplate;
     }
 }
