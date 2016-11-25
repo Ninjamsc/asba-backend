@@ -38,7 +38,7 @@ public class PhotoAnalyzerServiceRestClient {
         }
         try {
             HttpHeaders requestHeaders = new HttpHeaders();
-            requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+            requestHeaders.setContentType(MediaType.APPLICATION_OCTET_STREAM);
             HttpEntity<byte[]> requestEntity = new HttpEntity<byte[]>(base64photo,requestHeaders);
             rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, PhotoAnalyzeResult.class);
             if (log.isInfoEnabled()) {
