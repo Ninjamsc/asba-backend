@@ -6,5 +6,5 @@ import com.technoserv.db.model.objectmodel.BioTemplateVersion;
 /**
  * Created by sergey on 23.11.2016.
  */
-public interface BioTemplateVersionDao extends Dao<Integer, BioTemplateVersion> {
+public interface BioTemplateVersionDao extends Dao<Long, BioTemplateVersion> {
 }

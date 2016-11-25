@@ -10,4 +10,7 @@ public  class PhotoTemplate {
     public int version;
     /** массив Numeric	биометрический шаблон */
     public double[] template;
+    /**Тип свёртки*/
+    public int type;
+
 }

@@ -4,15 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.technoserv.bio.kernel.rest.client.CompareServiceRestClient;
 import com.technoserv.bio.kernel.rest.client.PhotoAnalyzerServiceRestClient;
 import com.technoserv.bio.kernel.rest.client.TemplateBuilderServiceRestClient;
-import com.technoserv.db.model.objectmodel.BioTemplate;
-import com.technoserv.db.model.objectmodel.BioTemplateVersion;
-import com.technoserv.db.model.objectmodel.Document;
+import com.technoserv.db.model.objectmodel.*;
 import com.technoserv.db.service.objectmodel.api.BioTemplateService;
+import com.technoserv.db.service.objectmodel.api.BioTemplateTypeService;
 import com.technoserv.db.service.objectmodel.api.BioTemplateVersionService;
 import com.technoserv.rest.exception.RestClientException;
 import com.technoserv.bio.kernel.rest.request.CompareServiceRequest;
 import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
-import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.service.objectmodel.api.RequestService;
 import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import com.technoserv.rest.request.Base64Photo;
@@ -58,6 +56,9 @@ public class RequestProcessor {
 
     @Autowired
     private BioTemplateVersionService bioTemplateVersionService;
+
+    @Autowired
+    private BioTemplateTypeService bioTemplateTypeService;
 
     public RequestProcessor(){};
 
@@ -144,15 +145,24 @@ public class RequestProcessor {
         objectMapper.writeValue(byteArrayOutputStream,scannedTemplate.template);
         bioTemplate.setTemplateVector(byteArrayOutputStream.toByteArray());
         bioTemplate.setDocument(document);
-        BioTemplateVersion bioTemplateVersion = bioTemplateVersionService.findById(scannedTemplate.version);
+        BioTemplateVersion bioTemplateVersion = bioTemplateVersionService.findById((long) scannedTemplate.version);
         if(bioTemplateVersion==null) {
             bioTemplateVersion = new BioTemplateVersion();
-            bioTemplateVersion.setId(scannedTemplate.version);
+            bioTemplateVersion.setId((long) scannedTemplate.version);
             bioTemplateVersion.setObjectDate(new Date());
-            bioTemplateVersion.setDescription("Версия " + scannedTemplate.version );
+            bioTemplateVersion.setDescription("Версия " + scannedTemplate.version);
+            bioTemplateVersionService.saveOrUpdate(bioTemplateVersion);
         }
         bioTemplate.setBioTemplateVersion(bioTemplateVersion);
-        bioTemplateVersionService.saveOrUpdate(bioTemplateVersion);
+        BioTemplateType bioTemplateType = bioTemplateTypeService.findById((long) scannedTemplate.type);
+        if(bioTemplateType==null) {
+            bioTemplateType = new BioTemplateType();
+            bioTemplateType.setId((long) scannedTemplate.type);
+            bioTemplateType.setDescription("Новый тип " + scannedTemplate.type);
+            bioTemplateTypeService.saveOrUpdate(bioTemplateType);
+        }
+        bioTemplate.setBioTemplateType(bioTemplateType);
+
         bioTemplateService.saveOrUpdate(bioTemplate);
     }
 

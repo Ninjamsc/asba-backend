@@ -1,6 +1,7 @@
 package com.technoserv.bio.kernel.rest.client;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.technoserv.bio.kernel.rest.exception.TemplateBuilderServiceException;
 import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
 import com.technoserv.rest.request.Base64Photo;

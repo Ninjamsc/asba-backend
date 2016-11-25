@@ -11,13 +11,13 @@ import java.util.Date;
  */
 @Entity
 @Table(name="BIO_TEMPLATES_VERSION")
-public class BioTemplateVersion extends BaseEntity<Integer> {
+public class BioTemplateVersion extends BaseEntity<Long> {
     /**
      * уникальный идентификатор объекта
      */
     @Id
-    @Column(name = "ID")
-    private Integer id;
+    @Column(name = "BTMPLV_ID")
+    private Long id;
 
     /**
      * дата создания объекта
@@ -30,11 +30,11 @@ public class BioTemplateVersion extends BaseEntity<Integer> {
     @Column(name = "DESCRIPTION", nullable = false)
     private String description;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
