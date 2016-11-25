@@ -44,7 +44,7 @@ import java.util.UUID;
 @ContextConfiguration("/applicationContext.xml")
 @Transactional
 @ActiveProfiles({"test"})
-public class RequestProcessorTest {
+public class RequestProcessorIT {//todo mock jmsTemplate and rename to RequestProcessorTest
 
     @Autowired
     private RequestProcessor requestProcessor;
