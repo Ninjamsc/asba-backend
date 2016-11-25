@@ -45,7 +45,7 @@ public class TemplateBuilderServiceRestClient {
             }
             return response.getBody();
         } catch (RestClientResponseException e) {
-            System.out.println("BUILDER BIO TEMPLATE ERROR Code: " + e.getRawStatusCode());
+            log.info("BUILDER BIO TEMPLATE ERROR Code: " + e.getRawStatusCode());
             e.printStackTrace();
             switch (e.getRawStatusCode()) {
                 /*Стандартные названия http-ошибок не совпадают с нашей документацией только коды */
