@@ -1,5 +1,6 @@
 package com.technoserv.rest.request;
 
+import java.util.Base64;
 /**
  * Фото в формате base64.
  * Структура класса соответствует структуре json-запроса к большинству сервисов *
@@ -11,6 +12,6 @@ public class Base64Photo {
     public String photo;
 
     public Base64Photo(byte[] base64photo) {
-        photo = new String(base64photo);
+        photo = Base64.getEncoder().encodeToString(base64photo);
     }
 }
