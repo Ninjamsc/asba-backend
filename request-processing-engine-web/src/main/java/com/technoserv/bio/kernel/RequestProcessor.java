@@ -100,6 +100,7 @@ public class RequestProcessor {
                 jmsTemplate.convertAndSend(ex.toJSON());
             } catch (IOException e) {
                 e.printStackTrace();
+                updateRequestStatus(request, Request.Status.SAVED);//выставляем статус для ретрая
             }
         }
     }
