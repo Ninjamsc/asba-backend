@@ -34,13 +34,13 @@ public class TemplateBuilderServiceRestClient {
 
     public PhotoTemplate getPhotoTemplate(Base64Photo request) {
         if (log.isInfoEnabled()) {
-            log.info("REQUESTING TEMPLATE: '" + request.photos + "'");
+            log.info("BUILDER BIO TEMPLATE: '" + request.photos + "'");
         }
         try {
             //todo request -> json with jackson
             ResponseEntity<PhotoTemplate> response = rest.exchange(URI.create(url), HttpMethod.PUT, new HttpEntity<>(request), PhotoTemplate.class);
             if (log.isInfoEnabled()) {
-                log.info("REQUESTING TEMPLATE: DONE");
+                log.info("BUILDER BIO TEMPLATE: DONE");
             }
             return response.getBody();
         } catch (RestClientResponseException e) {
