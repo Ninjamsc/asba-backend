@@ -34,7 +34,7 @@ public class PhotoAnalyzerServiceRestClient {
      * */
     public void analyzePhoto(byte[] request) {
         if (log.isInfoEnabled()) {
-            log.info("ANALYZING TEMPLATE: '" + request + "'");
+            log.info(url + " ANALYZING TEMPLATE: '" + request + "'");
         }
         try {
             HttpHeaders requestHeaders = new HttpHeaders();

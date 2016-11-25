@@ -32,7 +32,7 @@ public class TemplateBuilderServiceRestClient {
 
     public PhotoTemplate getPhotoTemplate(byte[] request) {
         if (log.isInfoEnabled()) {
-            log.info("BUILDER BIO TEMPLATE: '" + request + "'");
+            log.info(url + " BUILDER BIO TEMPLATE: '" + request + "'");
         }
         try {
             //todo request -> json with jackson
