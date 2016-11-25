@@ -33,7 +33,7 @@ import java.util.List;
 //@Service(name = "requestProcessor")
 public class RequestProcessor {
 
-    private static final Log logger = LogFactory.getLog(RequestProcessor.class);
+    private static final Log log = LogFactory.getLog(RequestProcessor.class);
 
     @Autowired
     private RequestService requestService;
@@ -65,42 +65,72 @@ public class RequestProcessor {
         return requestService.findNotProcessed();
     }
 
+    private void writeLog(String message) {
+        System.out.println(message);
+        log.info(message);
+    }
+
     public void process() {
-        logger.debug("RequestProcessor process order");
+        writeLog("RequestProcessor process order");
         Collection<Request> requestList = findRequestForProcessing();
         for (Request request : requestList) {
             try {
+                writeLog("Update request status to IN_PROCESS for id = '" + request.getId() + "'");
                 updateRequestStatus(request, Request.Status.IN_PROCESS);
-
+                writeLog("Download photo");
                 Base64Photo scannedPhoto = photoPersistServiceRestClient.getPhoto(request.getScannedDocument().getOrigImageURL());
+                writeLog("Downloaded scannedPhoto '" + scannedPhoto.photos + "'");
                 Base64Photo webCamPhoto = photoPersistServiceRestClient.getPhoto(request.getCameraDocument().getOrigImageURL());
-
+                writeLog("Downloaded webCamPhoto '" + webCamPhoto.photos + "'");
                 // шаг 4 построение шаблона
                 // компонент 7. Сервис построения шаблонов(биометрическое ядро)
+                writeLog("scannedPhoto -> scannedTemplate");
                 PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(scannedPhoto);
+                writeLog("scannedPhoto -> scannedTemplate " + scannedTemplate.template);
+                writeLog("saving scannedTemplate");
                 addBioTemplateToDocument(request, request.getScannedDocument(), scannedTemplate);
+                writeLog("saving scannedTemplate - done");
 
+                writeLog("webCamPhoto -> webCamTemplate");
                 PhotoTemplate webCamTemplate = templateBuilderServiceRestClient.getPhotoTemplate(webCamPhoto);
+                writeLog("webCamPhoto -> webCamTemplate " + webCamTemplate.template);
+                writeLog("saving webCamTemplate");
                 addBioTemplateToDocument(request, request.getCameraDocument(), webCamTemplate);
+                writeLog("saving webCamTemplate - done");
                 //шаг 5 Построение фильтров
                 // компонент 8 Сервис анализа изображений
+                writeLog("analyze scannedPhoto " + scannedPhoto.photos);
                 photoAnalyzerServiceRestClient.analyzePhoto(scannedPhoto.photos);
+                writeLog("analyze scannedPhoto Done");
+
+                writeLog("analyze webCamPhoto");
                 photoAnalyzerServiceRestClient.analyzePhoto(webCamPhoto.photos);
+                writeLog("analyze webCamPhoto Done");
                 //шаг в 6 Сравнение со списками
                 // компонент 9 Сервис сравнения
+                writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate");
                 CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
                 compareServiceRequest.setScanTemplate(scannedTemplate.template);
                 compareServiceRequest.setWebTemplate(webCamTemplate.template);
                 String compareResult = сompareServiceRestClient.compare(compareServiceRequest);
+                writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate Done: " + new String(compareResult.getBytes()));
+                writeLog("Send compareServiceRequest");
                 jmsTemplate.convertAndSend(compareResult);
+                writeLog("Send compareServiceRequest Done");
+                writeLog("Update request status to SUCCESS for id = '" + request.getId() + "'");
                 updateRequestStatus(request, Request.Status.SUCCESS);
+                writeLog("Update request status to SUCCESS for id = '" + request.getId() + "' Done");
             } catch (RestClientException ex){
                 ex.printStackTrace();
+                writeLog("Update request status to FAILED for id = '" + request.getId() + "'");
                 updateRequestStatus(request, Request.Status.FAILED);
+                writeLog("Update request status to FAILED for id = '" + request.getId() + "' Done");
                 jmsTemplate.convertAndSend(ex.toJSON());
-            } catch (IOException e) {
+            } catch (Throwable e) {
                 e.printStackTrace();
+                writeLog("Update request status to SAVED for id = '" + request.getId() + " for retry");
                 updateRequestStatus(request, Request.Status.SAVED);//выставляем статус для ретрая
+                writeLog("Update request status to SAVED for id = '" + request.getId() + " Done");
             }
         }
     }
