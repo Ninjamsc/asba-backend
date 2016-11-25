@@ -143,6 +143,7 @@ public class RequestProcessor {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         objectMapper.writeValue(byteArrayOutputStream,scannedTemplate.template);
         bioTemplate.setTemplateVector(byteArrayOutputStream.toByteArray());
+        bioTemplate.setDocument(document);
         BioTemplateVersion bioTemplateVersion = bioTemplateVersionService.findById(scannedTemplate.version);
         if(bioTemplateVersion==null) {
             bioTemplateVersion = new BioTemplateVersion();
@@ -153,7 +154,6 @@ public class RequestProcessor {
         bioTemplate.setBioTemplateVersion(bioTemplateVersion);
         bioTemplateVersionService.saveOrUpdate(bioTemplateVersion);
         bioTemplateService.saveOrUpdate(bioTemplate);
-        document.getBioTemplates().add(bioTemplate);
     }
 
 
