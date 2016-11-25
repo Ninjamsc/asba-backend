@@ -28,7 +28,7 @@ public class BioTemplate extends AbstractObject {
 
     @Lob
     @Column(name = "TEMPLATE_VECTOR")
-    private byte[] templateVector;
+    private String templateVector;
 
     public Document getDocument() {
         return document;
@@ -62,11 +62,11 @@ public class BioTemplate extends AbstractObject {
         this.insUser = insUser;
     }
 
-    public byte[] getTemplateVector() {
+    public String getTemplateVector() {
         return templateVector;
     }
 
-    public void setTemplateVector(byte[] templateVector) {
+    public void setTemplateVector(String templateVector) {
         this.templateVector = templateVector;
     }
 }

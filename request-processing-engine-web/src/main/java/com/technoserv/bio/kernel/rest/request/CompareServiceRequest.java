@@ -5,21 +5,21 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class CompareServiceRequest {
 
     @JsonProperty("template_web")
-    private double[] webTemplate;
+    private String webTemplate;
     @JsonProperty("template_scan")
-    private double[] scanTemplate;
+    private String scanTemplate;
 
-    public double[] getWebTemplate() {
+    public String getWebTemplate() {
         return webTemplate;
     }
-    public void setWebTemplate(double[] webTemplate) {
+    public void setWebTemplate(String webTemplate) {
         this.webTemplate = webTemplate;
     }
 
-    public double[] getScanTemplate() {
+    public String getScanTemplate() {
         return scanTemplate;
     }
-    public void setScanTemplate(double[] scanTemplate) {
+    public void setScanTemplate(String scanTemplate) {
         this.scanTemplate = scanTemplate;
     }
 }

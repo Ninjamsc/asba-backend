@@ -2,7 +2,7 @@ package com.technoserv.bio.kernel;
 
 import com.technoserv.bio.kernel.rest.client.TemplateBuilderServiceRestClient;
 import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
-import com.technoserv.rest.request.Base64Photo;
+import com.technoserv.utils.JsonUtils;
 import org.jvnet.hk2.annotations.Service;
 import org.springframework.context.annotation.Profile;
 
@@ -17,8 +17,7 @@ public class MockTemplateBuilderServiceRestClient extends TemplateBuilderService
     public PhotoTemplate getPhotoTemplate(byte[] request) {
         PhotoTemplate photoTemplate = new PhotoTemplate();
         photoTemplate.version = 1;
-        photoTemplate.template = new double[]{1.1, 1.2};
+        photoTemplate.template = JsonUtils.serializeJson(new double[]{1.1, 1.2});
         return photoTemplate;
     }
-
 }

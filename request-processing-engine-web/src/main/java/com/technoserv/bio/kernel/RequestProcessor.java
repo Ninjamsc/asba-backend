@@ -14,6 +14,8 @@ import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
 import com.technoserv.db.service.objectmodel.api.RequestService;
 import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import com.technoserv.rest.request.Base64Photo;
+import com.technoserv.utils.JsonUtils;
+import io.swagger.util.Json;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -111,7 +113,7 @@ public class RequestProcessor {
                 // компонент 9 Сервис сравнения
                 writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate");
                 CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
-                compareServiceRequest.setScanTemplate(scannedTemplate.template);
+                compareServiceRequest.setScanTemplate(JsonUtils.serializeJson(scannedTemplate.template));
                 compareServiceRequest.setWebTemplate(webCamTemplate.template);
                 String compareResult = сompareServiceRestClient.compare(compareServiceRequest);
                 writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate Done: " + new String(compareResult.getBytes()));
@@ -141,9 +143,7 @@ public class RequestProcessor {
         BioTemplate bioTemplate = new BioTemplate();
         bioTemplate.setInsUser(request.getInsUser());
         ObjectMapper objectMapper = new ObjectMapper();
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        objectMapper.writeValue(byteArrayOutputStream,scannedTemplate.template);
-        bioTemplate.setTemplateVector(byteArrayOutputStream.toByteArray());
+        bioTemplate.setTemplateVector(scannedTemplate.template);
         bioTemplate.setDocument(document);
         BioTemplateVersion bioTemplateVersion = bioTemplateVersionService.findById((long) scannedTemplate.version);
         if(bioTemplateVersion==null) {
