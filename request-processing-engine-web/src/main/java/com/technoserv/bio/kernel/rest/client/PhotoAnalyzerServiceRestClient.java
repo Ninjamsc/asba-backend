@@ -25,7 +25,7 @@ public class PhotoAnalyzerServiceRestClient {
     private static final Log log = LogFactory.getLog(PhotoAnalyzerServiceRestClient.class);
 
     @Value("${http.photo.analyzer.service.url}")
-    private String url = "http://localhost:8080/quality/rest/test";
+    private String url;
 
     private RestTemplate rest = new RestTemplate();
 
@@ -61,6 +61,7 @@ public class PhotoAnalyzerServiceRestClient {
 
     public static void main(String[] args) {
         PhotoAnalyzerServiceRestClient restClient = new PhotoAnalyzerServiceRestClient();
+        restClient.url = "http://localhost:8080/quality/rest/test";
         restClient.analyzePhoto("/9j/4AAQSkZJRgABA");
 
     }
