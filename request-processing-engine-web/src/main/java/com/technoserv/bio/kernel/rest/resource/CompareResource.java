@@ -3,6 +3,7 @@ package com.technoserv.bio.kernel.rest.resource;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 import com.technoserv.db.service.objectmodel.api.BioTemplateService;
+import com.technoserv.db.service.objectmodel.api.StopListService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class CompareResource implements InitializingBean {
     //Пример инжекции сервисов
     @Autowired
     private BioTemplateService bioTemplateService;
+
+    @Autowired
+    private StopListService stopListService;
 
 
     @POST
