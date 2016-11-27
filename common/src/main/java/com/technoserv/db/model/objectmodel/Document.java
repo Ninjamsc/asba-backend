@@ -25,7 +25,7 @@ public class Document extends AbstractObject {
     @Column(name = "FACE_SQUARE", length = 2048)
     private String faceSquare; //TODO String HTTP URL
 
-    @OneToMany(mappedBy = "document")
+    @OneToMany(mappedBy = "document", fetch = FetchType.EAGER)
     private List<BioTemplate> bioTemplates = new ArrayList<BioTemplate>();
 
     public DocumentType getDocumentType() {
