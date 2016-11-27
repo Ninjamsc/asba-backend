@@ -55,10 +55,11 @@ public class TestUtil {
         return result;
     }
 
-    public static StopList generateStopList(){
+    public static StopList generateStopList(String name){
         StopList result = new StopList();
         setObjectDate(result);
-        result.setStopListName("StopListName");
+        result.setStopListName(name);
+        result.setSimilarity(123d);
         return result;
     }
 

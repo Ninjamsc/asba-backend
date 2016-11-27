@@ -2,6 +2,7 @@ package com.technoserv.bio.kernel.dao.objectmodel;
 
 import com.technoserv.db.dao.objectmodel.api.BioTemplateDao;
 import com.technoserv.db.model.objectmodel.BioTemplate;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.io.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/testContext.xml")
 @Transactional
+@Ignore
 public class BioTemplateTest {
 
     @Autowired
