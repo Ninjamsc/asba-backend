@@ -80,6 +80,7 @@ public class ArmRequestJmsConsumer {
 
     protected boolean saveRequest(String request) {
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(DATE_FORMAT);
         try {
             //todo переделать маппинг из очереди 1 в сервиc фоток и Request
             RequestDTO requestDTO = objectMapper.readValue(request, RequestDTO.class);
