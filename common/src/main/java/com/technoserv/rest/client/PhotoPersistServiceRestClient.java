@@ -37,7 +37,7 @@ public class PhotoPersistServiceRestClient {
 
     public byte[] getPhoto(String photoUrl) {
         if(log.isInfoEnabled()) {
-            log.info("REQUESTING PHOTO: '" + photoUrl + "'");
+            writeLog("REQUESTING PHOTO: '" + photoUrl + "'");
         }
         try {
             HttpHeaders  headers = new HttpHeaders();
@@ -47,16 +47,18 @@ public class PhotoPersistServiceRestClient {
 
             ResponseEntity<byte[]> response = rest.exchange(URI.create(photoUrl), HttpMethod.GET, entity, byte[].class);
             if(log.isInfoEnabled()) {
-                log.info("REQUESTING PHOTO: '" + photoUrl + "' DONE");
+                writeLog("REQUESTING PHOTO: '" + photoUrl + "' DONE");
             }
             return response.getBody();
         } catch (RestClientResponseException e) {
-            log.error(e);
+            writeError(e.getMessage());
+            writeError("Error status code"+e.getRawStatusCode());
             switch (e.getRawStatusCode()){
                 case 500://log.error("Прочие ошибки");break;
                 case 404://log.error("Фото не найдено");break;
                 case 400://log.error("Неполный/неверный запрос");break;
                 default:
+                    writeError(e.getResponseBodyAsString());
                     throw new PhotoPersistServiceException(e.getResponseBodyAsString());
             }
         }
@@ -66,7 +68,7 @@ public class PhotoPersistServiceRestClient {
         PhotoSaveRequest request = new PhotoSaveRequest(file_content, file_name);
 
         if(log.isInfoEnabled()) {
-            log.info("SAVING PHOTO: '" + file_name + "'" + " content:'" + file_content+"'");
+            writeLog("SAVING PHOTO: '" + file_name + "'" + " content:'" + file_content+"'");
         }
         try {
             String finalUrl = String.format("%s/%s", url, file_name);
@@ -77,20 +79,33 @@ public class PhotoPersistServiceRestClient {
             ResponseEntity<String> response = rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, String.class);
 
             if(log.isInfoEnabled()) {
-                log.info("SAVING PHOTO: '" + url + "' DONE");
+               writeLog("SAVING PHOTO: '" + url + "' DONE");
             }
             return finalUrl;
         } catch (RestClientResponseException e) {
-            log.error(e);
+            writeError(e.getMessage());
+            writeError("Error status code"+e.getRawStatusCode());
             switch (e.getRawStatusCode()){
                 case 500://log.error("Прочие ошибки");break;
                 case 400://log.error("Неполный/неверный запрос");break;
                 default:
+                    writeError(e.getResponseBodyAsString());
                     throw new PhotoPersistServiceException(e.getResponseBodyAsString());
             }
 
         }
     }
+
+    private void writeLog(String message) {
+        System.out.println(message);
+        log.info(message);
+    }
+    private void writeError(String message) {
+        System.out.println(message);
+        log.error(message);
+    }
+
+
 
 //    public static void main(String[] args) {
 //        String url = "http://localhost:8080/storage/rest/image";
