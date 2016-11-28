@@ -26,7 +26,7 @@ public class JsonDeliveryJmsConsumer {
     @Autowired
     private JmsTemplate jmsTemplate;
 
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy_hh_mm_ss_SSSSSS");
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
     @Value("${http.rest.client.retry}")
     public int maxTryCount;

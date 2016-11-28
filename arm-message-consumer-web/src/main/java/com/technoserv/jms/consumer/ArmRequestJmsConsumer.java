@@ -49,7 +49,7 @@ public class ArmRequestJmsConsumer {
     @Autowired
     private DocumentTypeService documentTypeService;
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy_hh_mm_ss_SSSSSS");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
     @Value("${arm-retry.queue.maxRetryCount}")
     private static Integer maxTryCount = 10;
