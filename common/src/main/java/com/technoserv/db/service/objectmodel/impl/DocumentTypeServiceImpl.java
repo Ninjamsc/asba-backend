@@ -7,6 +7,7 @@ import com.technoserv.db.service.objectmodel.api.DocumentTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Created by sergey on 23.11.2016.
@@ -20,6 +21,7 @@ public class DocumentTypeServiceImpl extends AbstractService<Long, DocumentType,
         this.dao = dao;
     }
 
+    @Transactional(readOnly = true)
     public DocumentType findByType(DocumentType.Type type) {
         return getDao().findByType(type);
     }

@@ -12,7 +12,7 @@ public interface Service<ID extends Serializable,T extends BaseEntity<ID>> {
      * @param id         - идентификатор сущности.
      * @return сущность
      */
-    public T findById(ID id);
+    public T findById(ID id,String... properties);
 
     public ID save(T entity);
 
@@ -22,9 +22,9 @@ public interface Service<ID extends Serializable,T extends BaseEntity<ID>> {
 
     public void delete(T entity);
 
-    public List<T> getAll();
+    public List<T> getAll(String... properties);
 
 	public int countAll();
 
-    public List<T> getAll(int page, int max);
+    public List<T> getAll(int page, int max,String... properties);
 }

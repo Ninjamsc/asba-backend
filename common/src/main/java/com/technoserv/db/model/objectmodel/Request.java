@@ -16,8 +16,10 @@ import java.util.Date;
 @Entity
 @Table(name = "REQUESTS")
 public class Request extends BaseEntity<Long> {
-
     public enum Status {SAVED, IN_PROCESS, SUCCESS, FAILED};
+
+
+
     /**
      * номер заявки из BPM
      */
@@ -126,4 +128,5 @@ public class Request extends BaseEntity<Long> {
     public void setTimestamp(Timestamp timestamp) {
         this.orderDate = new Date(timestamp.getTime());
     }
+
 }

@@ -1,7 +1,10 @@
 package com.technoserv.db.model.objectmodel;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +28,8 @@ public class Document extends AbstractObject {
     private String faceSquare; //TODO String HTTP URL
 
     @OneToMany(mappedBy = "document")
-    private List<BioTemplate> bioTemplates;
+    @JsonIgnore
+    private List<BioTemplate> bioTemplates = new ArrayList<BioTemplate>();
 
     public DocumentType getDocumentType() {
         return documentType;

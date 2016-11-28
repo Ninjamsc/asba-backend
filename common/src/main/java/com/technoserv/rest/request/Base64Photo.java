@@ -1,5 +1,10 @@
 package com.technoserv.rest.request;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import org.apache.commons.codec.binary.Base64;
+
 /**
  * Фото в формате base64.
  * Структура класса соответствует структуре json-запроса к большинству сервисов *
@@ -8,9 +13,28 @@ package com.technoserv.rest.request;
 public class Base64Photo {
 
     /** base46 encoded изображение */
-    public String photos;
+    public String photo;
 
-    public Base64Photo(String base64photo) {
-
+    public Base64Photo(byte[] imageByteArray) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("data:image/jpg;base64,");
+        sb.append(new String(Base64.encodeBase64(imageByteArray)));
+        photo = sb.toString();
     }
+
+//    public static void main(String[] args) throws IOException {
+//        FileInputStream fileInputStream=null;
+//
+//        File file = new File("D:\\images\\01-spitzer-omeganebula.jpg");
+//
+//        byte[] bFile = new byte[(int) file.length()];
+//
+//            fileInputStream = new FileInputStream(file);
+//            fileInputStream.read(bFile);
+//            fileInputStream.close();
+//
+//
+//            System.out.println(new Base64Photo(bFile).photo);
+//    }
+
 }

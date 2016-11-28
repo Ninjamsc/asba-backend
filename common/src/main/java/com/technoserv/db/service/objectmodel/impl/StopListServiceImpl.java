@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by sergey on 15.11.2016.
  */
@@ -19,4 +21,6 @@ public class StopListServiceImpl extends AbstractService<Long, StopList,StopList
     public void setDao(StopListDao dao) {
         this.dao = dao;
     }
+
+
 }

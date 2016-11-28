@@ -15,6 +15,13 @@ import java.util.List;
 @Entity
 @Table(name = "PERSONS")
 public class Person extends BaseEntity<Long> {
+
+    public Person() {
+    }
+    public Person(Long id) {
+        this.id = id;
+    }
+
     /**
      * ИИН персоны в WorkFlow
      */
@@ -24,7 +31,7 @@ public class Person extends BaseEntity<Long> {
     /**
      * массив всех заявок
      */
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "person")
     private List<Request> dossier = new ArrayList<Request>();
 
     public List<Request> getDossier() {

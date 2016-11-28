@@ -3,9 +3,11 @@ package com.technoserv.jms.consumer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.technoserv.db.model.objectmodel.Document;
 import com.technoserv.db.model.objectmodel.DocumentType;
+import com.technoserv.db.model.objectmodel.Person;
 import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.service.objectmodel.api.DocumentService;
 import com.technoserv.db.service.objectmodel.api.DocumentTypeService;
+import com.technoserv.db.service.objectmodel.api.PersonService;
 import com.technoserv.db.service.objectmodel.api.RequestService;
 import com.technoserv.jms.trusted.ArmRequestRetryMessage;
 import com.technoserv.jms.trusted.RequestDTO;
@@ -22,9 +24,8 @@ import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
 
@@ -41,6 +42,8 @@ public class ArmRequestJmsConsumer {
 
     @Autowired
     private RequestService requestService;
+    @Autowired
+    private PersonService personService;
 
     @Autowired
     private PhotoPersistServiceRestClient photoServiceClient;
@@ -54,14 +57,12 @@ public class ArmRequestJmsConsumer {
     @Value("${arm-retry.queue.maxRetryCount}")
     private static Integer maxTryCount = 10;
 
-    @Transactional
     public void onReceive(String message) {
         if(!saveRequest(message)) {
             jmsTemplate.convertAndSend(new ArmRequestRetryMessage(message));
         }
     }
 
-    @Transactional
     public void onReceive(ArmRequestRetryMessage message) {
         if(message.getTryCount()<=maxTryCount) {
             if (!saveRequest(message.getMessage())) {
@@ -100,6 +101,7 @@ public class ArmRequestJmsConsumer {
                 scan = requestEntity.getScannedDocument();
             } else {
                 requestEntity = new Request();
+                requestEntity.setId(requestDTO.getWfNumber());
                 webCam = new Document();
                 scan = new Document();
             }
@@ -116,12 +118,22 @@ public class ArmRequestJmsConsumer {
                 scan.setFaceSquare(scannedPictureURL);
                 scan.setDocumentType(documentTypeService.findByType(DocumentType.Type.SCANNER));
             }
+            documentService.saveOrUpdate(scan);
+            documentService.saveOrUpdate(webCam);
+            Person person = personService.findById(requestDTO.getIin());
+            if(person==null) {
+                person = new Person();
+                person.setDossier(new ArrayList<Request>());
+            }
+            requestEntity.setPerson(person);
+            person.setId(requestDTO.getIin());
+            person.getDossier().add(requestEntity);
+            personService.saveOrUpdate(person);
 
             requestEntity.setTimestamp(requestDTO.getTimestamp());
             requestEntity.setCameraDocument(webCam);
             requestEntity.setScannedDocument(scan);
             requestEntity.setLogin(requestDTO.getUsername());
-            requestEntity.setId(requestDTO.getWfNumber());
             requestEntity.setObjectDate(new Date());
             //Todo save request
             requestService.saveOrUpdate(requestEntity);
