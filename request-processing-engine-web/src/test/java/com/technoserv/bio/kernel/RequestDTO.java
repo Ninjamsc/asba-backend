@@ -21,7 +21,7 @@ public class RequestDTO {
 
     @JsonProperty("_comment")
     private String comment;
-    @JsonProperty("wfmid")
+    @JsonProperty("wfmId")
     private long wfNumber;
     @JsonProperty("iin")
     private long iin;
