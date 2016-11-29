@@ -36,6 +36,9 @@ public class PhotoPersistServiceRestClient {
     }
 
     public byte[] getPhoto(String photoUrl) {
+        if(photoUrl==null) {
+            return null;
+        }
         if(log.isInfoEnabled()) {
             writeLog("REQUESTING PHOTO: '" + photoUrl + "'");
         }

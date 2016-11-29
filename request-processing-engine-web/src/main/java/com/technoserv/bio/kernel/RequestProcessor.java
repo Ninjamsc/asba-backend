@@ -95,14 +95,14 @@ public class RequestProcessor {
                 // компонент 7. Сервис построения шаблонов(биометрическое ядро)
                 writeLog("scannedPhoto -> scannedTemplate");
                 PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(scannedPhoto);
-                writeLog("scannedPhoto -> scannedTemplate " + scannedTemplate.template);
+                writeLog("scannedPhoto -> scannedTemplate " + scannedTemplate);
                 writeLog("saving scannedTemplate");
                 addBioTemplateToDocument(request, request.getScannedDocument(), scannedTemplate);
                 writeLog("saving scannedTemplate - done");
 
                 writeLog("webCamPhoto -> webCamTemplate");
                 PhotoTemplate webCamTemplate = templateBuilderServiceRestClient.getPhotoTemplate(webCamPhoto);
-                writeLog("webCamPhoto -> webCamTemplate " + webCamTemplate.template);
+                writeLog("webCamPhoto -> webCamTemplate " + webCamTemplate);
                 writeLog("saving webCamTemplate");
                 addBioTemplateToDocument(request, request.getCameraDocument(), webCamTemplate);
                 writeLog("saving webCamTemplate - done");
@@ -119,8 +119,16 @@ public class RequestProcessor {
                 // компонент 9 Сервис сравнения
                 writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate");
                 CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
-                compareServiceRequest.setScanTemplate(scannedTemplate.template);
-                compareServiceRequest.setWebTemplate(webCamTemplate.template);
+                if(scannedTemplate!=null) {
+                    compareServiceRequest.setScanTemplate(scannedTemplate.template);
+                } else {
+                    compareServiceRequest.setScanTemplate(new double[]{});
+                }
+                if(webCamTemplate!=null) {
+                    compareServiceRequest.setWebTemplate(webCamTemplate.template);
+                } else {
+                    compareServiceRequest.setWebTemplate(new double[]{});
+                }
                 String compareResult = сompareServiceRestClient.compare(compareServiceRequest);
                 writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate Done: " + new String(compareResult.getBytes()));
                 JsonNode  result = objectMapper.readValue(compareResult, JsonNode.class);
@@ -156,7 +164,9 @@ public class RequestProcessor {
     }
 
     private void addBioTemplateToDocument(Request request, Document document, PhotoTemplate scannedTemplate) throws IOException {
-
+        if(scannedTemplate==null) {
+            return;
+        }
         BioTemplate bioTemplate = new BioTemplate();
         bioTemplate.setInsUser(request.getInsUser());
         bioTemplate.setTemplateVector(JsonUtils.serializeJson(scannedTemplate.template));

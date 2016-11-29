@@ -33,6 +33,9 @@ public class PhotoAnalyzerServiceRestClient {
      * В случае успеха (библиотека анализа изображений не нашла несоответствий) возврат HTTP 200 OK безJSON документа
      * */
     public void analyzePhoto(byte[] request) {
+        if(request==null) {
+            return;
+        }
         if (log.isInfoEnabled()) {
             log.info(url + " ANALYZING TEMPLATE: '" + request + "'");
         }

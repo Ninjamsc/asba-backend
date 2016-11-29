@@ -32,6 +32,9 @@ public class TemplateBuilderServiceRestClient {
     private RestTemplate rest = new RestTemplate();
 
     public PhotoTemplate getPhotoTemplate(byte[] request) {
+        if(request==null) {
+            return null;
+        }
         if (log.isInfoEnabled()) {
             log.info(url + " BUILDER BIO TEMPLATE: '" + request + "'");
         }
