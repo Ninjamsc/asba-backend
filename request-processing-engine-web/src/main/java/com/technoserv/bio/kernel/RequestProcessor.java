@@ -87,9 +87,9 @@ public class RequestProcessor {
                 writeLog("Update request status to IN_PROCESS for id = '" + request.getId() + "'");
                 updateRequestStatus(request, Request.Status.IN_PROCESS);
                 writeLog("Download photo");
-                byte[] scannedPhoto = photoPersistServiceRestClient.getPhoto(request.getScannedDocument().getOrigImageURL());
+                byte[] scannedPhoto = photoPersistServiceRestClient.getPhoto(request.getScannedDocument().getFaceSquare());
                 writeLog("Downloaded scannedPhoto '" + scannedPhoto + "'");
-                byte[] webCamPhoto = photoPersistServiceRestClient.getPhoto(request.getCameraDocument().getOrigImageURL());
+                byte[] webCamPhoto = photoPersistServiceRestClient.getPhoto(request.getCameraDocument().getFaceSquare());
                 writeLog("Downloaded webCamPhoto '" + webCamPhoto + "'");
                 // шаг 4 построение шаблона
                 // компонент 7. Сервис построения шаблонов(биометрическое ядро)
