@@ -57,7 +57,7 @@ public class TemplateBuilderServiceRestClient {
                 case 511:log.error("511 не удалось рассчитать биометрический шаблон. Внутренняя ошибка (в CUDA)");throw new TemplateBuilderServiceException(e.getResponseBodyAsString());break;
 //                case 500:log.error("500 Internal Server Error");
 //                case 512:log.error("512 outOfMemory на GPU");
-//                default:
+                default:
                     throw new RuntimeException(e.getResponseBodyAsString());
             }
         }
