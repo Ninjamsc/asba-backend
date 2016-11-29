@@ -87,6 +87,7 @@ public class ArmRequestJmsConsumer {
 
             String scannedPicture = handlePicture(requestDTO.getScannedPicture());
             String webCamPicture = handlePicture(requestDTO.getWebCameraPicture());
+
             String scannedGuid = DatatypeConverter.printBase64Binary(UUID.randomUUID().toString().getBytes());
             String webCamGuid = DatatypeConverter.printBase64Binary(UUID.randomUUID().toString().getBytes());
 
@@ -95,7 +96,8 @@ public class ArmRequestJmsConsumer {
 
             Document webCam = null;
             Document scan = null;
-
+            log.info("scannedPictureURL " + scannedPictureURL);
+            log.info("webCamPictureURL " + webCamPictureURL);
             //TODO Find request to add
             Request requestEntity = requestService.findByOrderNumber(requestDTO.getWfNumber());
 
@@ -107,53 +109,32 @@ public class ArmRequestJmsConsumer {
             } else {
                 requestEntity = new Request();
                 requestEntity.setId(requestDTO.getWfNumber());
-                if(webCamPictureURL!=null) {
-                    webCam = new Document();
-                }
-                if(scannedPictureURL!=null) {
-                    scan = new Document();
-                }
+                webCam = new Document();
+                scan = new Document();
             }
             if(requestDTO.getType() == RequestDTO.Type.PREVIEW) {
                 if(webCamPictureURL!=null) {
-                    if(webCam==null) {
-                        webCam = new Document();
-                    }
                     webCam.setOrigImageURL(webCamPictureURL);
-                    webCam.setDocumentType(documentTypeService.findByType(DocumentType.Type.WEB_CAM));
                 }
+                webCam.setDocumentType(documentTypeService.findByType(DocumentType.Type.WEB_CAM));
                 if(scannedPictureURL!=null) {
-                    if(scan==null) {
-                        scan = new Document();
-                    }
                     scan.setOrigImageURL(scannedPictureURL);
-                    scan.setDocumentType(documentTypeService.findByType(DocumentType.Type.SCANNER));
                 }
-
+                scan.setDocumentType(documentTypeService.findByType(DocumentType.Type.SCANNER));
             } if (requestDTO.getType() == RequestDTO.Type.FULLFRAME) {
                 if(webCamPictureURL!=null) {
-                    if(webCam==null) {
-                        webCam = new Document();
-                    }
                     webCam.setFaceSquare(webCamPictureURL);
-                    webCam.setDocumentType(documentTypeService.findByType(DocumentType.Type.WEB_CAM));
                 }
+                webCam.setDocumentType(documentTypeService.findByType(DocumentType.Type.WEB_CAM));
                 if(scannedPictureURL!=null) {
-                    if(scan==null) {
-                        scan = new Document();
-                    }
                     scan.setFaceSquare(scannedPictureURL);
-                    scan.setDocumentType(documentTypeService.findByType(DocumentType.Type.SCANNER));
                 }
+                scan.setDocumentType(documentTypeService.findByType(DocumentType.Type.SCANNER));
             }
 
-            if(scan!=null) {
-                documentService.saveOrUpdate(scan);
-            }
+            documentService.saveOrUpdate(scan);
+            documentService.saveOrUpdate(webCam);
 
-            if(webCam!=null) {
-                documentService.saveOrUpdate(webCam);
-            }
             Person person = personService.findById(requestDTO.getIin());
             if(person==null) {
                 person = new Person();
@@ -165,12 +146,8 @@ public class ArmRequestJmsConsumer {
             personService.saveOrUpdate(person);
 
             requestEntity.setTimestamp(requestDTO.getTimestamp());
-            if(webCam!=null) {
-                requestEntity.setCameraDocument(webCam);
-            }
-            if(scan!=null) {
-                requestEntity.setScannedDocument(scan);
-            }
+            requestEntity.setCameraDocument(webCam);
+            requestEntity.setScannedDocument(scan);
             requestEntity.setLogin(requestDTO.getUsername());
             requestEntity.setObjectDate(new Date());
             //Todo save request
@@ -191,7 +168,7 @@ public class ArmRequestJmsConsumer {
 //            byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
 //            return new String(imageBytes);
 //        } else {
-            return picture;
+        return picture;
 //        }
     }
 
