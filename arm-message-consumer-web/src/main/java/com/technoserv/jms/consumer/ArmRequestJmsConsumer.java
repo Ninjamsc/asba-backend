@@ -112,7 +112,7 @@ public class ArmRequestJmsConsumer {
                 webCam = new Document();
                 scan = new Document();
             }
-            if(requestDTO.getType() == RequestDTO.Type.PREVIEW) {
+            if(requestDTO.getType() == RequestDTO.Type.FULLFRAME) {
                 if(webCamPictureURL!=null) {
                     webCam.setOrigImageURL(webCamPictureURL);
                 }
@@ -121,7 +121,7 @@ public class ArmRequestJmsConsumer {
                     scan.setOrigImageURL(scannedPictureURL);
                 }
                 scan.setDocumentType(documentTypeService.findByType(DocumentType.Type.SCANNER));
-            } if (requestDTO.getType() == RequestDTO.Type.FULLFRAME) {
+            } if (requestDTO.getType() == RequestDTO.Type.PREVIEW) {
                 if(webCamPictureURL!=null) {
                     webCam.setFaceSquare(webCamPictureURL);
                 }
