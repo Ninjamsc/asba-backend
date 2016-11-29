@@ -64,6 +64,10 @@ public class PhotoPersistServiceRestClient {
         }
     }
     public String putPhoto(String file_content, String file_name) {
+        if(file_content==null) {
+            writeLog("No Content.");
+            return null;
+        }
         file_name = String.format("%s.jpg", file_name);
         PhotoSaveRequest request = new PhotoSaveRequest(file_content, file_name);
 
