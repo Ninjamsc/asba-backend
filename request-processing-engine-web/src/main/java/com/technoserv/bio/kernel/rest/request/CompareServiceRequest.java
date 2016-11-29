@@ -9,6 +9,16 @@ public class CompareServiceRequest {
     @JsonProperty("template_scan")
     private double[] scanTemplate;
 
+    @JsonProperty("scanFullFrameURL")
+    private String scanFullFrameURL;
+    @JsonProperty("scanPreviewURL")
+    private String scanPreviewURL;
+
+    @JsonProperty("webFullFrameURL")
+    private String webFullFrameURL;
+    @JsonProperty("webPreviewURL")
+    private String webPreviewURL;
+
     public double[] getWebTemplate() {
         return webTemplate;
     }
@@ -22,4 +32,31 @@ public class CompareServiceRequest {
     public void setScanTemplate(double[] scanTemplate) {
         this.scanTemplate = scanTemplate;
     }
+    public String getScanPreviewURL() {
+        return scanPreviewURL;
+    }
+    public void setScanPreviewURL(String scanPreviewURL) {
+        this.scanPreviewURL = scanPreviewURL;
+    }
+    public String getWebFullFrameURL() {
+        return webFullFrameURL;
+    }
+    public void setWebFullFrameURL(String webFullFrameURL) {
+        this.webFullFrameURL = webFullFrameURL;
+    }
+    public String getWebPreviewURL() {
+        return webPreviewURL;
+    }
+    public void setWebPreviewURL(String webPreviewURL) {
+        this.webPreviewURL = webPreviewURL;
+    }
+    public String getScanFullFrameURL() {
+        return scanFullFrameURL;
+    }
+    public void setScanFullFrameURL(String scanFullFrameURL) {
+        this.scanFullFrameURL = scanFullFrameURL;
+    }
+
+
+
 }

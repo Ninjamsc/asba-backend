@@ -65,7 +65,7 @@ public class RequestProcessor {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yy.HH.mm.ss");
+    private SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yy.HH.mm.ss");
 
     public RequestProcessor() {}
 
@@ -137,10 +137,17 @@ public class RequestProcessor {
                 ((ObjectNode) result).put("username", request.getLogin());
                 String timestamp = DATE_FORMAT.format(request.getTimestamp());
                 ((ObjectNode) result).put("timestamp", timestamp);
+/*
                 ((ObjectNode) result).put("scannedPictureURL", request.getScannedDocument().getFaceSquare());
                 ((ObjectNode) result).put("scannedPicturePreviewURL", request.getScannedDocument().getOrigImageURL());
                 ((ObjectNode) result).put("webCamPictureURL", request.getCameraDocument().getFaceSquare());
                 ((ObjectNode) result).put("webCamPicturePreviewURL", request.getCameraDocument().getOrigImageURL());
+*/
+                ((ObjectNode) result).put("scannedPictureURL", request.getScannedDocument().getOrigImageURL());
+                ((ObjectNode) result).put("scannedPicturePreviewURL", request.getScannedDocument().getFaceSquare());
+                ((ObjectNode) result).put("webCamPictureURL", request.getCameraDocument().getOrigImageURL());
+                ((ObjectNode) result).put("webCamPicturePreviewURL", request.getCameraDocument().getFaceSquare());
+
                 writeLog("Send compareServiceRequest");
                 writeLog(result.toString());
                 jmsTemplate.convertAndSend(result.toString());
