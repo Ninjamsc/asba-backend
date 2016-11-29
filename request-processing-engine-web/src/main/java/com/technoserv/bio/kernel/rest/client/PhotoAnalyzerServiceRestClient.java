@@ -51,11 +51,11 @@ public class PhotoAnalyzerServiceRestClient {
             switch (e.getRawStatusCode()) {
                 //На первом этапе сервис выполняется в виде заглушки, всегда возвращающей HTTP 200 ОК.
                 /*Стандартные названия ошибок не совпадают с нашей документацией  только коды */
-                case 510:log.error("510 ошибка анализа изображения");
-                case 400:log.error("Неполный/неверный запрос");
+                case 510:log.error("510 ошибка анализа изображения");new PhotoAnalizerServiceException(e.getResponseBodyAsString());
+                case 400:log.error("Неполный/неверный запрос");new PhotoAnalizerServiceException(e.getResponseBodyAsString());
 //                case 500://log.error("Прочие ошибки");
                 default:
-                    throw new PhotoAnalizerServiceException(e.getResponseBodyAsString());
+                    throw new RuntimeException(e.getResponseBodyAsString());
             }
         }
 
