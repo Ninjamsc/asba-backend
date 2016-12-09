@@ -1,0 +1,23 @@
+package com.technoserv.rest.model;
+
+
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+public class StopListElement {
+
+	private String Photo;
+
+	public String getPhoto() {
+		return Photo;
+	}
+
+	public void setPhoto(String photo) {
+		Photo = photo;
+	}
+
+	@Override
+public String toString() {
+	return "StopListElement  [photo=" + Photo + "]";
+}
+}

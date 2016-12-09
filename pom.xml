@@ -15,6 +15,7 @@
         <module>json-delivery-service-web</module>
         <module>arm-message-consumer-web</module>
         <module>request-processing-engine-web</module>
+        <module>compare</module>
     </modules>
 
     <properties>

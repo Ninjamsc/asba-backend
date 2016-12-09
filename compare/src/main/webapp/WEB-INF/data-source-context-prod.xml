@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+         http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+ ">
+
+
+    <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
+
+        <property value="org.postgresql.Driver" name="driverClassName"/>
+        <property value="jdbc:postgresql://192.168.167.211:5432/bi1" name="url"/>
+        <property value="biometry" name="username"/>
+        <property value="Meter2015" name="password"/>
+    </bean>
+
+    <bean class="org.springframework.orm.hibernate4.HibernateTransactionManager" id="transactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" id="sessionFactory">
+        <property name="dataSource" ref="dataSource"/>
+        <property value="com.technoserv.db.model" name="packagesToScan"/>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</prop>
+                      <prop key="hibernate.hbm2ddl.auto">create</prop>  
+                <!--  <prop key="hibernate.show_sql">true</prop> -->
+            </props>
+
+        </property>
+        <!-- Another way of indicating that we want to update the schema; Spring calls this after the session factory is created, while the
+        hbm2ddl flag above is processed by Hibernate during creationo f the session factory. <property name="schemaUpdate" value="true" /> -->
+    </bean>
+</beans>
