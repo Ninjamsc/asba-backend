@@ -1,5 +1,7 @@
 package com.technoserv.db.model.objectmodel;
 
+import com.technoserv.db.model.BaseEntity;
+
 import javax.persistence.*;
 
 /**
@@ -7,7 +9,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "COMPARE_RESULTS")
-public class CompareResult {
+public class CompareResult extends BaseEntity<Long>{
 
     @Id
     @Column(name = "ID")
