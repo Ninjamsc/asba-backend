@@ -18,6 +18,13 @@ public class CompareResult extends BaseEntity<Long>{
     @Lob
     private String json;
 
+    public CompareResult() {
+    }
+    public CompareResult(Long id, String json) {
+        this.id = id;
+        this.json = json;
+    }
+
     public Long getId() {
         return id;
     }
