@@ -131,7 +131,8 @@ public class RequestProcessor {
                 writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate Done: " + new String(compareResult.getBytes()));
                 JsonNode  result = objectMapper.readValue(compareResult, JsonNode.class);
                 Long iin = request.getPerson().getId();
-                ((ObjectNode) result).put("wfNumber", request.getId());
+                Long wfm = request.getPerson().getId();
+                ((ObjectNode) result).put("wfNumber", wfm);
                 ((ObjectNode) result).put("IIN", iin);
                 ((ObjectNode) result).put("username", request.getLogin());
                 String timestamp = DATE_FORMAT.format(request.getTimestamp());
@@ -150,7 +151,7 @@ public class RequestProcessor {
                 writeLog("Send compareServiceRequest");
                 String jsonResult = result.toString();
                 writeLog(jsonResult);
-                compareResultService.save(new CompareResult(iin, jsonResult));
+                compareResultService.save(new CompareResult(wfm, jsonResult));
                 jmsTemplate.convertAndSend(jsonResult);
                 writeLog("Send compareServiceRequest Done");
                 writeLog("Update request status to SUCCESS for id = '" + request.getId() + "'");

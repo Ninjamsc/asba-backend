@@ -27,7 +27,7 @@ public class CompareResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
-    @Path("/{id}")
+    @Path("/{id}") //id as wfm
     public String find(@PathParam("id") Long id) {
         return compareResultService.findById(id).getJson();
     }

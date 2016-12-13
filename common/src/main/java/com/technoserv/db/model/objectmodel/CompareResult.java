@@ -14,7 +14,7 @@ public class CompareResult extends BaseEntity<Long>{
     @Id
     @Column(name = "ID")
     private Long id;
-    @Column
+    @Column(length = 20000)
     @Lob
     private String json;
 

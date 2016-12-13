@@ -3,6 +3,8 @@ package com.technoserv.bio.kernel.rest.resource;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 import com.technoserv.db.model.objectmodel.Document;
+import com.technoserv.db.model.objectmodel.Person;
+import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.model.objectmodel.StopList;
 import com.technoserv.db.service.objectmodel.api.StopListService;
 import io.swagger.annotations.Api;
@@ -11,6 +13,9 @@ import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 /**
  * Created by sergey on 23.11.2016.
@@ -22,6 +27,30 @@ public class StopListContentResource {
 
     @Autowired
     private StopListService stopListService;
+
+    @Path("/lists/rest/stoplist/{ID}/entry")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    public StopListResponse get(@PathParam("ID")Long id) {
+        StopList stopList = stopListService.findById(id);
+
+        Collection<PersonResource.HistoryRequestResponse> responses = new ArrayList<>();
+        stopList.getPersons().forEach(p -> {
+            PersonResource.HistoryRequestResponse response = new PersonResource.HistoryRequestResponse();
+            //response.setComment();
+            responses.add(response);
+        });
+
+        StopListResponse stopListResponse = new StopListResponse();
+        stopListResponse.setSimilarity(stopList.getSimilarity());
+        stopListResponse.setName(stopList.getStopListName());
+        stopListResponse.setDescription(stopList.getDescription());
+        stopListResponse.setType(stopList.getType());
+        stopListResponse.setRequestResponses(responses);
+        return stopListResponse;
+    }
 
     @Path("/lists/rest/stoplist/{ID}/entry")
     @PUT
@@ -60,5 +89,79 @@ public class StopListContentResource {
             }
         }
 
+    }
+
+    private static class StopListResponse {
+        //TODO ..
+        private String type;
+        //TODO ..
+        private String description;
+        //TODO ..
+        private String name;
+        //TODO ..
+        private Double similarity;
+        private Collection<PersonResource.HistoryRequestResponse> requestResponses = Collections.emptyList();
+
+        public Collection<PersonResource.HistoryRequestResponse> getRequestResponses() {
+            return requestResponses;
+        }
+
+        public void setRequestResponses(Collection<PersonResource.HistoryRequestResponse> requestResponses) {
+            this.requestResponses = requestResponses;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public Double getSimilarity() {
+            return similarity;
+        }
+
+        public void setSimilarity(Double similarity) {
+            this.similarity = similarity;
+        }
+    }
+    private PersonResource.PersonResponse toResponse(Person person) {
+        PersonResource.PersonResponse response = new PersonResource.PersonResponse();
+        //response.setTimestamp(); TODO ...
+        response.setIin(person.getId());
+
+        for (Request request : person.getDossier() ) {
+            PersonResource.HistoryRequestResponse requestResponse = new PersonResource.HistoryRequestResponse();
+            requestResponse.setWfmid(request.getId());
+            requestResponse.setUsername(request.getLogin());
+            requestResponse.setTimestamp(request.getTimestamp());
+            requestResponse.setPreviewCamURL(request.getCameraDocument() != null ?
+                    request.getCameraDocument().getOrigImageURL() : "");
+            requestResponse.setFullframeCamURL(request.getCameraDocument() != null ?
+                    request.getCameraDocument().getFaceSquare() : "");
+            requestResponse.setPreviewScanURL(request.getScannedDocument() != null ?
+                    request.getScannedDocument().getOrigImageURL() : "");
+            requestResponse.setFullframeScanURL(request.getScannedDocument() != null ?
+                    request.getScannedDocument().getFaceSquare() : "");
+            response.getDossier().add(requestResponse);
+        }
+        return response;
     }
 }
