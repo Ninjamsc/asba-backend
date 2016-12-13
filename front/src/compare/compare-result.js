@@ -1,11 +1,19 @@
-angular.module('compare-result-view', ['ui.router','commons'])
-    .controller('compareResultViewController', function ($scope, $log, $state, $stateParams) {
+angular.module('compare-result-view', ['ui.router', 'commons'])
+    .controller('compareResultViewController', function ($scope, $log, $state, $stateParams,$httpService) {
 
-        $scope.stateListId = $stateParams.id; //todo stateParams
 
-        console.log($stateParams);
 
-        /*$httpService.findStopLists(function (result) {
-         $scope.stopLists = result.data;
-         });*/
+        $scope.findRequest = function(){
+            $log.info($scope.creditRequestIdForSearch);
+            $httpService.findCompareResult($scope.creditRequestIdForSearch, function (result) {
+                $log.info("success");
+                $scope.compareResult = result;
+            });
+        };
+
+
+
+        //todo remove
+        $scope.creditRequestIdForSearch = 15;
+        $scope.findRequest();
     });

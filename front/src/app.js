@@ -4,6 +4,7 @@ var myApp = angular.module('myApp', [
     'ngCookies',
     'stop-lists-registry',
     'stop-lists-edit',
+    'compare-result-view',
     'commons']);
 
 
@@ -27,9 +28,9 @@ myApp.config(function ($stateProvider, $routeProvider, $urlRouterProvider) {
         templateUrl: 'src/stop-lists/stop-lists-edit.html',
         controller: 'stopListsEditController'
     }).state('compare-result',{
-        url:'/compare/result',
-        templateUrl: 'src/stop-lists/stop-lists-edit.html',
-        controller: 'stopListsEditController'
+        url:'/compare',
+        templateUrl: 'src/compare/compare-result.html',
+        controller: 'compareResultViewController'
     });
 
 

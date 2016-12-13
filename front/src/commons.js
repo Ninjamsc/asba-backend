@@ -28,7 +28,7 @@ angular.module('commons', []).constant('contextualClass', {
             if (!!params) {
                 defaultParams = angular.extend(defaultParams, params);
             }
-            var urlTemplate = 'http://127.0.0.1:1717/backendsaratov2/';
+            var urlTemplate = 'http://127.0.0.1:1717/backendsaratov/';
             return $http({
                 method: 'GET',
                 url: urlTemplate + method,
@@ -40,9 +40,14 @@ angular.module('commons', []).constant('contextualClass', {
             }, logErrorCallback);
         };
 
-        this.findStopLists = function(callback){
+        this.findStopLists = function (callback) {
             var method = 'src/json/stop-list-registry.json';
             http(method, callback)
+        };
+
+        this.findCompareResult = function (id, callback) {
+            var method = 'src/json/compare-result-view.json';
+            http(method, callback, {creditRequestId: id});
         };
 
         return this;
