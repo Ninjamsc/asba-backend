@@ -28,7 +28,7 @@ public class CompareExrenalStubResource {
     public String find(CompareServiceRequest request) {
         String response;
         try {
-            response = UtilTest.readFile("compare-stub-response-1.json");
+            response = UtilTest.readFile("compare-stub-response-compare-stub-response-2.json");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

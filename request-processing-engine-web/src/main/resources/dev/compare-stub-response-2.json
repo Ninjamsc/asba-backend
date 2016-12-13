@@ -1,0 +1,27 @@
+{
+  "rules":[
+    {
+      "ruleId":"4.2.1",
+      "ruleDescription" :"Фотография, прикрепленная к заявке, существенно отличается от других фотографий заемщика, имеющихся в базе"
+    },
+    {
+      "ruleId":"4.2.2",
+      "ruleDescription" :"Фотография, прикрепленная к заявке, идентична имеющейся в базе"
+    },
+    {
+      "ruleId":"4.2.3",
+      "ruleDescription" :"Возможно соответствие с клиентом из банковского СТОП-ЛИСТА"
+    },
+    {
+      "ruleId":"4.2.4",
+      "ruleDescription" :"Возможно соответствие с клиентом из общего СТОП-ЛИСТА"
+    },
+    {
+      "ruleId":"4.2.5",
+      "ruleDescription" :"Возможно несоответствие фотографии в паспорте и фотографии, прикрепленной к заявке"
+    }
+
+  ],
+  "scannedPicture":{"pictureURL":"<url>","previewURL":"<url>","blackLists":[{"listId":5,"listName":"People","photo":[{"url":"http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg","similarity":0.02994438539996796},{"url":"http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg","similarity":0.139474854710958},{"url":"http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg","similarity":0.139474854710958}],"similarity":0.851},{"listId":5,"listName":"People","photo":[{"url":"http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg","similarity":0.02994438539996796},{"url":"http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg","similarity":0.139474854710958},{"url":"http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg","similarity":0.139474854710958}],"similarity":0.851},{"listId":5,"listName":"People","photo":[{"url":"http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg","similarity":0.02994438539996796},{"url":"http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg","similarity":0.139474854710958},{"url":"http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg","similarity":0.139474854710958}],"similarity":0.851}]},
+  "cameraPicture":{"pictureURL":"<url>","previewURL":"<url>","blackLists":[{"listId":5,"listName":"People","photo":[{"url":"http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg","similarity":0.02994438539996796},{"url":"http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg","similarity":0.139474854710958},{"url":"http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg","similarity":0.139474854710958}],"similarity":0.851},{"listId":5,"listName":"People","photo":[{"url":"http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg","similarity":0.02994438539996796},{"url":"http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg","similarity":0.139474854710958},{"url":"http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg","similarity":0.139474854710958}],"similarity":0.851},{"listId":5,"listName":"People","photo":[{"url":"http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg","similarity":0.02994438539996796},{"url":"http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg","similarity":0.139474854710958},{"url":"http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg","similarity":0.139474854710958}],"similarity":0.851}]}
+}
