@@ -6,8 +6,6 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
         $scope.findRequest = function(){
             $log.info($scope.creditRequestIdForSearch);
             $httpService.findCompareResult($scope.creditRequestIdForSearch, function (result) {
-                $log.info("success");
-                $log.info(result.data);
                 $scope.compareResult = result.data;
             });
         };
