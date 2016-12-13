@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 import com.technoserv.db.model.objectmodel.CompareResult;
 import com.technoserv.db.service.Service;
+import com.technoserv.db.service.objectmodel.api.CompareResultService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ import javax.ws.rs.core.MediaType;
 public class CompareResource {
 
     @Autowired
-    private Service<Long, CompareResult> compareResultService;
+    private CompareResultService compareResultService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
