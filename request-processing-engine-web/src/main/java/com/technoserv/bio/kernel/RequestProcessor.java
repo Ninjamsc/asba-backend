@@ -7,17 +7,12 @@ import com.technoserv.bio.kernel.rest.client.CompareServiceRestClient;
 import com.technoserv.bio.kernel.rest.client.PhotoAnalyzerServiceRestClient;
 import com.technoserv.bio.kernel.rest.client.TemplateBuilderServiceRestClient;
 import com.technoserv.db.model.objectmodel.*;
-import com.technoserv.db.service.objectmodel.api.BioTemplateService;
-import com.technoserv.db.service.objectmodel.api.BioTemplateTypeService;
-import com.technoserv.db.service.objectmodel.api.BioTemplateVersionService;
+import com.technoserv.db.service.objectmodel.api.*;
 import com.technoserv.rest.exception.RestClientException;
 import com.technoserv.bio.kernel.rest.request.CompareServiceRequest;
 import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
-import com.technoserv.db.service.objectmodel.api.RequestService;
 import com.technoserv.rest.client.PhotoPersistServiceRestClient;
-import com.technoserv.rest.request.Base64Photo;
 import com.technoserv.utils.JsonUtils;
-import io.swagger.util.Json;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +42,9 @@ public class RequestProcessor {
 
     @Autowired
     private PhotoAnalyzerServiceRestClient photoAnalyzerServiceRestClient;
+
+    @Autowired
+    private CompareResultService compareResultService;
 
     @Autowired
     private CompareServiceRestClient сompareServiceRestClient;
@@ -132,8 +130,9 @@ public class RequestProcessor {
                 String compareResult = сompareServiceRestClient.compare(compareServiceRequest);
                 writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate Done: " + new String(compareResult.getBytes()));
                 JsonNode  result = objectMapper.readValue(compareResult, JsonNode.class);
+                Long iin = request.getPerson().getId();
                 ((ObjectNode) result).put("wfNumber", request.getId());
-                ((ObjectNode) result).put("IIN", request.getPerson().getId());
+                ((ObjectNode) result).put("IIN", iin);
                 ((ObjectNode) result).put("username", request.getLogin());
                 String timestamp = DATE_FORMAT.format(request.getTimestamp());
                 ((ObjectNode) result).put("timestamp", timestamp);
@@ -149,8 +148,10 @@ public class RequestProcessor {
                 ((ObjectNode) result).put("webCamPicturePreviewURL", request.getCameraDocument().getFaceSquare());
 
                 writeLog("Send compareServiceRequest");
-                writeLog(result.toString());
-                jmsTemplate.convertAndSend(result.toString());
+                String jsonResult = result.toString();
+                writeLog(jsonResult);
+                compareResultService.save(new CompareResult(iin, jsonResult));
+                jmsTemplate.convertAndSend(jsonResult);
                 writeLog("Send compareServiceRequest Done");
                 writeLog("Update request status to SUCCESS for id = '" + request.getId() + "'");
                 updateRequestStatus(request, Request.Status.SUCCESS);
