@@ -1,0 +1,59 @@
+<h2>Просмотр отчета о результатах биометрической верификации</h2>
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div>
+                <label>Идентификатор кредитной заявки</label>
+                <input type="text"
+                       ng-model="creditRequestIdForSearch"
+                       class="form-control"
+                       placeholder="Введите значение"
+                       style="width:200px;">
+                <button ng-click="findRequest()" class="btn btn-default">Найти</button>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default" ng-if="!!compareResult">
+        <div>
+            <h3>Результат биометрической верификации</h3>
+        </div>
+        <div class="panel-body">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Информация о запросе в биометрическое ядро</h3>
+                    <div>
+                        <div><label>Идентификатор кредитной заявки </label>{{compareResult.biometricCoreResponse.creditRequestId}}
+                        </div>
+                        <div><label>Идентификатор клиента </label> {{compareResult.biometricCoreResponse.clientId}}
+                        </div>
+                        <div><label>Идентфикатор оператора </label> {{compareResult.biometricCoreResponse.operatorId}}
+                        </div>
+                        <div><label>Время отправки запроса в биометрическое ядро </label>{{compareResult.biometricCoreResponse.requestDate}}
+                        </div>
+                        <div><label>Время формирования отчета </label>
+                            {{compareResult.biometricCoreResponse.responseDate}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    Фотографии клиента, поступившие в биометрическое ядро
+                    <div class="row">
+                        <div ng-repeat="photo in compareResult.clientPhotos.items">
+                            <div class="col-xs-2">
+                                <img ng-src="{{photo.url}}" alt="tttt">
+                                <span>{{photo.description}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">2</div>
+            </div>
+        </div>
+    </div>
+
+</div>
