@@ -28,7 +28,7 @@ angular.module('commons', []).constant('contextualClass', {
             if (!!params) {
                 defaultParams = angular.extend(defaultParams, params);
             }
-            var urlTemplate = 'http://127.0.0.1:1717/backendsaratov/';
+            var urlTemplate = './';
             return $http({
                 method: 'GET',
                 url: urlTemplate + method,
