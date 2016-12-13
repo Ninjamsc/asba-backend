@@ -19,50 +19,50 @@
         </div>
         <div class="panel-body">
 
-            <!--<div class="panel panel-default">-->
-            <!--<div class="panel-body">-->
-            <!--<h3>Информация о запросе в биометрическое ядро</h3><br/>-->
-            <!--<div>-->
-            <!--<div><label>Идентификатор кредитной заявки </label>{{compareResult.biometricCoreResponse.creditRequestId}}-->
-            <!--</div>-->
-            <!--<div><label>Идентификатор клиента </label> {{compareResult.biometricCoreResponse.clientId}}-->
-            <!--</div>-->
-            <!--<div><label>Идентфикатор оператора </label> {{compareResult.biometricCoreResponse.operatorId}}-->
-            <!--</div>-->
-            <!--<div><label>Время отправки запроса в биометрическое ядро </label>{{compareResult.biometricCoreResponse.requestDate}}-->
-            <!--</div>-->
-            <!--<div><label>Время формирования отчета </label>-->
-            <!--{{compareResult.biometricCoreResponse.responseDate}}-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div class="panel panel-default">-->
-            <!--<div class="panel-body">-->
-            <!--<h3>Фотографии клиента, поступившие в биометрическое ядро</h3><br/>-->
-            <!--<div class="row">-->
-            <!--<div ng-repeat="photo in compareResult.clientPhotos.items">-->
-            <!--<div class="col-xs-2">-->
-            <!--<img ng-src="{{photo.url}}" alt="tttt">-->
-            <!--<span>{{photo.description}}</span>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--<div class="panel panel-default">-->
-            <!--<div class="panel-body">-->
-            <!--<h3>Фотографии из исторических заявок клиента (допустимый порог схожести <b>todo</b>)</h3><br/>-->
-            <!--<div class="row">-->
-            <!--<div ng-repeat="photo in compareResult.historicalClientPhotos.items">-->
-            <!--<div class="col-xs-2">-->
-            <!--<img ng-src="{{photo.url}}" alt="tttt">-->
-            <!--<span style="text-align: center">{{photo.description}}</span>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
-            <!--</div>-->
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Информация о запросе в биометрическое ядро</h3><br/>
+                    <div>
+                        <div><label>Идентификатор кредитной заявки </label>{{compareResult.biometricCoreResponse.creditRequestId}}
+                        </div>
+                        <div><label>Идентификатор клиента </label> {{compareResult.biometricCoreResponse.clientId}}
+                        </div>
+                        <div><label>Идентфикатор оператора </label> {{compareResult.biometricCoreResponse.operatorId}}
+                        </div>
+                        <div><label>Время отправки запроса в биометрическое ядро </label>{{compareResult.biometricCoreResponse.requestDate}}
+                        </div>
+                        <div><label>Время формирования отчета </label>
+                            {{compareResult.biometricCoreResponse.responseDate}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Фотографии клиента, поступившие в биометрическое ядро</h3><br/>
+                    <div class="row">
+                        <div ng-repeat="photo in compareResult.clientPhotos.items">
+                            <div class="col-xs-2">
+                                <img ng-src="{{photo.url}}" alt="tttt">
+                                <span>{{photo.description}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Фотографии из исторических заявок клиента (допустимый порог схожести {{compareResult.historicalClientPhotos.similarity}})</h3><br/>
+                    <div class="row">
+                        <div ng-repeat="photo in compareResult.historicalClientPhotos.items">
+                            <div class="col-xs-2">
+                                <img ng-src="{{photo.url}}" alt="tttt">
+                                <span style="text-align: center">{{photo.description}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="panel panel-default" ng-if="!!compareResult.bankStopListHits">
                 <div class="panel-body">
                     <h3>Совпадения в банковских стоп-листах ({{compareResult.bankStopListHits.items.length}})</h3><br/>
@@ -81,13 +81,15 @@
             </div>
             <div class="panel panel-default" ng-if="!!compareResult.commonStopListHits">
                 <div class="panel-body">
-                    <h3>Совпадения в общих стоп-листах ({{compareResult.commonStopListHits.items.length}})</h3>
-                    <br/>
-                    <div class="row">
-                        <div ng-repeat="photo in compareResult.commonStopListHits.items">
-                            <div class="col-xs-2">
-                                <img ng-src="{{photo.url}}" alt="tttt">
-                                <span style="text-align: center">{{photo.description}}</span>
+                    <h3>Совпадения в общих стоп-листах ({{compareResult.commonStopListHits.items.length}})</h3><br/>
+                    <div ng-repeat="commonStopList in compareResult.commonStopListHits.items">
+                        <h4>{{commonStopList.name}}, порог схожести: {{commonStopList.similarity}}</h4>
+                        <div class="row">
+                            <div ng-repeat="photo in commonStopList.photo">
+                                <div class="col-xs-2">
+                                    <img ng-src="{{photo.url}}" alt="tttt">
+                                    <span style="text-align: center">{{photo.description}}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -95,5 +97,4 @@
             </div>
         </div>
     </div>
-
 </div>
