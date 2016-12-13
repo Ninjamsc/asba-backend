@@ -1,0 +1,9 @@
+[
+  {"id": 1, "name": "stopListName", "similarity":0.1235, "ownerId":100500, "type":"Банковский"},
+  {"id": 2, "name": "stopListName", "similarity":0.1235, "ownerId":100500, "type":"Банковский"},
+  {"id": 3, "name": "stopListName", "similarity":0.1235, "ownerId":100500, "type":"Банковский"},
+  {"id": 4, "name": "stopListName", "similarity":0.1235, "ownerId":100500, "type":"Банковский"},
+  {"id": 5, "name": "stopListName", "similarity":0.1235, "ownerId":100500, "type":"Банковский"},
+  {"id": 6, "name": "stopListName", "similarity":0.1235, "ownerId":100500, "type":"Банковский"},
+  {"id": 7, "name": "stopListName", "similarity":0.1235, "ownerId":100500, "type":"Банковский"}
+]

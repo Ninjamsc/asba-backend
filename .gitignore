@@ -3,3 +3,4 @@
 *.iml
 target/
 BaseObjectModel/target/
+front/node_modules
