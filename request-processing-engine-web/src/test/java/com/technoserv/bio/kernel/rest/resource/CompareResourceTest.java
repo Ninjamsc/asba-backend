@@ -23,7 +23,6 @@ public class CompareResourceTest {
     private CompareResultService compareResultService;
     private static Long WFM = 1L;
 
-    @Before
     public void setUp() throws Exception {
         String json = TestUtils.readFile("compare-result-view.json");;
         CompareResult compareResult = new CompareResult(WFM, json);
@@ -32,7 +31,14 @@ public class CompareResourceTest {
 
     @Test
     public void findTest() throws Exception {
-        String result = compareResource.find(WFM);
+        setUp();
+        String result = (String) compareResource.find(WFM).getEntity();
         Assert.assertNotNull(result);
+    }
+
+    @Test
+    public void find404Test() throws Exception {
+        int status = compareResource.find(WFM  +1).getStatus();
+        Assert.assertEquals(404, status);
     }
 }
