@@ -71,7 +71,7 @@ public class TemplateBuilderServiceRestClient {
     public static void main(String[] args) {
         TemplateBuilderServiceRestClient restClient = new TemplateBuilderServiceRestClient(){
             public String getUrl() {
-                return "http://www.sdorohov.ru/rpe/rest/template-builder-stub";
+                return "http://www.sdorohov.ru/rpe/api/rest/template-builder-stub";
             }
         };
         restClient.getPhotoTemplate(new byte[]{});

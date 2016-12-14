@@ -117,6 +117,13 @@ public class RequestProcessor {
                 // компонент 9 Сервис сравнения
                 writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate");
                 CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
+
+                compareServiceRequest.setWebFullFrameURL(request.getCameraDocument().getOrigImageURL());
+                compareServiceRequest.setWebPreviewURL(request.getCameraDocument().getFaceSquare());
+
+                compareServiceRequest.setScanFullFrameURL(request.getScannedDocument().getOrigImageURL());
+                compareServiceRequest.setScanPreviewURL(request.getScannedDocument().getFaceSquare());
+
                 if(scannedTemplate!=null) {
                     compareServiceRequest.setScanTemplate(scannedTemplate.template);
                 } else {
