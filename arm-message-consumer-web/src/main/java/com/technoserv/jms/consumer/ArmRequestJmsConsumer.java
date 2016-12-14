@@ -150,6 +150,7 @@ public class ArmRequestJmsConsumer {
             requestEntity.setScannedDocument(scan);
             requestEntity.setLogin(requestDTO.getUsername());
             requestEntity.setObjectDate(new Date());
+            requestEntity.setStatus(Request.Status.SAVED);
             //Todo save request
             requestService.saveOrUpdate(requestEntity);
             return true;

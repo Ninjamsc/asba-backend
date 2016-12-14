@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 /**
  * Created by sergey on 23.11.2016.
  */
-@Service //TODO ...
+@Service("initialDataBuilder") //TODO ...
 public class InitialDataBuilder implements InitializingBean {
 
     @Autowired
