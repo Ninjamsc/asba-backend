@@ -63,20 +63,20 @@ public class ArmRequestJmsConsumer {
         }
     }
 
-    public void onReceive(ArmRequestRetryMessage message) {
-        if(message.getTryCount()<=maxTryCount) {
-            if (!saveRequest(message.getMessage())) {
-                message.incTryCount();
-                jmsTemplate.convertAndSend(message);
-            }
-        } else {
-            try {
-                writeToFile(message);
-            } catch (IOException e) {
-                log.error(e);
-            }
-        }
-    }
+//    public void onReceive(ArmRequestRetryMessage message) {
+//        if(message.getTryCount()<=maxTryCount) {
+//            if (!saveRequest(message.getMessage())) {
+//                message.incTryCount();
+//                jmsTemplate.convertAndSend(message);
+//            }
+//        } else {
+//            try {
+//                writeToFile(message);
+//            } catch (IOException e) {
+//                log.error(e);
+//            }
+//        }
+//    }
 
     protected boolean saveRequest(String request) {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -154,6 +154,7 @@ public class ArmRequestJmsConsumer {
             requestService.saveOrUpdate(requestEntity);
             return true;
         } catch (IOException e) {
+            e.printStackTrace();
             log.error(e);
             return false;
         }

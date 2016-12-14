@@ -19,7 +19,7 @@ public class SystemSettingsBean implements InitializingBean {
     private SystemSettingService systemSettingService;
 
 
-    private Map<SystemSettingsType,SystemSettings> systemSettingsCache;
+    private Map<SystemSettingsType,SystemSettings> systemSettingsCache = new HashMap<SystemSettingsType, SystemSettings>();
 
 
     private Date nextReloadDate;
@@ -35,8 +35,8 @@ public class SystemSettingsBean implements InitializingBean {
     }
 
     public void reloadCache() {
-        List<SystemSettings> all = systemSettingService.getAll();
         systemSettingsCache.clear();
+        List<SystemSettings> all = systemSettingService.getAll();
         for (SystemSettings systemSettings : all) {
             systemSettingsCache.put(systemSettings.getId(),systemSettings);
         }
@@ -49,7 +49,7 @@ public class SystemSettingsBean implements InitializingBean {
 }
 
     public String get(SystemSettingsType systemSettingsType) {
-        if(new Date().after(nextReloadDate)) {
+        if(new Date().after(nextReloadDate) || systemSettingsCache.isEmpty()) {
             reloadCache();
         }
         return systemSettingsCache.get(systemSettingsType).getValue();
