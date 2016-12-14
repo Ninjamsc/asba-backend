@@ -13,6 +13,6 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
 
 
         //todo remove
-        $scope.creditRequestIdForSearch = 15;
-        $scope.findRequest();
+        // $scope.creditRequestIdForSearch = 'compare-result-view.json';
+        // $scope.findRequest();
     });
