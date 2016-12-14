@@ -90,7 +90,7 @@
     "blackLists": [
       {
         "listId": 5,
-        "listName": "People",
+        "listName": "camera",
         "photo": [
           {
             "url": "https://pp.vk.me/c837127/v837127087/10288/3wvyKI247VU.jpg",
@@ -109,7 +109,7 @@
       },
       {
         "listId": 5,
-        "listName": "People",
+        "listName": "camera2",
         "photo": [
           {
             "url": "https://pp.vk.me/c837127/v837127087/10288/3wvyKI247VU.jpg",
@@ -128,7 +128,7 @@
       },
       {
         "listId": 5,
-        "listName": "People",
+        "listName": "camera457",
         "photo": [
           {
             "url": "https://pp.vk.me/c837127/v837127087/10288/3wvyKI247VU.jpg",
