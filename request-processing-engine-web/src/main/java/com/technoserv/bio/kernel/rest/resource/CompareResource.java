@@ -17,6 +17,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by sergey on 27.11.2016.
@@ -56,5 +57,14 @@ public class CompareResource {
         result.setJson(json);
         compareResultService.saveOrUpdate(result);
         return Response.status(Response.Status.OK).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @Path("/list")
+    public List<CompareResult> getAll() {
+        return compareResultService.getAll();
     }
 }
