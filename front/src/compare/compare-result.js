@@ -14,7 +14,7 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
                     "clientId": "cl 100500",
                     "operatorId": data.username,
                     "requestDate": data.timestamp,
-                    "responseDate": "00.00.00.00.00.00"
+                    "responseDate": data["created-at"]
                 };
                 result.cameraPicture.pictureURL = data.webCamPictureURL;
                 result.cameraPicture.previewURL = data.webCamPicturePreviewURL;
