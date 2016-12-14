@@ -15,6 +15,8 @@ public class Base64Photo {
     /** base46 encoded изображение */
     public String photo;
 
+    public Base64Photo() {}
+
     public Base64Photo(byte[] imageByteArray) {
         StringBuilder sb = new StringBuilder();
         sb.append("data:image/jpg;base64,");
@@ -22,7 +24,14 @@ public class Base64Photo {
         photo = sb.toString();
     }
 
-//    public static void main(String[] args) throws IOException {
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+    //    public static void main(String[] args) throws IOException {
 //        FileInputStream fileInputStream=null;
 //
 //        File file = new File("D:\\images\\01-spitzer-omeganebula.jpg");
