@@ -5,9 +5,9 @@ package com.technoserv.db.model.configuration;
  */
 public enum SystemSettingsType {
     PHOTO_PERSIST_SERVICE_URL("http://localhost:8080/storage/rest/image"),
-    COMPARE_SERVICE_URL("http://localhost:8080/rpe/rest/compare-stub/template"),
+    COMPARE_SERVICE_URL("http://localhost:8080/rpe/api/rest/compare-stub/template"),
     PHOTO_ANALYZER_SERVICE_URL("http://localhost:8080/analize/analize"),
-    TEMPLATE_BUILDER_SERVICE_URL("http://localhost:8080/rpe/rest/template-builder-stub");
+    TEMPLATE_BUILDER_SERVICE_URL("http://localhost:8080/rpe/api/rest/template-builder-stub");
 
     private final String defauldValue;
 
