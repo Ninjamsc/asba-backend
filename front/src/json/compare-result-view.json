@@ -1,138 +1,149 @@
 {
-  "Результат биометрической верификации": [
-    "Перечень сработавших правил, наверное enum какой-то надо завести либо от Миши напрямую кидать"
+  "rules": [
+    {
+      "ruleId": "4.2.1",
+      "ruleDescription": "Фотография, прикрепленная к заявке, существенно отличается от других фотографий заемщика, имеющихся в базе"
+    },
+    {
+      "ruleId": "4.2.2",
+      "ruleDescription": "Фотография, прикрепленная к заявке, идентична имеющейся в базе"
+    },
+    {
+      "ruleId": "4.2.3",
+      "ruleDescription": "Возможно соответствие с клиентом из банковского СТОП-ЛИСТА"
+    },
+    {
+      "ruleId": "4.2.4",
+      "ruleDescription": "Возможно соответствие с клиентом из общего СТОП-ЛИСТА"
+    },
+    {
+      "ruleId": "4.2.5",
+      "ruleDescription": "Возможно несоответствие фотографии в паспорте и фотографии, прикрепленной к заявке"
+    }
   ],
-  "biometricCoreResponse": {
-    "creditRequestId": "113456",
-    "clientId": "cl 100500",
-    "operatorId": "op 13",
-    "requestDate": "12:45 13.56.2016",
-    "responseDate": "13:56 12.45.2016"
-  },
-  "clientPhotos": {
-    "comment": "Фотографии клиента, поступившие в биометрическое ядро, отображается всегда",
-    "items": [
+  "scannedPicture": {
+    "pictureURL": "https://pp.vk.me/c624521/v624521771/45043/iEehe9RnwA0.jpg",
+    "previewURL": "https://pp.vk.me/c837127/v837127087/10288/3wvyKI247VU.jpg",
+    "blackLists": [
       {
-        "url": "https://pp.vk.me/c636028/v636028314/31824/I4r8J1it7Zk.jpg",
-        "description": "Фото с камеры"
+        "listId": 5,
+        "listName": "People",
+        "photo": [
+          {
+            "url": "http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg",
+            "similarity": 0.02994438539996796
+          },
+          {
+            "url": "http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg",
+            "similarity": 0.139474854710958
+          },
+          {
+            "url": "http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg",
+            "similarity": 0.139474854710958
+          }
+        ],
+        "similarity": 0.851
       },
       {
-        "url": "https://pp.vk.me/c837127/v837127087/10288/3wvyKI247VU.jpg",
-        "description": "Превью фото с камеры"
+        "listId": 5,
+        "listName": "People",
+        "photo": [
+          {
+            "url": "http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg",
+            "similarity": 0.02994438539996796
+          },
+          {
+            "url": "http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg",
+            "similarity": 0.139474854710958
+          },
+          {
+            "url": "http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg",
+            "similarity": 0.139474854710958
+          }
+        ],
+        "similarity": 0.851
       },
       {
-        "url": "https://pp.vk.me/c624521/v624521771/45043/iEehe9RnwA0.jpg",
-        "description": "Скан-фото"
-      },
-      {
-        "url": "https://pp.vk.me/c837127/v837127087/10288/3wvyKI247VU.jpg",
-        "description": "Превью скан-фото"
+        "listId": 5,
+        "listName": "People",
+        "photo": [
+          {
+            "url": "http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg",
+            "similarity": 0.02994438539996796
+          },
+          {
+            "url": "http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg",
+            "similarity": 0.139474854710958
+          },
+          {
+            "url": "http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg",
+            "similarity": 0.139474854710958
+          }
+        ],
+        "similarity": 0.851
       }
     ]
   },
-  "historicalClientPhotos": {
-    "comment": "Фотографии из исторических заявок клиента",
-    "comment1": "допустимый порог схожести должен быть",
-    "comment2": "отображается всегда",
-    "similarity" :"0.53",
-    "items": [
+  "cameraPicture": {
+    "pictureURL": "https://pp.vk.me/c636028/v636028314/31824/I4r8J1it7Zk.jpg",
+    "previewURL": "https://pp.vk.me/c418531/v418531465/2763/zU6_yrLY-h8.jpg",
+    "blackLists": [
       {
-        "url": "https://pp.vk.me/c837127/v837127087/10288/3wvyKI247VU.jpg",
-        "description": "0.98"
-      },
-      {
-        "url": "https://pp.vk.me/c636028/v636028314/31824/I4r8J1it7Zk.jpg",
-        "description": "0.84"
-      },
-      {
-        "url": "https://pp.vk.me/c624521/v624521771/45043/iEehe9RnwA0.jpg",
-        "description": "0.874"
-      }
-    ]
-  },
-  "bankStopListHits": {
-    "comment": "Совпадения в банковских стоп листах",
-    "comment1": "допустимый порог схожести должен быть",
-    "comment2": "отображается если есть соответсвующие совпдения",
-    "items": [
-      {
-        "name": "Стоплист 1",
-        "similarity": "0.98",
+        "listId": 5,
+        "listName": "People",
         "photo": [
           {
-            "url": "https://pp.vk.me/c837127/v837127087/10288/3wvyKI247VU.jpg",
-            "description": "0.98"
+            "url": "http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg",
+            "similarity": 0.02994438539996796
           },
           {
-            "url": "https://pp.vk.me/c636028/v636028314/31824/I4r8J1it7Zk.jpg",
-            "description": "0.84"
+            "url": "http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg",
+            "similarity": 0.139474854710958
           },
           {
-            "url": "https://pp.vk.me/c624521/v624521771/45043/iEehe9RnwA0.jpg",
-            "description": "0.874"
+            "url": "http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg",
+            "similarity": 0.139474854710958
           }
-        ]
+        ],
+        "similarity": 0.851
       },
       {
-        "name": "Стоплист 2",
-        "similarity": "0.8",
+        "listId": 5,
+        "listName": "People",
         "photo": [
           {
-            "url": "https://pp.vk.me/c837127/v837127087/10288/3wvyKI247VU.jpg",
-            "description": "0.98"
+            "url": "http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg",
+            "similarity": 0.02994438539996796
           },
           {
-            "url": "https://pp.vk.me/c636028/v636028314/31824/I4r8J1it7Zk.jpg",
-            "description": "0.84"
+            "url": "http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg",
+            "similarity": 0.139474854710958
           },
           {
-            "url": "https://pp.vk.me/c624521/v624521771/45043/iEehe9RnwA0.jpg",
-            "description": "0.874"
+            "url": "http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg",
+            "similarity": 0.139474854710958
           }
-        ]
-      }
-    ]
-  },
-  "commonStopListHits": {
-    "comment": "Совпадения в общих стоп листах",
-    "comment1": "допустимый порог схожести должен быть",
-    "comment2": "отображается если есть соответсвующие совпдения",
-    "items": [
-      {
-        "name": "Стоплист 1",
-        "similarity": "0.9",
-        "photo": [
-          {
-            "url": "https://pp.vk.me/c837127/v837127087/10288/3wvyKI247VU.jpg",
-            "description": "0.98"
-          },
-          {
-            "url": "https://pp.vk.me/c636028/v636028314/31824/I4r8J1it7Zk.jpg",
-            "description": "0.84"
-          },
-          {
-            "url": "https://pp.vk.me/c624521/v624521771/45043/iEehe9RnwA0.jpg",
-            "description": "0.874"
-          }
-        ]
+        ],
+        "similarity": 0.851
       },
       {
-        "name": "Стоплист 2",
-        "similarity": "0.87",
+        "listId": 5,
+        "listName": "People",
         "photo": [
           {
-            "url": "https://pp.vk.me/c837127/v837127087/10288/3wvyKI247VU.jpg",
-            "description": "0.98"
+            "url": "http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg",
+            "similarity": 0.02994438539996796
           },
           {
-            "url": "https://pp.vk.me/c636028/v636028314/31824/I4r8J1it7Zk.jpg",
-            "description": "0.84"
+            "url": "http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg",
+            "similarity": 0.139474854710958
           },
           {
-            "url": "https://pp.vk.me/c624521/v624521771/45043/iEehe9RnwA0.jpg",
-            "description": "0.874"
+            "url": "http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg",
+            "similarity": 0.139474854710958
           }
-        ]
+        ],
+        "similarity": 0.851
       }
     ]
   }
