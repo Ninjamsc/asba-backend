@@ -75,4 +75,6 @@ public class PhotoAnalyzerServiceRestClient {
         restClient.analyzePhoto("/9j/4AAQSkZJRgABA".getBytes());
 
     }
+
+
 }

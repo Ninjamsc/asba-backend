@@ -28,9 +28,13 @@ public class CompareServiceRestClient {
     @Autowired
     private SystemSettingsBean systemSettingsBean;
 
+    public String getUrl() {
+        return systemSettingsBean.get(SystemSettingsType.COMPARE_SERVICE_URL);
+    }
+
     public String compare(CompareServiceRequest request) {
 
-        String url = systemSettingsBean.get(SystemSettingsType.COMPARE_SERVICE_URL);
+        String url = getUrl();
 
         if(log.isInfoEnabled()) {
             log.info(url + " COMPARING TEMPLATE: '" + request + "'");
@@ -46,6 +50,7 @@ public class CompareServiceRestClient {
             }
             return response.getBody();
         } catch (RestClientResponseException e) {
+            e.printStackTrace();
             log.error("COMPARING TEMPLATE ERROR CODE " + e.getRawStatusCode());
             switch (e.getRawStatusCode()){
                 /*Стандартные названия ошибок не совпадают с нашей документацией только коды */
@@ -54,5 +59,15 @@ public class CompareServiceRestClient {
                 default: throw new RuntimeException(e.getResponseBodyAsString());
             }
         }
+    }
+
+    public static void main(String[] args) {
+        CompareServiceRestClient restClient = new CompareServiceRestClient(){
+            public String getUrl() {
+                return "http://sdorohov.ru/rpe/api/rest/compare-stub/template";
+            }
+        };
+        restClient.compare(new CompareServiceRequest());
+
     }
 }

@@ -5,6 +5,7 @@ import com.technoserv.db.model.configuration.SystemSettingsType;
 import com.technoserv.db.service.configuration.api.SystemSettingService;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -13,6 +14,7 @@ import java.util.*;
  * Created by 90630 on 14.12.2016.
  */
 @Component
+@DependsOn(value = "initialDataBuilder")
 public class SystemSettingsBean implements InitializingBean {
 
     @Autowired
