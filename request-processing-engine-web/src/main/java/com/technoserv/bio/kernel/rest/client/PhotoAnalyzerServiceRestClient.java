@@ -3,14 +3,11 @@ package com.technoserv.bio.kernel.rest.client;
 import com.technoserv.bio.kernel.rest.exception.PhotoAnalizerServiceException;
 import com.technoserv.bio.kernel.rest.response.PhotoAnalyzeResult;
 import com.technoserv.db.model.configuration.SystemSettingsType;
-import com.technoserv.db.service.configuration.impl.SystemSettingBean;
+import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
 import com.technoserv.rest.request.Base64Photo;
-import com.technoserv.rest.request.PhotoSaveRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientResponseException;
@@ -29,7 +26,7 @@ public class PhotoAnalyzerServiceRestClient {
     private RestTemplate rest = new RestTemplate();
 
     @Autowired
-    private SystemSettingBean systemSettingBean;
+    private SystemSettingsBean systemSettingsBean;
 
     /**
      * В случае успеха (библиотека анализа изображений не нашла несоответствий) возврат HTTP 200 OK безJSON документа
@@ -65,7 +62,7 @@ public class PhotoAnalyzerServiceRestClient {
     }
 
     public String getUrl() {
-        return systemSettingBean.get(SystemSettingsType.PHOTO_ANALYZER_SERVICE_URL);
+        return systemSettingsBean.get(SystemSettingsType.PHOTO_ANALYZER_SERVICE_URL);
     }
 
     public static void main(String[] args) {

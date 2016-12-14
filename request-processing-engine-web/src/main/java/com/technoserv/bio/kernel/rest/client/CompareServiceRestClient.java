@@ -4,13 +4,10 @@ package com.technoserv.bio.kernel.rest.client;
 import com.technoserv.bio.kernel.rest.exception.CompareServiceException;
 import com.technoserv.bio.kernel.rest.request.CompareServiceRequest;
 import com.technoserv.db.model.configuration.SystemSettingsType;
-import com.technoserv.db.service.configuration.impl.SystemSettingBean;
-import com.technoserv.rest.request.Base64Photo;
+import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientResponseException;
@@ -29,11 +26,11 @@ public class CompareServiceRestClient {
     private RestTemplate rest = new RestTemplate();
 
     @Autowired
-    private SystemSettingBean systemSettingBean;
+    private SystemSettingsBean systemSettingsBean;
 
     public String compare(CompareServiceRequest request) {
 
-        String url = systemSettingBean.get(SystemSettingsType.COMPARE_SERVICE_URL);
+        String url = systemSettingsBean.get(SystemSettingsType.COMPARE_SERVICE_URL);
 
         if(log.isInfoEnabled()) {
             log.info(url + " COMPARING TEMPLATE: '" + request + "'");

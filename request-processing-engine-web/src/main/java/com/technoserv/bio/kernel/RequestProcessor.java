@@ -107,11 +107,11 @@ public class RequestProcessor {
                 //шаг 5 Построение фильтров
                 // компонент 8 Сервис анализа изображений
                 writeLog("analyze scannedPhoto " + scannedPhoto);
-                photoAnalyzerServiceRestClient.analyzePhoto(scannedPhoto);
+//                photoAnalyzerServiceRestClient.analyzePhoto(scannedPhoto);
                 writeLog("analyze scannedPhoto Done");
 
                 writeLog("analyze webCamPhoto");
-                photoAnalyzerServiceRestClient.analyzePhoto(webCamPhoto);
+//                photoAnalyzerServiceRestClient.analyzePhoto(webCamPhoto);
                 writeLog("analyze webCamPhoto Done");
                 //шаг в 6 Сравнение со списками
                 // компонент 9 Сервис сравнения

@@ -2,15 +2,13 @@ package com.technoserv.rest.client;
 
 
 import com.technoserv.db.model.configuration.SystemSettingsType;
-import com.technoserv.db.service.configuration.impl.SystemSettingBean;
+import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
 import com.technoserv.rest.client.exception.TemplateBuilderServiceException;
 import com.technoserv.rest.client.response.PhotoTemplate;
 import com.technoserv.rest.client.request.Base64Photo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientResponseException;
@@ -27,12 +25,12 @@ public class TemplateBuilderServiceRestClient {
     private static final Log log = LogFactory.getLog(TemplateBuilderServiceRestClient.class);
 
     @Autowired
-    private SystemSettingBean systemSettingBean;
+    private SystemSettingsBean systemSettingsBean;
 
     private RestTemplate rest = new RestTemplate();
 
     public String getUrl() {
-        return systemSettingBean.get(SystemSettingsType.COMPARE_SERVICE_URL);
+        return systemSettingsBean.get(SystemSettingsType.COMPARE_SERVICE_URL);
     }
 
     public PhotoTemplate getPhotoTemplateBase64(String request)
