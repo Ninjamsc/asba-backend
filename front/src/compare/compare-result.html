@@ -22,30 +22,58 @@
     </div>
     <div class="panel panel-default" ng-if="!!compareResult">
         <div class="panel-body">
-            <div class="col-xs-12">
+            <div class="container" style="padding-left: 0;">
+                <div class="col-xs-12" style="padding-left: 0;">
 
-                <div class="col-xs-4">
-                    <h4>Результат биометрической верификации</h4>
-                </div>
-                <div class="col-xs-8">
-                    Возможно соответсвие с клиентом из банковского СТОП-ЛИСТА
+                    <div class="col-xs-4" >
+                        <label>Результат биометрической верификации</label>
+                    </div>
+                    <div class="col-xs-8">
+                        <span>Возможно соответствие с клиентом из банковского СТОП-ЛИСТА</span>
+                    </div>
                 </div>
             </div>
 
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h3>Информация о запросе в биометрическое ядро</h3><br/>
+                    <label>Информация о запросе в биометрическое ядро</label><br/>
                     <div>
-                        <div><label>Идентификатор кредитной заявки </label>{{compareResult.biometricCoreResponse.creditRequestId}}
+                        <div class="col-xs-12">
+                            <div class="col-xs-4">
+                                <label class="pull-right">Идентификатор кредитной заявки</label>
+                            </div>
+                            <div class="col-xs-2" style="text-align: left">
+                                {{compareResult.biometricCoreResponse.creditRequestId}}
+                            </div>
+                            <div class="col-xs-4" style="text-align: right">
+                                <label class="pull-right">Время отправки запроса в биометрическое ядро</label>
+                            </div>
+                            <div class="col-xs-2" style="text-align: left">
+                                {{compareResult.biometricCoreResponse.requestDate}}
+                            </div>
                         </div>
-                        <div><label>Идентификатор клиента </label> {{compareResult.biometricCoreResponse.clientId}}
+                        <div class="col-xs-12">
+                            <div class="col-xs-4">
+                                <label class="pull-right">Идентификатор клиента</label>
+                            </div>
+                            <div class="col-xs-2" style="text-align: left">
+                                {{compareResult.biometricCoreResponse.clientId}}
+                            </div>
+                            <div class="col-xs-4">
+                                <label class="pull-right">Время формирования отчета </label>
+                            </div>
+                            <div class="col-xs-2" style="text-align: left">
+                                {{compareResult.biometricCoreResponse.responseDate}}
+                            </div>
                         </div>
-                        <div><label>Идентфикатор оператора </label> {{compareResult.biometricCoreResponse.operatorId}}
-                        </div>
-                        <div><label>Время отправки запроса в биометрическое ядро </label>{{compareResult.biometricCoreResponse.requestDate}}
-                        </div>
-                        <div><label>Время формирования отчета </label>
-                            {{compareResult.biometricCoreResponse.responseDate}}
+                        <div class="col-xs-12">
+                            <div class="col-xs-4">
+                                <label class="pull-right">Идентфикатор оператора </label>
+                            </div>
+                            <div class="col-xs-2" style="text-align: left">
+                                {{compareResult.biometricCoreResponse.operatorId}}
+                            </div>
+
                         </div>
                     </div>
                 </div>
