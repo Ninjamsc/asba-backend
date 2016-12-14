@@ -4,7 +4,6 @@ import com.technoserv.bio.kernel.TestUtils;
 import com.technoserv.db.model.objectmodel.CompareResult;
 import com.technoserv.db.service.objectmodel.api.CompareResultService;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration("/applicationContext.xml")
 public class CompareResourceTest {
     @Autowired
-    private CompareResource compareResource;
+    private CompareResultResource compareResultResource;
     @Autowired
     private CompareResultService compareResultService;
     private static Long WFM = 1L;
@@ -32,13 +31,13 @@ public class CompareResourceTest {
     @Test
     public void findTest() throws Exception {
         setUp();
-        String result = (String) compareResource.find(WFM).getEntity();
+        String result = (String) compareResultResource.find(WFM).getEntity();
         Assert.assertNotNull(result);
     }
 
     @Test
     public void find404Test() throws Exception {
-        int status = compareResource.find(WFM  +1).getStatus();
+        int status = compareResultResource.find(WFM  +1).getStatus();
         Assert.assertEquals(404, status);
     }
 }

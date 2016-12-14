@@ -18,8 +18,6 @@ import java.util.Date;
 public class Request extends BaseEntity<Long> {
     public enum Status {SAVED, IN_PROCESS, SUCCESS, FAILED};
 
-
-
     /**
      * номер заявки из BPM
      */

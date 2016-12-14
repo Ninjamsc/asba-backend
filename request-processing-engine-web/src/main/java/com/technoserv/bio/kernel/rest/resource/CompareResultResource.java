@@ -25,7 +25,7 @@ import java.util.List;
 @Component
 @Path("/rest/compare-result")
 @Api(value = "Compare Result Rest API")
-public class CompareResource {
+public class CompareResultResource {
 
     @Autowired
     private CompareResultService compareResultService;
