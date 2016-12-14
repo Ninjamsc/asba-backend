@@ -8,6 +8,7 @@
 
                     <input type="text"
                            ng-model="creditRequestIdForSearch"
+                           ng-keydown="($event.which === 13 || $event.which === 32) && findRequest()"
                            class="form-control"
                            placeholder="Введите значение"
                            style="">
