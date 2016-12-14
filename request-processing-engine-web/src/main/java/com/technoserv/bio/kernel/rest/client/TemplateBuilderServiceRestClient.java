@@ -30,7 +30,7 @@ public class TemplateBuilderServiceRestClient {
     private SystemSettingsBean systemSettingsBean;
 
     public String getUrl() {
-        return systemSettingsBean.get(SystemSettingsType.PHOTO_ANALYZER_SERVICE_URL);
+        return systemSettingsBean.get(SystemSettingsType.TEMPLATE_BUILDER_SERVICE_URL);
     }
 
 
