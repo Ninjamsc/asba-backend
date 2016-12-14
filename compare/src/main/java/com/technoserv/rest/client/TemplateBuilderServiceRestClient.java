@@ -1,13 +1,14 @@
 package com.technoserv.rest.client;
 
 
+import com.technoserv.db.model.configuration.SystemSettingsType;
+import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
 import com.technoserv.rest.client.exception.TemplateBuilderServiceException;
 import com.technoserv.rest.client.response.PhotoTemplate;
 import com.technoserv.rest.client.request.Base64Photo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientResponseException;
@@ -19,18 +20,22 @@ import java.net.URI;
  * Created by VBasakov on 22.11.2016.
  */
 @Service
-@PropertySource("classpath:templateBuilderServiceRestClient.properties")
 public class TemplateBuilderServiceRestClient {
 
     private static final Log log = LogFactory.getLog(TemplateBuilderServiceRestClient.class);
 
-    @Value("${http.template.builder.service.client.url}")
-    private String url;
+    @Autowired
+    private SystemSettingsBean systemSettingsBean;
 
     private RestTemplate rest = new RestTemplate();
 
+    public String getUrl() {
+        return systemSettingsBean.get(SystemSettingsType.COMPARE_SERVICE_URL);
+    }
+
     public PhotoTemplate getPhotoTemplateBase64(String request)
     {
+        String url = getUrl();
         if (log.isInfoEnabled()) {
             log.info(url + " BUILDER BIO TEMPLATE: '" + request + "'");
         }
@@ -61,6 +66,7 @@ public class TemplateBuilderServiceRestClient {
         }
     }
     public PhotoTemplate getPhotoTemplate(byte[] request) {
+        String url = getUrl();
         if (log.isInfoEnabled()) {
             log.info(url + " BUILDER BIO TEMPLATE: '" + request + "'");
         }
@@ -89,8 +95,4 @@ public class TemplateBuilderServiceRestClient {
         }
     }
 
-    //для теста
-    public void setUrl(String url) {
-        this.url = url;
-    }
 }

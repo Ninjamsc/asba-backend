@@ -3,7 +3,9 @@ package com.technoserv.bio.kernel.rest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Created by VBasakov on 22.11.2016.
@@ -61,5 +63,19 @@ public class UtilTest {
         public int version;
         public double[] template;
     }
+
+    public static String readFile(String resourceName) throws Exception { //TODO ...
+
+        try (BufferedReader buffer = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream(resourceName)))) {
+            //return buffer.lines().collect(Collectors.joining("\n"));
+            StringBuilder stringBuilder = new StringBuilder();
+            String line = "";
+            while ((line = buffer.readLine()) != null) {
+                stringBuilder.append(line);
+            }
+            return stringBuilder.toString();
+        }
+    }
+
 
 }

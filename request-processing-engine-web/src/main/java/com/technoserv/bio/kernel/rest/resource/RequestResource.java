@@ -25,7 +25,7 @@ import java.sql.Timestamp;
  */
 @Component
 @Path("")
-@Api(value = "Request")
+@Api(value = "Request Rest API")
 public class RequestResource {
 
     @Autowired
