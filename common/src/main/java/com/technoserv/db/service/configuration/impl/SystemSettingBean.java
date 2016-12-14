@@ -7,9 +7,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by 90630 on 14.12.2016.
@@ -24,6 +22,13 @@ public class SystemSettingBean implements InitializingBean {
     private Map<SystemSettingsType,SystemSettings> systemSettingsCache;
 
 
+    private Date nextReloadDate;
+
+    private static final int AMOUNT_TTL = 5;//Колличество прибавляемых единиц
+    private static final int FIELD_TTL = Calendar.MINUTE;//Единицап измерения времени
+
+
+
     public void afterPropertiesSet() throws Exception {
         systemSettingsCache = new HashMap<SystemSettingsType, SystemSettings>();
         reloadCache();
@@ -35,9 +40,18 @@ public class SystemSettingBean implements InitializingBean {
         for (SystemSettings systemSettings : all) {
             systemSettingsCache.put(systemSettings.getId(),systemSettings);
         }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(FIELD_TTL, AMOUNT_TTL);
+        nextReloadDate = calendar.getTime();
+
     }
 
     public String get(SystemSettingsType systemSettingsType) {
+        if(new Date().after(nextReloadDate)) {
+            reloadCache();
+        }
         return systemSettingsCache.get(systemSettingsType).getValue();
     }
 }
