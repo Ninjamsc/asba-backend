@@ -24,7 +24,7 @@ public class SystemSettingBean implements InitializingBean {
 
     private Date nextReloadDate;
 
-    private static final int AMOUNT_TTL = 5;//Колличество прибавляемых единиц
+    private static final int AMOUNT_TTL = 1;//Колличество прибавляемых единиц
     private static final int FIELD_TTL = Calendar.MINUTE;//Единицап измерения времени
 
 
