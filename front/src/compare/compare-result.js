@@ -12,7 +12,14 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
             $log.info($scope.creditRequestIdForSearch);
             $httpService.findCompareResult($scope.creditRequestIdForSearch, function (result) {
                 console.log(result.data);
-
+                // result.data.rules = []; //todo remove
+                result.data.biometricCoreResponse = { //todo remove
+                    "creditRequestId": "113456",
+                    "clientId": "cl 100500",
+                    "operatorId": "op 13",
+                    "requestDate": "12:45 13.56.2016",
+                    "responseDate": "13:56 12.45.2016"
+                };
                 $scope.compareResult = result.data;
             });
         };
