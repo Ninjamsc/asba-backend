@@ -1,5 +1,7 @@
 package com.technoserv.bio.kernel.rest.resource;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 import com.technoserv.bio.kernel.rest.UtilTest;
@@ -10,7 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.io.IOException;
+
 
 /**
  * Created by sergey on 27.11.2016.
@@ -27,7 +33,7 @@ public class CompareExternalStubResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     @Path("/template")
-    public String find(CompareServiceRequest request) {
+    public Response find(CompareServiceRequest request) throws IOException {
         String response = "{\n" +
                 "  \"rules\":[\n" +
                 "    {\n" +
@@ -55,6 +61,7 @@ public class CompareExternalStubResource {
                 "  \"scannedPicture\":{\"pictureURL\":\"<url>\",\"previewURL\":\"<url>\",\"blackLists\":[{\"listId\":5,\"listName\":\"People\",\"photo\":[{\"url\":\"http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg\",\"similarity\":0.02994438539996796},{\"url\":\"http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg\",\"similarity\":0.139474854710958},{\"url\":\"http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg\",\"similarity\":0.139474854710958}],\"similarity\":0.851},{\"listId\":5,\"listName\":\"People\",\"photo\":[{\"url\":\"http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg\",\"similarity\":0.02994438539996796},{\"url\":\"http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg\",\"similarity\":0.139474854710958},{\"url\":\"http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg\",\"similarity\":0.139474854710958}],\"similarity\":0.851},{\"listId\":5,\"listName\":\"People\",\"photo\":[{\"url\":\"http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg\",\"similarity\":0.02994438539996796},{\"url\":\"http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg\",\"similarity\":0.139474854710958},{\"url\":\"http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg\",\"similarity\":0.139474854710958}],\"similarity\":0.851}]},\n" +
                 "  \"cameraPicture\":{\"pictureURL\":\"<url>\",\"previewURL\":\"<url>\",\"blackLists\":[{\"listId\":5,\"listName\":\"People\",\"photo\":[{\"url\":\"http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg\",\"similarity\":0.02994438539996796},{\"url\":\"http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg\",\"similarity\":0.139474854710958},{\"url\":\"http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg\",\"similarity\":0.139474854710958}],\"similarity\":0.851},{\"listId\":5,\"listName\":\"People\",\"photo\":[{\"url\":\"http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg\",\"similarity\":0.02994438539996796},{\"url\":\"http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg\",\"similarity\":0.139474854710958},{\"url\":\"http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg\",\"similarity\":0.139474854710958}],\"similarity\":0.851},{\"listId\":5,\"listName\":\"People\",\"photo\":[{\"url\":\"http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg\",\"similarity\":0.02994438539996796},{\"url\":\"http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg\",\"similarity\":0.139474854710958},{\"url\":\"http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg\",\"similarity\":0.139474854710958}],\"similarity\":0.851}]}\n" +
                 "}";
-        return response;
+
+        return Response.status(Response.Status.OK).entity(new ObjectMapper().readValue(response, JsonNode.class)).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build();
     }
 }
