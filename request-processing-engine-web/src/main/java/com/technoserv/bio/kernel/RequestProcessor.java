@@ -128,30 +128,8 @@ public class RequestProcessor {
                     compareServiceRequest.setWebTemplate(new double[]{});
                 }
                 String compareResult = сompareServiceRestClient.compare(compareServiceRequest);
-                writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate Done: " + new String(compareResult.getBytes()));
-                JsonNode  result = objectMapper.readValue(compareResult, JsonNode.class);
-                Long iin = request.getPerson().getId();
-                Long wfm = request.getPerson().getId();
-                ((ObjectNode) result).put("wfNumber", wfm);
-                ((ObjectNode) result).put("IIN", iin);
-                ((ObjectNode) result).put("username", request.getLogin());
-                String timestamp = DATE_FORMAT.format(request.getTimestamp());
-                ((ObjectNode) result).put("timestamp", timestamp);
-/*
-                ((ObjectNode) result).put("scannedPictureURL", request.getScannedDocument().getFaceSquare());
-                ((ObjectNode) result).put("scannedPicturePreviewURL", request.getScannedDocument().getOrigImageURL());
-                ((ObjectNode) result).put("webCamPictureURL", request.getCameraDocument().getFaceSquare());
-                ((ObjectNode) result).put("webCamPicturePreviewURL", request.getCameraDocument().getOrigImageURL());
-*/
-                ((ObjectNode) result).put("scannedPictureURL", request.getScannedDocument().getOrigImageURL());
-                ((ObjectNode) result).put("scannedPicturePreviewURL", request.getScannedDocument().getFaceSquare());
-                ((ObjectNode) result).put("webCamPictureURL", request.getCameraDocument().getOrigImageURL());
-                ((ObjectNode) result).put("webCamPicturePreviewURL", request.getCameraDocument().getFaceSquare());
-
-                writeLog("Send compareServiceRequest");
-                String jsonResult = result.toString();
-                writeLog(jsonResult);
-                compareResultService.save(new CompareResult(wfm, jsonResult));
+                String jsonResult = enrich(compareResult, request);
+                compareResultService.save(new CompareResult(request.getPerson().getId(), jsonResult));
                 jmsTemplate.convertAndSend(jsonResult);
                 writeLog("Send compareServiceRequest Done");
                 writeLog("Update request status to SUCCESS for id = '" + request.getId() + "'");
@@ -170,6 +148,34 @@ public class RequestProcessor {
                 writeLog("Update request status to SAVED for id = '" + request.getId() + " Done");
             }
         }
+    }
+
+    public String enrich(String compareResult, Request request) throws Exception {
+        writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate Done: " + new String(compareResult.getBytes()));
+        JsonNode  result = objectMapper.readValue(compareResult, JsonNode.class);
+        Long iin = request.getPerson().getId();
+        Long wfm = request.getPerson().getId();
+        ((ObjectNode) result).put("wfNumber", wfm);
+        ((ObjectNode) result).put("IIN", iin);
+        ((ObjectNode) result).put("username", request.getLogin());
+        String timestamp = DATE_FORMAT.format(request.getTimestamp());
+        ((ObjectNode) result).put("timestamp", timestamp);
+/*
+                ((ObjectNode) result).put("scannedPictureURL", request.getScannedDocument().getFaceSquare());
+                ((ObjectNode) result).put("scannedPicturePreviewURL", request.getScannedDocument().getOrigImageURL());
+                ((ObjectNode) result).put("webCamPictureURL", request.getCameraDocument().getFaceSquare());
+                ((ObjectNode) result).put("webCamPicturePreviewURL", request.getCameraDocument().getOrigImageURL());
+*/
+        ((ObjectNode) result).put("scannedPictureURL", request.getScannedDocument().getOrigImageURL());
+        ((ObjectNode) result).put("scannedPicturePreviewURL", request.getScannedDocument().getFaceSquare());
+        ((ObjectNode) result).put("webCamPictureURL", request.getCameraDocument().getOrigImageURL());
+        ((ObjectNode) result).put("webCamPicturePreviewURL", request.getCameraDocument().getFaceSquare());
+
+        writeLog("Send compareServiceRequest");
+        String jsonResult = result.toString();
+        writeLog(jsonResult);
+
+        return jsonResult;
     }
 
     private void addBioTemplateToDocument(Request request, Document document, PhotoTemplate scannedTemplate) throws IOException {
