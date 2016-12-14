@@ -146,5 +146,13 @@
         "similarity": 0.851
       }
     ]
-  }
+  },
+  "wfNumber" : 11154,
+  "IIN" : 11154,
+  "username" : "OperatorName",
+  "timestamp" : "12.12.16.12.00.12",
+  "scannedPictureURL" : "http://www.sdorohov.ru/storage/rest/image/MzlmYzM2YTEtNDdlMy00NjIzLThiMTYtNGZmNTg4M2RlYmVi.jpg",
+  "scannedPicturePreviewURL" : null,
+  "webCamPictureURL" : "http://www.sdorohov.ru/storage/rest/image/YWNjMDdlZmEtMTJjMS00MTM3LWIwNGYtOTBmMWIzMjIyZDdm.jpg",
+  "webCamPicturePreviewURL" : null
 }

@@ -11,21 +11,37 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
         $scope.findRequest = function () {
             $log.info($scope.creditRequestIdForSearch);
             $httpService.findCompareResult($scope.creditRequestIdForSearch, function (result) {
-                console.log(result.data);
-                // result.data.rules = []; //todo remove
-                result.data.biometricCoreResponse = { //todo remove
-                    "creditRequestId": "113456",
+                var data = result.data;
+                console.log(data);
+                //data.rules = []; //todo remove
+
+                var result = data;
+                result.biometricCoreResponse = { //todo remove
+                    "creditRequestId": data.wfNumber,
                     "clientId": "cl 100500",
-                    "operatorId": "op 13",
-                    "requestDate": "12:45 13.56.2016",
-                    "responseDate": "13:56 12.45.2016"
+                    "operatorId": data.username,
+                    "requestDate": data.timestamp,
+                    "responseDate": "00.00.00.00.00.00"
                 };
-                $scope.compareResult = result.data;
+                result.cameraPicture.pictureURL = data.webCamPictureURL;
+                result.cameraPicture.previewURL = data.webCamPicturePreviewURL;
+                result.scannedPicture.pictureURL = data.scannedPictureURL;
+                result.scannedPicture.previewURL = data.scannedPicturePreviewURL;
+                /*"wfNumber" : 11154,
+                    "IIN" : 11154,
+                    "username" : "OperatorName",
+                    "timestamp" : "12.12.16.12.00.12",
+                    "scannedPictureURL" : "http://www.sdorohov.ru/storage/rest/image/MzlmYzM2YTEtNDdlMy00NjIzLThiMTYtNGZmNTg4M2RlYmVi.jpg",
+                    "scannedPicturePreviewURL" : null,
+                    "webCamPictureURL" : "http://www.sdorohov.ru/storage/rest/image/YWNjMDdlZmEtMTJjMS00MTM3LWIwNGYtOTBmMWIzMjIyZDdm.jpg",
+                    "webCamPicturePreviewURL" : null*/
+                $scope.compareResult = result;
+
             });
         };
 
 
         //todo remove
-        $scope.creditRequestIdForSearch = 'compare-result-view.json';
-        $scope.findRequest();
+        // $scope.creditRequestIdForSearch = 'compare-result-view.json';
+        // $scope.findRequest();
     });
