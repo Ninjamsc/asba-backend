@@ -109,46 +109,55 @@
                     </div>
                 </div>
             </div>
-            <div class="panel panel-default">
+            <!--<div class="panel panel-default">-->
+            <!--<div class="panel-body">-->
+            <!--<h3>Фотографии из исторических заявок клиента (допустимый порог схожести-->
+            <!--{{compareResult.historicalClientPhotos.similarity}})</h3><br/>-->
+            <!--<div class="row">-->
+            <!--<div ng-repeat="photo in compareResult.historicalClientPhotos.items">-->
+            <!--<div class="col-xs-2">-->
+            <!--<img ng-src="{{photo.url}}" alt="{{photo.url}}">-->
+            <!--<span style="text-align: center">{{photo.description}}</span>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+            <div class="panel panel-default" ng-if="!!compareResult.scannedPicture &&
+                                                    !!compareResult.scannedPicture.blackLists &&
+                                                      compareResult.scannedPicture.blackLists.length > 0">
                 <div class="panel-body">
-                    <h3>Фотографии из исторических заявок клиента (допустимый порог схожести
-                        {{compareResult.historicalClientPhotos.similarity}})</h3><br/>
-                    <div class="row">
-                        <div ng-repeat="photo in compareResult.historicalClientPhotos.items">
-                            <div class="col-xs-2">
-                                <img ng-src="{{photo.url}}" alt="{{photo.url}}">
-                                <span style="text-align: center">{{photo.description}}</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-default" ng-if="!!compareResult.bankStopListHits">
-                <div class="panel-body">
-                    <h3>Совпадения в банковских стоп-листах ({{compareResult.bankStopListHits.items.length}})</h3><br/>
-                    <div ng-repeat="bankStopList in compareResult.bankStopListHits.items">
-                        <h4>{{bankStopList.name}}, порог схожести: {{bankStopList.similarity}}</h4>
+                    <h3>Совпадения в стоп-листах для скан-фото ({{compareResult.scannedPicture.blackLists.length}})</h3>
+                    <br/>
+                    <div ng-repeat="blackList in compareResult.scannedPicture.blackLists">
+                        <h4>{{blackList.listName}}, порог схожести: {{blackList.similarity}}</h4>
                         <div class="row">
-                            <div ng-repeat="photo in bankStopList.photo">
-                                <div class="col-xs-2">
-                                    <img ng-src="{{photo.url}}" alt="{{photo.url}}">
-                                    <span style="text-align: center">{{photo.description}}</span>
+                            <!--todo переделать с col-xs-2-->
+                            <div class="col-xs-12">
+                                <div ng-repeat="photo in blackList.photo">
+                                    <div class="col-xs-2">
+                                        <img ng-src="{{photo.url}}"
+                                             alt="{{photo.url}}">
+                                        <div class="caption" style="width:100px;">{{photo.similarity}}</div>
+                                    </div>
+                                    <div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="panel panel-default" ng-if="!!compareResult.commonStopListHits">
-                <div class="panel-body">
-                    <h3>Совпадения в общих стоп-листах ({{compareResult.commonStopListHits.items.length}})</h3><br/>
-                    <div ng-repeat="commonStopList in compareResult.commonStopListHits.items">
-                        <h4>{{commonStopList.name}}, порог схожести: {{commonStopList.similarity}}</h4>
-                        <div class="row">
-                            <div ng-repeat="photo in commonStopList.photo">
-                                <div class="col-xs-2">
-                                    <img ng-src="{{photo.url}}" alt="{{photo.url}}">
-                                    <span style="text-align: center">{{photo.description}}</span>
+                <div class="panel panel-default" ng-if="!!compareResult.commonStopListHits">
+                    <div class="panel-body">
+                        <h3>Совпадения в стоп-листах ({{compareResult.commonStopListHits.items.length}})</h3><br/>
+                        <div ng-repeat="commonStopList in compareResult.commonStopListHits.items">
+                            <h4>{{commonStopList.name}}, порог схожести: {{commonStopList.similarity}}</h4>
+                            <div class="row">
+                                <div ng-repeat="photo in commonStopList.photo">
+                                    <div class="col-xs-2">
+                                        <img ng-src="{{photo.url}}" alt="{{photo.url}}">
+                                        <span style="text-align: center">{{photo.description}}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -157,4 +166,3 @@
             </div>
         </div>
     </div>
-</div>
