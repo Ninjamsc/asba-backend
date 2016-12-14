@@ -64,7 +64,7 @@ public class CompareServiceRestClient {
     public static void main(String[] args) {
         CompareServiceRestClient restClient = new CompareServiceRestClient(){
             public String getUrl() {
-                return "http://www.sdorohov.ru/rpe/rest/compare-stub/template";
+                return "http://sdorohov.ru/rpe/rest/compare-stub/template";
             }
         };
         restClient.compare(new CompareServiceRequest());

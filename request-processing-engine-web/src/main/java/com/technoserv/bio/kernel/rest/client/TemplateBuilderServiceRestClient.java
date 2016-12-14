@@ -2,6 +2,7 @@ package com.technoserv.bio.kernel.rest.client;
 
 
 import com.technoserv.bio.kernel.rest.exception.TemplateBuilderServiceException;
+import com.technoserv.bio.kernel.rest.request.CompareServiceRequest;
 import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
 import com.technoserv.db.model.configuration.SystemSettingsType;
 import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
@@ -65,6 +66,16 @@ public class TemplateBuilderServiceRestClient {
                     throw new RuntimeException(e.getResponseBodyAsString());
             }
         }
+    }
+
+    public static void main(String[] args) {
+        TemplateBuilderServiceRestClient restClient = new TemplateBuilderServiceRestClient(){
+            public String getUrl() {
+                return "http://www.sdorohov.ru/rpe/rest/template-builder-stub";
+            }
+        };
+        restClient.getPhotoTemplate(new byte[]{});
+
     }
 
 }
