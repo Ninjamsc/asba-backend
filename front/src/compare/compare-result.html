@@ -2,22 +2,35 @@
 <div class="container">
     <div class="panel panel-default">
         <div class="panel-body">
-            <div>
-                <label>Идентификатор кредитной заявки</label>
-                <input type="text"
-                       ng-model="creditRequestIdForSearch"
-                       class="form-control"
-                       placeholder="Введите значение"
-                       style="width:200px;">
-                <button ng-click="findRequest()" class="btn btn-default">Найти</button>
+            <div class="col-xs-12">
+                <div class="col-lg-4"><h4>Идентификатор кредитной заявки</h4></div>
+                <div class="col-lg-7 col-xs-9">
+
+                    <input type="text"
+                           ng-model="creditRequestIdForSearch"
+                           class="form-control"
+                           placeholder="Введите значение"
+                           style="">
+                </div>
+
+                <div class="col-xs-1">
+                    <button type="button" class="btn btn-success pull-right" ng-click="findRequest()">Найти</button>
+                </div>
             </div>
+
         </div>
     </div>
     <div class="panel panel-default" ng-if="!!compareResult">
-        <div>
-            <h3>Результат биометрической верификации</h3>
-        </div>
         <div class="panel-body">
+            <div class="col-xs-12">
+
+                <div class="col-xs-4">
+                    <h4>Результат биометрической верификации</h4>
+                </div>
+                <div class="col-xs-8">
+                    Возможно соответсвие с клиентом из банковского СТОП-ЛИСТА
+                </div>
+            </div>
 
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -52,7 +65,8 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h3>Фотографии из исторических заявок клиента (допустимый порог схожести {{compareResult.historicalClientPhotos.similarity}})</h3><br/>
+                    <h3>Фотографии из исторических заявок клиента (допустимый порог схожести
+                        {{compareResult.historicalClientPhotos.similarity}})</h3><br/>
                     <div class="row">
                         <div ng-repeat="photo in compareResult.historicalClientPhotos.items">
                             <div class="col-xs-2">
