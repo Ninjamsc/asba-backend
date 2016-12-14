@@ -21,7 +21,7 @@ import java.util.Collection;
  */
 @Component
 @Path("/db/rest/IIN")
-@Api(value = "Person")
+@Api(value = "Person Rest Api")
 public class PersonResource {
 
     @Autowired

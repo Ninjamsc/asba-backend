@@ -13,8 +13,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class TemplateBuilderServiceRestClientTest {
     TemplateBuilderServiceRestClient client;
     {
-        client = new TemplateBuilderServiceRestClient();
-        client.setUrl("http://www.mocky.io/v2/5838827111000031118fd37f");
+        client = new TemplateBuilderServiceRestClient(){
+            @Override
+            public String getUrl() {
+                return "http://www.mocky.io/v2/5838827111000031118fd37f";
+            }
+        };
     }
 
     @Test

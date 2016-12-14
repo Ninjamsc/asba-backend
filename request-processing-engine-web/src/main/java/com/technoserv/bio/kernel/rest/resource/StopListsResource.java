@@ -19,7 +19,7 @@ import java.util.Collection;
  */
 @Component
 @Path("/rest/stoplist")
-@Api(value = "Stop-list")
+@Api(value = "Stop List Rest API")
 public class StopListsResource extends BaseResource<Long,StopList> {
 
     @Autowired

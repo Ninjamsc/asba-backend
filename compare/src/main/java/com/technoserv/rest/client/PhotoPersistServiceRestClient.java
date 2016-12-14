@@ -1,10 +1,13 @@
 package com.technoserv.rest.client;
 
+import com.technoserv.db.model.configuration.SystemSettingsType;
+import com.technoserv.db.service.configuration.impl.SystemSettingBean;
 import com.technoserv.rest.client.exception.PhotoPersistServiceException;
 import com.technoserv.rest.client.request.Base64Photo;
 import com.technoserv.rest.client.request.PhotoSaveRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
@@ -20,13 +23,12 @@ import java.util.Arrays;
  * Created by VBasakov on 22.11.2016.
  */
 @Service
-@PropertySource("classpath:photoPersistServiceRestClient.properties")
 public class PhotoPersistServiceRestClient {
 
     private static final Log log = LogFactory.getLog(PhotoPersistServiceRestClient.class);
 
-    @Value("${http.photo.persist.service.url}")
-    private String url;
+    @Autowired
+    private SystemSettingBean systemSettingBean;
 
     private  RestTemplate rest = new RestTemplate();
 
@@ -61,7 +63,10 @@ public class PhotoPersistServiceRestClient {
             }
         }
     }
+
     public String putPhoto(String file_content, String file_name) {
+        String url = systemSettingBean.get(SystemSettingsType.PHOTO_PERSIST_SERVICE_URL);
+
         file_name = String.format("%s.jpg", file_name);
         PhotoSaveRequest request = new PhotoSaveRequest(file_content, file_name);
 

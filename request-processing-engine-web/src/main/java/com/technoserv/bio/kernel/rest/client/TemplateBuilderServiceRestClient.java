@@ -4,9 +4,12 @@ package com.technoserv.bio.kernel.rest.client;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.technoserv.bio.kernel.rest.exception.TemplateBuilderServiceException;
 import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
+import com.technoserv.db.model.configuration.SystemSettingsType;
+import com.technoserv.db.service.configuration.impl.SystemSettingBean;
 import com.technoserv.rest.request.Base64Photo;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
@@ -21,17 +24,22 @@ import java.net.URI;
  * Created by VBasakov on 22.11.2016.
  */
 @Service
-@PropertySource("classpath:templateBuilderServiceRestClient.properties")
 public class TemplateBuilderServiceRestClient {
 
     private static final Log log = LogFactory.getLog(TemplateBuilderServiceRestClient.class);
 
-    @Value("${http.template.builder.service.client.url}")
-    private String url;
-
     private RestTemplate rest = new RestTemplate();
 
+    @Autowired
+    private SystemSettingBean systemSettingBean;
+
+    public String getUrl() {
+        return systemSettingBean.get(SystemSettingsType.PHOTO_ANALYZER_SERVICE_URL);
+    }
+
+
     public PhotoTemplate getPhotoTemplate(byte[] request) {
+        String url = getUrl();
         if(request==null) {
             return null;
         }
@@ -63,8 +71,4 @@ public class TemplateBuilderServiceRestClient {
         }
     }
 
-    //для теста
-    public void setUrl(String url) {
-        this.url = url;
-    }
 }

@@ -22,7 +22,7 @@ import java.util.Collections;
  */
 @Component
 @Path("")
-@Api(value = "stop-list-content")
+@Api(value = "Stop List Content Rest API")
 public class StopListContentResource {
 
     @Autowired

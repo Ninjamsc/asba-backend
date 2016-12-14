@@ -18,7 +18,7 @@ import java.util.Collection;
 
 @Component
 @Path("/rest/front-end-configuration")
-@Api(value = "front-end-configuration")
+@Api(value = "Front End Configuration Rest API")
 public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndConfiguration> {
 
     @Autowired

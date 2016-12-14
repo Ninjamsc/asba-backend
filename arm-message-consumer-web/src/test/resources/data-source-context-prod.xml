@@ -11,7 +11,7 @@
     <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
 
         <property value="org.postgresql.Driver" name="driverClassName"/>
-        <property value="jdbc:postgresql://192.168.167.211:5432/biometry" name="url"/>
+        <property value="jdbc:postgresql://localhost:5433/biometry" name="url"/>
         <property value="biometry" name="username"/>
         <property value="Meter2015" name="password"/>
     </bean>
