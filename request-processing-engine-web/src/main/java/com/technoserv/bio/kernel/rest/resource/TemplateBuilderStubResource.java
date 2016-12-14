@@ -19,7 +19,7 @@ import javax.ws.rs.core.MediaType;
  */
 @Component
 @Path("/rest/template-builder-stub")
-@Api(value = "CompareStub Rest API")
+@Api(value = "Template Builder Stub Rest API")
 public class TemplateBuilderStubResource {
 
     public static final Long ID = 1l;
