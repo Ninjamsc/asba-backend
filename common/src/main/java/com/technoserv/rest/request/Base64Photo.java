@@ -15,6 +15,10 @@ public class Base64Photo {
     /** base46 encoded изображение */
     public String photo;
 
+    public Base64Photo(String photo) {
+        this.photo = photo;
+    }
+
     public Base64Photo(byte[] imageByteArray) {
         StringBuilder sb = new StringBuilder();
         sb.append("data:image/jpg;base64,");
