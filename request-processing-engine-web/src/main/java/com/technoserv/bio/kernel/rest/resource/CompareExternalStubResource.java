@@ -18,7 +18,7 @@ import javax.ws.rs.core.MediaType;
 @Component
 @Path("/rest/compare-stub")
 @Api(value = "CompareStub Rest API")
-public class CompareExrenalStubResource {
+public class CompareExternalStubResource {
 
     public static final Long ID = 1l;
 
