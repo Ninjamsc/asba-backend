@@ -92,7 +92,7 @@ public class CompareStopListTestResource extends BaseResource<Long,StopList> {
 		p.setSimilarity(13.169f);
 		pa.add(p);
 		CompareResponseRulesObject rl = new CompareResponseRulesObject();
-		rl.setRuleId(1);
+		rl.setRuleId("1");
 		rl.setRuleName("Rule1");
 		rl.setPhoto(pa);
 		ArrayList<CompareResponseRulesObject> rla = new ArrayList<CompareResponseRulesObject>();
