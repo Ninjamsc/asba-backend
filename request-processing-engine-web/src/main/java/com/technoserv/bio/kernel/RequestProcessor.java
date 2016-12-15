@@ -63,7 +63,7 @@ public class RequestProcessor {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    private SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yy HH:mm:ss");
+    private SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
     public RequestProcessor() {}
 
