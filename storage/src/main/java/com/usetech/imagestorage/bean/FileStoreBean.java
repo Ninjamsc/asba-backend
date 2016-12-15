@@ -1,25 +1,22 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package com.usetech.imagestorage.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 
+/**
+ * Created by User on 14.11.2016.
+ */
 public class FileStoreBean implements Serializable {
+
     private static final long serialVersionUID = -5054749880960511861L;
-    @JsonProperty("file-content")
+    @JsonProperty(value = "file-content")
     private String fileContent;
-    @JsonProperty("file-name")
+    @JsonProperty(value = "file-name")
     private String fileName;
 
-    public FileStoreBean() {
-    }
-
     public String getFileContent() {
-        return this.fileContent;
+        return fileContent;
     }
 
     public void setFileContent(String fileContent) {
@@ -27,7 +24,7 @@ public class FileStoreBean implements Serializable {
     }
 
     public String getFileName() {
-        return this.fileName;
+        return fileName;
     }
 
     public void setFileName(String fileName) {

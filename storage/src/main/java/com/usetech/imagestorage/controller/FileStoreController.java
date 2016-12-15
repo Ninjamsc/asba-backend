@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package com.usetech.imagestorage.controller;
 
 import com.usetech.imagestorage.bean.ErrorBean;
@@ -14,36 +9,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+/**
+ * Created by User on 14.11.2016.
+ */
 @RestController
-@RequestMapping({"/rest"})
+@RequestMapping(value = "/rest")
 public class FileStoreController {
-    private static final Logger log = LoggerFactory.getLogger(FileStoreController.class);
+
+    private final static Logger log = LoggerFactory.getLogger(FileStoreController.class);
+
     @Autowired
     private FileStoreService fileStoreService;
 
-    public FileStoreController() {
-    }
-
-    @RequestMapping(
-            value = {"/image"},
-            method = {RequestMethod.PUT}
-    )
+    @RequestMapping(value = "/image", method = RequestMethod.PUT)
     public ResponseEntity store(@RequestBody FileStoreBean fileStoreBean) {
-        return this.fileStoreService.saveFile(fileStoreBean)?ResponseEntity.status(HttpStatus.OK).body((Object)null):ResponseEntity.status(HttpStatus.BAD_REQUEST).body((Object)null);
+        if (fileStoreService.saveFile(fileStoreBean)) {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
     }
 
-    @RequestMapping(
-            value = {"/image/{fileName:.+}"},
-            method = {RequestMethod.GET}
-    )
+    @RequestMapping(value = "/image/{fileName:.+}", method = RequestMethod.GET)
     public ResponseEntity get(@PathVariable("fileName") String fileName) {
-        byte[] file = this.fileStoreService.getFile(fileName);
-        return file != null?ResponseEntity.ok().contentLength((long)file.length).contentType(fileName.endsWith("png")?MediaType.IMAGE_PNG:MediaType.IMAGE_JPEG).body(file):ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorBean("Image not found"));
+        byte[] file = fileStoreService.getFile(fileName);
+        if (file != null) {
+            return ResponseEntity.ok()
+                    .contentLength(file.length)
+                    .contentType(fileName.endsWith("png") ? MediaType.IMAGE_PNG : MediaType.IMAGE_JPEG)
+                    .body(file);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorBean("Image not found"));
     }
 }

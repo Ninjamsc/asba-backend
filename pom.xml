@@ -17,6 +17,8 @@
         <module>request-processing-engine-web</module>
         <module>compare</module>
         <module>quality</module>
+        <module>client</module>
+        <module>storage</module>
         <!--<module>storage</module>-->
     </modules>
 

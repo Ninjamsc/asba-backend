@@ -1,8 +1,3 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package com.usetech.imagestorage;
 
 import org.springframework.boot.SpringApplication;
@@ -11,17 +6,21 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 
+/**
+ * Created by User on 31.10.2016.
+ */
+
 @SpringBootApplication
-@ComponentScan({"com.usetech.imagestorage"})
+@ComponentScan(value = "com.usetech.imagestorage")
 public class Application extends SpringBootServletInitializer {
-    public Application() {
-    }
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
+    @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(new Class[]{Application.class});
+        return application.sources(Application.class);
     }
+
 }

@@ -1,16 +1,16 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package com.usetech.imagestorage.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 
+/**
+ * Created by User on 17.11.2016.
+ */
 public class ErrorBean implements Serializable {
+
     private static final long serialVersionUID = -5054349990970511861L;
-    @JsonProperty("message")
+    @JsonProperty(value = "message")
     private String message;
 
     public ErrorBean(String message) {
@@ -18,7 +18,7 @@ public class ErrorBean implements Serializable {
     }
 
     public String getMessage() {
-        return this.message;
+        return message;
     }
 
     public void setMessage(String message) {

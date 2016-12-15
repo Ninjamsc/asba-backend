@@ -1,14 +1,14 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
 package com.usetech.imagestorage.service;
+
 
 import com.usetech.imagestorage.bean.FileStoreBean;
 
+/**
+ * Created by User on 14.11.2016.
+ */
 public interface FileStoreService {
-    boolean saveFile(FileStoreBean var1);
 
-    byte[] getFile(String var1);
+    boolean saveFile(FileStoreBean fileStoreBean);
+
+    byte[] getFile(String url);
 }
