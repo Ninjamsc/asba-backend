@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import org.apache.commons.math3.linear.ArrayRealVector;
 
-
-import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.technoserv.db.model.objectmodel.Document;
 
@@ -13,6 +13,7 @@ public class CompareServiceStopListElement {
 	private String listName;
 	private Long id;
 	private Double similarity;
+	@JsonInclude(Include.NON_EMPTY)
 	ArrayList<CompareServiceStopListVector> vectors;
 	
 public 	CompareServiceStopListElement(String listName, Long id, Double similarity)

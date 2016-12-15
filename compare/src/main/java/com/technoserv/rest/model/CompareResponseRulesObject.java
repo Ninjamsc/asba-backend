@@ -2,13 +2,13 @@ package com.technoserv.rest.model;
 import java.util.ArrayList;
 
 public class CompareResponseRulesObject {
-	private Integer ruleId;
+	private String ruleId;
 	private String ruleName;
 	private ArrayList<CompareResponsePhotoObject> photo;
-	public Integer getRuleId() {
+	public String getRuleId() {
 		return ruleId;
 	}
-	public void setRuleId(Integer ruleId) {
+	public void setRuleId(String ruleId) {
 		this.ruleId = ruleId;
 	}
 	public String getRuleName() {

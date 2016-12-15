@@ -16,6 +16,9 @@
         <module>arm-message-consumer-web</module>
         <module>request-processing-engine-web</module>
         <module>compare</module>
+        <module>quality</module>
+        <module>bridge</module>
+        <module>image-storage</module>
         <!--<module>storage</module>-->
     </modules>
 

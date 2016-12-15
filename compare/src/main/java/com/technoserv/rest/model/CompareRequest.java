@@ -5,7 +5,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@XmlRootElement
 public class CompareRequest {
 
 @JsonProperty("template_web")	
@@ -22,6 +21,16 @@ private String webFullFrameURL;
 @JsonProperty("webPreviewURL")
 private String webPreviewURL;
 
+	public Long getIin() {
+		return iin;
+	}
+
+	public void setIin(Long iin) {
+		this.iin = iin;
+	}
+
+	@JsonProperty("iin")
+private Long iin;
 
 public double[] getTemplate_web() {
 	return template_web;

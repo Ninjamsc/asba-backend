@@ -1,11 +1,11 @@
 package com.technoserv.rest.model;
 import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
 public class CompareResponse  {
 
+	@JsonInclude(Include.NON_EMPTY)
 	private ArrayList<CompareResponseRulesObject> Rules;
 	private CompareResponsePictureReport scannedPicture;
 	private CompareResponsePictureReport cameraPicture;
