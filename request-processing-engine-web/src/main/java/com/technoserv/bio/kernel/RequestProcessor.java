@@ -118,6 +118,8 @@ public class RequestProcessor {
                 writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate");
                 CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
 
+                compareServiceRequest.setIin(request.getPerson().getId());
+
                 compareServiceRequest.setWebFullFrameURL(request.getCameraDocument().getOrigImageURL());
                 compareServiceRequest.setWebPreviewURL(request.getCameraDocument().getFaceSquare());
 
