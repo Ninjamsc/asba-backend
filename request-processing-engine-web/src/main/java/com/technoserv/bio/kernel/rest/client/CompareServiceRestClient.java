@@ -14,6 +14,7 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Created by VBasakov on 22.11.2016.
@@ -67,7 +68,8 @@ public class CompareServiceRestClient {
                 return "http://sdorohov.ru/rpe/api/rest/compare-stub/template";
             }
         };
-        restClient.compare(new CompareServiceRequest());
+        String response = restClient.compare(new CompareServiceRequest());
+        System.out.println(response);
 
     }
 }
