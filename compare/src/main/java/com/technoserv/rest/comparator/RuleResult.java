@@ -1,15 +1,11 @@
 package com.technoserv.rest.comparator;
 
-import java.util.ArrayList;
-
-import com.technoserv.rest.model.CompareResponsePhotoObject;
-
 public class RuleResult {
 
 	private boolean fired; // if true, rule is fired
 	private String ruleId;
 	private String ruleDescription;
-	ArrayList<CompareResponsePhotoObject> photos;
+	//ArrayList<CompareResponsePhotoObject> photos;
 	
 	
 	public RuleResult()
@@ -17,21 +13,7 @@ public class RuleResult {
 		
 	}
 	
-	public void setPhotos(ArrayList<CompareResponsePhotoObject> photos)
-	{
-		this.photos = photos;
-	}
 	
-	public ArrayList<CompareResponsePhotoObject> getPhotos()
-	{
-		return this.photos;
-	}
-	
-	public void addPhoto(CompareResponsePhotoObject photo)
-	{
-		if (photos != null)
-		this.photos.add(photo);
-	}
 
 	public boolean isFired() {
 		return fired;

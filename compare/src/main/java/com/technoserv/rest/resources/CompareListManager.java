@@ -14,46 +14,44 @@ import javax.annotation.Resource;
 import org.apache.commons.math3.analysis.function.Exp;
 import org.apache.commons.math3.analysis.function.Pow;
 import org.apache.commons.math3.linear.ArrayRealVector;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.technoserv.db.model.configuration.SystemSettingsType;
 import com.technoserv.db.model.objectmodel.Document;
 import com.technoserv.db.model.objectmodel.StopList;
+import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
 import com.technoserv.db.service.objectmodel.api.DocumentService;
 import com.technoserv.rest.comparator.CompareServiceStopListElement;
 import com.technoserv.rest.comparator.CompareServiceStopListVector;
+import com.technoserv.rest.comparator.RuleResult;
 import com.technoserv.rest.model.CompareResponseBlackListObject;
 import com.technoserv.rest.model.CompareResponsePhotoObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-//@Component
-//@PropertySource("classpath:compare-service.properties")
-
-
-
-public class CompareListManager {
+@Component
+public class CompareListManager implements InitializingBean  {
 
 	//@Resource @Qualifier(value = "converters")
 	private HashMap<String, String> compareRules;
 
 	//@Autowired
      Environment env;
+     //@Value("${com.technoserv.bio.kernel.compare.commonlist}")
+     
+     @Autowired
+     private SystemSettingsBean systemSettingsBean;
+     
+     
+     private String _commonLIst;
 	 
-    //@Value("${com.technoserv.bio.kernel.compare.multiplier}")
-    private static String _mult;
-    private double mult = 0.7f; //TODO from properties
-    //@Value("${com.technoserv.bio.kernel.compare.power}")
-    private static String _power;
-    private int power = 4; //TODO from properties
-    //@Value("${com.technoserv.bio.kernel.compare.similarity}")
-    private static String _similarity;
-    private double similarity = 0.00000123123d; //TODO from properties
-
     private static final Log log = LogFactory.getLog(CompareListManager.class);
 
     @Autowired
@@ -65,17 +63,7 @@ public class CompareListManager {
 	{
 		return this.managedStopLists.get(id);
 	}
-	public CompareListManager(DocumentService service) throws FileNotFoundException,IOException {
-		this.managedStopLists = new HashMap<Long,CompareServiceStopListElement>();
-		this.documentService = service;
-		//Properties p = new Properties();
-		//InputStream i = new FileInputStream("compare-service.properties");
-		//p.load(i);
-		
-    	//this.mult = new Double(_mult);
-    	//this.power = new Integer(_power);
-    	//this.similarity = new Double(_similarity);
-	}
+	
 	
 	/*
 	 * Добавление элемента в существующий список по его ID
@@ -114,8 +102,8 @@ public class CompareListManager {
             log.info("COMPARATOR vector is ='"+vector+"'");
             System.out.println("COMPARATOR vector is'"+vector+"'");
 
-		//double mult = 0.7f;
-		//int power = 4;
+    		double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
+    		int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
 		ArrayList<CompareResponseBlackListObject> bl = new ArrayList<CompareResponseBlackListObject>();
 		// Сериализуем строковое представление вектора в ArrayRealVector
 		//ObjectMapper mapper = new ObjectMapper();
@@ -146,13 +134,38 @@ public class CompareListManager {
         			po.setUrl(d.getFaceSquare());
         			po.setSimilarity(norm);
         			report.addPhoto(po);
-        			bl.add(report);
-        				
+        			bl.add(report);        				
         		}
         		System.out.println(list.getListName()+" norm:"+norm);
-        		
         	}
         }
       return bl;  
+	}
+	
+	public boolean isSimilar(double[] a1, double[] a2) {
+		double similarity= new Double(systemSettingsBean.get(SystemSettingsType.RULE_SELF_SIMILARITY));
+		double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
+		int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
+		ArrayRealVector v1 = new ArrayRealVector(a1);
+		ArrayRealVector v2 = new ArrayRealVector(a2);
+   		ArrayRealVector diff =v1.subtract(v2);
+		double dot = diff.dotProduct(diff);
+		double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		System.out.println("sim="+norm);
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		
+		if (norm < similarity) return false;
+		return true;
+}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		this._commonLIst = this.systemSettingsBean.get(SystemSettingsType.COMPARATOR_COMMON_LIST_ID);
+		this.managedStopLists = new HashMap<Long,CompareServiceStopListElement>();
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++");
+		System.out.println("list="+ _commonLIst);
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++");
+		
 	}
 }

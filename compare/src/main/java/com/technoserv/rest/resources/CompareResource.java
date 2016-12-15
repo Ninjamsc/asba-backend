@@ -64,6 +64,7 @@ import io.swagger.annotations.Api;
 @Path("")
 @Api(value = "Compare")
 public class CompareResource extends BaseResource<Long,StopList> implements InitializingBean  {
+	@Autowired
 	private CompareListManager listManager;
 	
     @Autowired
@@ -104,7 +105,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 	@Override
 	public void afterPropertiesSet() throws Exception {
         System.out.println("---------------------\nИницаиализация сервиса сравнения");
-        listManager = new CompareListManager(documentService);
+        //listManager = new CompareListManager(documentService);
         List<StopList> allLists = stopListService.getAll("owner","owner.bioTemplates");
         System.out.println("Number of stop lists is:"+allLists.size());
         for (StopList element : allLists)
@@ -148,6 +149,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 	public CompareResponse CompareImages(CompareRequest message) {
 		//return Response.status(200).build();
 		CompareResponse response = new CompareResponse();
+		ArrayList<CompareResponseRulesObject> firedRules = new ArrayList<CompareResponseRulesObject>();
 		try {
 			ArrayList<CompareResponseBlackListObject> ls = this.listManager.compare(message.getTemplate_scan());
 			CompareResponsePictureReport r1 = new CompareResponsePictureReport();
@@ -162,7 +164,31 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 			response.setCameraPicture(r2);
 			response.setScannedPicture(r1);
 			response.setRules(new ArrayList<CompareResponseRulesObject>());//TODO (rplace with the rules
+			if (ls.size() > 0 || lw.size() > 0)
+			{
+				CompareResponseRulesObject rule = new CompareResponseRulesObject();
+				rule.setRuleId("4.2.3");
+				rule.setRuleName("Possible photo is from Bank Stop list.");
+				firedRules.add(rule);
+				rule = new CompareResponseRulesObject();
+				rule.setRuleId("4.2.4");
+				rule.setRuleName("Possible photo is from COMMON Stop list.");
+				firedRules.add(rule);
+			}
 		} catch (Exception e) { throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
+		// сравнение 2 шаблонов на совпадение
+		try {
+			boolean similar = this.listManager.isSimilar(message.getTemplate_scan(), message.getTemplate_web());
+			if (!similar)
+			{
+				CompareResponseRulesObject rule = new CompareResponseRulesObject();
+				rule.setRuleId("4.2.5");
+				rule.setRuleName("Webcam and scan photo significantly differs.");
+				firedRules.add(rule);
+				}
+		}catch (Exception e) { throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
+		// add fired rule
+		response.setRules(firedRules);
 		return response;
 	}
 
