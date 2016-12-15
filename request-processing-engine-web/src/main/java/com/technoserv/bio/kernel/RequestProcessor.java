@@ -167,6 +167,7 @@ public class RequestProcessor {
         ((ObjectNode) result).put("username", request.getLogin());
         String timestamp = DATE_FORMAT.format(request.getTimestamp());
         ((ObjectNode) result).put("timestamp", timestamp);
+        ((ObjectNode) result).put("created-at", DATE_FORMAT.format(new Date()));
 /*
                 ((ObjectNode) result).put("scannedPictureURL", request.getScannedDocument().getFaceSquare());
                 ((ObjectNode) result).put("scannedPicturePreviewURL", request.getScannedDocument().getOrigImageURL());
