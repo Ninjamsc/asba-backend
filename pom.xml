@@ -18,7 +18,7 @@
         <module>compare</module>
         <module>quality</module>
         <module>bridge</module>
-        <module>storage</module>
+        <module>image-storage</module>
         <!--<module>storage</module>-->
     </modules>
 
