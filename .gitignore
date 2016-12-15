@@ -4,10 +4,3 @@
 target/
 BaseObjectModel/target/
 front/node_modules
-json-delivery-service-web/activemq-data/localhost/KahaDB/db-1.log
-json-delivery-service-web/activemq-data/localhost/KahaDB/db.data
-json-delivery-service-web/activemq-data/localhost/KahaDB/db.redo
-json-delivery-service-web/activemq-data/localhost/KahaDB/lock
-request-processing-engine-web/data.lck
-request-processing-engine-web/data.lobs
-request-processing-engine-web/data.log
