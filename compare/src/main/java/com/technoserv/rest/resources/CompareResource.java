@@ -13,7 +13,6 @@ import javax.annotation.Resource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -24,9 +23,9 @@ import javax.ws.rs.core.MediaType;
 //import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.technoserv.db.model.configuration.SystemSettingsType;
 import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
+import com.technoserv.rest.request.PhotoTemplate;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +50,6 @@ import com.technoserv.db.service.objectmodel.api.PersonService;
 import com.technoserv.db.service.objectmodel.api.StopListService;
 import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
-import com.technoserv.rest.client.response.PhotoTemplate;
 import com.technoserv.rest.client.utils.JsonUtils;
 import com.technoserv.rest.comparator.CompareRule;
 import com.technoserv.rest.comparator.CompareServiceStopListElement;
@@ -332,7 +330,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
               	return Response.status(404).build();
               }
         // 1. сходить в Template builder, построить шаблон
-        PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplateBase64(element.getPhoto());
+        PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(element.getPhoto().getBytes());
         // 2. фотку в хранилку
         String scannedPictureURL = photoServiceClient.putPhoto(element.getPhoto(), UUID.randomUUID().toString());
         aDocument.setFaceSquare(scannedPictureURL);

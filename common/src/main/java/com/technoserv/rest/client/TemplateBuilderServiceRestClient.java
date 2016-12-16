@@ -1,12 +1,11 @@
-package com.technoserv.bio.kernel.rest.client;
+package com.technoserv.rest.client;
 
 
-import com.technoserv.bio.kernel.rest.exception.TemplateBuilderServiceException;
-import com.technoserv.bio.kernel.rest.request.CompareServiceRequest;
-import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
 import com.technoserv.db.model.configuration.SystemSettingsType;
 import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
+import com.technoserv.rest.exception.TemplateBuilderServiceException;
 import com.technoserv.rest.request.Base64Photo;
+import com.technoserv.rest.request.PhotoTemplate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,6 @@ public class TemplateBuilderServiceRestClient {
     public String getUrl() {
         return systemSettingsBean.get(SystemSettingsType.TEMPLATE_BUILDER_SERVICE_URL);
     }
-
 
     public PhotoTemplate getPhotoTemplate(byte[] request) {
         String url = getUrl();

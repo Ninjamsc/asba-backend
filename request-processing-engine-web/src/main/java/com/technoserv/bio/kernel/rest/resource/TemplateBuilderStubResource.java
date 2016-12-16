@@ -2,9 +2,8 @@ package com.technoserv.bio.kernel.rest.resource;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
-import com.technoserv.bio.kernel.rest.request.CompareServiceRequest;
-import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
 import com.technoserv.rest.request.Base64Photo;
+import com.technoserv.rest.request.PhotoTemplate;
 import io.swagger.annotations.Api;
 import org.springframework.stereotype.Component;
 

@@ -6,6 +6,28 @@ angular.module('commons', []).constant('contextualClass', {
     INFO: {code: 'info'}
 
 
+}).constant('RuleErrorType', {
+
+    RULE_4_2_1: {
+        ID: "4.2.1",
+        NAME: "Фотография, прикрепленная к заявке, существенно отличается от других фотографий заемщика, имеющихся в базе"
+    },
+    RULE_4_2_2: {
+        ID: "4.2.2",
+        NAME: "Фотография, прикрепленная к заявке, идентична имеющейся в базе"
+    },
+    RULE_4_2_3: {
+        ID: "4.2.3",
+        NAME: "Возможно соответствие с клиентом из банковского СТОП-ЛИСТА"
+    },
+    RULE_4_2_4: {
+        ID: "4.2.4",
+        NAME: "Возможно соответствие с клиентом из общего СТОП-ЛИСТА"
+    },
+    RULE_4_2_5: {
+        ID: "4.2.5",
+        NAME: "Возможно несоответствие фотографии в паспорте и фотографии, прикрепленной к заявке"
+    }
 }).factory('$httpService',
     function ($log, $http, $httpParamSerializer) {
         var logErrorCallback = function (error) {
@@ -47,7 +69,9 @@ angular.module('commons', []).constant('contextualClass', {
 
         this.findCompareResult = function (id, callback) {
             var method = 'rpe/api/rest/compare-result/' + id;
-            // var method = 'src/json/compare-result-view.json';
+            if (id == 'compare-result-view.json') {
+                method = 'src/json/compare-result-view.json';
+            }
             http(method, callback);
         };
 

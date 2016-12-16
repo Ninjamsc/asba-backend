@@ -1,11 +1,6 @@
 package com.technoserv.bio.kernel;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.technoserv.bio.kernel.rest.client.CompareServiceRestClient;
-import com.technoserv.bio.kernel.rest.client.PhotoAnalyzerServiceRestClient;
-import com.technoserv.bio.kernel.rest.client.TemplateBuilderServiceRestClient;
-import com.technoserv.bio.kernel.rest.request.CompareServiceRequest;
-import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
 import com.technoserv.db.model.objectmodel.Document;
 import com.technoserv.db.model.objectmodel.DocumentType;
 import com.technoserv.db.model.objectmodel.Person;
@@ -14,28 +9,18 @@ import com.technoserv.db.service.objectmodel.api.DocumentService;
 import com.technoserv.db.service.objectmodel.api.DocumentTypeService;
 import com.technoserv.db.service.objectmodel.api.PersonService;
 import com.technoserv.db.service.objectmodel.api.RequestService;
-import com.technoserv.rest.client.PhotoPersistServiceRestClient;
-import com.technoserv.rest.exception.RestClientException;
-import com.technoserv.rest.request.Base64Photo;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.xml.bind.DatatypeConverter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Created by Adrey on 22.11.2016.

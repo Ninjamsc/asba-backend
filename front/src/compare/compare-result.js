@@ -1,12 +1,12 @@
 angular.module('compare-result-view', ['ui.router', 'commons'])
-    .controller('compareResultViewController', function ($scope, $log, $state, $stateParams, $httpService) {
-        console.log($stateParams);
+    .controller('compareResultViewController', function ($scope, $log, $state, $stateParams, $httpService, RuleErrorType) {
+        // console.log($stateParams);
 
         $scope.findRequest = function () {
-            $log.info($scope.creditRequestIdForSearch);
+            $log.info("$scope.findRequest requestId =", $scope.creditRequestIdForSearch);
             $httpService.findCompareResult($scope.creditRequestIdForSearch, function (result) {
                 var data = result.data;
-                console.log(data);
+                // console.log(data);
                 //data.rules = []; //todo remove
 
                 var result = data;
@@ -35,7 +35,7 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
 
         };
 
-        if($stateParams.requestId) {
+        if ($stateParams.requestId) {
             $scope.creditRequestIdForSearch = $stateParams.requestId;
             $scope.findRequest();
         }
@@ -46,8 +46,14 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
             }
         };
 
+        $scope.getRuleName = function (ruleId) {
+            for (var rule in RuleErrorType) {
+                if (RuleErrorType.hasOwnProperty(rule)) {
+                    if (RuleErrorType[rule].ID == ruleId) {
+                        return RuleErrorType[rule].NAME;
+                    }
+                }
+            }
+        }
 
-        //todo remove
-        // $scope.creditRequestIdForSearch = 'compare-result-view.json';
-        // $scope.findRequest();
     });

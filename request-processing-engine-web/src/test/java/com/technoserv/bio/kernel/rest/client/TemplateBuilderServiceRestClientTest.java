@@ -1,10 +1,9 @@
 package com.technoserv.bio.kernel.rest.client;
 
-import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
+import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
+import com.technoserv.rest.request.PhotoTemplate;
 import com.technoserv.utils.JsonUtils;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Created by VBasakov on 25.11.2016.
