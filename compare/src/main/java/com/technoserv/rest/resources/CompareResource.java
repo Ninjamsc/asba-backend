@@ -19,10 +19,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 //import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.technoserv.db.model.configuration.SystemSettingsType;
 import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
 import org.apache.commons.math3.linear.ArrayRealVector;
@@ -158,7 +160,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 	@Path("/template")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public CompareResponse CompareImages(CompareRequest message) {
+	public Response compareImages(CompareRequest message) {
 		CompareResponse response = new CompareResponse();
 		ArrayList<CompareResponseRulesObject> firedRules = new ArrayList<CompareResponseRulesObject>();
 		try {
@@ -208,7 +210,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 		}catch (Exception e) { throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
 		// add fired rule
 		response.setRules(firedRules);
-		return response;
+		return Response.status(Response.Status.OK).entity(response).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build();
 	}
 
     /**
