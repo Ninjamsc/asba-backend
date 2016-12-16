@@ -23,6 +23,7 @@ import javax.ws.rs.core.MediaType;
 //import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response;
 
+import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import com.technoserv.db.model.configuration.SystemSettingsType;
 import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
 import com.technoserv.rest.request.PhotoTemplate;
@@ -48,9 +49,8 @@ import com.technoserv.db.service.objectmodel.api.BioTemplateVersionService;
 import com.technoserv.db.service.objectmodel.api.DocumentService;
 import com.technoserv.db.service.objectmodel.api.PersonService;
 import com.technoserv.db.service.objectmodel.api.StopListService;
-import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
-import com.technoserv.rest.client.utils.JsonUtils;
+import com.technoserv.utils.JsonUtils;
 import com.technoserv.rest.comparator.CompareRule;
 import com.technoserv.rest.comparator.CompareServiceStopListElement;
 import com.technoserv.rest.model.CompareRequest;
@@ -320,7 +320,6 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     public Response add(@PathParam("ID")Long id, StopListElement element) {
-		System.out.println("!!!!!!"+element.getPhoto());
     	// создали документ и установили тип
     	Document aDocument = new Document();
     	aDocument.setDocumentType(new DocumentType(DocumentType.Type.STOP_LIST));
