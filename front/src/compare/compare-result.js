@@ -1,5 +1,6 @@
 angular.module('compare-result-view', ['ui.router', 'commons'])
     .controller('compareResultViewController', function ($scope, $log, $state, $stateParams, $httpService) {
+        console.log($stateParams);
 
         $scope.findRequest = function () {
             $log.info($scope.creditRequestIdForSearch);
@@ -31,6 +32,11 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
                 $scope.compareResult = result;
 
             });
+
+            if($stateParams.requestId) {
+                $scope.creditRequestIdForSearch = $stateParams.requestId;
+                $scope.findRequest();
+            }
         };
 
         $scope.onSearchTextFieldKeydown = function ($event) {
