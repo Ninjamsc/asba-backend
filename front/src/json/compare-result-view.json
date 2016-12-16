@@ -2,23 +2,23 @@
   "rules": [
     {
       "ruleId": "4.2.1",
-      "ruleName": "Фотография, прикрепленная к заявке, существенно отличается от других фотографий заемщика, имеющихся в базе"
+      "ruleName": "J Фотография, прикрепленная к заявке, существенно отличается от других фотографий заемщика, имеющихся в базе"
     },
     {
       "ruleId": "4.2.2",
-      "ruleName": "Фотография, прикрепленная к заявке, идентична имеющейся в базе"
+      "ruleName": "J Фотография, прикрепленная к заявке, идентична имеющейся в базе"
     },
     {
       "ruleId": "4.2.3",
-      "ruleName": "Возможно соответствие с клиентом из банковского СТОП-ЛИСТА"
+      "ruleName": "J Возможно соответствие с клиентом из банковского СТОП-ЛИСТА"
     },
     {
       "ruleId": "4.2.4",
-      "ruleName": "Возможно соответствие с клиентом из общего СТОП-ЛИСТА"
+      "ruleName": "J Возможно соответствие с клиентом из общего СТОП-ЛИСТА"
     },
     {
       "ruleId": "4.2.5",
-      "ruleName": "Возможно несоответствие фотографии в паспорте и фотографии, прикрепленной к заявке"
+      "ruleName": "J Возможно несоответствие фотографии в паспорте и фотографии, прикрепленной к заявке"
     }
   ],
   "scannedPicture": {
@@ -151,8 +151,8 @@
   "IIN" : 11154,
   "username" : "OperatorName",
   "timestamp" : "12.12.16.12.00.12",
-  "scannedPictureURL" : "http://www.sdorohov.ru/storage/rest/image/MzlmYzM2YTEtNDdlMy00NjIzLThiMTYtNGZmNTg4M2RlYmVi.jpg",
+  "scannedPictureURL" : "https://pp.vk.me/c638418/v638418723/1164e/BHTneVsOJcc.jpg",
   "scannedPicturePreviewURL" : null,
-  "webCamPictureURL" : "http://www.sdorohov.ru/storage/rest/image/YWNjMDdlZmEtMTJjMS00MTM3LWIwNGYtOTBmMWIzMjIyZDdm.jpg",
+  "webCamPictureURL" : "https://pp.vk.me/c638418/v638418723/1164e/BHTneVsOJcc.jpg",
   "webCamPicturePreviewURL" : null
 }
