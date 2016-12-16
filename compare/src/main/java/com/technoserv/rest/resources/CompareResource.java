@@ -28,6 +28,7 @@ import com.technoserv.db.model.configuration.SystemSettingsType;
 import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
 import com.technoserv.rest.request.PhotoTemplate;
 import org.apache.commons.math3.linear.ArrayRealVector;
+import org.glassfish.jersey.internal.util.Base64;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -311,7 +312,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 	/*
 	 * Добавить новый элемент к заданному ID списку
 	 */
-	@Path("/stoplist/{ID}/entry")
+    @Path("/stoplist/{ID}/entry")
     @PUT
     //@Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -326,7 +327,8 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
               	return Response.status(404).build();
               }
         // 1. сходить в Template builder, построить шаблон
-        PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(element.getPhoto().getBytes());
+        //PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(element.getPhoto().getBytes());
+        PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(Base64.decode(element.getPhoto().getBytes()));
         // 2. фотку в хранилку
         String scannedPictureURL = photoServiceClient.putPhoto(element.getPhoto(), UUID.randomUUID().toString());
         aDocument.setFaceSquare(scannedPictureURL);
