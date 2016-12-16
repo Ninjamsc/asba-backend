@@ -47,7 +47,9 @@ angular.module('commons', []).constant('contextualClass', {
 
         this.findCompareResult = function (id, callback) {
             var method = 'rpe/api/rest/compare-result/' + id;
-            // var method = 'src/json/compare-result-view.json';
+            if (id == 'compare-result-view.json') {
+                method = 'src/json/compare-result-view.json';
+            }
             http(method, callback);
         };
 
