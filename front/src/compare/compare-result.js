@@ -33,11 +33,12 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
 
             });
 
-            if($stateParams.requestId) {
-                $scope.creditRequestIdForSearch = $stateParams.requestId;
-                $scope.findRequest();
-            }
         };
+
+        if($stateParams.requestId) {
+            $scope.creditRequestIdForSearch = $stateParams.requestId;
+            $scope.findRequest();
+        }
 
         $scope.onSearchTextFieldKeydown = function ($event) {
             if ($event.which === 13 || $event.which === 32) {
