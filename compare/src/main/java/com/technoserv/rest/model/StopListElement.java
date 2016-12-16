@@ -3,7 +3,6 @@ package com.technoserv.rest.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
 public class StopListElement {
 
 	private String Photo;
