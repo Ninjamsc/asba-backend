@@ -11,7 +11,7 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
                 var result = data;
                 result.biometricCoreResponse = { //todo remove
                     "creditRequestId": data.wfNumber,
-                    "clientId": "cl 100500",
+                    "clientId": data.IIN,
                     "operatorId": data.username,
                     "requestDate": data.timestamp,
                     "responseDate": data["created-at"]
