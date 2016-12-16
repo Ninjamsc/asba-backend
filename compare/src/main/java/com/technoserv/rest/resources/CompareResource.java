@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import java.util.Base64;
 
 import javax.annotation.Resource;
 import javax.ws.rs.Consumes;
@@ -28,7 +29,6 @@ import com.technoserv.db.model.configuration.SystemSettingsType;
 import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
 import com.technoserv.rest.request.PhotoTemplate;
 import org.apache.commons.math3.linear.ArrayRealVector;
-import org.glassfish.jersey.internal.util.Base64;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -331,10 +331,10 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
               }
         // 1. сходить в Template builder, построить шаблон
         //PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(element.getPhoto().getBytes());
-        StringBuilder sb = new StringBuilder();
-        sb.append("data:image/jpg;base64,");
-        sb.append(element.getPhoto());
-        byte a[] = Base64.decode(sb.toString().getBytes());
+        //StringBuilder sb = new StringBuilder();
+        //sb.append("data:image/jpg;base64,");
+        //sb.append(element.getPhoto());
+        byte a[] = Base64.getDecoder().decode(element.getPhoto());
         PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(a);
         // 2. фотку в хранилку
         String scannedPictureURL = photoServiceClient.putPhoto(element.getPhoto(), UUID.randomUUID().toString());
