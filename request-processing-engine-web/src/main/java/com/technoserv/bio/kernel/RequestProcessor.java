@@ -163,7 +163,7 @@ public class RequestProcessor {
         writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate Done: " + new String(compareResult.getBytes()));
         JsonNode  result = objectMapper.readValue(compareResult, JsonNode.class);
         Long iin = request.getPerson().getId();
-        Long wfm = request.getPerson().getId();
+        Long wfm = request.getId();
         ((ObjectNode) result).put("wfNumber", wfm);
         ((ObjectNode) result).put("IIN", iin);
         ((ObjectNode) result).put("username", request.getLogin());
