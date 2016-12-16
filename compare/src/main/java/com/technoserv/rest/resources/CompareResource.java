@@ -185,7 +185,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 			{
 				CompareResponseRulesObject rule = new CompareResponseRulesObject();
 				rule.setRuleId("4.2.3");
-				rule.setRuleName("Possible photo is from Bank Stop list.");
+				rule.setRuleName("Возможно соответствие с клиентом из банковского СТОП-ЛИСТА");
 				firedRules.add(rule);
 			}
             if (isCommonS || isCommonW)
@@ -193,7 +193,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
                 CompareResponseRulesObject rule = new CompareResponseRulesObject();
                 rule = new CompareResponseRulesObject();
                 rule.setRuleId("4.2.4");
-                rule.setRuleName("Possible photo is from COMMON Stop list.");
+                rule.setRuleName("Возможно соответствие с клиентом из общего СТОП-ЛИСТА");
                 firedRules.add(rule);
             }
 		} catch (Exception e) { throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
@@ -204,7 +204,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 			{
 				CompareResponseRulesObject rule = new CompareResponseRulesObject();
 				rule.setRuleId("4.2.5");
-				rule.setRuleName("Webcam and scan photo significantly differs.");
+				rule.setRuleName("Возможно несоответствие фотографии в паспорте и фотографии, прикрепленной к заявке.");
 				firedRules.add(rule);
 				}
 		}catch (Exception e) { throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
