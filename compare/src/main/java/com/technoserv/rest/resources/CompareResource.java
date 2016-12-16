@@ -185,7 +185,8 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 			{
 				CompareResponseRulesObject rule = new CompareResponseRulesObject();
 				rule.setRuleId("4.2.3");
-				rule.setRuleName("Возможно соответствие с клиентом из банковского СТОП-ЛИСТА");
+				//rule.setRuleName("Возможно соответствие с клиентом из банковского СТОП-ЛИСТА");
+				rule.setRuleName("Perhaps photo is in stop-list.");
 				firedRules.add(rule);
 			}
             if (isCommonS || isCommonW)
@@ -193,7 +194,8 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
                 CompareResponseRulesObject rule = new CompareResponseRulesObject();
                 rule = new CompareResponseRulesObject();
                 rule.setRuleId("4.2.4");
-                rule.setRuleName("Возможно соответствие с клиентом из общего СТОП-ЛИСТА");
+                //rule.setRuleName("Возможно соответствие с клиентом из общего СТОП-ЛИСТА");
+		rule.setRuleName("Perhaps photo is in  common stop-list.");
                 firedRules.add(rule);
             }
 		} catch (Exception e) { throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
@@ -204,7 +206,8 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 			{
 				CompareResponseRulesObject rule = new CompareResponseRulesObject();
 				rule.setRuleId("4.2.5");
-				rule.setRuleName("Возможно несоответствие фотографии в паспорте и фотографии, прикрепленной к заявке.");
+				//rule.setRuleName("Возможно несоответствие фотографии в паспорте и фотографии, прикрепленной к заявке.");
+				rule.setRuleName("Perhaps the discrepancy in the passport photo and the photo from webcap.");
 				firedRules.add(rule);
 				}
 		}catch (Exception e) { throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
