@@ -1,10 +1,9 @@
 package com.technoserv.bio.kernel;
 
-import com.technoserv.bio.kernel.rest.client.TemplateBuilderServiceRestClient;
-import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
+import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
+import com.technoserv.rest.request.PhotoTemplate;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Created by Adrey on 15.12.2016.
