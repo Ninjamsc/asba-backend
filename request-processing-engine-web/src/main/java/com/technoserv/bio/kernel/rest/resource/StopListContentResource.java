@@ -8,14 +8,17 @@ import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.model.objectmodel.StopList;
 import com.technoserv.db.service.objectmodel.api.StopListService;
 import io.swagger.annotations.Api;
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import javax.ws.rs.core.Response;
+import java.io.*;
+import java.util.*;
+import java.util.zip.ZipInputStream;
 
 /**
  * Created by sergey on 23.11.2016.
@@ -27,6 +30,8 @@ public class StopListContentResource {
 
     @Autowired
     private StopListService stopListService;
+    @Autowired
+    private ImportImagesService importImagesService;
 
     @Path("/lists/rest/stoplist/{ID}/entry")
     @GET
@@ -89,6 +94,35 @@ public class StopListContentResource {
             }
         }
 
+    }
+
+    @POST
+    @Path("/stop-list/upload")  //Your Path or URL to call this service
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response uploadFile(
+            @FormDataParam("file") InputStream uploadedInputStream,
+            @FormDataParam("file") FormDataContentDisposition fileDetail) {
+        Map<String, Map<String, Boolean>> report =
+                importImagesService.importImages(uploadedInputStream, fileDetail.getFileName());
+        return Response.status(200).entity(report).build();
+    }
+
+    private void saveToFile(InputStream uploadedInputStream, String uploadedFileLocation) {
+        try {
+            OutputStream out = null;
+            int read = 0;
+            byte[] bytes = new byte[1024];
+
+            out = new FileOutputStream(new File(uploadedFileLocation));
+            while ((read = uploadedInputStream.read(bytes)) != -1) {
+                out.write(bytes, 0, read);
+            }
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private static class StopListResponse {
