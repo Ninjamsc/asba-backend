@@ -1,4 +1,4 @@
-angular.module('stop-lists-edit', ['ui.router', 'commons'])
+angular.module('stop-lists-edit', ['ui.router', 'commons',  'angularFileUpload'])
     .controller('stopListsEditController', function ($scope, $log, $state, $stateParams, $httpService) {
 
         $scope.stateListId = $stateParams.stoplistId;
