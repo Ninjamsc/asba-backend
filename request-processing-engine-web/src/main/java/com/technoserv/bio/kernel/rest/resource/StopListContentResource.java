@@ -18,7 +18,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.*;
 import java.util.*;
-import java.util.zip.ZipInputStream;
 
 /**
  * Created by sergey on 23.11.2016.
