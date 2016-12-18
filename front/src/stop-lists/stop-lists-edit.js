@@ -1,11 +1,10 @@
-angular.module('stop-lists-edit', ['ui.router','commons'])
-    .controller('stopListsEditController', function ($scope, $log, $state, $stateParams) {
-        
-        $scope.stateListId = $stateParams.id; //todo stateParams
+angular.module('stop-lists-edit', ['ui.router', 'commons'])
+    .controller('stopListsEditController', function ($scope, $log, $state, $stateParams, $httpService) {
 
-        console.log($stateParams);
+        $scope.stateListId = $stateParams.stoplistId;
 
-        /*$httpService.findStopLists(function (result) {
-            $scope.stopLists = result.data;
-        });*/
+
+        $httpService.getStoplist($scope.stateListId, function (result) {
+                $log.info(result.data);
+        });
     });

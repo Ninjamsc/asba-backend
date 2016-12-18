@@ -7,8 +7,6 @@ angular.module('stop-lists-registry', ['ui.router','commons'])
         });
 
         $scope.editStopList = function (stopList) {
-            console.log(stopList);
-            console.log(stopList.id);
             $state.go("stop-lists-edit", {id: stopList.id});
         };
 
