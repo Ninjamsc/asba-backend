@@ -11,6 +11,7 @@ angular.module('stop-lists-registry', ['ui.router','commons'])
             console.log(stopList.id);
             $state.go("stop-lists-edit", {id: stopList.id});
         };
+
         $scope.deleteStopList = function (stopList) {
             console.log('Deleting stop list');
             console.log(!!stopList ? stopList.id : 'StopList not found');
