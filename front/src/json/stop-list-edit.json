@@ -1,0 +1,61 @@
+{
+  "id": 16,
+  "objectDate": "2016-12-18T17:56:47.014Z",
+  "stopListName": "StopList16",
+  "owner": [
+    {
+      "id": 123,
+      "objectDate": "2016-12-18T17:56:47.014Z",
+      "description": "Owner description",
+      "documentType": {
+        "id": 123,
+        "type": "ANY",
+        "description": "documentType description"
+      },
+      "origImageURL": "https://pp.vk.me/c624521/v624521771/45043/iEehe9RnwA0.jpg",
+      "faceSquare": "https://pp.vk.me/c837127/v837127087/10288/3wvyKI247VU.jpg"
+    }
+  ],
+  "type": "type",
+  "description": "description",
+  "persons": [
+    {
+      "id": 1,
+      "dossier": [
+        {
+          "id": 23,
+          "objectDate": "2016-12-18T17:56:47.015Z",
+          "status": "SAVED",
+          "scannedDocument": {
+            "id": 0,
+            "objectDate": "2016-12-18T17:56:47.015Z",
+            "description": "string",
+            "documentType": {
+              "id": 0,
+              "type": "ANY",
+              "description": "string"
+            },
+            "origImageURL": "https://pp.vk.me/c636028/v636028314/31824/I4r8J1it7Zk.jpg",
+            "faceSquare": "https://pp.vk.me/c636028/v636028314/31824/I4r8J1it7Zk.jpg"
+          },
+          "cameraDocument": {
+            "id": 0,
+            "objectDate": "2016-12-18T17:56:47.015Z",
+            "description": "cameraDocument description",
+            "documentType": {
+              "id": 0,
+              "type": "ANY",
+              "description": "string"
+            },
+            "origImageURL": "https://pp.vk.me/c636028/v636028314/31824/I4r8J1it7Zk.jpg",
+            "faceSquare": "https://pp.vk.me/c636028/v636028314/31824/I4r8J1it7Zk.jpg"
+          },
+          "login": "Login",
+          "insUser": "insUser",
+          "timestamp": "2016-12-18T17:56:47.016Z"
+        }
+      ]
+    }
+  ],
+  "similarity": 0.68
+}

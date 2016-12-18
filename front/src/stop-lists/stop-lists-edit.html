@@ -1,1 +1,73 @@
-Edit stop list #{{stateListId}}
+<div class="container">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div><h4>Реестр стоп-листов/ Работа со списком</h4></div>
+            <!--Название стоп-листа -->
+            <!--Описание -->
+            <!--ng-keydown="onSearchTextFieldKeydown($event);"-->
+            <div class="col-xs-12">
+                <div class="row">
+                <span class="col-xs-3 required" style="text-align: right">
+                  Название стоп-листа
+                </span>
+                    <div class="col-xs-9">
+                        <input type="text"
+                               ng-model="stoplist.name"
+                               class="form-control"
+                               placeholder="Введите название"
+                               style="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="row">
+                <span class="col-xs-3" style="text-align: right">
+                    Описание стоп-листа
+                </span>
+                    <div class="col-xs-9">
+                        <input type="text"
+                               ng-model="stoplist.description"
+                               class="form-control"
+                               placeholder="Введите описание"
+                               style="">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="row">
+                    <span class="col-xs-3" style="text-align: right">Тип стоп-листа</span>
+                    <div class="col-xs-3">
+                        <span>
+                            <input type="radio" ng-model="stoplist.type" value="bank">
+                            Банковский
+                        </span>
+                        <span>
+                            <input type="radio" ng-model="stoplist.type" value="ANY">
+                            Общий
+                        </span>
+                    </div>
+                    <div class="col-xs-3">Порог срабатывания степени схожести</div>
+                    <div class="col-xs-3">
+
+                        <input type="text"
+                               ng-model="stoplist.similarity"
+                               class="form-control"
+                               placeholder="Введите значение"
+                               style="">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default inner-panel">
+            <div class="panel-body">
+                Укажите директорию для извлечения персон
+            </div>
+        </div>
+        <div class="panel panel-default inner-panel">
+            <div class="panel-body">
+                3453453425
+            </div>
+        </div>
+    </div>
+
+</div>

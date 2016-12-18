@@ -55,7 +55,7 @@
             </div>
         </div>
 
-        <div class="panel panel-default">
+        <div class="panel panel-default inner-panel">
             <div class="panel-body">
                 <label>Информация о запросе в биометрическое ядро</label><br/>
                 <div>
@@ -99,7 +99,7 @@
                 </div>
             </div>
         </div>
-        <div class="panel panel-default">
+        <div class="panel panel-default inner-panel">
             <div class="panel-body">
                 <h3>Фотографии клиента, поступившие в биометрическое ядро</h3><br/>
                 <div class="row">
@@ -146,7 +146,8 @@
         <!--</div>-->
         <!--</div>-->
         <!--</div>-->
-        <div class="panel panel-default" ng-if="!!compareResult.scannedPicture &&
+        <div class="panel panel-default inner-panel"
+             ng-if="!!compareResult.scannedPicture &&
                                                     !!compareResult.scannedPicture.blackLists &&
                                                       compareResult.scannedPicture.blackLists.length > 0">
             <div class="panel-body">
@@ -168,6 +169,11 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="panel panel-default inner-panel"
+            ng-if="!!compareResult.cameraPicture &&
+                !!compareResult.cameraPicture.blackLists &&
+                                                      compareResult.cameraPicture.blackLists.length > 0">
             <div class="panel-body">
                 <h3>Совпадения в стоп-листах для фото с камеры
                     ({{compareResult.cameraPicture.blackLists.length}})</h3>
