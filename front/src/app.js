@@ -24,7 +24,7 @@ myApp.config(function ($stateProvider, $routeProvider, $urlRouterProvider) {
             templateUrl: 'src/stop-lists/stop-lists-registry.html',
             controller: 'stopListsRegistryController'
     }).state('stop-lists-edit',{
-        url:'/stoplists/edit',
+        url:'/stoplists/edit?stoplistId',
         templateUrl: 'src/stop-lists/stop-lists-edit.html',
         controller: 'stopListsEditController'
     }).state('compare-result',{
