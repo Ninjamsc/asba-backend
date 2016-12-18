@@ -15,14 +15,14 @@ import javax.ws.rs.core.Response;
  * Created by 90630 on 14.12.2016.
  */
 @Component
-@Path("/rest/arm")
+@Path("/rest")
 @Api(value = "Arm Rest API")
 public class ArmMessageResource {
 
     @Autowired
     private JmsTemplate jmsTemplate;
 
-    @Path("/")
+    @Path("/arm")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)

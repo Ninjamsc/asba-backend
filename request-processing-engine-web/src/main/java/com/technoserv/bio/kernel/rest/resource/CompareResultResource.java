@@ -63,7 +63,6 @@ public class CompareResultResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
-    @Path("/")
     public List<CompareResult> getAll() {
         return compareResultService.getAll();
     }

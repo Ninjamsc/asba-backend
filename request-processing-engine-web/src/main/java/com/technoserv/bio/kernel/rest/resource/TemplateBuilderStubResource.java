@@ -21,13 +21,12 @@ import javax.ws.rs.core.MediaType;
 @Api(value = "Template Builder Stub Rest API")
 public class TemplateBuilderStubResource {
 
-    public static final Long ID = 1l;
+    public static final Long ID = 1L;
 
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
-    @Path("")
     public PhotoTemplate find(Base64Photo request) {
         PhotoTemplate response = new PhotoTemplate();
         response.version = 1;
