@@ -138,7 +138,7 @@ public class RequestProcessor {
                 }
                 String compareResult = сompareServiceRestClient.compare(compareServiceRequest);
                 String jsonResult = enrich(compareResult, request);
-                compareResultService.save(new CompareResult(request.getId(), jsonResult));
+                compareResultService.saveOrUpdate(new CompareResult(request.getId(), jsonResult));
                 jmsTemplate.convertAndSend(jsonResult);
                 writeLog("Send compareServiceRequest Done");
                 writeLog("Update request status to SUCCESS for id = '" + request.getId() + "'");
