@@ -1,5 +1,5 @@
 {
-  "id": 1,
+  "id": 17,
   "objectDate": 1482104334293,
   "stopListName": "Имя стоп листа",
   "type": "Тип листа",
@@ -8,7 +8,7 @@
   "similarity": 0.888,
   "owner": [
     {
-      "id": null,
+      "id": "personIDvalue",
       "objectDate": 1482104334293,
       "description": "Описание",
       "documentType": null,
@@ -16,7 +16,7 @@
       "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/0.png"
     },
     {
-      "id": null,
+      "id": "personIDvalue",
       "objectDate": 1482104334293,
       "description": "Описание",
       "documentType": null,
@@ -24,7 +24,7 @@
       "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/1.png"
     },
     {
-      "id": null,
+      "id": "personIDvalue",
       "objectDate": 1482104334293,
       "description": "Описание",
       "documentType": null,
@@ -32,7 +32,7 @@
       "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/2.png"
     },
     {
-      "id": null,
+      "id": "personIDvalue",
       "objectDate": 1482104334293,
       "description": "Описание",
       "documentType": null,
@@ -40,7 +40,7 @@
       "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/3.png"
     },
     {
-      "id": null,
+      "id": "personIDvalue",
       "objectDate": 1482104334293,
       "description": "Описание",
       "documentType": null,
@@ -48,7 +48,7 @@
       "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/4.png"
     },
     {
-      "id": null,
+      "id": "personIDvalue",
       "objectDate": 1482104334293,
       "description": "Описание",
       "documentType": null,
@@ -56,7 +56,7 @@
       "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/5.png"
     },
     {
-      "id": null,
+      "id": "personIDvalue",
       "objectDate": 1482104334293,
       "description": "Описание",
       "documentType": null,
@@ -64,7 +64,7 @@
       "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/6.png"
     },
     {
-      "id": null,
+      "id": "personIDvalue",
       "objectDate": 1482104334293,
       "description": "Описание",
       "documentType": null,
@@ -72,7 +72,7 @@
       "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/7.png"
     },
     {
-      "id": null,
+      "id": "personIDvalue",
       "objectDate": 1482104334293,
       "description": "Описание",
       "documentType": null,
@@ -80,7 +80,7 @@
       "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/8.png"
     },
     {
-      "id": null,
+      "id": "personIDvalue",
       "objectDate": 1482104334293,
       "description": "Описание",
       "documentType": null,
@@ -88,7 +88,7 @@
       "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/9.png"
     },
     {
-      "id": null,
+      "id": "personIDvalue",
       "objectDate": 1482104334293,
       "description": "Описание",
       "documentType": null,
@@ -96,7 +96,7 @@
       "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/10.png"
     },
     {
-      "id": null,
+      "id": "personIDvalue",
       "objectDate": 1482104334293,
       "description": "Описание",
       "documentType": null,
@@ -104,7 +104,7 @@
       "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/11.png"
     },
     {
-      "id": null,
+      "id": "personIDvalue",
       "objectDate": 1482104334293,
       "description": "Описание",
       "documentType": null,
@@ -112,7 +112,7 @@
       "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/12.png"
     },
     {
-      "id": null,
+      "id": "personIDvalue",
       "objectDate": 1482104334293,
       "description": "Описание",
       "documentType": null,
@@ -120,7 +120,7 @@
       "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/13.png"
     },
     {
-      "id": null,
+      "id": "personIDvalue",
       "objectDate": 1482104334293,
       "description": "Описание",
       "documentType": null,

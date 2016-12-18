@@ -5,6 +5,11 @@ angular.module('stop-lists-edit', ['ui.router', 'commons'])
 
 
         $httpService.getStoplist($scope.stateListId, function (result) {
-                $log.info(result.data);
+            var data = result.data;
+            $log.info(data);
+                $scope.stoplist = data;
+                if ($scope.stoplist.type !== 'bank'){
+                    $scope.stoplist.type = 'common'
+                }
         });
     });
