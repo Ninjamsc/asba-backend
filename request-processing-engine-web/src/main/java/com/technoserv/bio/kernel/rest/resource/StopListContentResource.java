@@ -96,14 +96,14 @@ public class StopListContentResource {
     }
 
     @POST
-    @Path("/stop-list/upload")  //Your Path or URL to call this service
+    @Path("/stop-list/{id}/upload")  //Your Path or URL to call this service
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response uploadFile(
+    public Response uploadFile(@PathParam("id") Long stopListId,
             @FormDataParam("file") InputStream uploadedInputStream,
             @FormDataParam("file") FormDataContentDisposition fileDetail) {
         Map<String, Map<String, Boolean>> report =
-                importImagesService.importImages(uploadedInputStream, fileDetail.getFileName());
+                importImagesService.importImages(stopListId, uploadedInputStream, fileDetail.getFileName());
         return Response.status(200).entity(report).build();
     }
 
