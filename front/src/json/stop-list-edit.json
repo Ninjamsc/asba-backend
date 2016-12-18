@@ -1,132 +1,160 @@
 {
-  "id": 17,
-  "objectDate": 1482104334293,
-  "stopListName": "Имя стоп листа",
-  "type": "Тип листа",
-  "description": "Тестовый стоп лист",
-  "persons": null,
-  "similarity": 0.888,
-  "owner": [
-    {
-      "id": "personIDvalue",
-      "objectDate": 1482104334293,
-      "description": "Описание",
-      "documentType": null,
-      "origImageURL": "http://www.sdorohov.ru/image-storage/rest/image/origin_0.png",
-      "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/0.png"
-    },
-    {
-      "id": "personIDvalue",
-      "objectDate": 1482104334293,
-      "description": "Описание",
-      "documentType": null,
-      "origImageURL": "http://www.sdorohov.ru/image-storage/rest/image/origin_1.png",
-      "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/1.png"
-    },
-    {
-      "id": "personIDvalue",
-      "objectDate": 1482104334293,
-      "description": "Описание",
-      "documentType": null,
-      "origImageURL": "http://www.sdorohov.ru/image-storage/rest/image/origin_2.png",
-      "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/2.png"
-    },
-    {
-      "id": "personIDvalue",
-      "objectDate": 1482104334293,
-      "description": "Описание",
-      "documentType": null,
-      "origImageURL": "http://www.sdorohov.ru/image-storage/rest/image/origin_3.png",
-      "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/3.png"
-    },
-    {
-      "id": "personIDvalue",
-      "objectDate": 1482104334293,
-      "description": "Описание",
-      "documentType": null,
-      "origImageURL": "http://www.sdorohov.ru/image-storage/rest/image/origin_4.png",
-      "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/4.png"
-    },
-    {
-      "id": "personIDvalue",
-      "objectDate": 1482104334293,
-      "description": "Описание",
-      "documentType": null,
-      "origImageURL": "http://www.sdorohov.ru/image-storage/rest/image/origin_5.png",
-      "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/5.png"
-    },
-    {
-      "id": "personIDvalue",
-      "objectDate": 1482104334293,
-      "description": "Описание",
-      "documentType": null,
-      "origImageURL": "http://www.sdorohov.ru/image-storage/rest/image/origin_6.png",
-      "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/6.png"
-    },
-    {
-      "id": "personIDvalue",
-      "objectDate": 1482104334293,
-      "description": "Описание",
-      "documentType": null,
-      "origImageURL": "http://www.sdorohov.ru/image-storage/rest/image/origin_7.png",
-      "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/7.png"
-    },
-    {
-      "id": "personIDvalue",
-      "objectDate": 1482104334293,
-      "description": "Описание",
-      "documentType": null,
-      "origImageURL": "http://www.sdorohov.ru/image-storage/rest/image/origin_8.png",
-      "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/8.png"
-    },
-    {
-      "id": "personIDvalue",
-      "objectDate": 1482104334293,
-      "description": "Описание",
-      "documentType": null,
-      "origImageURL": "http://www.sdorohov.ru/image-storage/rest/image/origin_9.png",
-      "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/9.png"
-    },
-    {
-      "id": "personIDvalue",
-      "objectDate": 1482104334293,
-      "description": "Описание",
-      "documentType": null,
-      "origImageURL": "http://www.sdorohov.ru/image-storage/rest/image/origin_10.png",
-      "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/10.png"
-    },
-    {
-      "id": "personIDvalue",
-      "objectDate": 1482104334293,
-      "description": "Описание",
-      "documentType": null,
-      "origImageURL": "http://www.sdorohov.ru/image-storage/rest/image/origin_11.png",
-      "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/11.png"
-    },
-    {
-      "id": "personIDvalue",
-      "objectDate": 1482104334293,
-      "description": "Описание",
-      "documentType": null,
-      "origImageURL": "http://www.sdorohov.ru/image-storage/rest/image/origin_12.png",
-      "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/12.png"
-    },
-    {
-      "id": "personIDvalue",
-      "objectDate": 1482104334293,
-      "description": "Описание",
-      "documentType": null,
-      "origImageURL": "http://www.sdorohov.ru/image-storage/rest/image/origin_13.png",
-      "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/13.png"
-    },
-    {
-      "id": "personIDvalue",
-      "objectDate": 1482104334293,
-      "description": "Описание",
-      "documentType": null,
-      "origImageURL": "http://www.sdorohov.ru/image-storage/rest/image/origin_14.png",
-      "faceSquare": "http://www.sdorohov.ru/image-storage/rest/image/14.png"
-    }
-  ]
-
+  "id" : 1,
+  "objectDate" : 1482106081246,
+  "stopListName" : "Имя стоп листа",
+  "owner" : [ {
+    "id" : null,
+    "objectDate" : 1482106081246,
+    "description" : "Описание",
+    "documentType" : null,
+    "origImageURL" : "http://www.sdorohov.ru/image-storage/rest/image/origin_0.png",
+    "faceSquare" : "http://www.sdorohov.ru/image-storage/rest/image/0.png"
+  }, {
+    "id" : null,
+    "objectDate" : 1482106081246,
+    "description" : "Описание",
+    "documentType" : null,
+    "origImageURL" : "http://www.sdorohov.ru/image-storage/rest/image/origin_1.png",
+    "faceSquare" : "http://www.sdorohov.ru/image-storage/rest/image/1.png"
+  }, {
+    "id" : null,
+    "objectDate" : 1482106081246,
+    "description" : "Описание",
+    "documentType" : null,
+    "origImageURL" : "http://www.sdorohov.ru/image-storage/rest/image/origin_2.png",
+    "faceSquare" : "http://www.sdorohov.ru/image-storage/rest/image/2.png"
+  }, {
+    "id" : null,
+    "objectDate" : 1482106081246,
+    "description" : "Описание",
+    "documentType" : null,
+    "origImageURL" : "http://www.sdorohov.ru/image-storage/rest/image/origin_3.png",
+    "faceSquare" : "http://www.sdorohov.ru/image-storage/rest/image/3.png"
+  }, {
+    "id" : null,
+    "objectDate" : 1482106081246,
+    "description" : "Описание",
+    "documentType" : null,
+    "origImageURL" : "http://www.sdorohov.ru/image-storage/rest/image/origin_4.png",
+    "faceSquare" : "http://www.sdorohov.ru/image-storage/rest/image/4.png"
+  }, {
+    "id" : null,
+    "objectDate" : 1482106081246,
+    "description" : "Описание",
+    "documentType" : null,
+    "origImageURL" : "http://www.sdorohov.ru/image-storage/rest/image/origin_5.png",
+    "faceSquare" : "http://www.sdorohov.ru/image-storage/rest/image/5.png"
+  }, {
+    "id" : null,
+    "objectDate" : 1482106081246,
+    "description" : "Описание",
+    "documentType" : null,
+    "origImageURL" : "http://www.sdorohov.ru/image-storage/rest/image/origin_6.png",
+    "faceSquare" : "http://www.sdorohov.ru/image-storage/rest/image/6.png"
+  }, {
+    "id" : null,
+    "objectDate" : 1482106081246,
+    "description" : "Описание",
+    "documentType" : null,
+    "origImageURL" : "http://www.sdorohov.ru/image-storage/rest/image/origin_7.png",
+    "faceSquare" : "http://www.sdorohov.ru/image-storage/rest/image/7.png"
+  }, {
+    "id" : null,
+    "objectDate" : 1482106081246,
+    "description" : "Описание",
+    "documentType" : null,
+    "origImageURL" : "http://www.sdorohov.ru/image-storage/rest/image/origin_8.png",
+    "faceSquare" : "http://www.sdorohov.ru/image-storage/rest/image/8.png"
+  }, {
+    "id" : null,
+    "objectDate" : 1482106081246,
+    "description" : "Описание",
+    "documentType" : null,
+    "origImageURL" : "http://www.sdorohov.ru/image-storage/rest/image/origin_9.png",
+    "faceSquare" : "http://www.sdorohov.ru/image-storage/rest/image/9.png"
+  }, {
+    "id" : null,
+    "objectDate" : 1482106081246,
+    "description" : "Описание",
+    "documentType" : null,
+    "origImageURL" : "http://www.sdorohov.ru/image-storage/rest/image/origin_10.png",
+    "faceSquare" : "http://www.sdorohov.ru/image-storage/rest/image/10.png"
+  }, {
+    "id" : null,
+    "objectDate" : 1482106081246,
+    "description" : "Описание",
+    "documentType" : null,
+    "origImageURL" : "http://www.sdorohov.ru/image-storage/rest/image/origin_11.png",
+    "faceSquare" : "http://www.sdorohov.ru/image-storage/rest/image/11.png"
+  }, {
+    "id" : null,
+    "objectDate" : 1482106081246,
+    "description" : "Описание",
+    "documentType" : null,
+    "origImageURL" : "http://www.sdorohov.ru/image-storage/rest/image/origin_12.png",
+    "faceSquare" : "http://www.sdorohov.ru/image-storage/rest/image/12.png"
+  }, {
+    "id" : null,
+    "objectDate" : 1482106081246,
+    "description" : "Описание",
+    "documentType" : null,
+    "origImageURL" : "http://www.sdorohov.ru/image-storage/rest/image/origin_13.png",
+    "faceSquare" : "http://www.sdorohov.ru/image-storage/rest/image/13.png"
+  }, {
+    "id" : null,
+    "objectDate" : 1482106081246,
+    "description" : "Описание",
+    "documentType" : null,
+    "origImageURL" : "http://www.sdorohov.ru/image-storage/rest/image/origin_14.png",
+    "faceSquare" : "http://www.sdorohov.ru/image-storage/rest/image/14.png"
+  } ],
+  "type" : "Тип листа",
+  "description" : "Тестовый стоп лист",
+  "persons" : [ {
+    "id" : 0,
+    "dossier" : [ ]
+  }, {
+    "id" : 1,
+    "dossier" : [ ]
+  }, {
+    "id" : 2,
+    "dossier" : [ ]
+  }, {
+    "id" : 3,
+    "dossier" : [ ]
+  }, {
+    "id" : 4,
+    "dossier" : [ ]
+  }, {
+    "id" : 5,
+    "dossier" : [ ]
+  }, {
+    "id" : 6,
+    "dossier" : [ ]
+  }, {
+    "id" : 7,
+    "dossier" : [ ]
+  }, {
+    "id" : 8,
+    "dossier" : [ ]
+  }, {
+    "id" : 9,
+    "dossier" : [ ]
+  }, {
+    "id" : 10,
+    "dossier" : [ ]
+  }, {
+    "id" : 11,
+    "dossier" : [ ]
+  }, {
+    "id" : 12,
+    "dossier" : [ ]
+  }, {
+    "id" : 13,
+    "dossier" : [ ]
+  }, {
+    "id" : 14,
+    "dossier" : [ ]
+  } ],
+  "similarity" : 0.888
 }

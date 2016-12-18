@@ -50,10 +50,9 @@ angular.module('commons', []).constant('contextualClass', {
             if (!!params) {
                 defaultParams = angular.extend(defaultParams, params);
             }
-            var urlTemplate = './';
             return $http({
                 method: 'GET',
-                url: urlTemplate + method,
+                url: method,
                 params: defaultParams
             }).then(function (response) {
                 if (!!clbck) {
@@ -67,7 +66,7 @@ angular.module('commons', []).constant('contextualClass', {
             http(method, callback)
         };
         this.getStoplist = function (id, callback) {
-            var method = '' + id;
+            var method = 'http://www.sdorohov.ru/rpe/api/rest/stoplist/test/' + id;
             if (id == 'test') {
                 method = 'src/json/stop-list-edit.json';
             }
