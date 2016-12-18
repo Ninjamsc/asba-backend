@@ -1,8 +1,7 @@
 package com.technoserv.bio.kernel;
 
-import com.technoserv.bio.kernel.rest.client.TemplateBuilderServiceRestClient;
-import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
-import com.technoserv.utils.JsonUtils;
+import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
+import com.technoserv.rest.request.PhotoTemplate;
 import org.jvnet.hk2.annotations.Service;
 import org.springframework.context.annotation.Profile;
 

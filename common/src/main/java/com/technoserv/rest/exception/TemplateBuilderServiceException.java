@@ -1,4 +1,4 @@
-package com.technoserv.bio.kernel.rest.exception;
+package com.technoserv.rest.exception;
 
 import com.technoserv.rest.exception.RestClientException;
 

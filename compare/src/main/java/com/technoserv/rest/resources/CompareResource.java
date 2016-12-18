@@ -8,20 +8,26 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import java.util.Base64;
 
 import javax.annotation.Resource;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 //import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response;
+
+import com.technoserv.rest.client.PhotoPersistServiceRestClient;
+import com.technoserv.db.model.configuration.SystemSettingsType;
+import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
+import com.technoserv.rest.request.PhotoTemplate;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,10 +50,8 @@ import com.technoserv.db.service.objectmodel.api.BioTemplateVersionService;
 import com.technoserv.db.service.objectmodel.api.DocumentService;
 import com.technoserv.db.service.objectmodel.api.PersonService;
 import com.technoserv.db.service.objectmodel.api.StopListService;
-import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
-import com.technoserv.rest.client.response.PhotoTemplate;
-import com.technoserv.rest.client.utils.JsonUtils;
+import com.technoserv.utils.JsonUtils;
 import com.technoserv.rest.comparator.CompareRule;
 import com.technoserv.rest.comparator.CompareServiceStopListElement;
 import com.technoserv.rest.model.CompareRequest;
@@ -92,8 +96,12 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     private PhotoPersistServiceRestClient photoServiceClient;
 
     @Autowired
-    private DocumentService documentService;    
-   
+    private DocumentService documentService;
+
+    @Autowired
+    private SystemSettingsBean systemSettingsBean;
+
+
     @Resource @Qualifier(value = "converters")
     private HashMap<String, String> compareRules;
     
@@ -139,6 +147,11 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         if (r!=null) r.doRule(new double[10] , new double[10] );
         System.out.println("Конец инициализации сервиса сравнения\n-------------------------");
 	}
+
+	public Long getCommonListId()
+    {
+        return new Long(systemSettingsBean.get(SystemSettingsType.COMPARATOR_COMMON_LIST_ID));
+    }
 	/*
 	 * Сравнить картинки с блеклистами и досье и вернуть отчет
 	 */
@@ -146,17 +159,20 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 	@Path("/template")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public CompareResponse CompareImages(CompareRequest message) {
-		//return Response.status(200).build();
+	public Response compareImages(CompareRequest message) {
 		CompareResponse response = new CompareResponse();
 		ArrayList<CompareResponseRulesObject> firedRules = new ArrayList<CompareResponseRulesObject>();
 		try {
+		    // compare scanned pic
 			ArrayList<CompareResponseBlackListObject> ls = this.listManager.compare(message.getTemplate_scan());
+			boolean isCommonS = listManager.compare(message.getTemplate_scan(),getCommonListId());
 			CompareResponsePictureReport r1 = new CompareResponsePictureReport();
 			r1.setBlackLists(ls);
 			r1.setPictureURL(message.getScanFullFrameURL());
 			r1.setPreviewURL(message.getScanPreviewURL());
+			// compare webcam pic
 			ArrayList<CompareResponseBlackListObject> lw = this.listManager.compare(message.getTemplate_web());
+            boolean isCommonW = listManager.compare(message.getTemplate_scan(),getCommonListId());
 			CompareResponsePictureReport r2 = new CompareResponsePictureReport();
 			r2.setBlackLists(lw);
 			r2.setPictureURL(message.getWebFullFrameURL());
@@ -168,13 +184,17 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 			{
 				CompareResponseRulesObject rule = new CompareResponseRulesObject();
 				rule.setRuleId("4.2.3");
-				rule.setRuleName("Possible photo is from Bank Stop list.");
-				firedRules.add(rule);
-				rule = new CompareResponseRulesObject();
-				rule.setRuleId("4.2.4");
-				rule.setRuleName("Possible photo is from COMMON Stop list.");
+				rule.setRuleName("Возможно соответствие с клиентом из банковского СТОП-ЛИСТА");
 				firedRules.add(rule);
 			}
+            if (isCommonS || isCommonW)
+            {
+                CompareResponseRulesObject rule = new CompareResponseRulesObject();
+                rule = new CompareResponseRulesObject();
+                rule.setRuleId("4.2.4");
+                rule.setRuleName("Возможно соответствие с клиентом из общего СТОП-ЛИСТА");
+                firedRules.add(rule);
+            }
 		} catch (Exception e) { throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
 		// сравнение 2 шаблонов на совпадение
 		try {
@@ -183,13 +203,13 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 			{
 				CompareResponseRulesObject rule = new CompareResponseRulesObject();
 				rule.setRuleId("4.2.5");
-				rule.setRuleName("Webcam and scan photo significantly differs.");
+				rule.setRuleName("Возможно несоответствие фотографии в паспорте и фотографии, прикрепленной к заявке.");
 				firedRules.add(rule);
 				}
 		}catch (Exception e) { throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
 		// add fired rule
 		response.setRules(firedRules);
-		return response;
+		return Response.status(Response.Status.OK).entity(response).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build();
 	}
 
     /**
@@ -292,13 +312,12 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 	/*
 	 * Добавить новый элемент к заданному ID списку
 	 */
-	@Path("/stoplist/{ID}/entry")
+    @Path("/stoplist/{ID}/entry")
     @PUT
     //@Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     public Response add(@PathParam("ID")Long id, StopListElement element) {
-		System.out.println("!!!!!!"+element.getPhoto());
     	// создали документ и установили тип
     	Document aDocument = new Document();
     	aDocument.setDocumentType(new DocumentType(DocumentType.Type.STOP_LIST));
@@ -308,7 +327,12 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
               	return Response.status(404).build();
               }
         // 1. сходить в Template builder, построить шаблон
-        PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplateBase64(element.getPhoto());
+        //PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(element.getPhoto().getBytes());
+        //StringBuilder sb = new StringBuilder();
+        //sb.append("data:image/jpg;base64,");
+        //sb.append(element.getPhoto());
+        byte a[] = Base64.getDecoder().decode(element.getPhoto());
+        PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(a);
         // 2. фотку в хранилку
         String scannedPictureURL = photoServiceClient.putPhoto(element.getPhoto(), UUID.randomUUID().toString());
         aDocument.setFaceSquare(scannedPictureURL);

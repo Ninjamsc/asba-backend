@@ -96,7 +96,40 @@ public class CompareListManager implements InitializingBean  {
 		double[] array = mapper.readValue(vector, double[].class);
 		return compare(array);
 	}
-	
+
+    public boolean compare(double[] vector, Long listId) throws Exception //TODO: specify exception
+    {
+        double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
+        int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
+
+        ArrayRealVector arv = new ArrayRealVector(vector);
+        Iterator<Map.Entry<Long,CompareServiceStopListElement>> it = managedStopLists.entrySet().iterator();
+        while (it.hasNext())
+        {
+            CompareServiceStopListElement list = it.next().getValue();
+            if(list.getId() != listId) continue; // skip all lists xcept given one
+            ArrayList<CompareServiceStopListVector> vectors = list.getVectors();
+            for ( CompareServiceStopListVector vect : vectors)
+            {
+                ArrayRealVector diff =arv.subtract(vect.getVector());
+                double dot = diff.dotProduct(diff);
+                double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
+                if (norm > list.getSimilarity()) //HIT
+                {
+                    System.out.println(list.getListName()+" norm:"+norm+" similarity:"+list.getSimilarity());
+                    Long doc = vect.getDocId();
+                    Document d = this.documentService.findById(doc);
+                    CompareResponsePhotoObject po = new CompareResponsePhotoObject();
+                    po.setUrl(d.getFaceSquare());
+                    po.setSimilarity(norm);
+                }
+                System.out.println(list.getListName()+" norm:"+norm);
+            }
+        }
+        return false;
+    }
+
+
 	public ArrayList<CompareResponseBlackListObject> compare(double[] vector) throws Exception //TODO: specify exception
 	{
             log.info("COMPARATOR vector is ='"+vector+"'");
@@ -106,9 +139,6 @@ public class CompareListManager implements InitializingBean  {
     		int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
 		ArrayList<CompareResponseBlackListObject> bl = new ArrayList<CompareResponseBlackListObject>();
 		// Сериализуем строковое представление вектора в ArrayRealVector
-		//ObjectMapper mapper = new ObjectMapper();
-		//double[] array = mapper.readValue(vector, double[].class);
-        //ArrayRealVector arv = new ArrayRealVector(array);
 		ArrayRealVector arv = new ArrayRealVector(vector);
         Iterator<Map.Entry<Long,CompareServiceStopListElement>> it = managedStopLists.entrySet().iterator();
         while (it.hasNext())

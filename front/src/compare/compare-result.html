@@ -38,7 +38,7 @@
 
                                 </div>
                                 <div class="col-xs-11 align-middle">
-                                    {{rule.ruleDescription}}
+                                    {{getRuleName(rule.ruleId)}}
                                 </div>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
                             <label class="pull-right">Идентификатор кредитной заявки</label>
                         </div>
                         <div class="col-xs-2" style="text-align: left">
-                            {{compareResult.biometricCoreResponse.creditRequestId}}
+                            {{compareResult.wfNumber}}
                         </div>
                         <div class="col-xs-4" style="text-align: right">
                             <label class="pull-right">Время отправки запроса в биометрическое ядро</label>
@@ -117,6 +117,7 @@
                         </div>
                         <div class="col-xs-2">
                             <img ng-src="{{compareResult.scannedPicture.pictureURL}}"
+
                                  alt="{{compareResult.scannedPicture.pictureURL}}">
                             <div class="caption" style="width:100px;">Скан-фото</div>
                         </div>

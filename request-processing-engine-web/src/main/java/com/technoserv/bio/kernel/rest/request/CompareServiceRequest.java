@@ -19,6 +19,9 @@ public class CompareServiceRequest {
     @JsonProperty("webPreviewURL")
     private String webPreviewURL;
 
+    @JsonProperty("iin")
+    private Long iin;
+
     public double[] getWebTemplate() {
         return webTemplate;
     }
@@ -58,5 +61,11 @@ public class CompareServiceRequest {
     }
 
 
+    public void setIin(Long iin) {
+        this.iin = iin;
+    }
 
+    public Long getIin() {
+        return iin;
+    }
 }

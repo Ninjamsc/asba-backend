@@ -1,4 +1,4 @@
-package com.technoserv.rest.client.response;
+package com.technoserv.rest.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -5,13 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.technoserv.bio.kernel.rest.client.CompareServiceRestClient;
 import com.technoserv.bio.kernel.rest.client.PhotoAnalyzerServiceRestClient;
-import com.technoserv.bio.kernel.rest.client.TemplateBuilderServiceRestClient;
 import com.technoserv.db.model.objectmodel.*;
 import com.technoserv.db.service.objectmodel.api.*;
+import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
 import com.technoserv.rest.exception.RestClientException;
 import com.technoserv.bio.kernel.rest.request.CompareServiceRequest;
-import com.technoserv.bio.kernel.rest.response.PhotoTemplate;
 import com.technoserv.rest.client.PhotoPersistServiceRestClient;
+import com.technoserv.rest.request.PhotoTemplate;
 import com.technoserv.utils.JsonUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -118,6 +118,8 @@ public class RequestProcessor {
                 writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate");
                 CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
 
+                compareServiceRequest.setIin(request.getPerson().getId());
+
                 compareServiceRequest.setWebFullFrameURL(request.getCameraDocument().getOrigImageURL());
                 compareServiceRequest.setWebPreviewURL(request.getCameraDocument().getFaceSquare());
 
@@ -136,7 +138,7 @@ public class RequestProcessor {
                 }
                 String compareResult = сompareServiceRestClient.compare(compareServiceRequest);
                 String jsonResult = enrich(compareResult, request);
-                compareResultService.save(new CompareResult(request.getPerson().getId(), jsonResult));
+                compareResultService.save(new CompareResult(request.getId(), jsonResult));
                 jmsTemplate.convertAndSend(jsonResult);
                 writeLog("Send compareServiceRequest Done");
                 writeLog("Update request status to SUCCESS for id = '" + request.getId() + "'");
@@ -161,7 +163,7 @@ public class RequestProcessor {
         writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate Done: " + new String(compareResult.getBytes()));
         JsonNode  result = objectMapper.readValue(compareResult, JsonNode.class);
         Long iin = request.getPerson().getId();
-        Long wfm = request.getPerson().getId();
+        Long wfm = request.getId();
         ((ObjectNode) result).put("wfNumber", wfm);
         ((ObjectNode) result).put("IIN", iin);
         ((ObjectNode) result).put("username", request.getLogin());

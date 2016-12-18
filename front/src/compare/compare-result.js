@@ -1,17 +1,18 @@
 angular.module('compare-result-view', ['ui.router', 'commons'])
-    .controller('compareResultViewController', function ($scope, $log, $state, $stateParams, $httpService) {
+    .controller('compareResultViewController', function ($scope, $log, $state, $stateParams, $httpService, RuleErrorType) {
+        // console.log($stateParams);
 
         $scope.findRequest = function () {
-            $log.info($scope.creditRequestIdForSearch);
+            $log.info("$scope.findRequest requestId =", $scope.creditRequestIdForSearch);
             $httpService.findCompareResult($scope.creditRequestIdForSearch, function (result) {
                 var data = result.data;
-                console.log(data);
+                // console.log(data);
                 //data.rules = []; //todo remove
 
                 var result = data;
                 result.biometricCoreResponse = { //todo remove
                     "creditRequestId": data.wfNumber,
-                    "clientId": "cl 100500",
+                    "clientId": data.IIN,
                     "operatorId": data.username,
                     "requestDate": data.timestamp,
                     "responseDate": data["created-at"]
@@ -31,7 +32,13 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
                 $scope.compareResult = result;
 
             });
+
         };
+
+        if ($stateParams.requestId) {
+            $scope.creditRequestIdForSearch = $stateParams.requestId;
+            $scope.findRequest();
+        }
 
         $scope.onSearchTextFieldKeydown = function ($event) {
             if ($event.which === 13 || $event.which === 32) {
@@ -39,8 +46,14 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
             }
         };
 
+        $scope.getRuleName = function (ruleId) {
+            for (var rule in RuleErrorType) {
+                if (RuleErrorType.hasOwnProperty(rule)) {
+                    if (RuleErrorType[rule].ID == ruleId) {
+                        return RuleErrorType[rule].NAME;
+                    }
+                }
+            }
+        }
 
-        //todo remove
-        // $scope.creditRequestIdForSearch = 'compare-result-view.json';
-        // $scope.findRequest();
     });
