@@ -1,5 +1,5 @@
 angular.module('stop-lists-edit', ['ui.router', 'commons',  'angularFileUpload'])
-    .controller('stopListsEditController', function ($scope, $log, $state, $stateParams, $httpService) {
+    .controller('stopListsEditController', function ($scope, $log, $state, $stateParams, $httpService, FileUploader) {
 
         $scope.stateListId = $stateParams.stoplistId;
 
@@ -12,4 +12,11 @@ angular.module('stop-lists-edit', ['ui.router', 'commons',  'angularFileUpload']
                     $scope.stoplist.type = 'common'
                 }
         });
+        $scope.uploader = new FileUploader();
+
+        $scope.uploadFile = function(){
+            //https://github.com/nervgh/angular-file-upload/wiki/Module-API
+            $log.info($scope.uploader);
+        };
+
     });
