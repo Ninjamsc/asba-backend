@@ -1,5 +1,7 @@
 package com.technoserv.rest.resources;
-
+import com.technoserv.rest.client.PhotoPersistServiceRestClient;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 import java.io.FileNotFoundException;
@@ -38,6 +40,7 @@ import org.apache.commons.logging.LogFactory;
 
 @Component
 public class CompareListManager implements InitializingBean  {
+
 
 	//@Resource @Qualifier(value = "converters")
 	private HashMap<String, String> compareRules;
@@ -130,7 +133,7 @@ public class CompareListManager implements InitializingBean  {
                 double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
                 if (norm > list.getSimilarity()) //HIT
                 {
-                    System.out.println("HITT" + list.getListName() + " norm:" + norm + " similarity:" + list.getSimilarity() + "doc=" + vect.getDocId());
+					log.info("HITT" + list.getListName() + " norm:" + norm + " similarity:" + list.getSimilarity() + "doc=" + vect.getDocId());
                     Long doc = vect.getDocId();
                     Document d = this.documentService.findById(doc);
                     CompareResponsePhotoObject po = new CompareResponsePhotoObject();
@@ -138,7 +141,7 @@ public class CompareListManager implements InitializingBean  {
                     po.setSimilarity(norm);
                 }
                 else
-				System.out.println("MISS" + list.getListName()+" norm:" + norm + " similarity:" + list.getSimilarity() + "doc="+vect.getDocId());
+					log.info("MISS" + list.getListName()+" norm:" + norm + " similarity:" + list.getSimilarity() + "doc="+vect.getDocId());
             }
         }
         return false;
@@ -172,7 +175,7 @@ public class CompareListManager implements InitializingBean  {
         		double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
         		if (norm > similarity) //HIT
         		{
-					System.out.println(list.getListName()+"HITT norm:"+norm+" similarity:"+similarity+" list id="+list.getId()+" doc_id="+vect.getDocId());
+					log.info(list.getListName()+"HITT norm:"+norm+" similarity:"+similarity+" list id="+list.getId()+" doc_id="+vect.getDocId());
         			Long doc = vect.getDocId();
         			Document d = this.documentService.findById(doc);
         			CompareResponsePhotoObject po = new CompareResponsePhotoObject();
@@ -182,7 +185,7 @@ public class CompareListManager implements InitializingBean  {
         			bl.add(report);        				
         		}
         		else
-					System.out.println(list.getListName()+"MISS norm:"+norm+" similarity:"+similarity+" list id="+list.getId()+" doc_id="+vect.getDocId());
+					log.info(list.getListName()+"MISS norm:"+norm+" similarity:"+similarity+" list id="+list.getId()+" doc_id="+vect.getDocId());
         		System.out.println(list.getListName()+" norm:"+norm);
         	}
         }
@@ -198,9 +201,9 @@ public class CompareListManager implements InitializingBean  {
    		ArrayRealVector diff =v1.subtract(v2);
 		double dot = diff.dotProduct(diff);
 		double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
-		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		System.out.println("SIMILARITY="+norm+" THRESHOLD+"+similarity);
-		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		log.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		log.info("SIMILARITY="+norm+" THRESHOLD+"+similarity);
+		log.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 		
 		if (norm < similarity) return false;
 		return true;
@@ -210,9 +213,9 @@ public class CompareListManager implements InitializingBean  {
 	public void afterPropertiesSet() throws Exception {
 		this._commonLIst = this.systemSettingsBean.get(SystemSettingsType.COMPARATOR_COMMON_LIST_ID);
 		this.managedStopLists = new HashMap<Long,CompareServiceStopListElement>();
-		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++");
-		System.out.println("list="+ _commonLIst);
-		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++");
+		log.info("++++++++++++++++++++++++++++++++++++++++++++++++++");
+		log.info("list="+ _commonLIst);
+		log.info("++++++++++++++++++++++++++++++++++++++++++++++++++");
 		
 	}
 }
