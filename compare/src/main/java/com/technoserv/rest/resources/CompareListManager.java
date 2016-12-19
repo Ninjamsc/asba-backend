@@ -83,9 +83,8 @@ public class CompareListManager implements InitializingBean  {
 	public void delElement(Long listId)
 	{
 		if ( managedStopLists.get(listId) == null) {
-			System.out.println("++++++++++++++");
-			System.out.println("list id="+listId +" is absent");
-			System.out.println("");
+			log.debug("++++++++++++++");
+			log.debug("list id="+listId +" is absent");
 			return;
 		}
 		managedStopLists.remove(listId);
@@ -116,6 +115,7 @@ public class CompareListManager implements InitializingBean  {
 
     public boolean compare(double[] vector, Long listId) throws Exception //TODO: specify exception
     {
+    	log.info("compare(double, Long) list size is "+managedStopLists.size());
         double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
         int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
 
@@ -153,7 +153,8 @@ public class CompareListManager implements InitializingBean  {
             //log.info("COMPARATOR vector is ='"+vector+"'");
             //System.out.println("COMPARATOR vector is'"+vector+"'");
 
-    		double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
+		log.info("compare(double, Long) list size is "+managedStopLists.size());
+		double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
     		int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
 		ArrayList<CompareResponseBlackListObject> bl = new ArrayList<CompareResponseBlackListObject>();
 		// Сериализуем строковое представление вектора в ArrayRealVector
@@ -186,7 +187,6 @@ public class CompareListManager implements InitializingBean  {
         		}
         		else
 					log.info(list.getListName()+"MISS norm:"+norm+" similarity:"+similarity+" list id="+list.getId()+" doc_id="+vect.getDocId());
-        		System.out.println(list.getListName()+" norm:"+norm);
         	}
         }
       return bl;  
