@@ -40,9 +40,9 @@ angular.module('stop-lists-edit', ['ui.router', 'commons', 'angularFileUpload'])
         };
 
         $scope.photoUploader = new FileUploader();
-        $scope.photoUploader.url = '/rpe/api/stop-list/' + $scope.stoplistId + '/upload';
+        $scope.photoUploader.url = '/rpe/api/stop-list/' + $scope.stoplistId + '/upload/photo';
         $scope.photoUploader.onSuccessItem = function (fileItem, response, status, headers) {
-            $log.info('Success upload', response);
+            $log.info('Success photo upload', response);
             $scope.refresh();
         };
 

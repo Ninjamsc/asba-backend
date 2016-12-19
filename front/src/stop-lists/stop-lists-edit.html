@@ -73,6 +73,21 @@
                 </div>
             </div>
         </div>
+
+        <div class="panel panel-default inner-panel" ng-if="!!stoplist.id">
+            <div class="panel-body">
+                <div class="row">
+                    <span>
+                        Добавление фотографии<br/>
+                        <input type="file" nv-file-select="" uploader="photoUploader">
+                    </span>
+                    <span>
+                        <button type="button" class="pull-right btn btn-primary btn-md" ng-click="uploadPhoto()">Добавить фото
+                        </button>
+                    </span>
+                </div>
+            </div>
+        </div>
         <div class="panel panel-default inner-panel"
              ng-if="!!stoplist.owner">
             <div class="panel-body">
@@ -82,7 +97,7 @@
                         <div class="row">
                             Идентификатор персоны: {{person.id}}
                         </div>
-                        <button type="button" class="pull-right btn btn-primary btn-md">Добавить фото</button>
+                        <!--<button type="button" class="pull-right btn btn-primary btn-md">Добавить фото</button>-->
                         <div class="row">
                             <!--todo переделать с col-xs-2-->
                             <div class="col-xs-12">
