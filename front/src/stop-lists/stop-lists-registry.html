@@ -21,12 +21,12 @@
         <tr ng-repeat="stopList in stopLists">
             <td style="vertical-align: middle; text-align: left;">
                 <a class="" ng-click="editStopList(stopList)">
-                    {{stopList.name}}
+                    {{stopList.stopListName}}
                 </a>
             </td>
             <td style="vertical-align: middle;">{{stopList.similarity}}</td>
             <td style="vertical-align: middle;">{{stopList.type}}</td>
-            <td style="vertical-align: middle;">{{stopList.ownerId}}</td>
+            <td style="vertical-align: middle;">{{getOwnerId(stopList)}}</td>
             <td style="vertical-align: middle;">
                 <!--todo курсор изменяется на текстовый-->
                 <a class="" ng-click="editStopList(stopList)">Редактировать</a>
