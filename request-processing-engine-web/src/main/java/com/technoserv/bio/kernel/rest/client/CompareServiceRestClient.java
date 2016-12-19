@@ -80,13 +80,8 @@ public class CompareServiceRestClient {
             rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, String.class);
         } catch (RestClientResponseException e) {
             e.printStackTrace();
-<<<<<<< HEAD
             log.error("IMPORT IMAGES ERROR CODE " + e.getRawStatusCode());
             throw new CompareServiceException("IMPORT IMAGES ERROR CODE: " + e.getResponseBodyAsString());
-=======
-            log.error("COMPARING TEMPLATE ERROR CODE " + e.getRawStatusCode());
-            throw new CompareServiceException(e.getResponseBodyAsString());
->>>>>>> e96b255d8069adf845d34ecfc6d4113bd30ddb82
         }
     }
 }
