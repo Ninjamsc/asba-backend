@@ -105,14 +105,14 @@ public class CompareListManager implements InitializingBean  {
 		 managedStopLists.put(list.getId(), e);
 		 return true;
 	}
-		public ArrayList<CompareResponseBlackListObject> compare(String vector) throws Exception
+	/*	public ArrayList<CompareResponseBlackListObject> compare(String vector) throws Exception
 	{
 		ObjectMapper mapper = new ObjectMapper();
 		double[] array = mapper.readValue(vector, double[].class);
 		return compare(array);
 	}
-
-    public CompareResponseBlackListObject compare(double[] vector, Long listId) throws Exception //TODO: specify exception
+*/
+    public CompareResponseBlackListObject compare1(double[] vector, Long listId) throws Exception //TODO: specify exception
     {
     	log.debug("compare(double, Long) list size is "+managedStopLists.size());
         double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
@@ -153,7 +153,7 @@ public class CompareListManager implements InitializingBean  {
     }
 
 
-	public ArrayList<CompareResponseBlackListObject> compare(double[] vector) throws Exception //TODO: specify exception
+	public ArrayList<CompareResponseBlackListObject> compare2(double[] vector, Long listId) throws Exception //TODO: specify exception
 	{
             //log.info("COMPARATOR vector is ='"+vector+"'");
             //System.out.println("COMPARATOR vector is'"+vector+"'");
@@ -168,6 +168,7 @@ public class CompareListManager implements InitializingBean  {
         while (it.hasNext())
         {
         	CompareServiceStopListElement list = it.next().getValue();
+			if(list.getId() == listId) continue;
         	Double similarity = list.getSimilarity();
         	CompareResponseBlackListObject report = new CompareResponseBlackListObject();
         	report.setListId(list.getId());

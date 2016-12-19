@@ -170,16 +170,16 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 		try {
 
 		    // compare scanned pic
-			ArrayList<CompareResponseBlackListObject> ls = this.listManager.compare(message.getTemplate_scan());
-            CompareResponseBlackListObject CommonScan = listManager.compare(message.getTemplate_scan(),getCommonListId());
+			ArrayList<CompareResponseBlackListObject> ls = this.listManager.compare2(message.getTemplate_scan(),getCommonListId());
+            CompareResponseBlackListObject CommonScan = listManager.compare1(message.getTemplate_scan(),getCommonListId());
 			CompareResponsePictureReport reportScan = new CompareResponsePictureReport();
             reportScan.setBlackLists(ls);
             reportScan.setPictureURL(message.getScanFullFrameURL());
             reportScan.setPreviewURL(message.getScanPreviewURL());
 
 			// compare webcam pic
-			ArrayList<CompareResponseBlackListObject> lw = this.listManager.compare(message.getTemplate_web());
-            CompareResponseBlackListObject CommonWeb = listManager.compare(message.getTemplate_scan(),getCommonListId());
+			ArrayList<CompareResponseBlackListObject> lw = this.listManager.compare2(message.getTemplate_web(),getCommonListId());
+            CompareResponseBlackListObject CommonWeb = listManager.compare1(message.getTemplate_scan(),getCommonListId());
 			CompareResponsePictureReport reportWeb = new CompareResponsePictureReport();
             reportWeb.setBlackLists(lw);
             reportWeb.setPictureURL(message.getWebFullFrameURL());
