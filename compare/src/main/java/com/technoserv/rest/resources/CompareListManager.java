@@ -197,7 +197,7 @@ public class CompareListManager implements InitializingBean  {
 		double dot = diff.dotProduct(diff);
 		double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
 		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		System.out.println("SIMILARITY="+norm);
+		System.out.println("SIMILARITY="+norm+" THRESHOLD+"+similarity);
 		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 		
 		if (norm < similarity) return false;
