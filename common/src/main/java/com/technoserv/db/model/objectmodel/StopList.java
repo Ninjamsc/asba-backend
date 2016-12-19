@@ -22,15 +22,13 @@ public class StopList extends AbstractObject {
     @JoinTable(name = "STOP_LISTS_CONTENTS", joinColumns = {@JoinColumn(name = "LISTS_ID")}, inverseJoinColumns = {@JoinColumn(name = "DOC_ID")})
     private List<Document> owner;
 
-    //TODO ...
-    @Transient
+    @Column(name = "TYPE")
     private String type;
-    //TODO ...
-    @Transient
+    @Column(name = "DESCRIPTION")
     private String description;
     //TODO ...
-    @Transient
-    private List<Person> persons;
+//    @Transient
+//    private List<Person> persons;
 
     @Column(name = "SIMILARITY")
     private Double similarity;
@@ -59,13 +57,13 @@ public class StopList extends AbstractObject {
         this.similarity = similarity;
     }
 
-    public List<Person> getPersons() {
-        return persons;
-    }
-
-    public void setPersons(List<Person> persons) {
-        this.persons = persons;
-    }
+//    public List<Person> getPersons() {
+//        return persons;
+//    }
+//
+//    public void setPersons(List<Person> persons) {
+//        this.persons = persons;
+//    }
 
     public String getType() {
         return type;
