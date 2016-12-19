@@ -28,6 +28,8 @@ import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import com.technoserv.db.model.configuration.SystemSettingsType;
 import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
 import com.technoserv.rest.request.PhotoTemplate;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +70,9 @@ import io.swagger.annotations.Api;
 @Path("")
 @Api(value = "Compare")
 public class CompareResource extends BaseResource<Long,StopList> implements InitializingBean  {
+
+    private static final Log log = LogFactory.getLog(CompareResource.class);
+
 	@Autowired
 	private CompareListManager listManager;
 	
@@ -112,7 +117,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 	
 	@Override
 	public void afterPropertiesSet() throws Exception {
-        System.out.println("---------------------\nИницаиализация сервиса сравнения");
+        log.debug("---------------------\nИницаиализация сервиса сравнения");
         //listManager = new CompareListManager(documentService);
         List<StopList> allLists = stopListService.getAll("owner","owner.bioTemplates");
         System.out.println("Number of stop lists is:"+allLists.size());

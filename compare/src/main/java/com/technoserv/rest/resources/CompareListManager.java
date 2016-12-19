@@ -96,13 +96,13 @@ public class CompareListManager implements InitializingBean  {
 	{
 		if (list == null) return false;
 		CompareServiceStopListElement e = new CompareServiceStopListElement(list.getStopListName(),list.getId(),list.getSimilarity());
-		/*Iterator<Document> id = list.getOwner().iterator();
+		Iterator<Document> id = list.getOwner().iterator();
 		 while (id.hasNext())
          {
              Document d = id.next();
              if (!e.addVector(d)) return false;
          }		
-		 managedStopLists.put(list.getId(), e); */
+		 managedStopLists.put(list.getId(), e);
 		 return true;
 	}
 
