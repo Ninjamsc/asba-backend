@@ -17,6 +17,7 @@ angular.module('stop-lists-edit', ['ui.router', 'commons',  'angularFileUpload']
         $scope.uploadFile = function(){
             //https://github.com/nervgh/angular-file-upload/wiki/Module-API
             $log.info($scope.uploader);
+            //$scope.uploader.uploadAll();
         };
 
     });
