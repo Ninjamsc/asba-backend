@@ -80,9 +80,8 @@ public class CompareServiceRestClient {
             rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, String.class);
         } catch (RestClientResponseException e) {
             e.printStackTrace();
-            switch (e.getRawStatusCode()){
-                case 400:log.error("BAD_REQUEST");throw new CompareServiceException(e.getResponseBodyAsString());
-            }
+            log.error("COMPARING TEMPLATE ERROR CODE " + e.getRawStatusCode());
+            throw new CompareServiceException(e.getResponseBodyAsString());
         }
     }
 }
