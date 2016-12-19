@@ -168,22 +168,25 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 		CompareResponse response = new CompareResponse();
 		ArrayList<CompareResponseRulesObject> firedRules = new ArrayList<CompareResponseRulesObject>();
 		try {
+
 		    // compare scanned pic
 			ArrayList<CompareResponseBlackListObject> ls = this.listManager.compare(message.getTemplate_scan());
-			boolean isCommonS = listManager.compare(message.getTemplate_scan(),getCommonListId());
-			CompareResponsePictureReport r1 = new CompareResponsePictureReport();
-			r1.setBlackLists(ls);
-			r1.setPictureURL(message.getScanFullFrameURL());
-			r1.setPreviewURL(message.getScanPreviewURL());
+            CompareResponseBlackListObject CommonScan = listManager.compare(message.getTemplate_scan(),getCommonListId());
+			CompareResponsePictureReport reportScan = new CompareResponsePictureReport();
+            reportScan.setBlackLists(ls);
+            reportScan.setPictureURL(message.getScanFullFrameURL());
+            reportScan.setPreviewURL(message.getScanPreviewURL());
+
 			// compare webcam pic
 			ArrayList<CompareResponseBlackListObject> lw = this.listManager.compare(message.getTemplate_web());
-            boolean isCommonW = listManager.compare(message.getTemplate_scan(),getCommonListId());
-			CompareResponsePictureReport r2 = new CompareResponsePictureReport();
-			r2.setBlackLists(lw);
-			r2.setPictureURL(message.getWebFullFrameURL());
-			r2.setPreviewURL(message.getWebPreviewURL());
-			response.setCameraPicture(r2);
-			response.setScannedPicture(r1);
+            CompareResponseBlackListObject CommonWeb = listManager.compare(message.getTemplate_scan(),getCommonListId());
+			CompareResponsePictureReport reportWeb = new CompareResponsePictureReport();
+            reportWeb.setBlackLists(lw);
+            reportWeb.setPictureURL(message.getWebFullFrameURL());
+            reportWeb.setPreviewURL(message.getWebPreviewURL());
+
+			response.setCameraPicture(reportWeb);
+			response.setScannedPicture(reportScan);
 			response.setRules(new ArrayList<CompareResponseRulesObject>());//TODO (rplace with the rules
 			if (ls.size() > 0 || lw.size() > 0)
 			{
@@ -193,7 +196,11 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 				//rule.setRuleName("Perhaps photo is in stop-list.");
 				firedRules.add(rule);
 			}
-            if (isCommonS || isCommonW)
+            if (CommonScan != null)
+                ls.add(CommonScan);
+            if (CommonWeb != null)
+                lw.add(CommonWeb);
+            if (CommonScan != null || CommonWeb != null)
             {
                 CompareResponseRulesObject rule = new CompareResponseRulesObject();
                 rule = new CompareResponseRulesObject();
