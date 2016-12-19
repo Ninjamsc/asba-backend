@@ -18,7 +18,7 @@ angular.module('stop-lists-edit', ['ui.router', 'commons', 'angularFileUpload'])
         $scope.uploader = new FileUploader();
         $scope.uploader.url  ='/rpe/api/stop-list/'+$scope.stateListId+'/upload';
         $scope.uploader.onSuccessItem = function(fileItem, response, status, headers) {
-            $log.info('Success upload', reposponse);
+            $log.info('Success upload', response);
             $scope.refresh();
         };
 
