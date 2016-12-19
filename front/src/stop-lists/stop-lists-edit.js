@@ -14,11 +14,13 @@ angular.module('stop-lists-edit', ['ui.router', 'commons', 'angularFileUpload'])
             }
         });
         $scope.uploader = new FileUploader();
+        $scope.uploader.url  ='/rpe/api/stop-list/5/upload';
 
         $scope.uploadFile = function () {
             //https://github.com/nervgh/angular-file-upload/wiki/Module-API
             $log.info($scope.uploader);
-            //$scope.uploader.uploadAll();
+            $log.info($scope.uploader.queue[0]);
+            $scope.uploader.queue[0].upload();
         };
 
     });
