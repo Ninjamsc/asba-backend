@@ -45,15 +45,20 @@ angular.module('commons', []).constant('contextualClass', {
         };
 
         //todo defer return result
-        function http(method, clbck, params) {
+        function http(method, clbck) {
+            http(method, clbck, {}, 'GET', {})
+        }
+
+        function http(url, clbck, method, params, data) {
             var defaultParams = {};
             if (!!params) {
                 defaultParams = angular.extend(defaultParams, params);
             }
             return $http({
-                method: 'GET',
-                url: method,
-                params: defaultParams
+                method: method,
+                url: url,
+                params: defaultParams,
+                data: data
             }).then(function (response) {
                 if (!!clbck) {
                     clbck(response)
@@ -61,17 +66,38 @@ angular.module('commons', []).constant('contextualClass', {
             }, logErrorCallback);
         };
 
-        this.findStopLists = function (callback) {
-            var method = 'compare/rest/stoplist';
-            http(method, callback)
+
+
+        var singleStoplist = function (id, callback, method, params, data) {
+            var url = 'rpe/api/rest/stoplist/';
+            if (!!id){
+                url = url + id;
+            }
+            else if (id == 'test') {
+                url = 'src/json/stop-list-edit.json';
+            }
+            http(url, callback, method, params, data)
         };
 
+        this.findStopLists = function (callback) {
+            singleStoplist(null,  callback, 'GET')
+        };
+
+
         this.getStoplist = function (id, callback) {
-            var method = 'rpe/api/rest/stoplist/' + id;
-            if (id == 'test') {
-                method = 'src/json/stop-list-edit.json';
-            }
-            http(method, callback)
+            singleStoplist(id,  callback, 'GET')
+        };
+
+        this.addStoplist = function (stoplist, callback) {
+            singleStoplist(null,  callback, 'POST', {}, stoplist)
+        };
+
+        this.editStoplist = function (stoplist, callback) {
+            singleStoplist(null,  callback, 'PUT', {}, stoplist)
+        };
+
+        this.deleteStoplist = function (id, callback) {
+            singleStoplist(id,  callback, 'DELETE')
         };
 
         this.findCompareResult = function (id, callback) {

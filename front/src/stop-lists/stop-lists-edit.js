@@ -23,4 +23,10 @@ angular.module('stop-lists-edit', ['ui.router', 'commons', 'angularFileUpload'])
             $scope.uploader.queue[0].upload();
         };
 
+        $scope.saveStoplist = function(){
+            $httpService.editStoplist($scope.stoplist, function(data){
+                $log.info("success save", data);
+            });
+        }
+
     });
