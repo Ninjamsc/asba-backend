@@ -6,6 +6,7 @@ package com.technoserv.db.model.configuration;
 public enum SystemSettingsType {
     PHOTO_PERSIST_SERVICE_URL("http://www.sdorohov.ru/image-storage/rest/image"),
     COMPARE_SERVICE_URL("http://localhost:8080/compare/api/template"),
+    COMPARE_SERVICE_STOP_LIST_URL("http://localhost:8080/compare/stoplist"),
     PHOTO_ANALYZER_SERVICE_URL("http://localhost:8080/analize/analize"),
     TEMPLATE_BUILDER_SERVICE_URL("http://localhost:8080/rpe/api/rest/template-builder-stub"),
     COMPARATOR_COMMON_LIST_ID("5"),

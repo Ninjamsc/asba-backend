@@ -5,6 +5,7 @@ import com.technoserv.bio.kernel.rest.exception.CompareServiceException;
 import com.technoserv.bio.kernel.rest.request.CompareServiceRequest;
 import com.technoserv.db.model.configuration.SystemSettingsType;
 import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
+import com.technoserv.rest.request.StopListElement;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
+import javax.ws.rs.PathParam;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 
@@ -31,6 +33,10 @@ public class CompareServiceRestClient {
 
     public String getUrl() {
         return systemSettingsBean.get(SystemSettingsType.COMPARE_SERVICE_URL);
+    }
+
+    public String getStopListUrl() {
+        return systemSettingsBean.get(SystemSettingsType.COMPARE_SERVICE_STOP_LIST_URL);
     }
 
     public String compare(CompareServiceRequest request) {
@@ -62,14 +68,21 @@ public class CompareServiceRestClient {
         }
     }
 
-    public static void main(String[] args) {
-        CompareServiceRestClient restClient = new CompareServiceRestClient(){
-            public String getUrl() {
-                return "http://sdorohov.ru/rpe/api/rest/compare-stub/template";
-            }
-        };
-        String response = restClient.compare(new CompareServiceRequest());
-        System.out.println(response);
+    public void importImages(Long id, String photo) {
+        StopListElement element = new StopListElement();
+        element.setPhoto(photo);
 
+        String url = getStopListUrl() + "/" + id +"/entry";
+        try {
+            HttpHeaders requestHeaders = new HttpHeaders();
+            requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+            HttpEntity<StopListElement> requestEntity = new HttpEntity<StopListElement>(element, requestHeaders);
+            rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, String.class);
+        } catch (RestClientResponseException e) {
+            e.printStackTrace();
+            switch (e.getRawStatusCode()){
+                case 400:log.error("BAD_REQUEST");throw new CompareServiceException(e.getResponseBodyAsString());
+            }
+        }
     }
 }

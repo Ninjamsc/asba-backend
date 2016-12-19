@@ -1,6 +1,6 @@
 package com.technoserv.bio.kernel.rest.resource;
 
-import com.technoserv.rest.client.PhotoPersistServiceRestClient;
+import com.technoserv.bio.kernel.rest.client.CompareServiceRestClient;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,9 +28,9 @@ public class ImportImagesServiceImpl implements ImportImagesService{
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss_SSS");
 
     @Autowired
-    private PhotoPersistServiceRestClient photoPersistServiceRestClient;
+    private CompareServiceRestClient compareServiceRestClient;
 
-    public Map<String, Map<String, Boolean>> importImages(InputStream uploadedInputStream, String fileName) {
+    public Map<String, Map<String, Boolean>> importImages(Long stopListId, InputStream uploadedInputStream, String fileName) {
         Path uploadedFileLocation = null;
         try {
             uploadedFileLocation = Files.createTempDirectory(DATE_FORMAT.format(new Date()) + "_");
@@ -44,8 +44,7 @@ public class ImportImagesServiceImpl implements ImportImagesService{
                     System.out.println("Upload file: " + p.toAbsolutePath().toString());
                     String file = encodeFile(p);
                     if(file != null) {
-                        String url = photoPersistServiceRestClient.putPhoto(file, p.getFileName().toString());
-                        updateDb(p, url);
+                        compareServiceRestClient.importImages(stopListId, file);
                         return true;
                     }
                     return false;
@@ -142,12 +141,5 @@ public class ImportImagesServiceImpl implements ImportImagesService{
             throw new RuntimeException(e);
         }
         return bytes != null ? new String(Base64.getEncoder().encode(bytes)) : null;
-    }
-
-    private void updateDb(Path path, String url) {
-        System.out.printf("UPLOADED IMAGE URL: " + url);
-        String[] parts = path.getFileName().toString().split("_");
-        Long inn = Long.valueOf(parts[0]);
-
     }
 }
