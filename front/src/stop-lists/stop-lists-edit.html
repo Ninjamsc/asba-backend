@@ -1,4 +1,7 @@
-<div class="container">
+<div class="container" ng-if="!!stoplistNotFound">
+    <h2>Отчет еще не сформирован, просьба обновить страницу позже</h2>
+    </div>
+<div class="container" ng-if="!stoplistNotFound">
     <div class="panel panel-default">
         <div class="panel-body">
             <div><h4>Реестр стоп-листов/ Работа со списком</h4></div>
