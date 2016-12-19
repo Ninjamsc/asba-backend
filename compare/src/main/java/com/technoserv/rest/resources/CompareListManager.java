@@ -73,6 +73,14 @@ public class CompareListManager implements InitializingBean  {
 		CompareServiceStopListElement sl = managedStopLists.get(listId);
 		if (sl != null) sl.addVector(vector);
 	}
+
+	/*
+	 * удаление списка по его ID
+	 */
+	public void delElement(Long listId)
+	{
+		managedStopLists.remove(listId);
+	}
 	/*
 	 * Добавление нового стоплиста
 	 */

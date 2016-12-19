@@ -241,7 +241,9 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     @Path("/stoplist/{id}")
     @Override
-    public Response delete(@PathParam("id") Long id) {
+    public Response delete(@PathParam("id") Long id)
+    {
+        this.listManager.delElement(id);
         return super.delete(id);
     }
 
