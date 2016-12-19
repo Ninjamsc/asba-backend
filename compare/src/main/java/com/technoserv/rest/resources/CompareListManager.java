@@ -105,8 +105,7 @@ public class CompareListManager implements InitializingBean  {
 		 managedStopLists.put(list.getId(), e);
 		 return true;
 	}
-
-	public ArrayList<CompareResponseBlackListObject> compare(String vector) throws Exception
+		public ArrayList<CompareResponseBlackListObject> compare(String vector) throws Exception
 	{
 		ObjectMapper mapper = new ObjectMapper();
 		double[] array = mapper.readValue(vector, double[].class);
@@ -115,25 +114,26 @@ public class CompareListManager implements InitializingBean  {
 
     public boolean compare(double[] vector, Long listId) throws Exception //TODO: specify exception
     {
-    	log.info("compare(double, Long) list size is "+managedStopLists.size());
+    	log.debug("compare(double, Long) list size is "+managedStopLists.size());
         double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
         int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
 
-        ArrayRealVector arv = new ArrayRealVector(vector);
-        Iterator<Map.Entry<Long,CompareServiceStopListElement>> it = managedStopLists.entrySet().iterator();
-        while (it.hasNext())
-        {
-            CompareServiceStopListElement list = it.next().getValue();
-            if(list.getId() != listId) continue; // skip all lists xcept given one
-            ArrayList<CompareServiceStopListVector> vectors = list.getVectors();
-            for ( CompareServiceStopListVector vect : vectors)
+		ArrayRealVector arv = new ArrayRealVector(vector);
+		CompareServiceStopListElement list = managedStopLists.get(listId);
+		if(list == null)
+		{
+			log.error("List id="+listId+" is null or unavailable");
+			return false;
+		}
+		ArrayList<CompareServiceStopListVector> vectors = list.getVectors();
+		for ( CompareServiceStopListVector vect : vectors)
             {
                 ArrayRealVector diff =arv.subtract(vect.getVector());
                 double dot = diff.dotProduct(diff);
                 double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
                 if (norm > list.getSimilarity()) //HIT
                 {
-					log.info("HITT" + list.getListName() + " norm:" + norm + " similarity:" + list.getSimilarity() + "doc=" + vect.getDocId());
+					log.debug("compare(double, Long) HITT" + list.getListName() + " norm:" + norm + " similarity:" + list.getSimilarity() + "doc=" + vect.getDocId());
                     Long doc = vect.getDocId();
                     Document d = this.documentService.findById(doc);
                     CompareResponsePhotoObject po = new CompareResponsePhotoObject();
@@ -141,9 +141,8 @@ public class CompareListManager implements InitializingBean  {
                     po.setSimilarity(norm);
                 }
                 else
-					log.info("MISS" + list.getListName()+" norm:" + norm + " similarity:" + list.getSimilarity() + "doc="+vect.getDocId());
+					log.debug("compare(double, Long) MISS" + list.getListName()+" norm:" + norm + " similarity:" + list.getSimilarity() + "doc="+vect.getDocId());
             }
-        }
         return false;
     }
 
@@ -153,7 +152,7 @@ public class CompareListManager implements InitializingBean  {
             //log.info("COMPARATOR vector is ='"+vector+"'");
             //System.out.println("COMPARATOR vector is'"+vector+"'");
 
-		log.info("compare(double, Long) list size is "+managedStopLists.size());
+		log.debug("compare(double) list size is "+managedStopLists.size());
 		double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
     		int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
 		ArrayList<CompareResponseBlackListObject> bl = new ArrayList<CompareResponseBlackListObject>();
@@ -176,7 +175,7 @@ public class CompareListManager implements InitializingBean  {
         		double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
         		if (norm > similarity) //HIT
         		{
-					log.info(list.getListName()+"HITT norm:"+norm+" similarity:"+similarity+" list id="+list.getId()+" doc_id="+vect.getDocId());
+					log.debug(list.getListName()+"compare(double, Long) HITT norm:"+norm+" similarity:"+similarity+" list id="+list.getId()+" doc_id="+vect.getDocId());
         			Long doc = vect.getDocId();
         			Document d = this.documentService.findById(doc);
         			CompareResponsePhotoObject po = new CompareResponsePhotoObject();
@@ -186,7 +185,7 @@ public class CompareListManager implements InitializingBean  {
         			bl.add(report);        				
         		}
         		else
-					log.info(list.getListName()+"MISS norm:"+norm+" similarity:"+similarity+" list id="+list.getId()+" doc_id="+vect.getDocId());
+					log.debug(list.getListName()+" compare(double, Long) MISS norm:"+norm+" similarity:"+similarity+" list id="+list.getId()+" doc_id="+vect.getDocId());
         	}
         }
       return bl;  
