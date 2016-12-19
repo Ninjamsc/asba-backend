@@ -112,7 +112,7 @@ public class CompareListManager implements InitializingBean  {
 		return compare(array);
 	}
 
-    public boolean compare(double[] vector, Long listId) throws Exception //TODO: specify exception
+    public CompareResponseBlackListObject compare(double[] vector, Long listId) throws Exception //TODO: specify exception
     {
     	log.debug("compare(double, Long) list size is "+managedStopLists.size());
         double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
@@ -120,30 +120,36 @@ public class CompareListManager implements InitializingBean  {
 
 		ArrayRealVector arv = new ArrayRealVector(vector);
 		CompareServiceStopListElement list = managedStopLists.get(listId);
+		CompareResponseBlackListObject report = new CompareResponseBlackListObject();
 		if(list == null)
 		{
 			log.error("List id="+listId+" is null or unavailable");
-			return false;
+			return null;
 		}
+		report.setListId(list.getId());
+		report.setListName(list.getListName());
+		report.setSimilarity(list.getSimilarity());
 		ArrayList<CompareServiceStopListVector> vectors = list.getVectors();
 		for ( CompareServiceStopListVector vect : vectors)
             {
-                ArrayRealVector diff =arv.subtract(vect.getVector());
+                ArrayRealVector diff = arv.subtract(vect.getVector());
                 double dot = diff.dotProduct(diff);
                 double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
                 if (norm > list.getSimilarity()) //HIT
                 {
 					log.debug("compare(double, Long) HITT" + list.getListName() + " norm:" + norm + " similarity:" + list.getSimilarity() + "doc=" + vect.getDocId());
-                    Long doc = vect.getDocId();
-                    Document d = this.documentService.findById(doc);
-                    CompareResponsePhotoObject po = new CompareResponsePhotoObject();
-                    po.setUrl(d.getFaceSquare());
-                    po.setSimilarity(norm);
+					Long doc = vect.getDocId();
+					Document d = this.documentService.findById(doc);
+					CompareResponsePhotoObject po = new CompareResponsePhotoObject();
+					po.setUrl(d.getFaceSquare());
+					po.setSimilarity(norm);
+					report.addPhoto(po);
                 }
                 else
 					log.debug("compare(double, Long) MISS" + list.getListName()+" norm:" + norm + " similarity:" + list.getSimilarity() + "doc="+vect.getDocId());
             }
-        return false;
+        if (report.getPhoto().size() > 0) return report;
+		return null;
     }
 
 
