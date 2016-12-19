@@ -11,9 +11,9 @@
     <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
 
         <property value="org.postgresql.Driver" name="driverClassName"/>
-        <property value="jdbc:postgresql://localhost:5433/biometry" name="url"/>
-        <property value="postgres" name="username"/>
-        <property value="admin" name="password"/>
+        <property value="jdbc:postgresql://192.168.167.211:5432/biometry" name="url"/>
+        <property value="biometry" name="username"/>
+        <property value="Meter2015" name="password"/>
     </bean>
 
     <bean class="org.springframework.orm.hibernate4.HibernateTransactionManager" id="transactionManager">
@@ -26,8 +26,8 @@
         <property name="hibernateProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQL9Dialect</prop>
-                <prop key="hibernate.hbm2ddl.auto">create</prop>
-                <prop key="hibernate.show_sql">true</prop>
+                <!--<prop key="hibernate.hbm2ddl.auto">create</prop>-->
+                <!--<prop key="hibernate.show_sql">true</prop>-->
             </props>
 
         </property>
