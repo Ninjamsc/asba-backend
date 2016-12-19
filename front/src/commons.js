@@ -62,7 +62,7 @@ angular.module('commons', []).constant('contextualClass', {
         };
 
         this.findStopLists = function (callback) {
-            var method = 'rpe/api/rest/stoplist';
+            var method = 'compare/rest/stoplist';
             http(method, callback)
         };
 
