@@ -3,7 +3,6 @@
 *.iml
 target/
 BaseObjectModel/target/
-front/node_modules
 .classpath
 .project
 .settings/
