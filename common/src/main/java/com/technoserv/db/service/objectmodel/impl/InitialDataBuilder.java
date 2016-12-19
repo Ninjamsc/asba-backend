@@ -45,10 +45,12 @@ public class InitialDataBuilder implements InitializingBean {
 
         if(systemSettingService.countAll() != SystemSettingsType.values().length) {
             for (SystemSettingsType systemSettingsType : SystemSettingsType.values()) {
-                SystemSettings systemSettings = new SystemSettings();
-                systemSettings.setId(systemSettingsType);
-                systemSettings.setValue(systemSettingsType.getDefauldValue());
-                systemSettingService.saveOrUpdate(systemSettings);
+                if(systemSettingService.findById(systemSettingsType)==null) {
+                    SystemSettings systemSettings = new SystemSettings();
+                    systemSettings.setId(systemSettingsType);
+                    systemSettings.setValue(systemSettingsType.getDefauldValue());
+                    systemSettingService.saveOrUpdate(systemSettings);
+                }
             }
         }
     }
