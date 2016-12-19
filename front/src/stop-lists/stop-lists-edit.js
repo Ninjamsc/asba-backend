@@ -53,6 +53,9 @@ angular.module('stop-lists-edit', ['ui.router', 'commons', 'angularFileUpload'])
             $scope.photoUploader.queue[0].upload();
         };
 
+        $scope.toRegistry = function () {
+            window.location.replace('#/stoplists');
+        };
         $scope.deletePerson = function (person) {
             $log.info("delete person", data);
         };
