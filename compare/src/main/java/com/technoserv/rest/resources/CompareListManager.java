@@ -130,15 +130,15 @@ public class CompareListManager implements InitializingBean  {
                 double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
                 if (norm > list.getSimilarity()) //HIT
                 {
-                    System.out.println("HIT"+list.getListName()+" norm:"+norm+" similarity:"+list.getSimilarity()+"doc="+vect.getDocId());
+                    System.out.println("HITT" + list.getListName() + " norm:" + norm + " similarity:" + list.getSimilarity() + "doc=" + vect.getDocId());
                     Long doc = vect.getDocId();
                     Document d = this.documentService.findById(doc);
                     CompareResponsePhotoObject po = new CompareResponsePhotoObject();
                     po.setUrl(d.getFaceSquare());
                     po.setSimilarity(norm);
                 }
-				System.out.println("MISS"+list.getListName()+" norm:"+norm+" similarity:"+list.getSimilarity()+"doc="+vect.getDocId());
-                System.out.println(list.getListName()+" norm:"+norm);
+                else
+				System.out.println("MISS" + list.getListName()+" norm:" + norm + " similarity:" + list.getSimilarity() + "doc="+vect.getDocId());
             }
         }
         return false;
@@ -147,8 +147,8 @@ public class CompareListManager implements InitializingBean  {
 
 	public ArrayList<CompareResponseBlackListObject> compare(double[] vector) throws Exception //TODO: specify exception
 	{
-            log.info("COMPARATOR vector is ='"+vector+"'");
-            System.out.println("COMPARATOR vector is'"+vector+"'");
+            //log.info("COMPARATOR vector is ='"+vector+"'");
+            //System.out.println("COMPARATOR vector is'"+vector+"'");
 
     		double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
     		int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
@@ -172,7 +172,7 @@ public class CompareListManager implements InitializingBean  {
         		double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
         		if (norm > similarity) //HIT
         		{
-            		System.out.println(list.getListName()+" norm:"+norm+" similarity:"+similarity);
+					System.out.println(list.getListName()+"HITT norm:"+norm+" similarity:"+similarity+" list id="+list.getId()+" doc_id="+vect.getDocId());
         			Long doc = vect.getDocId();
         			Document d = this.documentService.findById(doc);
         			CompareResponsePhotoObject po = new CompareResponsePhotoObject();
@@ -181,6 +181,8 @@ public class CompareListManager implements InitializingBean  {
         			report.addPhoto(po);
         			bl.add(report);        				
         		}
+        		else
+					System.out.println(list.getListName()+"MISS norm:"+norm+" similarity:"+similarity+" list id="+list.getId()+" doc_id="+vect.getDocId());
         		System.out.println(list.getListName()+" norm:"+norm);
         	}
         }
