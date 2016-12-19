@@ -66,7 +66,7 @@ angular.module('commons', []).constant('contextualClass', {
             http(method, callback)
         };
         this.getStoplist = function (id, callback) {
-            var method = 'http://www.sdorohov.ru/rpe/api/rest/stoplist/test/' + id;
+            var method = 'rpe/api/rest/stoplist/' + id;
             if (id == 'test') {
                 method = 'src/json/stop-list-edit.json';
             }
