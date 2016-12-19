@@ -362,7 +362,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             stopList.getOwner().add(aDocument);
             stopListService.saveOrUpdate(stopList);
         	System.out.println("Adding list element for ID="+id+" "+element + " "+scannedTemplate);
-        	return Response.ok().build();    
+        	return Response.ok().header("Access-Control-Allow-Origin", "*").build();
     }
 
 	/*
