@@ -1,4 +1,7 @@
-<div class="container">
+<div class="container" ng-if="!!stoplistNotFound">
+    <h2>Отчет еще не сформирован, просьба обновить страницу позже</h2>
+</div>
+<div class="container" ng-if="!stoplistNotFound">
     <div class="panel panel-default">
         <div class="panel-body">
             <div><h4>Реестр стоп-листов/ Работа со списком</h4></div>
@@ -58,7 +61,7 @@
                 </div>
             </div>
         </div>
-        <div class="panel panel-default inner-panel">
+        <div class="panel panel-default inner-panel" ng-if="!!$scope.stoplist.id">
             <div class="panel-body">
                 Укажите директорию для извлечения персон<br/>
                 <input type="file" nv-file-select="" uploader="uploader">
