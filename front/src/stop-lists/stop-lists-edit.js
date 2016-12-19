@@ -39,6 +39,11 @@ angular.module('stop-lists-edit', ['ui.router', 'commons', 'angularFileUpload'])
             $scope.uploader.queue[0].upload();
         };
 
+        $scope.deletePerson = function (person) {
+            //https://github.com/nervgh/angular-file-upload/wiki/Module-API
+            $log.info("delete person", data);
+        };
+
         $scope.saveStoplist = function () {
             $log.info($scope.stoplist);
             if (!!$scope.stoplist.id) {

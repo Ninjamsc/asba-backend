@@ -24,6 +24,7 @@ public class StopList extends AbstractObject {
 
     @Column(name = "TYPE")
     private String type;
+
     @Column(name = "DESCRIPTION")
     private String description;
     //TODO ...
