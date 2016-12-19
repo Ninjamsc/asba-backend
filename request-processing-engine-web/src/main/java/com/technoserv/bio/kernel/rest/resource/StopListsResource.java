@@ -105,7 +105,7 @@ public class StopListsResource extends BaseResource<Long,StopList> {
     private StopList createTestStopList(int i) {
         StopList stopList = new StopList();
         stopList.setId((long) i);
-        stopList.setPersons(createTestPersons());
+//        stopList.setPersons(createTestPersons());
         stopList.setDescription("Тестовый стоп лист");
         stopList.setOwner(createTestOwners());
         stopList.setSimilarity(0.888d);

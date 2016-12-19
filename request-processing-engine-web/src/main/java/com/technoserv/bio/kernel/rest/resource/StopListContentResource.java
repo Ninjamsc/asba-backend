@@ -41,11 +41,11 @@ public class StopListContentResource {
         StopList stopList = stopListService.findById(id);
 
         Collection<PersonResource.HistoryRequestResponse> responses = new ArrayList<>();
-        stopList.getPersons().forEach(p -> {
-            PersonResource.HistoryRequestResponse response = new PersonResource.HistoryRequestResponse();
-            //response.setComment();
-            responses.add(response);
-        });
+//        stopList.getPersons().forEach(p -> {
+//            PersonResource.HistoryRequestResponse response = new PersonResource.HistoryRequestResponse();
+//            //response.setComment();
+//            responses.add(response);
+//        });
 
         StopListResponse stopListResponse = new StopListResponse();
         stopListResponse.setSimilarity(stopList.getSimilarity());
