@@ -79,6 +79,12 @@ public class CompareListManager implements InitializingBean  {
 	 */
 	public void delElement(Long listId)
 	{
+		if ( managedStopLists.get(listId) == null) {
+			System.out.println("++++++++++++++");
+			System.out.println("list id="+listId +" is absent");
+			System.out.println("");
+			return;
+		}
 		managedStopLists.remove(listId);
 	}
 	/*

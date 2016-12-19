@@ -243,6 +243,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     @Override
     public Response delete(@PathParam("id") Long id)
     {
+
         this.listManager.delElement(id);
         return super.delete(id);
     }
