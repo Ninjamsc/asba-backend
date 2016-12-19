@@ -83,21 +83,21 @@
                         <div class="row">
                             <!--todo переделать с col-xs-2-->
                             <div class="col-xs-12">
-                                <div class="col-xs-2" ng-show="!!person.origImageURL">
+                                <div class="col-xs-2">
                                     <img ng-src="{{person.origImageURL}}"
                                          alt="{{person.origImageURL}}">
                                     <!--<a ng-click="console.log(123);">-->
-                                    <span class="glyphicon glyphicon-remove" ng-click="deletePerson(person)"></span>
+                                    <!--<span class="glyphicon glyphicon-remove" ng-click="console.log(123)"></span>-->
                                     <!--</a>-->
                                 </div>
-                                <div class="col-xs-2" ng-show="!!person.faceSquare">
+                                <div class="col-xs-2">
                                     <img ng-src="{{person.faceSquare}}"
                                          alt="{{person.faceSquare}}">
                                     <!--<a>-->
-                                    <span class="glyphicon glyphicon-remove" ng-click="deletePerson(person)"></span>
+                                    <!--<span class="glyphicon glyphicon-remove" ng-click="console.log(123);"></span>-->
                                     <!--</a>-->
                                 </div>
-                                <!--<button type="button" class="pull-right btn btn-primary btn-md" ng-click="deletePerson(person)">Удалить персону</button>-->
+                                <!--<button type="button" class="pull-right btn btn-primary btn-md">Удалить персону</button>-->
                             </div>
                         </div>
                     </div>

@@ -14,9 +14,14 @@ angular.module('stop-lists-registry', ['ui.router','commons'])
             // $state.go("stop-lists-add", {id: stopList.id}); //todo routing
         };
 
-        $scope.deleteStopList = function (stopList) {
+        $scope.deleteStopList = function (stoplist) {
             console.log('Deleting stop list');
-            console.log(!!stopList ? stopList.id : 'StopList not found');
+            if (!stoplist){
+                console.log('StopList not found');
+            }
+            $httpService.deleteStoplist(stoplist.id, function () {
+                $log.info('Stoplist deleted successfully');
+            })
         };
 
         $scope.getOwnerId = function (stopList) {
