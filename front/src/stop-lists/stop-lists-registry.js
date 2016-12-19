@@ -2,11 +2,16 @@ angular.module('stop-lists-registry', ['ui.router','commons'])
     .controller('stopListsRegistryController', function ($scope, $log, $httpService, $state) {
         $scope.stopLists = [];
 
-        
+
 
         $scope.editStopList = function (stopList) {
-            window.open('#/stoplists/edit?stoplistId=' + stopList.id, '');
+            window.location.replace('#/stoplists/edit?stoplistId=' + stopList.id);
             // $state.go("stop-lists-edit", {id: stopList.id}); //todo routing
+        };
+
+        $scope.addStoplist = function () {
+            window.location.replace('#/stoplists/add');
+            // $state.go("stop-lists-add", {id: stopList.id}); //todo routing
         };
 
         $scope.deleteStopList = function (stopList) {
