@@ -7,7 +7,8 @@ angular.module('stop-lists-registry', ['ui.router','commons'])
         });
 
         $scope.editStopList = function (stopList) {
-            $state.go("stop-lists-edit", {id: stopList.id});
+            window.open('#/stoplists/edit?stoplistId=' + stopList.id, '');
+            // $state.go("stop-lists-edit", {id: stopList.id}); //todo routing
         };
 
         $scope.deleteStopList = function (stopList) {
