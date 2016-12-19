@@ -60,11 +60,17 @@
         </div>
         <div class="panel panel-default inner-panel" ng-if="!!stoplist.id">
             <div class="panel-body">
-                Укажите директорию для извлечения персон<br/>
-                <input type="file" nv-file-select="" uploader="uploader">
-                <button type="button" class="pull-right btn btn-primary btn-md" ng-click="uploadFile()">Извлечь
-                    персоны
-                </button>
+                <div class="row">
+                    <span>
+                        Укажите директорию для извлечения персон<br/>
+                        <input type="file" nv-file-select="" uploader="zipUploader">
+                    </span>
+                    <span>
+                        <button type="button" class="pull-right btn btn-primary btn-md" ng-click="uploadZip()">Извлечь
+                            персоны
+                        </button>
+                    </span>
+                </div>
             </div>
         </div>
         <div class="panel panel-default inner-panel"
