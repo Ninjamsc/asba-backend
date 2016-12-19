@@ -199,7 +199,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
                 rule = new CompareResponseRulesObject();
                 rule.setRuleId("4.2.4");
                 rule.setRuleName("Возможно соответствие с клиентом из общего СТОП-ЛИСТА");
-		//rule.setRuleName("Perhaps photo is in  common stop-list.");
+		        //rule.setRuleName("Perhaps photo is in  common stop-list.");
                 firedRules.add(rule);
             }
 		} catch (Exception e) { throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
@@ -362,7 +362,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             stopList.getOwner().add(aDocument);
             stopListService.saveOrUpdate(stopList);
         	System.out.println("Adding list element for ID="+id+" "+element + " "+scannedTemplate);
-        	return Response.ok().build();    
+        	return Response.ok().header("Access-Control-Allow-Origin", "*").build();
     }
 
 	/*
