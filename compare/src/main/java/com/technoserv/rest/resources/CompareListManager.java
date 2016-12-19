@@ -169,7 +169,10 @@ public class CompareListManager implements InitializingBean  {
         {
         	CompareServiceStopListElement list = it.next().getValue();
         	log.debug("!!!! "+list.getId()+"="+listId);
-			if(list.getId() == listId) continue;
+			if(list.getId().longValue() == listId.longValue()) {
+				log.debug("skipping common list id="+listId);
+				continue;
+			}
         	Double similarity = list.getSimilarity();
         	CompareResponseBlackListObject report = new CompareResponseBlackListObject();
         	report.setListId(list.getId());
