@@ -190,6 +190,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 			response.setRules(new ArrayList<CompareResponseRulesObject>());//TODO (rplace with the rules
 			if (ls.size() > 0 || lw.size() > 0)
 			{
+			    log.debug("4.2.3 rule ls.size="+ls.size()+" lw.size="+lw.size());
 				CompareResponseRulesObject rule = new CompareResponseRulesObject();
 				rule.setRuleId("4.2.3");
 				rule.setRuleName("Возможно соответствие с клиентом из банковского СТОП-ЛИСТА");
