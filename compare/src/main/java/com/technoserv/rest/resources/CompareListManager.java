@@ -130,13 +130,14 @@ public class CompareListManager implements InitializingBean  {
                 double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
                 if (norm > list.getSimilarity()) //HIT
                 {
-                    System.out.println(list.getListName()+" norm:"+norm+" similarity:"+list.getSimilarity());
+                    System.out.println("HIT"+list.getListName()+" norm:"+norm+" similarity:"+list.getSimilarity()+"doc="+vect.getDocId());
                     Long doc = vect.getDocId();
                     Document d = this.documentService.findById(doc);
                     CompareResponsePhotoObject po = new CompareResponsePhotoObject();
                     po.setUrl(d.getFaceSquare());
                     po.setSimilarity(norm);
                 }
+				System.out.println("MISS"+list.getListName()+" norm:"+norm+" similarity:"+list.getSimilarity()+"doc="+vect.getDocId());
                 System.out.println(list.getListName()+" norm:"+norm);
             }
         }
@@ -196,7 +197,7 @@ public class CompareListManager implements InitializingBean  {
 		double dot = diff.dotProduct(diff);
 		double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
 		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		System.out.println("sim="+norm);
+		System.out.println("SIMILARITY="+norm);
 		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 		
 		if (norm < similarity) return false;
