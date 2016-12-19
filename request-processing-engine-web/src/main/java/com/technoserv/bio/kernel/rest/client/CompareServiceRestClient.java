@@ -68,7 +68,7 @@ public class CompareServiceRestClient {
         }
     }
 
-    public void importImages(Long id, String photo) {
+    public void importImage(Long id, String photo) {
         StopListElement element = new StopListElement();
         element.setPhoto(photo);
 

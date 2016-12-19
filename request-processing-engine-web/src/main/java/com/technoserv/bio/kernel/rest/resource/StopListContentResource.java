@@ -99,11 +99,24 @@ public class StopListContentResource {
     @Path("/stop-list/{id}/upload")  //Your Path or URL to call this service
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response uploadFile(@PathParam("id") Long stopListId,
+    public Response uploadZipFile(@PathParam("id") Long stopListId,
             @FormDataParam("file") InputStream uploadedInputStream,
             @FormDataParam("file") FormDataContentDisposition fileDetail) {
         Map<String, Map<String, Boolean>> report =
-                importImagesService.importImages(stopListId, uploadedInputStream, fileDetail.getFileName());
+                importImagesService.importImageZip(stopListId, uploadedInputStream, fileDetail.getFileName());
+
+        return Response.status(200).entity(report).header("Access-Control-Allow-Origin", "*").build();
+    }
+
+    @POST
+    @Path("/stop-list/{id}/upload-photo")  //Your Path or URL to call this service
+    @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response uploadFile(@PathParam("id") Long stopListId,
+                               @FormDataParam("file") InputStream uploadedInputStream,
+                               @FormDataParam("file") FormDataContentDisposition fileDetail) {
+        Map<String, Map<String, Boolean>> report =
+                importImagesService.importImageZip(stopListId, uploadedInputStream, fileDetail.getFileName());
 
         return Response.status(200).entity(report).header("Access-Control-Allow-Origin", "*").build();
     }

@@ -8,6 +8,7 @@ import java.util.Map;
  */
 public interface ImportImagesService {
 
-    Map<String, Map<String, Boolean>> importImages(Long stopListId, InputStream uploadedInputStream, String fileName);
+    void importImage(Long stopListId, InputStream uploadedInputStream, String fileName);
+    Map<String, Map<String, Boolean>> importImageZip(Long stopListId, InputStream uploadedInputStream, String fileName);
 
 }

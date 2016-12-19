@@ -30,7 +30,32 @@ public class ImportImagesServiceImpl implements ImportImagesService{
     @Autowired
     private CompareServiceRestClient compareServiceRestClient;
 
-    public Map<String, Map<String, Boolean>> importImages(Long stopListId, InputStream uploadedInputStream, String fileName) {
+    public void importImage(Long stopListId, InputStream uploadedInputStream, String fileName) {
+        Path uploadedFileLocation = null;
+        try {
+            uploadedFileLocation = Files.createTempDirectory(DATE_FORMAT.format(new Date()) + "_");
+
+            saveToFile(uploadedInputStream, uploadedFileLocation.toAbsolutePath().toString());
+
+            UploadImagesFileVisitor fileVisitor = new UploadImagesFileVisitor(
+                p -> {
+                    System.out.println("Upload file: " + p.toAbsolutePath().toString());
+                    String file = encodeFile(p);
+                    if(file != null) {
+                        compareServiceRestClient.importImage(stopListId, file);
+                        return true;
+                    }
+                    return  false;
+                });
+
+            Path path = Files.walkFileTree(uploadedFileLocation, fileVisitor);
+            FileUtils.deleteDirectory(new File(uploadedFileLocation.getFileName().toString()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Map<String, Map<String, Boolean>> importImageZip(Long stopListId, InputStream uploadedInputStream, String fileName) {
         Path uploadedFileLocation = null;
         try {
             uploadedFileLocation = Files.createTempDirectory(DATE_FORMAT.format(new Date()) + "_");
@@ -44,7 +69,7 @@ public class ImportImagesServiceImpl implements ImportImagesService{
                     System.out.println("Upload file: " + p.toAbsolutePath().toString());
                     String file = encodeFile(p);
                     if(file != null) {
-                        compareServiceRestClient.importImages(stopListId, file);
+                        compareServiceRestClient.importImage(stopListId, file);
                         return true;
                     }
                     return false;
