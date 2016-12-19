@@ -27,7 +27,7 @@ public class Document extends AbstractObject {
     @Column(name = "FACE_SQUARE", length = 2048)
     private String faceSquare; //TODO String HTTP URL
 
-    @OneToMany(mappedBy = "document")
+    @OneToMany(mappedBy = "document",cascade = {CascadeType.ALL,CascadeType.REMOVE})
     @JsonIgnore
     private List<BioTemplate> bioTemplates = new ArrayList<BioTemplate>();
 
