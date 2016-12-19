@@ -4,7 +4,9 @@
     <h2>Реестр стоп-листов</h2>
     <div>
         <span>Всего стоп-листов: {{stopLists.length}}</span>
-        <span class="pull-right">right</span>
+        <span class="pull-right">
+            <button type="button" class="btn btn-primary btn-md" ng-click="addStoplist()">Добавить стоп-лист</button>
+        </span>
     </div>
     <table class="table table-bordered">
         <thead>
