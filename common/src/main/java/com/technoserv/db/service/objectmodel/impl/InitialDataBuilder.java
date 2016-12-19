@@ -43,7 +43,7 @@ public class InitialDataBuilder implements InitializingBean {
             }
         }
 
-        if(systemSettingService.countAll()==0) {
+        if(systemSettingService.countAll() != SystemSettingsType.values().length) {
             for (SystemSettingsType systemSettingsType : SystemSettingsType.values()) {
                 SystemSettings systemSettings = new SystemSettings();
                 systemSettings.setId(systemSettingsType);
