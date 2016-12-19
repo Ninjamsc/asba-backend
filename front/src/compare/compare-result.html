@@ -1,5 +1,7 @@
 <div class="container">
-    <img src="src/icons/logo.png" class="pull-right" style="margin-top: 1%"/>
+    <img src="src/icons/logo.png"
+         style="max-width: 100%;max-height: 100%;"
+         class="pull-right" style="margin-top: 1%"/>
 </div>
 <h2 style="padding-left: 20px;">Просмотр отчета о результатах биометрической верификации</h2>
 <div class="container">
@@ -18,11 +20,14 @@
                 </div>
 
                 <div class="col-xs-1">
-                    <button type="button" class="btn btn-success pull-right" ng-click="findRequest()">Найти</button>
+                    <button type="button" class="btn btn-success pull-right" ng-click="onSearch()">Найти</button>
                 </div>
             </div>
 
         </div>
+    </div>
+    <div class="panel panel-default" ng-if="!compareResult && searchInitialized">
+        <h3>Отчет еще не сформирован, просьба обновить страницу позже</h3>
     </div>
     <div class="panel panel-default" ng-if="!!compareResult">
         <div class="panel-body">

@@ -2,6 +2,8 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
     .controller('compareResultViewController', function ($scope, $log, $state, $stateParams, $httpService, RuleErrorType) {
         console.log($stateParams);
 
+
+
         $scope.findRequest = function () {
             $log.info("$scope.findRequest requestId =", $scope.creditRequestIdForSearch);
             $httpService.findCompareResult($scope.creditRequestIdForSearch, function (result) {
@@ -30,9 +32,12 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
                  "webCamPictureURL" : "http://www.sdorohov.ru/storage/rest/image/YWNjMDdlZmEtMTJjMS00MTM3LWIwNGYtOTBmMWIzMjIyZDdm.jpg",
                  "webCamPicturePreviewURL" : null*/
                 $scope.compareResult = result;
-
             });
+        };
 
+        $scope.onSearch = function(){
+            $scope.searchInitialized = true;
+            $scope.findRequest();
         };
 
         if ($stateParams.requestId) {

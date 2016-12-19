@@ -16,7 +16,7 @@ angular.module('stop-lists-edit', ['ui.router', 'commons', 'angularFileUpload'])
                         }
                     }
                     else {
-                        $scope.stoplistNotFound = true;
+                        // $scope.stoplistNotFound = true;
                         $log.info('StopList not found');
                     }
                 });
@@ -40,7 +40,6 @@ angular.module('stop-lists-edit', ['ui.router', 'commons', 'angularFileUpload'])
         };
 
         $scope.deletePerson = function (person) {
-            //https://github.com/nervgh/angular-file-upload/wiki/Module-API
             $log.info("delete person", data);
         };
 
