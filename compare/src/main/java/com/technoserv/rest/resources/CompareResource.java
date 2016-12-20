@@ -403,7 +403,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
-    public void delete(@PathParam("listId")Long listId,@PathParam("itemId")Long itemId) {
+    public Response delete(@PathParam("listId")Long listId,@PathParam("itemId")Long itemId) {
 
         //todo write native sql
 
@@ -420,7 +420,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
                 stopListService.saveOrUpdate(stopList);
             }
         }
-
+        return Response.ok().build();
     }
 
     private void addBioTemplateToDocument(Document document, PhotoTemplate scannedTemplate) throws IOException {
