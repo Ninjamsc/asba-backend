@@ -323,6 +323,8 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             CompareResponseDossierReport oth_report = new CompareResponseDossierReport();
             oth_report.setSimilarity( new Long(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)));
             oth_report.setPhotos(all);
+            response.setOthernessPictures(oth_report);
+            //похожие
         } catch (Exception e) { throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
 		// сравнение 2 шаблонов на совпадение
         log.debug("compareImages 6.");
