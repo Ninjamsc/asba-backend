@@ -330,6 +330,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             CompareResponseRulesObject rule = new CompareResponseRulesObject();
                 rule.setRuleId("4.2.1");
                 rule.setRuleName("Фотография, прикрепленная к заявке, существенно отличается от других фотографий заемщика, имеющихся в базе");
+                firedRules.add(rule);
             log.debug("compareImages 6.");
             //похожие
         } catch (Exception e) {
