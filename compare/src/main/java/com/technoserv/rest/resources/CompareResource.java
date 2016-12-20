@@ -400,8 +400,6 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 	 */
     @Path("/stoplist/{listId}/entry/{itemId}")
     @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     public void delete(@PathParam("listId")Long listId,@PathParam("itemId")Long itemId) {
 
