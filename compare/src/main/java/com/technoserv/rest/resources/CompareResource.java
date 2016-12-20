@@ -330,7 +330,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             log.debug("compareImages 6.");
             //похожие
         } catch (Exception e) {
-		    log.error("exception during dossier: "+e);
+		    log.error("exception during dossier: ", e);
 		    throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
 		// сравнение 2 шаблонов на совпадение
         log.debug("compareImages 7.");
@@ -345,7 +345,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 				firedRules.add(rule);
 				}
 		}catch (Exception e) {
-            log.error("exception during self-similarity check:"+e);
+            log.error("exception during self-similarity check:", e);
             throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
 		// add fired rule
 		response.setRules(firedRules);
