@@ -35,11 +35,11 @@ public class ImportImagesServiceImpl implements ImportImagesService{
         try {
             uploadedFileLocation = Files.createTempDirectory(DATE_FORMAT.format(new Date()) + "_");
 
-            saveToFile(uploadedInputStream, uploadedFileLocation.toAbsolutePath().toString());
+            saveToFile(uploadedInputStream,
+                    uploadedFileLocation.toAbsolutePath().toString() + File.separator + fileName);
 
             UploadImagesFileVisitor fileVisitor = new UploadImagesFileVisitor(
                 p -> {
-                    System.out.println("Upload file: " + p.toAbsolutePath().toString());
                     String file = encodeFile(p);
                     if(file != null) {
                         compareServiceRestClient.importImage(stopListId, file);
