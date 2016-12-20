@@ -150,7 +150,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         System.out.println("Конец инициализации сервиса сравнения\n-------------------------");
 	}
 
-	public ArrayList<CompareResponsePhotoObject> doCompare(Request r,ArrayRealVector comparing_vector,boolean less, Long delta)
+	public ArrayList<CompareResponsePhotoObject> doCompare(Request r,ArrayRealVector comparing_vector,boolean less, double delta)
     {
         ArrayList<CompareResponsePhotoObject> photos = new ArrayList<CompareResponsePhotoObject>();
         double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
@@ -167,9 +167,9 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
                 double dot = diff.dotProduct(diff);
                 double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
                 if(
-                        (less && (norm < delta.longValue()))
+                        (less && (norm < delta))
                         ||
-                        (!less && (norm > delta.longValue()))
+                        (!less && (norm > delta))
                    )
                 {
                     CompareResponsePhotoObject ph = new CompareResponsePhotoObject();
@@ -191,7 +191,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
                 ArrayRealVector diff =comparing_vector.subtract(new ArrayRealVector(array));
                 double dot = diff.dotProduct(diff);
                 double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
-                if((less && (norm < delta.longValue())) ||(!less && (norm > delta.longValue())) )
+                if((less && (norm < delta)) ||(!less && (norm > delta)) )
                 {
                     CompareResponsePhotoObject ph = new CompareResponsePhotoObject();
                     ph.setSimilarity(norm);
@@ -208,7 +208,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     }
 	public CompareResponseRulesObject historyDifference( Long iin, double[] vector)
     {
-        Long otherness = new Long(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS));
+        double otherness = new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS));
         ArrayRealVector comparing_vector = new ArrayRealVector(vector);
         CompareResponseRulesObject rule = new CompareResponseRulesObject();
         ArrayList<CompareResponsePhotoObject> photos = new ArrayList<CompareResponsePhotoObject>();
