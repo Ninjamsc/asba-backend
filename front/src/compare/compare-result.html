@@ -204,12 +204,12 @@
             </div>
         </div>
         <div class="panel panel-default inner-panel"
-             ng-if="!!compareResult.similarPictures &&
-                    !!compareResult.similarPictures.length > 0">
+             ng-if="!!compareResult.similarPictures.photos &&
+                    !!compareResult.similarPictures.photos.length > 0">
             <div class="panel-body">
-                <h3>Фотографии, совпадающие с переданной ({{compareResult.similarPictures.length}})</h3>
+                <h3>Фотографии, совпадающие с переданной ({{compareResult.similarPictures.photos.length}})</h3>
                 <br/>
-                <div ng-repeat="photo in compareResult.similarPictures">
+                <div ng-repeat="photo in compareResult.similarPictures.photos">
                     <span>
                         <img ng-src="{{photo.url}}"
                              alt="{{photo.url}}">
@@ -219,12 +219,12 @@
             </div>
         </div>
         <div class="panel panel-default inner-panel"
-             ng-if="!!compareResult.othernessPictures &&
-                    !!compareResult.othernessPictures.length > 0">
+             ng-if="!!compareResult.othernessPictures && !!compareResult.othernessPictures.photos &&
+                    !!compareResult.othernessPictures.photos.length > 0">
             <div class="panel-body">
-                <h3>Фотографии, существенно отличающиеся от переданной ({{compareResult.othernessPictures.length}})</h3>
+                <h3>Фотографии, существенно отличающиеся от переданной ({{compareResult.othernessPictures.photos.length}})</h3>
                 <br/>
-                <div ng-repeat="photo in compareResult.othernessPictures">
+                <div ng-repeat="photo in compareResult.othernessPictures.photos">
                     <span>
                         <img ng-src="{{photo.url}}"
                              alt="{{photo.url}}">
