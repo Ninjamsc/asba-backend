@@ -115,10 +115,9 @@ public class StopListContentResource {
     public Response uploadFile(@PathParam("id") Long stopListId,
                                @FormDataParam("file") InputStream uploadedInputStream,
                                @FormDataParam("file") FormDataContentDisposition fileDetail) {
-        Map<String, Map<String, Boolean>> report =
-                importImagesService.importImageZip(stopListId, uploadedInputStream, fileDetail.getFileName());
+                importImagesService.importImage(stopListId, uploadedInputStream, fileDetail.getFileName());
 
-        return Response.status(200).entity(report).header("Access-Control-Allow-Origin", "*").build();
+        return Response.status(200).header("Access-Control-Allow-Origin", "*").build();
     }
 
     private void saveToFile(InputStream uploadedInputStream, String uploadedFileLocation) {
