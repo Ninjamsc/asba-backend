@@ -105,7 +105,7 @@ angular.module('commons', []).constant('contextualClass', {
             if (id == 'compare-result-view.json') {
                 url = 'src/json/compare-result-view.json';
             }
-            http(url, callback, "GET", [], [])
+            http(url, callback, "GET", {}, {})
         };
 
         return this;
