@@ -43,6 +43,11 @@ public class RequestServiceImpl extends AbstractService<Long, Request,RequestDao
     }
 
     @Transactional(readOnly = true)
+    public Collection<Request> findByIin(Long id)
+    {
+        return dao.findByIin(id);
+    }
+    @Transactional(readOnly = true)
     public Collection<Request> findNotProcessed() {
         return dao.findNotProcessed();
     }

@@ -14,6 +14,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+
 import static org.junit.Assert.*;
 
 /**
@@ -44,6 +46,12 @@ public class RequestDaoTest {
         dao.saveOrUpdate(entity);
         assertEquals(1, dao.countAll());
         assertEquals(entity, dao.get(entity.getId()));
+    }
+
+    @Test
+    public void findByIin() throws Exception {
+        Collection<Request> requests = dao.findByIin(1L);
+        System.out.println(requests);
     }
 
     @Test

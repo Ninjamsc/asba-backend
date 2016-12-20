@@ -103,11 +103,11 @@ angular.module('commons', []).constant('contextualClass', {
         };
 
         this.findCompareResult = function (id, callback) {
-            var method = 'rpe/api/rest/compare-result/' + id;
+            var url = 'rpe/api/rest/compare-result/' + id;
             if (id == 'compare-result-view.json') {
-                method = 'src/json/compare-result-view.json';
+                url = 'src/json/compare-result-view.json';
             }
-            http(method, callback);
+            http(url, callback, "GET", {}, {})
         };
 
         this.deletePhoto = function (listId, itemId, callback) {
