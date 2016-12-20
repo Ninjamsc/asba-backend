@@ -28,9 +28,12 @@ import com.technoserv.db.model.objectmodel.*;
 import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import com.technoserv.db.model.configuration.SystemSettingsType;
 import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
+import com.technoserv.rest.model.*;
 import com.technoserv.rest.request.PhotoTemplate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.math3.analysis.function.Exp;
+import org.apache.commons.math3.analysis.function.Pow;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,12 +55,6 @@ import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
 import com.technoserv.utils.JsonUtils;
 import com.technoserv.rest.comparator.CompareRule;
 import com.technoserv.rest.comparator.CompareServiceStopListElement;
-import com.technoserv.rest.model.CompareRequest;
-import com.technoserv.rest.model.CompareResponse;
-import com.technoserv.rest.model.CompareResponseBlackListObject;
-import com.technoserv.rest.model.CompareResponsePictureReport;
-import com.technoserv.rest.model.CompareResponseRulesObject;
-import com.technoserv.rest.model.StopListElement;
 
 import io.swagger.annotations.Api;
 
@@ -153,23 +150,103 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         System.out.println("Конец инициализации сервиса сравнения\n-------------------------");
 	}
 
-	public boolean historyDifference( Long iin, double[] vector)
+	public ArrayList<CompareResponsePhotoObject> doCompare(Request r,ArrayRealVector comparing_vector,boolean less, Long delta)
     {
+        ArrayList<CompareResponsePhotoObject> photos = new ArrayList<CompareResponsePhotoObject>();
+        double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
+        int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
+        List <BioTemplate> l1 = r.getScannedDocument().getBioTemplates();
+        List <BioTemplate> l2 =  r.getCameraDocument().getBioTemplates();
+        //
+        for(BioTemplate t: l1)
+        {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                double[] array = mapper.readValue(t.getTemplateVector(), double[].class);
+                ArrayRealVector diff =comparing_vector.subtract(new ArrayRealVector(array));
+                double dot = diff.dotProduct(diff);
+                double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
+                if(
+                        (less && (norm < delta.longValue()))
+                        ||
+                        (!less && (norm > delta.longValue()))
+                   )
+                {
+                    CompareResponsePhotoObject ph = new CompareResponsePhotoObject();
+                    ph.setSimilarity(norm);
+                    ph.setUrl(r.getScannedDocument().getFaceSquare());
+                    photos.add(ph);
+                }
+            } catch(IOException e) {
+                log.error("Error retrieving vector: "+e);
+                return null;
+            }
+        }
+        //
+        for(BioTemplate t: l2)
+        {
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                double[] array = mapper.readValue(t.getTemplateVector(), double[].class);
+                ArrayRealVector diff =comparing_vector.subtract(new ArrayRealVector(array));
+                double dot = diff.dotProduct(diff);
+                double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
+                if((less && (norm < delta.longValue())) ||(!less && (norm > delta.longValue())) )
+                {
+                    CompareResponsePhotoObject ph = new CompareResponsePhotoObject();
+                    ph.setSimilarity(norm);
+                    ph.setUrl(r.getCameraDocument().getFaceSquare());
+                    photos.add(ph);
+                }
+            } catch(IOException e) {
+                log.error("Error retrieving vector: "+e);
+                return null;
+            }
+        }
+        if (photos.size() > 0) return photos;
+        return null;
+    }
+	public CompareResponseRulesObject historyDifference( Long iin, double[] vector)
+    {
+        Long otherness = new Long(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS));
+        ArrayRealVector comparing_vector = new ArrayRealVector(vector);
+        CompareResponseRulesObject rule = new CompareResponseRulesObject();
+        ArrayList<CompareResponsePhotoObject> photos = new ArrayList<CompareResponsePhotoObject>();
         Collection<Request> coll = requestService.findByIin(iin);
-        if (coll.size() <= 0) return false;
+        if (coll.size() <= 0) return null;
         Iterator<Request> it = coll.iterator();
         while(it.hasNext())
         {
             Request r = it.next();
-            List<BioTemplate> lw = r.getCameraDocument().getBioTemplates();
-            Iterator<BioTemplate> it_lw =  lw.iterator();
-            List<BioTemplate> ls = r.getScannedDocument().getBioTemplates();
-            Iterator<BioTemplate> it_ls =  ls.iterator();
+            List<BioTemplate> lw = r.getScannedDocument().getBioTemplates();
+            ArrayList<CompareResponsePhotoObject> result = doCompare(r,comparing_vector,true,otherness);
+            if (result != null)
+            {
+                log.debug("historyDifference adding photo to collection:");
+                // добавляем полученные объекты в общую коллекцию
+                Iterator<CompareResponsePhotoObject> i = result.iterator();
+                while(i.hasNext())
+                {
+                    CompareResponsePhotoObject o = i.next();
+                    log.debug("historyDifference(): url="+o.getUrl()+", similarity="+o.getSimilarity());
+                    photos.add(o);
+                }
+            }
         }
-        return true;
+        if(photos.size() > 0)
+        {
+            rule.setRuleId("4.2.1");
+            rule.setPhoto(photos);
+            rule.setRuleName("Фотография, прикрепленная к заявке, существенно отличается от других фотографий заемщика, имеющихся в базе");
+        }
+        return rule;
     }
     public boolean historySimilarity(Long iin, double[] vector)
     {
+        double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
+        int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
+        Long similarity = new Long(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY));
+
         Collection<Request> coll = requestService.findByIin(iin);
         if (coll.size() <= 0) return false;
         return true;
@@ -232,7 +309,16 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 		        //rule.setRuleName("Perhaps photo is in  common stop-list.");
                 firedRules.add(rule);
             }
-		} catch (Exception e) { throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
+            // не похожие
+            CompareResponseRulesObject otherness_scan =  historyDifference( message.getIin(), message.getTemplate_scan());
+            CompareResponseRulesObject otherness_web =  historyDifference( message.getIin(), message.getTemplate_web());
+            ArrayList<CompareResponsePhotoObject> all  = new ArrayList<CompareResponsePhotoObject>();
+            all.addAll(otherness_scan.getPhoto());
+            all.addAll(otherness_web.getPhoto());
+            CompareResponseDossierReport oth_report = new CompareResponseDossierReport();
+            oth_report.setSimilarity( new Long(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)));
+            oth_report.setPhotos(all);
+        } catch (Exception e) { throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
 		// сравнение 2 шаблонов на совпадение
 		try {
 			boolean similar = this.listManager.isSimilar(message.getTemplate_scan(), message.getTemplate_web());
