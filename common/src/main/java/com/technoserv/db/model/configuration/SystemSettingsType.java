@@ -12,7 +12,9 @@ public enum SystemSettingsType {
     COMPARATOR_COMMON_LIST_ID("5"),
     COMPARATOR_MULTIPLIER("0.7"),
     COMPARATOR_POWER("4"),
-    RULE_SELF_SIMILARITY("0.854321");
+    RULE_SELF_SIMILARITY("0.854321"),
+    DOSSIER_SIMILARITY("0.954321"),
+    DOSSIER_OTHERNESS("0.834321");
 
     private final String defauldValue;
 
