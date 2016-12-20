@@ -306,7 +306,6 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             if (CommonScan != null || CommonWeb != null)
             {
                 CompareResponseRulesObject rule = new CompareResponseRulesObject();
-                rule = new CompareResponseRulesObject();
                 rule.setRuleId("4.2.4");
                 rule.setRuleName("Возможно соответствие с клиентом из общего СТОП-ЛИСТА");
 		        //rule.setRuleName("Perhaps photo is in  common stop-list.");
