@@ -145,8 +145,8 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         //String s = compareRules.get("scanAndWeb")
         //Class cc = Class.forName(s);
         //CompareRule r = (CompareRule)cc.newInstance();
-        Collection<Request> coll = requestService.findByIin(new Long(123456789012l));
-        log.debug("Coll size is"+coll.size()); ///
+//        Collection<Request> coll = requestService.findByIin(new Long(123456789012l));
+//        log.debug("Coll size is"+coll.size()); ///
         System.out.println("Конец инициализации сервиса сравнения\n-------------------------");
 	}
 
