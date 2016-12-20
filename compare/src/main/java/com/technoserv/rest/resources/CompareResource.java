@@ -315,14 +315,14 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             log.debug("compareImages 5.");
 
             // не похожие
-          /*  CompareResponseRulesObject otherness_scan =  historyDifference( message.getIin(), message.getTemplate_scan());
+            CompareResponseRulesObject otherness_scan =  historyDifference( message.getIin(), message.getTemplate_scan());
             CompareResponseRulesObject otherness_web =  historyDifference( message.getIin(), message.getTemplate_web());
             ArrayList<CompareResponsePhotoObject> all  = new ArrayList<CompareResponsePhotoObject>();
             all.addAll(otherness_scan.getPhoto());
             all.addAll(otherness_web.getPhoto());
             CompareResponseDossierReport oth_report = new CompareResponseDossierReport();
             oth_report.setSimilarity( new Long(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)));
-            oth_report.setPhotos(all); */
+            oth_report.setPhotos(all);
         } catch (Exception e) { throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
 		// сравнение 2 шаблонов на совпадение
         log.debug("compareImages 6.");
