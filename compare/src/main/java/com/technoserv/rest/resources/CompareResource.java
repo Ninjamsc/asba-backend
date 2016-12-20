@@ -313,7 +313,10 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
                 firedRules.add(rule);
             }
             log.debug("compareImages 5.");
-
+        } catch (Exception e) {
+            log.error(e);
+            throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
+            try {
             // не похожие
             CompareResponseRulesObject otherness_scan =  historyDifference( message.getIin(), message.getTemplate_scan());
             CompareResponseRulesObject otherness_web =  historyDifference( message.getIin(), message.getTemplate_web());
@@ -326,7 +329,9 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             response.setOthernessPictures(oth_report);
             log.debug("compareImages 6.");
             //похожие
-        } catch (Exception e) { throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
+        } catch (Exception e) {
+		    log.error("exception during dossier: "+e);
+		    throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
 		// сравнение 2 шаблонов на совпадение
         log.debug("compareImages 7.");
 		try {
@@ -339,7 +344,9 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 				//rule.setRuleName("Perhaps the discrepancy in the passport photo and the photo from webcap.");
 				firedRules.add(rule);
 				}
-		}catch (Exception e) { throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
+		}catch (Exception e) {
+            log.error("exception during self-similarity check:"+e);
+            throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
 		// add fired rule
 		response.setRules(firedRules);
 		return Response.status(Response.Status.OK).entity(response).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build();
