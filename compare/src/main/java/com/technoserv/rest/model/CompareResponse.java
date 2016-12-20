@@ -9,6 +9,25 @@ public class CompareResponse  {
 	private ArrayList<CompareResponseRulesObject> Rules;
 	private CompareResponsePictureReport scannedPicture;
 	private CompareResponsePictureReport cameraPicture;
+	private CompareResponseDossierReport othernessPictures;
+	private CompareResponseDossierReport similarPictures;
+
+	public CompareResponseDossierReport getSimilarPictures() {
+		return similarPictures;
+	}
+
+	public void setSimilarPictures(CompareResponseDossierReport similarPictures) {
+		this.similarPictures = similarPictures;
+	}
+
+	public CompareResponseDossierReport getOthernessPictures() {
+		return othernessPictures;
+	}
+
+	public void setOthernessPictures(CompareResponseDossierReport othernessPictures) {
+		this.othernessPictures = othernessPictures;
+	}
+
 
 
 public ArrayList<CompareResponseRulesObject> getRules() {

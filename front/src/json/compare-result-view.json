@@ -147,12 +147,32 @@
       }
     ]
   },
-  "wfNumber" : 11154,
-  "IIN" : 11154,
-  "username" : "OperatorName",
-  "timestamp" : "12.12.16.12.00.12",
-  "scannedPictureURL" : "https://pp.vk.me/c638418/v638418723/1164e/BHTneVsOJcc.jpg",
-  "scannedPicturePreviewURL" : null,
-  "webCamPictureURL" : "https://pp.vk.me/c638418/v638418723/1164e/BHTneVsOJcc.jpg",
-  "webCamPicturePreviewURL" : null
+  "wfNumber": 11154,
+  "IIN": 11154,
+  "username": "OperatorName",
+  "timestamp": "12.12.16.12.00.12",
+  "scannedPictureURL": "https://pp.vk.me/c638418/v638418723/1164e/BHTneVsOJcc.jpg",
+  "scannedPicturePreviewURL": null,
+  "webCamPictureURL": "https://pp.vk.me/c638418/v638418723/1164e/BHTneVsOJcc.jpg",
+  "webCamPicturePreviewURL": null,
+  "similarPictures": [
+    {
+      "url": "https://pp.vk.me/c638418/v638418723/1164e/BHTneVsOJcc.jpg",
+      "similarity": "0.56"
+    },
+    {
+      "url": "https://pp.vk.me/c638418/v638418723/1164e/BHTneVsOJcc.jpg",
+      "similarity": "0.89"
+    }
+  ],
+  "othernessPictures": [
+    {
+      "url": "https://pp.vk.me/c624521/v624521771/45043/iEehe9RnwA0.jpg",
+      "similarity": "0.6"
+    },
+    {
+      "url": "https://pp.vk.me/c624521/v624521771/45043/iEehe9RnwA0.jpg",
+      "similarity": "0.9"
+    }
+  ]
 }
