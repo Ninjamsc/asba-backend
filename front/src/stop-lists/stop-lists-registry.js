@@ -21,6 +21,7 @@ angular.module('stop-lists-registry', ['ui.router','commons'])
             }
             $httpService.deleteStoplist(stoplist.id, function () {
                 $log.info('Stoplist deleted successfully');
+                $scope.refresh();
             })
         };
 
@@ -30,10 +31,13 @@ angular.module('stop-lists-registry', ['ui.router','commons'])
             }
         };
 
+
+         $scope.refresh = function() {
+            $httpService.findStopLists(function (result) {
+                $scope.stopLists = result.data;
+            });
+        };
+
         //Инициализация
-        $httpService.findStopLists(function (result) {
-            $scope.stopLists = result.data;
-        });
-
-
+        $scope.refresh();
     });
