@@ -69,11 +69,12 @@ angular.module('commons', []).constant('contextualClass', {
 
 
         var singleStoplist = function (id, callback, method, params, data) {
+            console.log();
             var url = 'rpe/api/rest/stoplist/';
             if (!!id){
                 url = url + id;
             }
-            else if (id == 'test') {
+            if (id === 'test') {
                 url = 'src/json/stop-list-edit.json';
             }
             http(url, callback, method, params, data)
@@ -85,6 +86,7 @@ angular.module('commons', []).constant('contextualClass', {
 
 
         this.getStoplist = function (id, callback) {
+            console.log('getStoplist');
             singleStoplist(id,  callback, 'GET')
         };
 
@@ -106,6 +108,12 @@ angular.module('commons', []).constant('contextualClass', {
                 method = 'src/json/compare-result-view.json';
             }
             http(method, callback);
+        };
+
+        this.deletePhoto = function (listId, itemId, callback) {
+            var url = 'compare/api/stoplist/'+listId + '/entry/' + itemId;
+
+            http(url, callback, "DELETE", {}, {})
         };
 
         return this;

@@ -6,6 +6,7 @@ angular.module('stop-lists-edit', ['ui.router', 'commons', 'angularFileUpload'])
 
         $log.info($scope.stoplistId);
         $scope.refresh = function () {
+            console.log('refresh');
             if (!!$scope.stoplistId) {//Редактирование
                 $httpService.getStoplist($scope.stoplistId, function (result) {
                     var data = result.data;
@@ -44,7 +45,7 @@ angular.module('stop-lists-edit', ['ui.router', 'commons', 'angularFileUpload'])
         $scope.photoUploader.onSuccessItem = function (fileItem, response, status, headers) {
             $log.info('Success photo upload', response);
             $scope.refresh();
-        };
+        }; //todo refactor to $scope.refresh and remove outer function
 
         $scope.uploadPhoto = function () {
             //https://github.com/nervgh/angular-file-upload/wiki/Module-API
@@ -75,6 +76,11 @@ angular.module('stop-lists-edit', ['ui.router', 'commons', 'angularFileUpload'])
             }
         };
 
+        $scope.removeImg = function(item){
+            console.log($scope.stoplist);
+            console.log(item);
+            $httpService.deletePhoto($scope.stoplist.id, item.id, $scope.refresh)
+        };
 
         $scope.refresh();
 
