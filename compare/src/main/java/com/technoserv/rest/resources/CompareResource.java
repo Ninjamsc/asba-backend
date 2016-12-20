@@ -212,7 +212,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         ArrayRealVector comparing_vector = new ArrayRealVector(vector);
         CompareResponseRulesObject rule = new CompareResponseRulesObject();
         ArrayList<CompareResponsePhotoObject> photos = new ArrayList<CompareResponsePhotoObject>();
-        Collection<Request> coll = requestService.findByIin(iin,"scannedDocument","scannedDocument.bioTemplates");
+        Collection<Request> coll = requestService.findByIin(iin,"scannedDocument","scannedDocument.bioTemplates","cameraDocument","cameraDocument.bioTemplates");
         if (coll.size() <= 0) return null;
         Iterator<Request> it = coll.iterator();
         while(it.hasNext())
