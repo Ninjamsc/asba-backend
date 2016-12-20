@@ -14,7 +14,7 @@ import java.util.Collection;
 public interface RequestService extends Service<Long,Request> {
     Request findByOrderNumber(Long id);
     Collection<Request> findNotProcessed();
-    public Collection<Request> findByIin(Long id);
+    public Collection<Request> findByIin(Long id,String... properties);
     Long createOrder(Long iin, Long wfmId, String username);
     void updateDocument(Long wfUid, String previewUrl, String fullFrameUrl, DocumentType.Type type);
 }
