@@ -267,7 +267,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 		CompareResponse response = new CompareResponse();
 		ArrayList<CompareResponseRulesObject> firedRules = new ArrayList<CompareResponseRulesObject>();
 		try {
-
+            log.debug("compareImages 1.");
 		    // compare scanned pic
 			ArrayList<CompareResponseBlackListObject> ls = this.listManager.compare2(message.getTemplate_scan(),getCommonListId());
             CompareResponseBlackListObject CommonScan = listManager.compare1(message.getTemplate_scan(),getCommonListId());
@@ -275,6 +275,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             reportScan.setBlackLists(ls);
             reportScan.setPictureURL(message.getScanFullFrameURL());
             reportScan.setPreviewURL(message.getScanPreviewURL());
+            log.debug("compareImages 2.");
 
 			// compare webcam pic
 			ArrayList<CompareResponseBlackListObject> lw = this.listManager.compare2(message.getTemplate_web(),getCommonListId());
@@ -283,6 +284,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             reportWeb.setBlackLists(lw);
             reportWeb.setPictureURL(message.getWebFullFrameURL());
             reportWeb.setPreviewURL(message.getWebPreviewURL());
+            log.debug("compareImages 3.");
 
 			response.setCameraPicture(reportWeb);
 			response.setScannedPicture(reportScan);
@@ -296,6 +298,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 				//rule.setRuleName("Perhaps photo is in stop-list.");
 				firedRules.add(rule);
 			}
+            log.debug("compareImages 4.");
             if (CommonScan != null)
                 ls.add(CommonScan);
             if (CommonWeb != null)
@@ -309,17 +312,20 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 		        //rule.setRuleName("Perhaps photo is in  common stop-list.");
                 firedRules.add(rule);
             }
+            log.debug("compareImages 5.");
+
             // не похожие
-            CompareResponseRulesObject otherness_scan =  historyDifference( message.getIin(), message.getTemplate_scan());
+          /*  CompareResponseRulesObject otherness_scan =  historyDifference( message.getIin(), message.getTemplate_scan());
             CompareResponseRulesObject otherness_web =  historyDifference( message.getIin(), message.getTemplate_web());
             ArrayList<CompareResponsePhotoObject> all  = new ArrayList<CompareResponsePhotoObject>();
             all.addAll(otherness_scan.getPhoto());
             all.addAll(otherness_web.getPhoto());
             CompareResponseDossierReport oth_report = new CompareResponseDossierReport();
             oth_report.setSimilarity( new Long(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)));
-            oth_report.setPhotos(all);
+            oth_report.setPhotos(all); */
         } catch (Exception e) { throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
 		// сравнение 2 шаблонов на совпадение
+        log.debug("compareImages 6.");
 		try {
 			boolean similar = this.listManager.isSimilar(message.getTemplate_scan(), message.getTemplate_web());
 			if (!similar)
