@@ -206,9 +206,10 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         if (photos.size() > 0) return photos;
         return null;
     }
-	public CompareResponseRulesObject historyDifference( Long iin, double[] vector)
+	public CompareResponseRulesObject historyDifference( Long iin, double[] vector,double coeff, boolean less)
     {
-        double otherness = new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS));
+        //double otherness = new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS));
+        double otherness =coeff;
         ArrayRealVector comparing_vector = new ArrayRealVector(vector);
         CompareResponseRulesObject rule = new CompareResponseRulesObject();
         ArrayList<CompareResponsePhotoObject> photos = new ArrayList<CompareResponsePhotoObject>();
@@ -219,7 +220,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         {
             Request r = it.next();
             List<BioTemplate> lw = r.getScannedDocument().getBioTemplates();
-            ArrayList<CompareResponsePhotoObject> result = doCompare(r,comparing_vector,true,otherness);
+            ArrayList<CompareResponsePhotoObject> result = doCompare(r,comparing_vector,less,otherness);
             if (result != null)
             {
                 log.debug("historyDifference adding photo to collection:");
@@ -240,16 +241,6 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             rule.setRuleName("Фотография, прикрепленная к заявке, существенно отличается от других фотографий заемщика, имеющихся в базе");
         }
         return rule;
-    }
-    public boolean historySimilarity(Long iin, double[] vector)
-    {
-        double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
-        int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
-        Long similarity = new Long(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY));
-
-        Collection<Request> coll = requestService.findByIin(iin);
-        if (coll.size() <= 0) return false;
-        return true;
     }
 
 	public Long getCommonListId()
@@ -317,8 +308,8 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
             try {
             // не похожие
-            CompareResponseRulesObject otherness_scan =  historyDifference( message.getIin(), message.getTemplate_scan());
-            CompareResponseRulesObject otherness_web =  historyDifference( message.getIin(), message.getTemplate_web());
+            CompareResponseRulesObject otherness_scan =  historyDifference( message.getIin(), message.getTemplate_scan(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)),true);
+            CompareResponseRulesObject otherness_web =  historyDifference( message.getIin(), message.getTemplate_web(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)),true);
             ArrayList<CompareResponsePhotoObject> all  = new ArrayList<CompareResponsePhotoObject>();
             all.addAll(otherness_scan.getPhoto());
             all.addAll(otherness_web.getPhoto());
@@ -333,9 +324,28 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             log.debug("compareImages 6.");
             //похожие
         } catch (Exception e) {
-		    log.error("exception during dossier: ", e);
+		    log.error("exception during dossier different: ", e);
 		    e.printStackTrace();
 		    throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
+		 try {
+             CompareResponseRulesObject similar_scan =  historyDifference( message.getIin(), message.getTemplate_scan(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY)),false);
+             CompareResponseRulesObject similar_web =  historyDifference( message.getIin(), message.getTemplate_web(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY)),false);
+             ArrayList<CompareResponsePhotoObject> all  = new ArrayList<CompareResponsePhotoObject>();
+             all.addAll(similar_scan.getPhoto());
+             all.addAll(similar_web.getPhoto());
+             CompareResponseDossierReport oth_report = new CompareResponseDossierReport();
+             oth_report.setSimilarity( new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY)));
+             oth_report.setPhotos(all);
+             response.setOthernessPictures(oth_report);
+             CompareResponseRulesObject rule = new CompareResponseRulesObject();
+             rule.setRuleId("4.2.2");
+             rule.setRuleName("Фотография, прикрепленная к заявке, идентична имеющейся в базе");
+             firedRules.add(rule);
+             log.debug("compareImages 6.");
+    }    catch (Exception e) {
+        log.error("exception during dossier similar: ", e);
+        e.printStackTrace();
+        throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
 		// сравнение 2 шаблонов на совпадение
         log.debug("compareImages 7.");
 		try {
