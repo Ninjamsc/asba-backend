@@ -324,10 +324,11 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             oth_report.setSimilarity( new Long(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)));
             oth_report.setPhotos(all);
             response.setOthernessPictures(oth_report);
+            log.debug("compareImages 6.");
             //похожие
         } catch (Exception e) { throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
 		// сравнение 2 шаблонов на совпадение
-        log.debug("compareImages 6.");
+        log.debug("compareImages 7.");
 		try {
 			boolean similar = this.listManager.isSimilar(message.getTemplate_scan(), message.getTemplate_web());
 			if (!similar)
