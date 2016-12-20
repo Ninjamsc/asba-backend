@@ -153,6 +153,28 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         System.out.println("Конец инициализации сервиса сравнения\n-------------------------");
 	}
 
+	public boolean historyDifference( Long iin, double[] vector)
+    {
+        Collection<Request> coll = requestService.findByIin(iin);
+        if (coll.size() <= 0) return false;
+        Iterator<Request> it = coll.iterator();
+        while(it.hasNext())
+        {
+            Request r = it.next();
+            List<BioTemplate> lw = r.getCameraDocument().getBioTemplates();
+            Iterator<BioTemplate> it_lw =  lw.iterator();
+            List<BioTemplate> ls = r.getScannedDocument().getBioTemplates();
+            Iterator<BioTemplate> it_ls =  ls.iterator();
+        }
+        return true;
+    }
+    public boolean historySimilarity(Long iin, double[] vector)
+    {
+        Collection<Request> coll = requestService.findByIin(iin);
+        if (coll.size() <= 0) return false;
+        return true;
+    }
+
 	public Long getCommonListId()
     {
         return new Long(systemSettingsBean.get(SystemSettingsType.COMPARATOR_COMMON_LIST_ID));
@@ -179,7 +201,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 
 			// compare webcam pic
 			ArrayList<CompareResponseBlackListObject> lw = this.listManager.compare2(message.getTemplate_web(),getCommonListId());
-            CompareResponseBlackListObject CommonWeb = listManager.compare1(message.getTemplate_scan(),getCommonListId());
+            CompareResponseBlackListObject CommonWeb = listManager.compare1(message.getTemplate_web(),getCommonListId());
 			CompareResponsePictureReport reportWeb = new CompareResponsePictureReport();
             reportWeb.setBlackLists(lw);
             reportWeb.setPictureURL(message.getWebFullFrameURL());

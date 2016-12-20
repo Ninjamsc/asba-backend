@@ -146,7 +146,7 @@ public class CompareListManager implements InitializingBean  {
 					report.addPhoto(po);
                 }
                 else
-					log.debug("compare1 MISS" + list.getListName()+" norm:" + norm + " similarity:" + list.getSimilarity() + "doc="+vect.getDocId());
+					log.debug("compare1 MISS " + list.getListName()+" norm:" + norm + " similarity:" + list.getSimilarity() + " doc="+vect.getDocId());
             }
         if (report.getPhoto().size() > 0) return report;
 		return null;
@@ -186,7 +186,7 @@ public class CompareListManager implements InitializingBean  {
         		double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
         		if (norm > similarity) //HIT
         		{
-					log.debug(list.getListName()+"compare(double, Long) HITT norm:"+norm+" similarity:"+similarity+" list id="+list.getId()+" doc_id="+vect.getDocId());
+					log.debug(list.getListName()+"compare2 HITT norm:"+norm+" similarity:"+similarity+" list id="+list.getId()+" doc_id="+vect.getDocId());
         			Long doc = vect.getDocId();
         			Document d = this.documentService.findById(doc);
         			CompareResponsePhotoObject po = new CompareResponsePhotoObject();
@@ -196,7 +196,7 @@ public class CompareListManager implements InitializingBean  {
         			bl.add(report);        				
         		}
         		else
-					log.debug(list.getListName()+" compare(double, Long) MISS norm:"+norm+" similarity:"+similarity+" list id="+list.getId()+" doc_id="+vect.getDocId());
+					log.debug(list.getListName()+" compare2 MISS norm:"+norm+" similarity:"+similarity+" list id="+list.getId()+" doc_id="+vect.getDocId());
         	}
         }
       return bl;  
