@@ -44,7 +44,7 @@ public class RequestDaoImpl extends AbstractHibernateDao<Long, Request> implemen
     }
     /**
      * Находим запросы где заполнены все изображения или где прошло более N минут
-     * @return
+     * @returnk
      */
     public Collection<Request> findNotProcessed() {
         Calendar calendar = Calendar.getInstance();
