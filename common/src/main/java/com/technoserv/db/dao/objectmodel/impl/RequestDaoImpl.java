@@ -38,7 +38,7 @@ public class RequestDaoImpl extends AbstractHibernateDao<Long, Request> implemen
         calendar.add(FIELD_TTL, AMOUNT_TTL);
         Date ttlDate = calendar.getTime();
         Criteria criteria = getSession().createCriteria(getPersistentClass());
-        criteria.add(Property.forName("person_id").eq(id));
+        criteria.add(Property.forName("person.id").eq(id));
         return criteria.list();
 
     }
