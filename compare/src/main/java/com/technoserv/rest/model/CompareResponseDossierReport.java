@@ -6,14 +6,14 @@ import java.util.ArrayList;
 public class CompareResponseDossierReport {
 	
 	private ArrayList<CompareResponsePhotoObject> photos;
-	private Long similarity;
+	private Double similarity;
 
 
-	public Long getSimilarity() {
+	public Double getSimilarity() {
 		return similarity;
 	}
 
-	public void setSimilarity(Long similarity) {
+	public void setSimilarity(Double similarity) {
 		this.similarity = similarity;
 	}
 

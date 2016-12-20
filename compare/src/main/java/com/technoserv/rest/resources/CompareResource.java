@@ -324,13 +324,14 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             all.addAll(otherness_scan.getPhoto());
             all.addAll(otherness_web.getPhoto());
             CompareResponseDossierReport oth_report = new CompareResponseDossierReport();
-            oth_report.setSimilarity( new Long(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)));
+            oth_report.setSimilarity( new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)));
             oth_report.setPhotos(all);
             response.setOthernessPictures(oth_report);
             log.debug("compareImages 6.");
             //похожие
         } catch (Exception e) {
 		    log.error("exception during dossier: ", e);
+		    e.printStackTrace();
 		    throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
 		// сравнение 2 шаблонов на совпадение
         log.debug("compareImages 7.");
@@ -346,6 +347,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 				}
 		}catch (Exception e) {
             log.error("exception during self-similarity check:", e);
+            e.printStackTrace();
             throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
 		// add fired rule
 		response.setRules(firedRules);
