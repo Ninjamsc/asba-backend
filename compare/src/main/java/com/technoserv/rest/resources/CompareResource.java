@@ -327,6 +327,9 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             oth_report.setSimilarity( new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)));
             oth_report.setPhotos(all);
             response.setOthernessPictures(oth_report);
+            CompareResponseRulesObject rule = new CompareResponseRulesObject();
+                rule.setRuleId("4.2.1");
+                rule.setRuleName("Фотография, прикрепленная к заявке, существенно отличается от других фотографий заемщика, имеющихся в базе");
             log.debug("compareImages 6.");
             //похожие
         } catch (Exception e) {
