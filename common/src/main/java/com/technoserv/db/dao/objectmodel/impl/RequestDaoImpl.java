@@ -28,6 +28,20 @@ public class RequestDaoImpl extends AbstractHibernateDao<Long, Request> implemen
                 .add(Property.forName("id").eq(id)).uniqueResult();
     }
 
+    /*
+     *  Вернуть все заявки, связанные с данным ИИН
+     */
+    public Collection<Request> findByIin(Long id)
+    {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.add(FIELD_TTL, AMOUNT_TTL);
+        Date ttlDate = calendar.getTime();
+        Criteria criteria = getSession().createCriteria(getPersistentClass());
+        criteria.add(Property.forName("person_id").eq(id));
+        return criteria.list();
+
+    }
     /**
      * Находим запросы где заполнены все изображения или где прошло более N минут
      * @return

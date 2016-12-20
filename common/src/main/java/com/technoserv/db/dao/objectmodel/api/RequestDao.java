@@ -12,4 +12,5 @@ import java.util.Collection;
 public interface RequestDao extends Dao<Long, Request> {
     Request findByOrderNumber(Long id);
     Collection<Request> findNotProcessed();
+    Collection<Request> findByIin(Long id);
 }
