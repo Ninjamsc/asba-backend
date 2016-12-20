@@ -203,6 +203,36 @@
                 </div>
             </div>
         </div>
+        <div class="panel panel-default inner-panel"
+             ng-if="!!compareResult.similarPictures &&
+                    !!compareResult.similarPictures.length > 0">
+            <div class="panel-body">
+                <h3>Фотографии, совпадающие с переданной ({{compareResult.similarPictures.length}})</h3>
+                <br/>
+                <div ng-repeat="photo in compareResult.similarPictures">
+                    <span>
+                        <img ng-src="{{photo.url}}"
+                             alt="{{photo.url}}">
+                        <div class="caption" style="width:100px;">{{photo.similarity}}</div>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default inner-panel"
+             ng-if="!!compareResult.othernessPictures &&
+                    !!compareResult.othernessPictures.length > 0">
+            <div class="panel-body">
+                <h3>Фотографии, существенно отличающиеся от переданной ({{compareResult.othernessPictures.length}})</h3>
+                <br/>
+                <div ng-repeat="photo in compareResult.othernessPictures">
+                    <span>
+                        <img ng-src="{{photo.url}}"
+                             alt="{{photo.url}}">
+                        <div class="caption" style="width:100px;">{{photo.similarity}}</div>
+                    </span>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
