@@ -207,7 +207,7 @@
         <div class="panel panel-default inner-panel"
              ng-if="!!similarPicturesMatrix">
             <div class="panel-body">
-                <h3>Фотографии, совпадающие с переданной ({{compareResult.similarPictures.length}})</h3>
+                <h3>Фотографии, совпадающие с переданной ({{compareResult.similarPictures.similarity.toFixed(10)}})</h3>
                 <br/>
 
                 <div ng-repeat="similarPictures in similarPicturesMatrix">
@@ -215,7 +215,7 @@
                         <div ng-repeat="photo in similarPictures" class="col-xs-2">
                             <img ng-src="{{photo.url}}"
                                  alt="{{photo.url}}">
-                            <div class="caption" style="width:100px;">{{photo.similarity}}</div>
+                            <div class="caption" style="width:100px;">{{photo.similarity.toFixed(10)}}</div>
                         </div>
                     </div>
                 </div>
@@ -224,7 +224,8 @@
         <div class="panel panel-default inner-panel"
              ng-if="!!othernessPicturesMatrix">
             <div class="panel-body">
-                <h3>Фотографии, существенно отличающиеся от переданной ({{compareResult.othernessPictures.length}})</h3>
+                <!--todo проверка на null для toFixed-->
+                <h3>Фотографии, существенно отличающиеся от переданной ({{compareResult.othernessPictures.similarity.toFixed(10)}})</h3>
                 <br/>
 
                 <div ng-repeat="othernessPictures in othernessPicturesMatrix">
@@ -232,7 +233,7 @@
                         <div ng-repeat="photo in othernessPictures" class="col-xs-2">
                             <img ng-src="{{photo.url}}"
                                  alt="{{photo.url}}">
-                            <div class="caption" style="width:100px;">{{photo.similarity}}</div>
+                            <div class="caption" style="width:100px;">{{photo.similarity.toFixed(10)}}</div>
                         </div>
                     </div>
                 </div>
