@@ -36,7 +36,7 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
 
                 if (!!$scope.compareResult.othernessPictures &&
                     !!$scope.compareResult.othernessPictures.photos &&
-                    !!$scope.compareResult.othernessPictures.length > 0){
+                    !!$scope.compareResult.othernessPictures.photos.length > 0){
                     $scope.othernessPicturesMatrix = $c.arrayToMatrix($scope.compareResult.othernessPictures.photos, 5);
                     console.log($scope.othernessPicturesMatrix);
                 }
