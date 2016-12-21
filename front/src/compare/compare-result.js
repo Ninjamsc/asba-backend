@@ -28,14 +28,16 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
                 $scope.compareResult = result;
 
                 if (!!$scope.compareResult.similarPictures &&
-                    !!$scope.compareResult.similarPictures.length > 0){
-                    $scope.similarPicturesMatrix = $c.arrayToMatrix($scope.compareResult.similarPictures, 5);
+                    !!$scope.compareResult.similarPictures.photos &&
+                    !!$scope.compareResult.similarPictures.photos.length > 0){
+                    $scope.similarPicturesMatrix = $c.arrayToMatrix($scope.compareResult.similarPictures.photos, 5);
                     console.log($scope.similarPicturesMatrix);
                 }
 
                 if (!!$scope.compareResult.othernessPictures &&
+                if (!!$scope.compareResult.othernessPictures.photos &&
                     !!$scope.compareResult.othernessPictures.length > 0){
-                    $scope.othernessPicturesMatrix = $c.arrayToMatrix($scope.compareResult.othernessPictures, 5);
+                    $scope.othernessPicturesMatrix = $c.arrayToMatrix($scope.compareResult.othernessPictures.photos, 5);
                     console.log($scope.othernessPicturesMatrix);
                 }
             });
