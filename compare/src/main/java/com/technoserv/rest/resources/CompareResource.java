@@ -353,12 +353,12 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 		// сравнение 2 шаблонов на совпадение
         log.debug("compareImages 7.");
 		try {
-			boolean similar = this.listManager.isSimilar(message.getTemplate_scan(), message.getTemplate_web());
-			if (!similar)
+			SelfCompareResult res = this.listManager.isSimilar(message.getTemplate_scan(), message.getTemplate_web());
+			if (!res.isSimilar())
 			{
 				CompareResponseRulesObject rule = new CompareResponseRulesObject();
 				rule.setRuleId("4.2.5");
-				rule.setRuleName("Возможно несоответствие фотографии в паспорте и фотографии, прикрепленной к заявке.");
+				rule.setRuleName("Возможно несоответствие фотографии в паспорте и фотографии, прикрепленной к заявке. Порог схожести="+res.getThreshold()+" схожесть="+res.getSimilarity());
 				//rule.setRuleName("Perhaps the discrepancy in the passport photo and the photo from webcap.");
 				firedRules.add(rule);
 				}

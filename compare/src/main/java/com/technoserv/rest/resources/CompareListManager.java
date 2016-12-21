@@ -1,5 +1,6 @@
 package com.technoserv.rest.resources;
 import com.technoserv.rest.client.PhotoPersistServiceRestClient;
+import com.technoserv.rest.model.SelfCompareResult;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -202,7 +203,7 @@ public class CompareListManager implements InitializingBean  {
       return bl;  
 	}
 	
-	public boolean isSimilar(double[] a1, double[] a2) {
+	public SelfCompareResult isSimilar(double[] a1, double[] a2) {
 		double similarity= new Double(systemSettingsBean.get(SystemSettingsType.RULE_SELF_SIMILARITY));
 		double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
 		int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
@@ -214,9 +215,12 @@ public class CompareListManager implements InitializingBean  {
 		log.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 		log.info("SIMILARITY="+norm+" THRESHOLD+"+similarity);
 		log.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-		
-		if (norm < similarity) return false;
-		return true;
+		SelfCompareResult result = new SelfCompareResult();
+		if (norm < similarity) result.setSimilar(false);
+		else result.setSimilar(true);
+		result.setThreshold(similarity);
+		result.setSimilarity(norm);
+		return result;
 }
 
 	@Override
