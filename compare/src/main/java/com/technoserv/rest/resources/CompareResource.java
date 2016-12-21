@@ -311,17 +311,19 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             CompareResponseRulesObject otherness_scan =  historyDifference( message.getIin(), message.getTemplate_scan(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)),true);
             CompareResponseRulesObject otherness_web =  historyDifference( message.getIin(), message.getTemplate_web(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)),true);
             ArrayList<CompareResponsePhotoObject> all  = new ArrayList<CompareResponsePhotoObject>();
-            all.addAll(otherness_scan.getPhoto());
-            all.addAll(otherness_web.getPhoto());
-            CompareResponseDossierReport oth_report = new CompareResponseDossierReport();
-            oth_report.setSimilarity( new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)));
-            oth_report.setPhotos(all);
-            response.setOthernessPictures(oth_report);
-            CompareResponseRulesObject rule = new CompareResponseRulesObject();
+            if (otherness_scan!= null ) all.addAll(otherness_scan.getPhoto());
+            if (otherness_web != null) all.addAll(otherness_web.getPhoto());
+            if (all.size() > 0) {
+                CompareResponseDossierReport oth_report = new CompareResponseDossierReport();
+                oth_report.setSimilarity(new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)));
+                oth_report.setPhotos(all);
+                response.setOthernessPictures(oth_report);
+                CompareResponseRulesObject rule = new CompareResponseRulesObject();
                 rule.setRuleId("4.2.1");
                 rule.setRuleName("Фотография, прикрепленная к заявке, существенно отличается от других фотографий заемщика, имеющихся в базе");
                 firedRules.add(rule);
-            log.debug("compareImages 6.");
+                log.debug("compareImages 6.");
+            }
             //похожие
         } catch (Exception e) {
 		    log.error("exception during dossier different: ", e);
@@ -330,18 +332,20 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 		 try {
              CompareResponseRulesObject similar_scan =  historyDifference( message.getIin(), message.getTemplate_scan(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY)),false);
              CompareResponseRulesObject similar_web =  historyDifference( message.getIin(), message.getTemplate_web(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY)),false);
-             ArrayList<CompareResponsePhotoObject> all  = new ArrayList<CompareResponsePhotoObject>();
-             all.addAll(similar_scan.getPhoto());
-             all.addAll(similar_web.getPhoto());
-             CompareResponseDossierReport sim_report = new CompareResponseDossierReport();
-             sim_report.setSimilarity( new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY)));
-             sim_report.setPhotos(all);
-             response.setSimilarPictures(sim_report);
-             CompareResponseRulesObject rule = new CompareResponseRulesObject();
-             rule.setRuleId("4.2.2");
-             rule.setRuleName("Фотография, прикрепленная к заявке, идентична имеющейся в базе");
-             firedRules.add(rule);
-             log.debug("compareImages 6.");
+              ArrayList<CompareResponsePhotoObject> all  = new ArrayList<CompareResponsePhotoObject>();
+             if (similar_scan != null) all.addAll(similar_scan.getPhoto());
+             if (similar_web!= null) all.addAll(similar_web.getPhoto());
+             if(all.size() > 0) {
+                 CompareResponseDossierReport sim_report = new CompareResponseDossierReport();
+                 sim_report.setSimilarity(new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY)));
+                 sim_report.setPhotos(all);
+                 response.setSimilarPictures(sim_report);
+                 CompareResponseRulesObject rule = new CompareResponseRulesObject();
+                 rule.setRuleId("4.2.2");
+                 rule.setRuleName("Фотография, прикрепленная к заявке, идентична имеющейся в базе");
+                 firedRules.add(rule);
+                 log.debug("compareImages 6.");
+             }
     }    catch (Exception e) {
         log.error("exception during dossier similar: ", e);
         e.printStackTrace();
