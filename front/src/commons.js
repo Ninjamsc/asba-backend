@@ -119,7 +119,7 @@ angular.module('commons', []).constant('contextualClass', {
         };
 
         this.deletePhoto = function (listId, itemId, callback) {
-            var url = 'compare/rest/stoplist/' + listId + '/entry/' + itemId;
+            var url = 'compare/api/stoplist/'+listId + '/entry/' + itemId;
 
             http(url, callback, "DELETE", {}, {})
         };

@@ -10,6 +10,7 @@ import com.technoserv.db.service.objectmodel.api.DocumentService;
 import com.technoserv.db.service.objectmodel.api.DocumentTypeService;
 import com.technoserv.db.service.objectmodel.api.PersonService;
 import com.technoserv.db.service.objectmodel.api.RequestService;
+import com.technoserv.utils.HibernateInitializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -43,9 +44,12 @@ public class RequestServiceImpl extends AbstractService<Long, Request,RequestDao
     }
 
     @Transactional(readOnly = true)
-    public Collection<Request> findByIin(Long id)
-    {
-        return dao.findByIin(id);
+    public Collection<Request> findByIin(Long id,String... properties) {
+
+        Collection<Request> result = dao.findByIin(id);
+        HibernateInitializer.initializeProperties(result, properties);
+
+        return result;
     }
     @Transactional(readOnly = true)
     public Collection<Request> findNotProcessed() {
