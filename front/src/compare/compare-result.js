@@ -40,11 +40,6 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
             $scope.findRequest();
         };
 
-        if ($stateParams.requestId) {
-            $scope.creditRequestIdForSearch = $stateParams.requestId;
-            $scope.findRequest();
-        }
-
         $scope.onSearchTextFieldKeydown = function ($event) {
             if ($event.which === 13 || $event.which === 32) {
                 $scope.findRequest();
@@ -59,6 +54,13 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
                     }
                 }
             }
+        };
+
+        
+        //Инициализация 
+        if ($stateParams.requestId) {
+            $scope.creditRequestIdForSearch = $stateParams.requestId;
+            $scope.findRequest();
         }
 
     });

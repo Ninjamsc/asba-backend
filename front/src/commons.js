@@ -28,6 +28,15 @@ angular.module('commons', []).constant('contextualClass', {
         ID: "4.2.5",
         NAME: "Возможно несоответствие фотографии в паспорте и фотографии, прикрепленной к заявке"
     }
+}).factory('$c', function () {
+    this.arrToMatrix = function (arr, n) {
+        var res = [];
+        for (var i = 0; i < (arr.length / n); i++) {
+            res.push(arr.slice(i * n, (i + 1) * n));
+        }
+        return res;
+    };
+    return this;
 }).factory('$httpService',
     function ($log, $http, $httpParamSerializer) {
         var logErrorCallback = function (error) {
@@ -67,11 +76,10 @@ angular.module('commons', []).constant('contextualClass', {
         };
 
 
-
         var singleStoplist = function (id, callback, method, params, data) {
             console.log();
             var url = 'rpe/api/rest/stoplist/';
-            if (!!id){
+            if (!!id) {
                 url = url + id;
             }
             if (id === 'test') {
@@ -81,25 +89,25 @@ angular.module('commons', []).constant('contextualClass', {
         };
 
         this.findStopLists = function (callback) {
-            singleStoplist(null,  callback, 'GET')
+            singleStoplist(null, callback, 'GET')
         };
 
 
         this.getStoplist = function (id, callback) {
             console.log('getStoplist');
-            singleStoplist(id,  callback, 'GET')
+            singleStoplist(id, callback, 'GET')
         };
 
         this.addStoplist = function (stoplist, callback) {
-            singleStoplist(null,  callback, 'POST', {}, stoplist)
+            singleStoplist(null, callback, 'POST', {}, stoplist)
         };
 
         this.editStoplist = function (stoplist, callback) {
-            singleStoplist(null,  callback, 'PUT', {}, stoplist)
+            singleStoplist(null, callback, 'PUT', {}, stoplist)
         };
 
         this.deleteStoplist = function (id, callback) {
-            singleStoplist(id,  callback, 'DELETE')
+            singleStoplist(id, callback, 'DELETE')
         };
 
         this.findCompareResult = function (id, callback) {
@@ -111,60 +119,61 @@ angular.module('commons', []).constant('contextualClass', {
         };
 
         this.deletePhoto = function (listId, itemId, callback) {
-            var url = 'compare/rest/stoplist/'+listId + '/entry/' + itemId;
+            var url = 'compare/rest/stoplist/' + listId + '/entry/' + itemId;
 
             http(url, callback, "DELETE", {}, {})
         };
 
+
         return this;
-})/*.service('$modalService', ['$modal',
-// NB: For Angular-bootstrap 0.14.0 or later, use $uibModal above instead of $modal
-    function ($modal) {
+    })/*.service('$modalService', ['$modal',
+ // NB: For Angular-bootstrap 0.14.0 or later, use $uibModal above instead of $modal
+ function ($modal) {
 
-        var modalDefaults = {
-            backdrop: true,
-            keyboard: true,
-            modalFade: true,
-            templateUrl: '/src/modal.html'
-        };
+ var modalDefaults = {
+ backdrop: true,
+ keyboard: true,
+ modalFade: true,
+ templateUrl: '/src/modal.html'
+ };
 
-        var modalOptions = {
-            closeButtonText: 'Close',
-            actionButtonText: 'OK',
-            headerText: 'Proceed?',
-            bodyText: 'Perform this action?'
-        };
+ var modalOptions = {
+ closeButtonText: 'Close',
+ actionButtonText: 'OK',
+ headerText: 'Proceed?',
+ bodyText: 'Perform this action?'
+ };
 
-        this.showModal = function (customModalDefaults, customModalOptions) {
-            if (!customModalDefaults) customModalDefaults = {};
-            customModalDefaults.backdrop = 'static';
-            return this.show(customModalDefaults, customModalOptions);
-        };
+ this.showModal = function (customModalDefaults, customModalOptions) {
+ if (!customModalDefaults) customModalDefaults = {};
+ customModalDefaults.backdrop = 'static';
+ return this.show(customModalDefaults, customModalOptions);
+ };
 
-        this.show = function (customModalDefaults, customModalOptions) {
-            //Create temp objects to work with since we're in a singleton service
-            var tempModalDefaults = {};
-            var tempModalOptions = {};
+ this.show = function (customModalDefaults, customModalOptions) {
+ //Create temp objects to work with since we're in a singleton service
+ var tempModalDefaults = {};
+ var tempModalOptions = {};
 
-            //Map angular-ui modal custom defaults to modal defaults defined in service
-            angular.extend(tempModalDefaults, modalDefaults, customModalDefaults);
+ //Map angular-ui modal custom defaults to modal defaults defined in service
+ angular.extend(tempModalDefaults, modalDefaults, customModalDefaults);
 
-            //Map modal.html $scope custom properties to defaults defined in service
-            angular.extend(tempModalOptions, modalOptions, customModalOptions);
+ //Map modal.html $scope custom properties to defaults defined in service
+ angular.extend(tempModalOptions, modalOptions, customModalOptions);
 
-            if (!tempModalDefaults.controller) {
-                tempModalDefaults.controller = function ($scope, $modalInstance) {
-                    $scope.modalOptions = tempModalOptions;
-                    $scope.modalOptions.ok = function (result) {
-                        $modalInstance.close(result);
-                    };
-                    $scope.modalOptions.close = function (result) {
-                        $modalInstance.dismiss('cancel');
-                    };
-                };
-            }
+ if (!tempModalDefaults.controller) {
+ tempModalDefaults.controller = function ($scope, $modalInstance) {
+ $scope.modalOptions = tempModalOptions;
+ $scope.modalOptions.ok = function (result) {
+ $modalInstance.close(result);
+ };
+ $scope.modalOptions.close = function (result) {
+ $modalInstance.dismiss('cancel');
+ };
+ };
+ }
 
-            return $modal.open(tempModalDefaults).result;
-        };
+ return $modal.open(tempModalDefaults).result;
+ };
 
-    }])*/;
+ }])*/;
