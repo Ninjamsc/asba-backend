@@ -1,5 +1,7 @@
 angular.module('compare-result-view', ['ui.router', 'commons'])
-    .controller('compareResultViewController', function ($scope, $log, $state, $stateParams, $httpService, RuleErrorType) {
+    .controller('compareResultViewController', function ($scope, $log, $state, $stateParams,
+                                                         $httpService, $c,
+                                                         RuleErrorType) {
         console.log($stateParams);
 
 
@@ -23,15 +25,19 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
                 result.cameraPicture.previewURL = data.webCamPicturePreviewURL;
                 result.scannedPicture.pictureURL = data.scannedPictureURL;
                 result.scannedPicture.previewURL = data.scannedPicturePreviewURL;
-                /*"wfNumber" : 11154,
-                 "IIN" : 11154,
-                 "username" : "OperatorName",
-                 "timestamp" : "12.12.16.12.00.12",
-                 "scannedPictureURL" : "http://www.sdorohov.ru/storage/rest/image/MzlmYzM2YTEtNDdlMy00NjIzLThiMTYtNGZmNTg4M2RlYmVi.jpg",
-                 "scannedPicturePreviewURL" : null,
-                 "webCamPictureURL" : "http://www.sdorohov.ru/storage/rest/image/YWNjMDdlZmEtMTJjMS00MTM3LWIwNGYtOTBmMWIzMjIyZDdm.jpg",
-                 "webCamPicturePreviewURL" : null*/
                 $scope.compareResult = result;
+
+                if (!!$scope.compareResult.similarPictures &&
+                    !!$scope.compareResult.similarPictures.length > 0){
+                    $scope.similarPicturesMatrix = $c.arrayToMatrix($scope.compareResult.similarPictures, 5);
+                    console.log($scope.similarPicturesMatrix);
+                }
+
+                if (!!$scope.compareResult.othernessPictures &&
+                    !!$scope.compareResult.othernessPictures.length > 0){
+                    $scope.othernessPicturesMatrix = $c.arrayToMatrix($scope.compareResult.othernessPictures, 5);
+                    console.log($scope.othernessPicturesMatrix);
+                }
             });
         };
 

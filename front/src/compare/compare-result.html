@@ -204,32 +204,36 @@
             </div>
         </div>
         <div class="panel panel-default inner-panel"
-             ng-if="!!compareResult.similarPictures &&
-                    !!compareResult.similarPictures.length > 0">
+             ng-if="!!similarPicturesMatrix">
             <div class="panel-body">
                 <h3>Фотографии, совпадающие с переданной ({{compareResult.similarPictures.length}})</h3>
                 <br/>
-                <div ng-repeat="photo in compareResult.similarPictures">
-                    <span>
-                        <img ng-src="{{photo.url}}"
-                             alt="{{photo.url}}">
-                        <div class="caption" style="width:100px;">{{photo.similarity}}</div>
-                    </span>
+
+                <div ng-repeat="similarPictures in similarPicturesMatrix">
+                    <div class="col-xs-12">
+                        <div ng-repeat="photo in similarPictures" class="col-xs-2">
+                            <img ng-src="{{photo.url}}"
+                                 alt="{{photo.url}}">
+                            <div class="caption" style="width:100px;">{{photo.similarity}}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="panel panel-default inner-panel"
-             ng-if="!!compareResult.othernessPictures &&
-                    !!compareResult.othernessPictures.length > 0">
+             ng-if="!!othernessPicturesMatrix">
             <div class="panel-body">
                 <h3>Фотографии, существенно отличающиеся от переданной ({{compareResult.othernessPictures.length}})</h3>
                 <br/>
-                <div ng-repeat="photo in compareResult.othernessPictures">
-                    <span>
-                        <img ng-src="{{photo.url}}"
-                             alt="{{photo.url}}">
-                        <div class="caption" style="width:100px;">{{photo.similarity}}</div>
-                    </span>
+
+                <div ng-repeat="othernessPictures in othernessPicturesMatrix">
+                    <div class="col-xs-12">
+                        <div ng-repeat="photo in othernessPictures" class="col-xs-2">
+                            <img ng-src="{{photo.url}}"
+                                 alt="{{photo.url}}">
+                            <div class="caption" style="width:100px;">{{photo.similarity}}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

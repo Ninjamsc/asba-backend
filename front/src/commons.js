@@ -29,7 +29,7 @@ angular.module('commons', []).constant('contextualClass', {
         NAME: "Возможно несоответствие фотографии в паспорте и фотографии, прикрепленной к заявке"
     }
 }).factory('$c', function () {
-    this.arrToMatrix = function (arr, n) {
+    this.arrayToMatrix = function (arr, n) {
         var res = [];
         for (var i = 0; i < (arr.length / n); i++) {
             res.push(arr.slice(i * n, (i + 1) * n));
