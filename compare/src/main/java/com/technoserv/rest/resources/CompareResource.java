@@ -311,8 +311,8 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             CompareResponseRulesObject otherness_scan =  historyDifference( message.getIin(), message.getTemplate_scan(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)),true);
             CompareResponseRulesObject otherness_web =  historyDifference( message.getIin(), message.getTemplate_web(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)),true);
             ArrayList<CompareResponsePhotoObject> all  = new ArrayList<CompareResponsePhotoObject>();
-            if (otherness_scan!= null && otherness_scan.getPhoto().size() > 0) all.addAll(otherness_scan.getPhoto());
-            if (otherness_web != null && otherness_web.getPhoto().size() > 0) all.addAll(otherness_web.getPhoto());
+            if (otherness_scan!= null && otherness_scan.getPhoto() != null && otherness_scan.getPhoto().size() > 0) all.addAll(otherness_scan.getPhoto());
+            if (otherness_web != null && otherness_web.getPhoto() !=null && otherness_web.getPhoto().size() > 0) all.addAll(otherness_web.getPhoto());
             if (all.size() > 0) {
                 CompareResponseDossierReport oth_report = new CompareResponseDossierReport();
                 oth_report.setSimilarity(new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)));
@@ -333,8 +333,8 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
              CompareResponseRulesObject similar_scan =  historyDifference( message.getIin(), message.getTemplate_scan(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY)),false);
              CompareResponseRulesObject similar_web =  historyDifference( message.getIin(), message.getTemplate_web(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY)),false);
               ArrayList<CompareResponsePhotoObject> all  = new ArrayList<CompareResponsePhotoObject>();
-             if (similar_scan != null && similar_scan.getPhoto().size() > 0) all.addAll(similar_scan.getPhoto());
-             if (similar_web!= null && similar_web.getPhoto().size() >0 ) all.addAll(similar_web.getPhoto());
+             if (similar_scan != null && similar_scan.getPhoto()!=null && similar_scan.getPhoto().size() > 0) all.addAll(similar_scan.getPhoto());
+             if (similar_web!= null && similar_web.getPhoto()!=null && similar_web.getPhoto().size() >0 ) all.addAll(similar_web.getPhoto());
              if(all.size() > 0) {
                  CompareResponseDossierReport sim_report = new CompareResponseDossierReport();
                  sim_report.setSimilarity(new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY)));
