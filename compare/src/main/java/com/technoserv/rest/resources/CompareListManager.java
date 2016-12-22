@@ -92,8 +92,7 @@ public class CompareListManager implements InitializingBean  {
 		if(list != null)
 		{
 			ArrayList<CompareServiceStopListVector> elements = list.getVectors();
-			Iterator<CompareServiceStopListVector> it = elements.iterator();
-			while (it.hasNext())
+			for(Iterator<CompareServiceStopListVector> it=elements.iterator();it.hasNext();)
 			{
 				CompareServiceStopListVector el = it.next();
 				if (el.getDocId().longValue() == listElementId.longValue())
