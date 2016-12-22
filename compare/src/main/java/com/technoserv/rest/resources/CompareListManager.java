@@ -116,6 +116,8 @@ public class CompareListManager implements InitializingBean  {
 	 */
 	public boolean addList(StopList list) 
 	{
+		log.debug("addStopList(): Removing list id="+list.getId());
+
 		if (list == null) return false;
 		CompareServiceStopListElement e = new CompareServiceStopListElement(list.getStopListName(),list.getId(),list.getSimilarity());
 		Iterator<Document> id = list.getOwner().iterator();
@@ -127,13 +129,7 @@ public class CompareListManager implements InitializingBean  {
 		 managedStopLists.put(list.getId(), e);
 		 return true;
 	}
-	/*	public ArrayList<CompareResponseBlackListObject> compare(String vector) throws Exception
-	{
-		ObjectMapper mapper = new ObjectMapper();
-		double[] array = mapper.readValue(vector, double[].class);
-		return compare(array);
-	}
-*/
+
     public CompareResponseBlackListObject compare1(double[] vector, Long listId) throws Exception //TODO: specify exception
     {
     	log.debug("compare(double, Long) list size is "+managedStopLists.size());
