@@ -110,6 +110,15 @@ angular.module('commons', []).constant('contextualClass', {
             singleStoplist(id, callback, 'DELETE')
         };
 
+        this.deleteStoplist2 = function (id, callback) {
+            console.log();
+            var url = 'compare/api/stoplist/';
+            if (!!id) {
+                url = url + id;
+            }
+            http(url, callback, 'DELETE')
+        };
+
         this.findCompareResult = function (id, callback) {
             var url = 'rpe/api/rest/compare-result/' + id;
             if (id == 'compare-result-view.json') {
