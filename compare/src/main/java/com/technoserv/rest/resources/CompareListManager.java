@@ -75,6 +75,10 @@ public class CompareListManager implements InitializingBean  {
 	public void addElement (Long listId, Document vector) throws Exception
 	{
         log.debug("addElement(): adding element id="+vector.getId()+" to list id="+listId);
+        if(vector.getId() == null) {
+			log.error("addElement(): null document id. ignoring for the list_id="+listId);
+
+		}
         CompareServiceStopListElement sl = managedStopLists.get(listId);
 		if (sl != null) sl.addVector(vector);
 	}

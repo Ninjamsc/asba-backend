@@ -510,11 +510,16 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         Long docId = documentService.save(aDocument);
         // 4. добавить шшшаблоны
         //aDocument.setId(docId);
-        try { addBioTemplateToDocument(aDocument, scannedTemplate);
+        try {
+              addBioTemplateToDocument(aDocument, scannedTemplate);
+              listManager.addElement(id,aDocument);
             }
             catch (IOException exc) {
             	throw new WebApplicationException("Unable to ad template to the document: " + id,Response.Status.INTERNAL_SERVER_ERROR);
             }
+        catch (Exception exc) {
+            throw new WebApplicationException("Unable to ad template to the document: " + id,Response.Status.INTERNAL_SERVER_ERROR);
+        }
         // 5. добавить документ в стоплист
             stopList.getOwner().add(aDocument);
             stopListService.saveOrUpdate(stopList);
