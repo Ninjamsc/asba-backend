@@ -22,7 +22,7 @@ public class StopList extends AbstractObject {
     @JoinTable(name = "STOP_LISTS_CONTENTS", joinColumns = {@JoinColumn(name = "LISTS_ID")}, inverseJoinColumns = {@JoinColumn(name = "DOC_ID")})
     private List<Document> owner;
 
-    @Column(name = "TYPE", nullable = false)
+    @Column(name = "TYPE", nullable = false, columnDefinition = "character varying default 'bank'")
     private String type = "bank";
 
     @Column(name = "DESCRIPTION")
