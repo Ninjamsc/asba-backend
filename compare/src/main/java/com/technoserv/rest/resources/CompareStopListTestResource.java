@@ -21,7 +21,7 @@ import io.swagger.annotations.Api;
 
 @Component
 @Path("")
-@Api(value = "Stop-list")
+@Api(value = "Compare-Stop-list-Test")
 public class CompareStopListTestResource extends BaseResource<Long,StopList> {
 
 	 @Autowired

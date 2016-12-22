@@ -15,8 +15,4 @@ public class StopListElement {
 		Photo = photo;
 	}
 
-	@Override
-public String toString() {
-	return "StopListElement  [photo=" + Photo + "]";
-}
 }

@@ -78,7 +78,7 @@ angular.module('commons', []).constant('contextualClass', {
 
         var singleStoplist = function (id, callback, method, params, data) {
             console.log();
-            var url = 'rpe/api/rest/stoplist/';
+            var url = 'compare/api/stoplist/';
             if (!!id) {
                 url = url + id;
             }
