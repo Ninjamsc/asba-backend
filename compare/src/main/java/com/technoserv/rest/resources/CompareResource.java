@@ -532,7 +532,8 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     public Response delete(@PathParam("listId")Long listId,@PathParam("itemId")Long itemId) {
 
         //todo write native sql
-        listManager.delStopListElement(listId, itemId);
+        try {
+            listManager.delStopListElement(listId, itemId);
         StopList stopList = stopListService.findById(listId);
         if(stopList!=null) {
             Document delDocument = null;
@@ -547,6 +548,12 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             }
         }
         return Response.ok().build();
+        }
+        catch (Exception exc)
+        {
+            exc.printStackTrace();
+            return Response.serverError().build();
+        }
     }
 
     private void addBioTemplateToDocument(Document document, PhotoTemplate scannedTemplate) throws IOException {
