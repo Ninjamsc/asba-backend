@@ -77,11 +77,30 @@ public class CompareListManager implements InitializingBean  {
 		CompareServiceStopListElement sl = managedStopLists.get(listId);
 		if (sl != null) sl.addVector(vector);
 	}
+	/*
+	 * удаление элемента списка ID по его ID
+	 */
+	public void delStopListElement(Long listId, Long listElementId)
+	{
+		CompareServiceStopListElement list = this.managedStopLists.get(listId);
+		if(list != null)
+		{
+			ArrayList<CompareServiceStopListVector> elements = list.getVectors();
+			for (CompareServiceStopListVector el: elements)
+			{
+				if (el.getDocId().longValue() == listElementId.longValue())
+				{
+					log.debug("delStopListElement(): Document id="+listId+" is deleted from list id="+listId);
+					elements.remove(el);
+				}
 
+			}
+		}
+	}
 	/*
 	 * удаление списка по его ID
 	 */
-	public void delElement(Long listId)
+	public void delStopList(Long listId)
 	{
 		if ( managedStopLists.get(listId) == null) {
 			log.debug("++++++++++++++");

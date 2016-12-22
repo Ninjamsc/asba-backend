@@ -405,7 +405,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     public Response delete(@PathParam("id") Long id)
     {
 
-        this.listManager.delElement(id);
+        this.listManager.delStopList(id);
         return super.delete(id);
     }
 
@@ -531,7 +531,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     public Response delete(@PathParam("listId")Long listId,@PathParam("itemId")Long itemId) {
 
         //todo write native sql
-
+        listManager.delStopListElement(listId, itemId);
         StopList stopList = stopListService.findById(listId);
         if(stopList!=null) {
             Document delDocument = null;
