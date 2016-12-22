@@ -74,7 +74,8 @@ public class CompareListManager implements InitializingBean  {
 	 */
 	public void addElement (Long listId, Document vector) throws Exception
 	{
-		CompareServiceStopListElement sl = managedStopLists.get(listId);
+        log.debug("addElement(): adding element id="+vector.getId()+" to list id="+listId);
+        CompareServiceStopListElement sl = managedStopLists.get(listId);
 		if (sl != null) sl.addVector(vector);
 	}
 	/*
@@ -103,10 +104,10 @@ public class CompareListManager implements InitializingBean  {
 	public void delStopList(Long listId)
 	{
 		if ( managedStopLists.get(listId) == null) {
-			log.debug("++++++++++++++");
 			log.debug("list id="+listId +" is absent");
 			return;
 		}
+        log.debug("delStopList(): Removing list id="+listId);
 		managedStopLists.remove(listId);
 	}
 	/*
