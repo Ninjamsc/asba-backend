@@ -20,8 +20,8 @@ angular.module('stop-lists-registry', ['ui.router','commons'])
                 console.log('StopList not found');
             }
             $httpService.deleteStoplist(stoplist.id, function () {
-                $log.info('Stoplist deleted successfully');
-                $scope.refresh();
+                $log.info('Stoplist deleted successfully, deleting from deeper service');
+                $httpService.deleteStopList2(id, $scope.refresh);
             })
         };
 
