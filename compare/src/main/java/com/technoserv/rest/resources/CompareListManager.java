@@ -71,7 +71,7 @@ public class CompareListManager implements InitializingBean  {
 	 */
 	public void addElement (Long listId, Document vector) throws Exception
 	{
-        log.debug("addElement(): adding element id="+vector.getId()+" to list id="+listId);
+        log.info("addElement(): adding element id="+vector.getId()+" to list id="+listId);
         if(vector.getId() == null) {
 			log.error("addElement(): null document id. ignoring for the list_id="+listId);
 
@@ -84,7 +84,7 @@ public class CompareListManager implements InitializingBean  {
 	 */
 	public void delStopListElement(Long listId, Long listElementId)
 	{
-		log.debug("delStopListElement(): removing element id="+listElementId+" from list id="+listId);
+		log.info("delStopListElement(): removing element id="+listElementId+" from list id="+listId);
 		CompareServiceStopListElement list = this.managedStopLists.get(listId);
 		if(list != null)
 		{
@@ -108,7 +108,7 @@ public class CompareListManager implements InitializingBean  {
 	 */
 	public void delStopList(Long listId)
 	{
-		log.debug("delStopList(): Removing list id="+listId);
+		log.info("delStopList(): Removing list id="+listId);
 		if ( managedStopLists.get(listId) == null) {
 			log.debug("list id="+listId +" is absent");
 			return;
@@ -120,7 +120,7 @@ public class CompareListManager implements InitializingBean  {
 	 */
 	public boolean addList(StopList list) 
 	{
-		log.debug("addStopList(): Removing list id="+list.getId());
+		log.info("addStopList(): Removing list id="+list.getId());
 
 		if (list == null) return false;
 		CompareServiceStopListElement e = new CompareServiceStopListElement(list.getStopListName(),list.getId(),list.getSimilarity());
@@ -136,7 +136,7 @@ public class CompareListManager implements InitializingBean  {
 
     public CompareResponseBlackListObject compare1(double[] vector, Long listId) throws Exception //TODO: specify exception
     {
-    	log.debug("compare(double, Long) list size is "+managedStopLists.size());
+    	log.info("compare(double, Long) list size is "+managedStopLists.size());
         double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
         int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
 
@@ -180,7 +180,7 @@ public class CompareListManager implements InitializingBean  {
             //log.info("COMPARATOR vector is ='"+vector+"'");
             //System.out.println("COMPARATOR vector is'"+vector+"'");
 
-		log.debug("compare(double) list size is "+managedStopLists.size());
+		log.info("compare(double) list size is "+managedStopLists.size());
 		double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
     		int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
 		ArrayList<CompareResponseBlackListObject> bl = new ArrayList<CompareResponseBlackListObject>();
