@@ -83,6 +83,7 @@ public class CompareListManager implements InitializingBean  {
 	 */
 	public void delStopListElement(Long listId, Long listElementId)
 	{
+		log.debug("delStopListElement(): removing element id="+listElementId+" from list id="+listId);
 		CompareServiceStopListElement list = this.managedStopLists.get(listId);
 		if(list != null)
 		{
@@ -103,11 +104,11 @@ public class CompareListManager implements InitializingBean  {
 	 */
 	public void delStopList(Long listId)
 	{
+		log.debug("delStopList(): Removing list id="+listId);
 		if ( managedStopLists.get(listId) == null) {
 			log.debug("list id="+listId +" is absent");
 			return;
 		}
-        log.debug("delStopList(): Removing list id="+listId);
 		managedStopLists.remove(listId);
 	}
 	/*
