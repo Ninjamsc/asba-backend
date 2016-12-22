@@ -119,7 +119,7 @@ public class RequestProcessor {
                 CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
 
                 compareServiceRequest.setIin(request.getPerson().getId());
-
+                compareServiceRequest.setWfmId(request.getId());
                 compareServiceRequest.setWebFullFrameURL(request.getCameraDocument().getOrigImageURL());
                 compareServiceRequest.setWebPreviewURL(request.getCameraDocument().getFaceSquare());
 
