@@ -7,10 +7,7 @@ import org.apache.commons.logging.LogFactory;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 import javax.annotation.Resource;
 
@@ -44,7 +41,7 @@ public class CompareListManager implements InitializingBean  {
 
 
 	//@Resource @Qualifier(value = "converters")
-	private HashMap<String, String> compareRules;
+//	private HashMap<String, String> compareRules;
 
 	//@Autowired
      Environment env;
@@ -92,16 +89,18 @@ public class CompareListManager implements InitializingBean  {
 		if(list != null)
 		{
 			ArrayList<CompareServiceStopListVector> elements = list.getVectors();
+			List<CompareServiceStopListVector> toDelete = new ArrayList<>();
 			for(Iterator<CompareServiceStopListVector> it=elements.iterator();it.hasNext();)
 			{
 				CompareServiceStopListVector el = it.next();
 				if (el.getDocId().longValue() == listElementId.longValue())
 				{
 					log.debug("delStopListElement(): Document id="+listId+" is deleted from list id="+listId);
-					elements.remove(el);
+					toDelete.add(el);
 				}
 
 			}
+			elements.removeAll(toDelete);
 		}
 	}
 	/*
