@@ -495,10 +495,6 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
               	return Response.status(404).build();
               }
         // 1. сходить в Template builder, построить шаблон
-        //PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(element.getPhoto().getBytes());
-        //StringBuilder sb = new StringBuilder();
-        //sb.append("data:image/jpg;base64,");
-        //sb.append(element.getPhoto());
         byte a[] = Base64.getDecoder().decode(element.getPhoto());
         PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(a);
         // 2. фотку в хранилку
