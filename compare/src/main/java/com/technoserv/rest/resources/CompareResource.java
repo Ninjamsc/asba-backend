@@ -222,6 +222,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             log.info("historyDifference CHECK my id="+wfmId.longValue()+" hist_id="+r.getId().longValue());
             if(r.getId().longValue() == wfmId.longValue()) {
                 log.info("historyDifference(): skipping myself");
+                continue;
             }
             List<BioTemplate> lw = r.getScannedDocument().getBioTemplates();
             ArrayList<CompareResponsePhotoObject> result = doCompare(r,comparing_vector,less,otherness);
