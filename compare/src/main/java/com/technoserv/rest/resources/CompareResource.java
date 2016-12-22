@@ -430,41 +430,41 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         return stopListService.getAll();
     }
 
-    /**
-     * Получить стоп лист по ID
-     * @param id идентификатор.
-     * @return заявка по ID
-     */
-	/*
- @GET
- @Produces(MediaType.APPLICATION_JSON)
- @Consumes(MediaType.APPLICATION_JSON)
- @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
- @Path("/stoplist/{id}")
- @Override
- public StopList get(@PathParam("id") Long id) {
- 	StopList t = super.get(id);
- 	if (t == null)
- 		throw new WebApplicationException("Entity not found for id: " + id,Response.Status.NOT_FOUND);
- 		//return Response.status(Response.Status.NOT_FOUND).entity("Entity not found for id: " + id).build();
- 		System.out.println("No such list:"+id);
-     return t;
- }
- */
+//    /**
+//     * Получить стоп лист по ID
+//     * @param id идентификатор.
+//     * @return заявка по ID
+//     */
+//	/*
+// @GET
+// @Produces(MediaType.APPLICATION_JSON)
+// @Consumes(MediaType.APPLICATION_JSON)
+// @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+// @Path("/stoplist/{id}")
+// @Override
+// public StopList get(@PathParam("id") Long id) {
+// 	StopList t = super.get(id);
+// 	if (t == null)
+// 		throw new WebApplicationException("Entity not found for id: " + id,Response.Status.NOT_FOUND);
+// 		//return Response.status(Response.Status.NOT_FOUND).entity("Entity not found for id: " + id).build();
+// 		System.out.println("No such list:"+id);
+//     return t;
+// }
+// */
 //    @GET
 //    @Produces(MediaType.APPLICATION_JSON)
 //    @Consumes(MediaType.APPLICATION_JSON)
 //    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
 //    @Path("/stoplist/{id}")
-    public CompareServiceStopListElement getElement(@PathParam("id") Long id) {
-        StopList t = super.get(id);
-        if (t == null)
-            throw new WebApplicationException("Entity not found for id: " + id,Response.Status.NOT_FOUND);
-        //return Response.status(Response.Status.NOT_FOUND).entity("Entity not found for id: " + id).build();
-        System.out.println("No such list:"+id);
-
-        return this.listManager.getList(id);
-    }
+//    public CompareServiceStopListElement getElement(@PathParam("id") Long id) {
+//        StopList t = super.get(id);
+//        if (t == null)
+//            throw new WebApplicationException("Entity not found for id: " + id,Response.Status.NOT_FOUND);
+//        //return Response.status(Response.Status.NOT_FOUND).entity("Entity not found for id: " + id).build();
+//        System.out.println("No such list:"+id);
+//
+//        return this.listManager.getList(id);
+//    }
 
     /**
      * Добавить стоп лист.
