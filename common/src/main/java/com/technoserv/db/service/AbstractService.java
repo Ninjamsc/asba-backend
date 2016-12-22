@@ -49,6 +49,11 @@ public abstract class AbstractService<ID extends Serializable,T extends BaseEnti
         dao.saveOrUpdate(entity);
     }
 
+    @Transactional(readOnly = false)
+    public void update(T entity) {
+        dao.update(entity);
+    }
+
     protected D getDao() {
         return dao;
     }

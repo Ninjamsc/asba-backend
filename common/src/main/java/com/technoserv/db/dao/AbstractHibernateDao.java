@@ -48,6 +48,10 @@ public abstract class AbstractHibernateDao<ID extends Serializable,T extends Bas
         getSession().saveOrUpdate(entity);
     }
 
+    public void update(T entity) {
+        getSession().update(entity);
+    }
+
     @SuppressWarnings("unchecked")
     public ID save(T entity) {
         return (ID) getSession().save(entity);

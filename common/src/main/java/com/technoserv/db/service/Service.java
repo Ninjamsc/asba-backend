@@ -18,6 +18,8 @@ public interface Service<ID extends Serializable,T extends BaseEntity<ID>> {
 
     public void saveOrUpdate(T entity);
 
+    public void update(T entity);
+
     public void delete(ID id);
 
     public void delete(T entity);

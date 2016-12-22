@@ -484,6 +484,16 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         return id;
     }
 
+    @Path("/stoplist")
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    public Long edit(StopList entity) {
+        stopListService.update(entity);
+        return entity.getId();
+    }
+
 
     /*
      * Добавить новый элемент к заданному ID списку

@@ -17,6 +17,8 @@ public interface Dao<ID extends Serializable,T extends BaseEntity<ID>> {
 
     public void saveOrUpdate(T entity);
 
+    public void update(T entity);
+
     public ID save(T entity);
 
     public void delete(T entity);
