@@ -219,6 +219,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         while(it.hasNext())
         {
             Request r = it.next();
+            log.debug("historyDifference CHECK my id="+wfmId.longValue()+" hist_id="+r.getId().longValue());
             if(r.getId().longValue() == wfmId.longValue()) {
                 log.debug("historyDifference(): skipping myself");
             }
