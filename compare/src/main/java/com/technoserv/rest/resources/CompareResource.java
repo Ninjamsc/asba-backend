@@ -219,7 +219,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         while(it.hasNext())
         {
             Request r = it.next();
-            if(r.getId().longValue() == wfmId) {
+            if(r.getId().longValue() == wfmId.longValue()) {
                 log.debug("historyDifference(): skipping myself");
             }
             List<BioTemplate> lw = r.getScannedDocument().getBioTemplates();
