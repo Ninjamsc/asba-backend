@@ -479,7 +479,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     @Override
     public Long add(StopList entity) {
         Long id = super.add(entity);
-        System.out.println("aded list id="+entity.getId());
+        System.out.println("added list id="+entity.getId());
         listManager.addList(entity);
         return id;
     }
@@ -491,6 +491,8 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     public Long edit(StopList entity) {
         stopListService.update(entity);
+        System.out.println("changed list id="+entity.getId());
+        listManager.addList(entity);
         return entity.getId();
     }
 
