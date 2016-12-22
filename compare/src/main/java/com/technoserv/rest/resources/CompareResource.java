@@ -117,7 +117,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         log.debug("---------------------\nИницаиализация сервиса сравнения");
         //listManager = new CompareListManager(documentService);
         List<StopList> allLists = stopListService.getAll("owner","owner.bioTemplates");
-        System.out.println("Number of stop lists is:"+allLists.size());
+        log.debug("Number of stop lists is:"+allLists.size());
         for (StopList element : allLists)
         {
         	listManager.addList(element);
@@ -127,14 +127,14 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             {
                 Document d = id.next();
                 //listManager.addElement(element.getId(), d);
-                System.out.println(" doc_id="+d.getId());
+                log.debug(" doc_id="+d.getId());
                 List<BioTemplate> blist = d.getBioTemplates();
                 for(BioTemplate t: blist)
                 {
                     ObjectMapper mapper = new ObjectMapper();
                     double[] array = mapper.readValue(t.getTemplateVector(), double[].class);
                     ArrayRealVector arv = new ArrayRealVector(array);
-                    System.out.println("\tvector="+arv.toString());
+                    log.debug("\tvector="+arv.toString());
                 }
             }
         }        
@@ -206,7 +206,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         if (photos.size() > 0) return photos;
         return null;
     }
-	public CompareResponseRulesObject historyDifference( Long iin, double[] vector,double coeff, boolean less)
+	public CompareResponseRulesObject historyDifference( Long wfmId, Long iin, double[] vector,double coeff, boolean less)
     {
         //double otherness = new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS));
         double otherness =coeff;
@@ -219,6 +219,11 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         while(it.hasNext())
         {
             Request r = it.next();
+            log.info("historyDifference CHECK my id="+wfmId.longValue()+" hist_id="+r.getId().longValue());
+            if(r.getId().longValue() == wfmId.longValue()) {
+                log.info("historyDifference(): skipping myself");
+                continue;
+            }
             List<BioTemplate> lw = r.getScannedDocument().getBioTemplates();
             ArrayList<CompareResponsePhotoObject> result = doCompare(r,comparing_vector,less,otherness);
             if (result != null)
@@ -308,8 +313,8 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
             try {
             // ?? ???????
-            CompareResponseRulesObject otherness_scan =  historyDifference( message.getIin(), message.getTemplate_scan(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)),true);
-            CompareResponseRulesObject otherness_web =  historyDifference( message.getIin(), message.getTemplate_web(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)),true);
+            CompareResponseRulesObject otherness_scan =  historyDifference( message.getWfmId(),message.getIin(), message.getTemplate_scan(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)),true);
+            CompareResponseRulesObject otherness_web =  historyDifference( message.getWfmId(),message.getIin(), message.getTemplate_web(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)),true);
             ArrayList<CompareResponsePhotoObject> all  = new ArrayList<CompareResponsePhotoObject>();
             if (otherness_scan!= null && otherness_scan.getPhoto() != null && otherness_scan.getPhoto().size() > 0) all.addAll(otherness_scan.getPhoto());
             if (otherness_web != null && otherness_web.getPhoto() !=null && otherness_web.getPhoto().size() > 0) all.addAll(otherness_web.getPhoto());
@@ -330,8 +335,8 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 		    e.printStackTrace();
 		    throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
 		 try {
-             CompareResponseRulesObject similar_scan =  historyDifference( message.getIin(), message.getTemplate_scan(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY)),false);
-             CompareResponseRulesObject similar_web =  historyDifference( message.getIin(), message.getTemplate_web(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY)),false);
+             CompareResponseRulesObject similar_scan =  historyDifference( message.getWfmId(),message.getIin(), message.getTemplate_scan(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY)),false);
+             CompareResponseRulesObject similar_web =  historyDifference( message.getWfmId(),message.getIin(), message.getTemplate_web(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY)),false);
               ArrayList<CompareResponsePhotoObject> all  = new ArrayList<CompareResponsePhotoObject>();
              if (similar_scan != null && similar_scan.getPhoto()!=null && similar_scan.getPhoto().size() > 0) all.addAll(similar_scan.getPhoto());
              if (similar_web!= null && similar_web.getPhoto()!=null && similar_web.getPhoto().size() >0 ) all.addAll(similar_web.getPhoto());

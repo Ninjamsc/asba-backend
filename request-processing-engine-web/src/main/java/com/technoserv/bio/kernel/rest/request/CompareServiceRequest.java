@@ -22,13 +22,15 @@ public class CompareServiceRequest {
     @JsonProperty("iin")
     private Long iin;
 
+    @JsonProperty("wfmId")
+    private Long wfmId;
+
     public double[] getWebTemplate() {
         return webTemplate;
     }
     public void setWebTemplate(double[] webTemplate) {
         this.webTemplate = webTemplate;
     }
-
     public double[] getScanTemplate() {
         return scanTemplate;
     }
@@ -59,13 +61,13 @@ public class CompareServiceRequest {
     public void setScanFullFrameURL(String scanFullFrameURL) {
         this.scanFullFrameURL = scanFullFrameURL;
     }
-
-
     public void setIin(Long iin) {
         this.iin = iin;
     }
-
     public Long getIin() {
         return iin;
     }
+    public Long getWfmId() {return wfmId;}
+    public void setWfmId(Long wfmId) {this.wfmId = wfmId;}
+
 }
