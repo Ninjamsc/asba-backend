@@ -92,8 +92,10 @@ public class CompareListManager implements InitializingBean  {
 		if(list != null)
 		{
 			ArrayList<CompareServiceStopListVector> elements = list.getVectors();
-			for (CompareServiceStopListVector el: elements)
+			Iterator<CompareServiceStopListVector> it = elements.iterator();
+			while (it.hasNext())
 			{
+				CompareServiceStopListVector el = it.next();
 				if (el.getDocId().longValue() == listElementId.longValue())
 				{
 					log.debug("delStopListElement(): Document id="+listId+" is deleted from list id="+listId);
