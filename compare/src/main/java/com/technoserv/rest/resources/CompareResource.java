@@ -117,7 +117,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         log.debug("---------------------\nИницаиализация сервиса сравнения");
         //listManager = new CompareListManager(documentService);
         List<StopList> allLists = stopListService.getAll("owner","owner.bioTemplates");
-        System.out.println("Number of stop lists is:"+allLists.size());
+        log.debug("Number of stop lists is:"+allLists.size());
         for (StopList element : allLists)
         {
         	listManager.addList(element);
@@ -127,14 +127,14 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             {
                 Document d = id.next();
                 //listManager.addElement(element.getId(), d);
-                System.out.println(" doc_id="+d.getId());
+                log.debug(" doc_id="+d.getId());
                 List<BioTemplate> blist = d.getBioTemplates();
                 for(BioTemplate t: blist)
                 {
                     ObjectMapper mapper = new ObjectMapper();
                     double[] array = mapper.readValue(t.getTemplateVector(), double[].class);
                     ArrayRealVector arv = new ArrayRealVector(array);
-                    System.out.println("\tvector="+arv.toString());
+                    log.debug("\tvector="+arv.toString());
                 }
             }
         }        
@@ -219,9 +219,9 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         while(it.hasNext())
         {
             Request r = it.next();
-            log.debug("historyDifference CHECK my id="+wfmId.longValue()+" hist_id="+r.getId().longValue());
+            log.info("historyDifference CHECK my id="+wfmId.longValue()+" hist_id="+r.getId().longValue());
             if(r.getId().longValue() == wfmId.longValue()) {
-                log.debug("historyDifference(): skipping myself");
+                log.info("historyDifference(): skipping myself");
             }
             List<BioTemplate> lw = r.getScannedDocument().getBioTemplates();
             ArrayList<CompareResponsePhotoObject> result = doCompare(r,comparing_vector,less,otherness);
