@@ -22,8 +22,8 @@ public class StopList extends AbstractObject {
     @JoinTable(name = "STOP_LISTS_CONTENTS", joinColumns = {@JoinColumn(name = "LISTS_ID")}, inverseJoinColumns = {@JoinColumn(name = "DOC_ID")})
     private List<Document> owner;
 
-    @Column(name = "TYPE")
-    private String type;
+    @Column(name = "TYPE", nullable = false)
+    private String type = "bank";
 
     @Column(name = "DESCRIPTION")
     private String description;
