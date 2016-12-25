@@ -1,4 +1,6 @@
 {
+  "picSimilarity" : 0.56234234,
+  "picSimilarityThreshold": 0.185343,
   "scannedPicture" : {
     "pictureURL" : null,
     "previewURL" : "http://192.168.167.211:9080/storage/rest/image/MTA4NzgxODgtNGE1ZC00YWE5LWE1NWQtZjViNTdhZWYzY2Q1.jpg",
