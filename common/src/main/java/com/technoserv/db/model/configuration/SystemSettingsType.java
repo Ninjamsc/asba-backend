@@ -9,6 +9,7 @@ public enum SystemSettingsType {
     COMPARE_SERVICE_STOP_LIST_URL("http://www.sdorohov.ru/compare/api/stoplist"),
     PHOTO_ANALYZER_SERVICE_URL("http://www.sdorohov.ru/analize/analize"),
     TEMPLATE_BUILDER_SERVICE_URL("http://www.sdorohov.ru/rpe/api/rest/template-builder-stub"),
+    SEND_TO_WORKFLOW_QUEUE("false"),
     COMPARATOR_COMMON_LIST_ID("5"),
     COMPARATOR_MULTIPLIER("0.7"),
     COMPARATOR_POWER("4"),
