@@ -46,9 +46,19 @@
 
                                 </div>
                                 <div class="col-xs-11 align-middle">
-                                   <!-- {{getRuleName(rule.ruleId)}} -->
-				   {{rule.ruleName}}
+                                    <!-- {{getRuleName(rule.ruleId)}} -->
+                                    {{rule.ruleName}}
                                 </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12" ng-if="compareResult.picSimilarity > compareResult.picSimilarityThreshold">
+                            <div class="col-xs-1">
+                                <img src="src/icons/check.png" style="width: 40px; height: 40px;">
+                            </div>
+                            <div class="col-xs-11 align-middle">
+                                Фотография скана документа и фотография с вебкамеры похожи.<br/>
+                                Коэфиициент схожести {{compareResult.picSimilarity}} при пороге
+                                {{compareResult.picSimilarityThreshold}}.
                             </div>
                         </div>
                     </div>
@@ -108,7 +118,12 @@
                 </div>
             </div>
         </div>
-        <div class="panel panel-default inner-panel">
+        <div class="container" style="padding-right: 5%; padding-bottom: 1%;">
+            <button type="button" class="btn btn-success pull-right" ng-click="onShowDetailsButton()">{{!showDetails ?
+                'Показать детали':'Скрыть'}}
+            </button>
+        </div>
+        <div class="panel panel-default inner-panel" ng-if="showDetails">
             <div class="panel-body">
                 <h3>Фотографии клиента, поступившие в биометрическое ядро</h3><br/>
                 <div class="row">
@@ -155,9 +170,6 @@
         <!--</div>-->
         <!--</div>-->
         <!--</div>-->
-        <div class="container" style="padding-right: 5%; padding-bottom: 1%;">
-            <button type="button" class="btn btn-success pull-right" ng-click="onShowDetailsButton()">{{!showDetails ? 'Показать детали':'Скрыть'}}</button>
-        </div>
         <div class="panel panel-default inner-panel"
              ng-if="showDetails &&
                     !!compareResult.scannedPicture &&
@@ -229,7 +241,8 @@
              ng-if="showDetails && !!othernessPicturesMatrix">
             <div class="panel-body">
                 <!--todo проверка на null для toFixed-->
-                <h3>Фотографии, существенно отличающиеся от переданной ({{compareResult.othernessPictures.similarity.toFixed(10)}})</h3>
+                <h3>Фотографии, существенно отличающиеся от переданной
+                    ({{compareResult.othernessPictures.similarity.toFixed(10)}})</h3>
                 <br/>
 
                 <div ng-repeat="othernessPictures in othernessPicturesMatrix">
