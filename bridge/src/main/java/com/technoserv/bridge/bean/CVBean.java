@@ -1,4 +1,4 @@
-package com.usetech.bridge.bean;
+package com.technoserv.bridge.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -1,5 +1,5 @@
 /*** Eclipse Class Decompiler plugin, copyright (c) 2016 Chen Chao (cnfree2000@hotmail.com) ***/
-package com.usetech.bridge.bean;
+package com.technoserv.bridge.bean;
 
 public enum ImageType {
 	PREVIEW("preview"), FULLFRAME("fullframe");
