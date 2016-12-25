@@ -5,7 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.technoserv.bio.kernel.rest.client.CompareServiceRestClient;
 import com.technoserv.bio.kernel.rest.client.PhotoAnalyzerServiceRestClient;
+import com.technoserv.db.model.configuration.SystemSettingsType;
 import com.technoserv.db.model.objectmodel.*;
+import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
 import com.technoserv.db.service.objectmodel.api.*;
 import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
 import com.technoserv.rest.exception.RestClientException;
@@ -60,6 +62,9 @@ public class RequestProcessor {
 
     @Autowired
     private BioTemplateTypeService bioTemplateTypeService;
+
+    @Autowired
+    private SystemSettingsBean systemSettingsBean;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -139,7 +144,9 @@ public class RequestProcessor {
                 String compareResult = сompareServiceRestClient.compare(compareServiceRequest);
                 String jsonResult = enrich(compareResult, request);
                 compareResultService.saveOrUpdate(new CompareResult(request.getId(), jsonResult));
-                jmsTemplate.convertAndSend(jsonResult);
+                if(isNeedToSentToWorkflowQueue()) {
+                    jmsTemplate.convertAndSend(jsonResult);
+                }
                 writeLog("Send compareServiceRequest Done");
                 writeLog("Update request status to SUCCESS for id = '" + request.getId() + "'");
                 updateRequestStatus(request, Request.Status.SUCCESS);
@@ -149,7 +156,9 @@ public class RequestProcessor {
                 writeLog("Update request status to FAILED for id = '" + request.getId() + "'");
                 updateRequestStatus(request, Request.Status.FAILED);
                 writeLog("Update request status to FAILED for id = '" + request.getId() + "' Done");
-                jmsTemplate.convertAndSend(ex.toJSON());
+                if(isNeedToSentToWorkflowQueue()) {
+                    jmsTemplate.convertAndSend(ex.toJSON());
+                }
             } catch (Throwable e) {
                 e.printStackTrace();
                 writeLog("Update request status to SAVED for id = '" + request.getId() + " for retry");
@@ -157,6 +166,10 @@ public class RequestProcessor {
                 writeLog("Update request status to SAVED for id = '" + request.getId() + " Done");
             }
         }
+    }
+
+    private boolean isNeedToSentToWorkflowQueue () {
+        return "true".equalsIgnoreCase(systemSettingsBean.get(SystemSettingsType.SEND_TO_WORKFLOW_QUEUE));
     }
 
     protected String enrich(String compareResult, Request request) throws Exception {
