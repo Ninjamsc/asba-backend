@@ -2,9 +2,7 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
     .controller('compareResultViewController', function ($scope, $log, $state, $stateParams,
                                                          $httpService, $c,
                                                          RuleErrorType) {
-        console.log($stateParams);
-
-
+        // console.log($stateParams);
 
         $scope.findRequest = function () {
             $log.info("$scope.findRequest requestId =", $scope.creditRequestIdForSearch);
@@ -31,14 +29,14 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
                     !!$scope.compareResult.similarPictures.photos &&
                     !!$scope.compareResult.similarPictures.photos.length > 0){
                     $scope.similarPicturesMatrix = $c.arrayToMatrix($scope.compareResult.similarPictures.photos, 5);
-                    console.log($scope.similarPicturesMatrix);
+                    // console.log($scope.similarPicturesMatrix);
                 }
 
                 if (!!$scope.compareResult.othernessPictures &&
                     !!$scope.compareResult.othernessPictures.photos &&
                     !!$scope.compareResult.othernessPictures.photos.length > 0){
                     $scope.othernessPicturesMatrix = $c.arrayToMatrix($scope.compareResult.othernessPictures.photos, 5);
-                    console.log($scope.othernessPicturesMatrix);
+                    // console.log($scope.othernessPicturesMatrix);
                 }
             });
         };
@@ -64,8 +62,12 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
             }
         };
 
+        $scope.onShowDetailsButton = function(){
+            $scope.showDetails = !$scope.showDetails;
+        };
         
-        //Инициализация 
+        //Инициализация
+        $scope.showDetails = false;
         if ($stateParams.requestId) {
             $scope.creditRequestIdForSearch = $stateParams.requestId;
             $scope.findRequest();

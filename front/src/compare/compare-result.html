@@ -155,8 +155,12 @@
         <!--</div>-->
         <!--</div>-->
         <!--</div>-->
+        <div class="container" style="padding-right: 5%; padding-bottom: 1%;">
+            <button type="button" class="btn btn-success pull-right" ng-click="onShowDetailsButton()">{{!showDetails ? 'Показать детали':'Скрыть'}}</button>
+        </div>
         <div class="panel panel-default inner-panel"
-             ng-if="!!compareResult.scannedPicture &&
+             ng-if="showDetails &&
+                    !!compareResult.scannedPicture &&
                                                     !!compareResult.scannedPicture.blackLists &&
                                                       compareResult.scannedPicture.blackLists.length > 0">
             <div class="panel-body">
@@ -180,8 +184,8 @@
             </div>
         </div>
         <div class="panel panel-default inner-panel"
-             ng-if="!!compareResult.cameraPicture &&
-                !!compareResult.cameraPicture.blackLists &&
+             ng-if="showDetails && !!compareResult.cameraPicture &&
+                    !!compareResult.cameraPicture.blackLists &&
                                                       compareResult.cameraPicture.blackLists.length > 0">
             <div class="panel-body">
                 <h3>Совпадения в стоп-листах для фото с камеры
@@ -205,7 +209,7 @@
             </div>
         </div>
         <div class="panel panel-default inner-panel"
-             ng-if="!!similarPicturesMatrix">
+             ng-if="showDetails && !!similarPicturesMatrix">
             <div class="panel-body">
                 <h3>Фотографии, совпадающие с переданной ({{compareResult.similarPictures.similarity.toFixed(10)}})</h3>
                 <br/>
@@ -222,7 +226,7 @@
             </div>
         </div>
         <div class="panel panel-default inner-panel"
-             ng-if="!!othernessPicturesMatrix">
+             ng-if="showDetails && !!othernessPicturesMatrix">
             <div class="panel-body">
                 <!--todo проверка на null для toFixed-->
                 <h3>Фотографии, существенно отличающиеся от переданной ({{compareResult.othernessPictures.similarity.toFixed(10)}})</h3>
