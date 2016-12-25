@@ -15,6 +15,7 @@ import org.springframework.jms.support.converter.MessageType;
 
 @Configuration
 public class JmsConfig {
+
 	@Autowired
 	private CommonConfig config;
 

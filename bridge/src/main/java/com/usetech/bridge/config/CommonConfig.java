@@ -10,9 +10,9 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 @Configuration
 @PropertySource(value = { "classpath:application.properties" })
 public class CommonConfig {
-	@Value(value = "${com.usetech.bridge.queueName}")
+	@Value(value = "${com.technoserv.client.queueName}")
 	private String queueName;
-	@Value(value = "${com.usetech.bridge.brokerUrl}")
+	@Value(value = "${com.techonserv.client.brokerUrl}")
 	private String brokerUrl;
 
 	@Value(value = "${com.technoserv.video.yaw_threshold}")
