@@ -4,7 +4,7 @@ package com.usetech.bridge.bean;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import javax.validation.constraints.NotNull;
-
+// test
 public class AuthBean implements Serializable {
 	private static final long serialVersionUID = -5054749880970511861L;
 	@JsonProperty(value = "token")
