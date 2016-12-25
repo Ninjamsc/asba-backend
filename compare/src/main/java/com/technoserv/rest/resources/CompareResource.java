@@ -138,8 +138,8 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         //String s = compareRules.get("scanAndWeb")
         //Class cc = Class.forName(s);
         //CompareRule r = (CompareRule)cc.newInstance();
-//        Collection<Request> coll = requestService.findByIin(new Long(123456789012l));
-//        log.debug("Coll size is"+coll.size()); ///
+        //Collection<Request> coll = requestService.findByIin(new Long(123456789012l));
+        //log.debug("Coll size is"+coll.size()); ///
         System.out.println(" онец инициализации сервиса сравнени€\n-------------------------");
     }
 
@@ -305,7 +305,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             log.error(e);
             throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
         try {
-            // ?? ???????
+            //
             CompareResponseRulesObject otherness_scan =  historyDifference( message.getWfmId(),message.getIin(), message.getTemplate_scan(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)),true);
             CompareResponseRulesObject otherness_web =  historyDifference( message.getWfmId(),message.getIin(), message.getTemplate_web(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)),true);
             ArrayList<CompareResponsePhotoObject> all  = new ArrayList<CompareResponsePhotoObject>();
@@ -322,7 +322,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
                 firedRules.add(rule);
                 log.debug("compareImages 6.");
             }
-            //???????
+            //
         } catch (Exception e) {
             log.error("exception during dossier different: ", e);
             e.printStackTrace();
@@ -360,6 +360,8 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
                 //rule.setRuleName("Perhaps the discrepancy in the passport photo and the photo from webcap.");
                 firedRules.add(rule);
             }
+            response.setPicSimilarity(res.getSimilarity());
+            response.setPicSimilarityThreshold(res.getThreshold());
         }catch (Exception e) {
             log.error("exception during self-similarity check:", e);
             e.printStackTrace();
