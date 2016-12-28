@@ -11,6 +11,7 @@ import com.technoserv.db.service.objectmodel.api.DocumentService;
 import com.technoserv.db.service.objectmodel.api.DocumentTypeService;
 import com.technoserv.db.service.objectmodel.api.PersonService;
 import com.technoserv.db.service.objectmodel.api.RequestService;
+import com.technoserv.rest.request.RequestSearchCriteria;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by sergey on 23.11.2016.
@@ -192,6 +194,42 @@ public class RequestResource {
         public void setFullframeURL(String fullframeURL) {
             this.fullframeURL = fullframeURL;
         }
+    }
+
+    public static class RequestSearchResult {
+
+        private List<Request> result;
+
+        private Integer total;
+
+        public void setResult(List<Request> result) {
+            this.result = result;
+        }
+
+        public List<Request> getResult() {
+            return result;
+        }
+
+        public void setTotal(Integer total) {
+            this.total = total;
+        }
+
+        public Integer getTotal() {
+            return total;
+        }
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
+    @Path("/lists/rest/dossier/")
+    public RequestSearchResult find(RequestSearchCriteria criteria) {
+        List<Request> result = requestService.findByCriteria(criteria);
+        RequestSearchResult searchResult = new RequestSearchResult();
+        searchResult.setResult(result);
+        searchResult.setTotal(requestService.countByCriteria(criteria));
+        return searchResult;
     }
 
     /**
