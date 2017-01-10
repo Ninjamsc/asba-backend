@@ -10,6 +10,7 @@ import com.technoserv.db.service.objectmodel.api.DocumentService;
 import com.technoserv.db.service.objectmodel.api.DocumentTypeService;
 import com.technoserv.db.service.objectmodel.api.PersonService;
 import com.technoserv.db.service.objectmodel.api.RequestService;
+import com.technoserv.rest.request.RequestSearchCriteria;
 import com.technoserv.utils.HibernateInitializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * Created by sergey on 15.11.2016.
@@ -85,5 +87,15 @@ public class RequestServiceImpl extends AbstractService<Long, Request,RequestDao
             request.setCameraDocument(document);
         }
         saveOrUpdate(request);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Request> findByCriteria(RequestSearchCriteria criteria) {
+        return getDao().findByCriteria(criteria);
+    }
+
+    @Transactional(readOnly = true)
+    public Integer countByCriteria(RequestSearchCriteria criteria) {
+        return getDao().countByCriteria(criteria);
     }
 }

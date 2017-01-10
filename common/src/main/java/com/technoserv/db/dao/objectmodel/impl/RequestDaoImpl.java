@@ -3,16 +3,15 @@ package com.technoserv.db.dao.objectmodel.impl;
 import com.technoserv.db.dao.AbstractHibernateDao;
 import com.technoserv.db.dao.objectmodel.api.RequestDao;
 import com.technoserv.db.model.objectmodel.Request;
+import com.technoserv.rest.request.RequestSearchCriteria;
 import org.hibernate.Criteria;
-import org.hibernate.criterion.Conjunction;
-import org.hibernate.criterion.Disjunction;
-import org.hibernate.criterion.Property;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by sergey on 15.11.2016.
@@ -68,5 +67,36 @@ public class RequestDaoImpl extends AbstractHibernateDao<Long, Request> implemen
 
         criteria.add(Property.forName("status").eq(Request.Status.SAVED));
         return criteria.list();
+    }
+
+    @Override
+    public List<Request> findByCriteria(RequestSearchCriteria criteria) {
+        Criteria c = createSearchCriteria(criteria);
+        c.setMaxResults(criteria.getSize());
+        c.setFirstResult(criteria.getSize() * criteria.getPage());
+        return c.list();
+    }
+
+    private Criteria createSearchCriteria(RequestSearchCriteria criteria) {
+        Criteria c = getSession().createCriteria(getPersistentClass());
+        if(criteria.getFrom()!=null) {
+            c.add(Property.forName("objectDate").ge(criteria.getFrom()));
+        }
+        if(criteria.getTo()!=null) {
+            c.add(Property.forName("objectDate").le(criteria.getTo()));
+        }
+
+        if(criteria.getRequestId()!=null) {
+            c.add(Property.forName("id").eq(criteria.getRequestId()));
+        }
+        if(criteria.getIin()!=null) {
+            c.add(Property.forName("person").eq(criteria.getIin()));
+        }
+        return c;
+    }
+
+    @Override
+    public Integer countByCriteria(RequestSearchCriteria criteria) {
+        return (Integer) createSearchCriteria(criteria).setProjection(Projections.rowCount()).uniqueResult();
     }
 }
