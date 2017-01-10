@@ -44,13 +44,24 @@ public class LogStoreServiceImpl implements LogStoreService {
     public boolean saveFile(LogStoreBean logStoreBean) {
     	String base64Image;
     	String encoded_file = logStoreBean.getFileContent();
+    	String username = logStoreBean.getUsername();
+        String workstation = logStoreBean.getWorkstation();
+        String timestamp = logStoreBean.getTimestamp();
+        Long wfmId = logStoreBean.getWfmId();
+    	if(username.contains("\\"))
+            username= username.replace("\\","-");
+        if(workstation.contains("\\"))
+            workstation = workstation.replace("\\","-");
+        StringBuilder fullpath = new StringBuilder();
+        fullpath.append(config.getLogRootDir()).append("/").append(timestamp).append(".").append(wfmId).append(".").append(username).append(".").append(workstation).append("/");
+        File dir = new File(fullpath.toString());
     	if(encoded_file.startsWith("data:image"))
           base64Image = encoded_file.split(",")[1];
     	else
     		base64Image = encoded_file;
-
+        log.debug("Storing file to"+fullpath.toString() + logStoreBean.getFileName());
         byte[] data = Base64.decodeBase64(base64Image.getBytes());
-        File file = new File(config.getImageRootDir() + logStoreBean.getFileName());
+        File file = new File(fullpath.toString() + logStoreBean.getFileName());
         try (OutputStream stream = new FileOutputStream(file)) {
             stream.write(data);
         } catch (IOException e) {
