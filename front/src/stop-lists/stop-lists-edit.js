@@ -38,6 +38,7 @@ angular.module('stop-lists-edit', ['ui.router', 'commons', 'angularFileUpload'])
             $log.info($scope.zipUploader);
             $log.info($scope.zipUploader.queue[0]);
             $scope.zipUploader.queue[0].upload();
+            $scope.zipUploader.queue = [];
         };
 
         $scope.photoUploader = new FileUploader();
@@ -52,6 +53,7 @@ angular.module('stop-lists-edit', ['ui.router', 'commons', 'angularFileUpload'])
             $log.info($scope.photoUploader);
             $log.info($scope.photoUploader.queue[0]);
             $scope.photoUploader.queue[0].upload();
+            $scope.photoUploader.queue = [];
         };
 
         $scope.toRegistry = function () {
