@@ -1,8 +1,10 @@
 package com.usetech.imagestorage.controller;
 
 import com.usetech.imagestorage.bean.ErrorBean;
-import com.usetech.imagestorage.bean.FileStoreBean;
+import com.usetech.imagestorage.bean.ImageStoreBean;
+import com.usetech.imagestorage.bean.LogStoreBean;
 import com.usetech.imagestorage.service.FileStoreService;
+import com.usetech.imagestorage.service.LogStoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +24,20 @@ public class FileStoreController {
 
     @Autowired
     private FileStoreService fileStoreService;
+    @Autowired
+    private LogStoreService logStoreService;
+
+    @RequestMapping(value = "/log", method = RequestMethod.PUT)
+    public ResponseEntity storeLog(@RequestBody LogStoreBean logStoreBean) {
+        if (logStoreService.saveFile(logStoreBean)) {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    }
 
     @RequestMapping(value = "/image", method = RequestMethod.PUT)
-    public ResponseEntity store(@RequestBody FileStoreBean fileStoreBean) {
-        if (fileStoreService.saveFile(fileStoreBean)) {
+    public ResponseEntity storeImage(@RequestBody ImageStoreBean imageStoreBean) {
+        if (fileStoreService.saveFile(imageStoreBean)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);

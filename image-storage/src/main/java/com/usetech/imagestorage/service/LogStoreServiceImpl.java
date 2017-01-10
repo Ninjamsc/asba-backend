@@ -1,6 +1,6 @@
 package com.usetech.imagestorage.service;
 
-import com.usetech.imagestorage.bean.ImageStoreBean;
+import com.usetech.imagestorage.bean.LogStoreBean;
 import com.usetech.imagestorage.config.CommonConfig;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ import java.nio.file.Paths;
  * Created by User on 14.11.2016.
  */
 @Service
-public class FileStoreServiceImpl implements FileStoreService {
+public class LogStoreServiceImpl implements LogStoreService {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     @Autowired
@@ -29,7 +29,7 @@ public class FileStoreServiceImpl implements FileStoreService {
 
     @PostConstruct
     private void validate() {
-        Path path = Paths.get(config.getImageRootDir());
+        Path path = Paths.get(config.getLogRootDir());
         File rootPath = path.toFile();
         if (!(rootPath.exists() && rootPath.isDirectory())) {
             throw new RuntimeException("Root path '" + config.getImageRootDir() + "' doesn't exist");
@@ -41,16 +41,16 @@ public class FileStoreServiceImpl implements FileStoreService {
     }
 
     @Override
-    public boolean saveFile(ImageStoreBean imageStoreBean) {
+    public boolean saveFile(LogStoreBean logStoreBean) {
     	String base64Image;
-    	String encoded_file = imageStoreBean.getFileContent();
+    	String encoded_file = logStoreBean.getFileContent();
     	if(encoded_file.startsWith("data:image"))
           base64Image = encoded_file.split(",")[1];
     	else
     		base64Image = encoded_file;
 
         byte[] data = Base64.decodeBase64(base64Image.getBytes());
-        File file = new File(config.getImageRootDir() + imageStoreBean.getFileName());
+        File file = new File(config.getImageRootDir() + logStoreBean.getFileName());
         try (OutputStream stream = new FileOutputStream(file)) {
             stream.write(data);
         } catch (IOException e) {

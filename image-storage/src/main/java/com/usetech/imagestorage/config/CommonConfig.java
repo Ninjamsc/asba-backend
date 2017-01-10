@@ -14,14 +14,19 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 public class CommonConfig {
 
     @Value("${com.usetech.imagestorage.rootDir}")
-    private String rootDir;
+    private String imageRootDir;
+    @Value("${com.usetech.logstorage.rootDir}")
+    private String logRootDir;
 
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
     }
 
-    public String getRootDir() {
-        return rootDir;
+    public String getImageRootDir() {
+        return imageRootDir;
+    }
+    public String getLogRootDir() {
+        return logRootDir;
     }
 }

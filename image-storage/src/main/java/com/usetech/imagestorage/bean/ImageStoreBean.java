@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created by User on 14.11.2016.
  */
-public class FileStoreBean implements Serializable {
+public class ImageStoreBean implements Serializable {
 
     private static final long serialVersionUID = -5054749880960511861L;
     @JsonProperty(value = "file-content")
