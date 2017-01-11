@@ -54,7 +54,7 @@ public class LogStoreServiceImpl implements LogStoreService {
             workstation = workstation.replace("\\","-");
         StringBuilder fullpath = new StringBuilder();
         fullpath.append(config.getLogRootDir()).append("/").append(timestamp).append(".").append(wfmId).append(".").append(username).append(".").append(workstation).append("/");
-        File dir = new File(fullpath.toString());
+        new File(fullpath.toString()).mkdir();
     	if(encoded_file.startsWith("data:image"))
           base64Image = encoded_file.split(",")[1];
     	else
