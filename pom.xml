@@ -117,6 +117,15 @@
                 <data-source-context.xml.name>data-source-context-stend.xml</data-source-context.xml.name>
             </properties>
         </profile>
+        <profile>
+            <id>mlevitin</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <data-source-context.xml.name>data-source-context-mlevitin.xml</data-source-context.xml.name>
+            </properties>
+        </profile>
     </profiles>
 
 </project>
