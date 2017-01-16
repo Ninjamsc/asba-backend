@@ -58,7 +58,7 @@
                 </div>
             </div>
         </div>
-        <div class="panel panel-default inner-panel" ng-if="!!stoplist.id">
+        <div class="panel panel-default inner-panel" ng-if="!!stoplist.id && !!user">
             <div class="panel-body">
                 <div class="row">
                     <span>
@@ -74,7 +74,7 @@
             </div>
         </div>
 
-        <div class="panel panel-default inner-panel" ng-if="!!stoplist.id">
+        <div class="panel panel-default inner-panel" ng-if="!!stoplist.id && !!user">
             <div class="panel-body">
                 <div class="row">
                     <span>
@@ -131,7 +131,7 @@
         <div class="row">
             <span class="pull-right" style="margin-right: 3%">
                 <button type="button" class="btn btn-primary btn-md" ng-click="toRegistry()">В реестр</button>
-                <button type="button" class="btn btn-primary btn-md" ng-click="saveStoplist()">Сохранить</button>
+                <button type="button" class="btn btn-primary btn-md" ng-show="!!user" ng-click="saveStoplist()">Сохранить</button>
             </span>
         </div>
     </div>
