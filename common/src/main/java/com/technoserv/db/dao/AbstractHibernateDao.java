@@ -1,6 +1,7 @@
 package com.technoserv.db.dao;
 
 import com.technoserv.db.model.BaseEntity;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
@@ -81,5 +82,9 @@ public abstract class AbstractHibernateDao<ID extends Serializable,T extends Bas
     @SuppressWarnings("unchecked")
     public List<T> getAll(int page, int max) {
         return getSession().createCriteria(getPersistentClass()).setMaxResults(max).setFirstResult(page * max).list();
+    }
+
+    protected Criteria createEntityCriteria() {
+        return getSession().createCriteria(getPersistentClass());
     }
 }

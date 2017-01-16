@@ -1,5 +1,7 @@
 package com.technoserv.db.model.security;
 
+import com.technoserv.db.model.BaseEntity;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,7 +14,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name="PERSISTENT_LOGINS")
-public class PersistentLogin implements Serializable{
+public class PersistentLogin extends BaseEntity<String> implements Serializable{
 
     @Id
     private String series;
@@ -58,5 +60,7 @@ public class PersistentLogin implements Serializable{
         this.last_used = last_used;
     }
 
-
+    public String getId() {
+        return null;
+    }
 }

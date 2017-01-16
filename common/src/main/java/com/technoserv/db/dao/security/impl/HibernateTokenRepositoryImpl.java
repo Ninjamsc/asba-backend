@@ -2,7 +2,7 @@ package com.technoserv.db.dao.security.impl;
 
 import java.util.Date;
 
-import com.technoserv.db.dao.AbstractDao;
+import com.technoserv.db.dao.AbstractHibernateDao;
 import com.technoserv.db.model.security.PersistentLogin;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository("tokenRepositoryDao")
 @Transactional
-public class HibernateTokenRepositoryImpl extends AbstractDao<String, PersistentLogin>
+public class HibernateTokenRepositoryImpl extends AbstractHibernateDao<String, PersistentLogin>
         implements PersistentTokenRepository {
 
     static final Logger logger = LoggerFactory.getLogger(HibernateTokenRepositoryImpl.class);
@@ -28,7 +28,7 @@ public class HibernateTokenRepositoryImpl extends AbstractDao<String, Persistent
         persistentLogin.setSeries(token.getSeries());
         persistentLogin.setToken(token.getTokenValue());
         persistentLogin.setLast_used(token.getDate());
-        persist(persistentLogin);
+        save(persistentLogin);
 
     }
 
@@ -61,7 +61,7 @@ public class HibernateTokenRepositoryImpl extends AbstractDao<String, Persistent
 
     public void updateToken(String seriesId, String tokenValue, Date lastUsed) {
         logger.info("Updating Token for seriesId : {}", seriesId);
-        PersistentLogin persistentLogin = getByKey(seriesId);
+        PersistentLogin persistentLogin = get(seriesId);
         persistentLogin.setToken(tokenValue);
         persistentLogin.setLast_used(lastUsed);
         update(persistentLogin);

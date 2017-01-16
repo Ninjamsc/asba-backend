@@ -4,9 +4,11 @@ import java.util.List;
 
 import com.technoserv.db.dao.security.api.UserDao;
 import com.technoserv.db.model.security.User;
+import com.technoserv.db.service.AbstractService;
 import com.technoserv.db.service.security.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 //TODO import org.springframework.security.crypto.password.*;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,10 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("userService")
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends AbstractService<Integer,User,UserDao> implements UserService {
 
     @Autowired
-    private UserDao dao;
+    @Qualifier("userDao")
+    public void setDao(UserDao dao) {
+        this.dao = dao;
+    }
+
 
     //@Autowired
     //TODO private PasswordEncoder passwordEncoder;

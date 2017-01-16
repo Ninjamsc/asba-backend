@@ -1,0 +1,40 @@
+<div class="container">
+    <img src="src/icons/logo.png"
+         style="max-width: 100%;max-height: 100%;"
+         class="pull-right" style="margin-top: 1%"/>
+</div>
+<h2 style="padding-left: 20px;">Авторизация</h2>
+<div class="container">
+    <FORM METHOD=POST id="loginForm" ACTION="/compare/j_security_check">
+        <table>
+            <tr>
+                <td>
+                    <label for="username">Логин</label>
+                </td>
+                <td>
+                    <input type="text" size="20" name="username" id="username" required="required"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="password">Пароль</label>
+                </td>
+                <td>
+                    <input type="password" size="20" name="password" id="password" required="required"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    &nbsp;
+                </td>
+            </tr>
+        </table>
+        <input type="submit" value="Войти"/>
+    </FORM>
+</div>
+

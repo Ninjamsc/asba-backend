@@ -1,0 +1,58 @@
+
+[
+  {
+    "id": 5,
+    "objectDate": "2016-12-02",
+    "stopListName": "Общий список",
+    "owner": [
+      {
+        "id": 2076,
+        "objectDate": "2016-12-16",
+        "description": "Stop list element",
+        "documentType": {
+          "id": 3,
+          "type": "WEB_CAM",
+          "description": "WEB_CAM"
+        },
+        "origImageURL": null,
+        "faceSquare": "http://192.168.167.211:9080/storage/rest/image/8e6b56bd-df41-4003-9802-4f02b6ac3b76.jpg"
+      },
+      {
+        "id": 2078,
+        "objectDate": "2016-12-16",
+        "description": "Stop list element",
+        "documentType": {
+          "id": 3,
+          "type": "WEB_CAM",
+          "description": "WEB_CAM"
+        },
+        "origImageURL": null,
+        "faceSquare": "http://192.168.167.211:9080/storage/rest/image/9f7613aa-5dba-4a98-9b5d-c657d1b921f7.jpg"
+      }
+    ],
+    "type": null,
+    "description": null,
+    "persons": null,
+    "similarity": 0.851
+  },
+  {
+    "id": 24,
+    "objectDate": "2016-12-04",
+    "stopListName": "Stop List 2",
+    "owner": [],
+    "type": null,
+    "description": null,
+    "persons": null,
+    "similarity": 0.851
+  },
+  {
+    "id": 23,
+    "objectDate": "2016-12-02",
+    "stopListName": "Stop List 1",
+    "owner": [],
+    "type": null,
+    "description": null,
+    "persons": null,
+    "similarity": 0.851
+  }
+]

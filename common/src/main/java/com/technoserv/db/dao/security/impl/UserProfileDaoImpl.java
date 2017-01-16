@@ -2,7 +2,7 @@ package com.technoserv.db.dao.security.impl;
 
 import java.util.List;
 
-import com.technoserv.db.dao.AbstractDao;
+import com.technoserv.db.dao.AbstractHibernateDao;
 import com.technoserv.db.dao.security.api.UserProfileDao;
 import com.technoserv.db.model.security.UserProfile;
 import org.hibernate.Criteria;
@@ -14,10 +14,10 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository("userProfileDao")
-public class UserProfileDaoImpl extends AbstractDao<Integer, UserProfile> implements UserProfileDao {
+public class UserProfileDaoImpl extends AbstractHibernateDao<Integer, UserProfile> implements UserProfileDao {
 
     public UserProfile findById(int id) {
-        return getByKey(id);
+        return get(id);
     }
 
     public UserProfile findByType(String type) {

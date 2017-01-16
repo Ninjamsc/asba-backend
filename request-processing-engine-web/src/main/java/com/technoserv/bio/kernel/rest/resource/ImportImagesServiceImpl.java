@@ -128,6 +128,8 @@ public class ImportImagesServiceImpl implements ImportImagesService{
             while ((read = uploadedInputStream.read(bytes)) != -1) {
                 out.write(bytes, 0, read);
             }
+            out.flush();
+            out.close();
         }
         return true;
     }

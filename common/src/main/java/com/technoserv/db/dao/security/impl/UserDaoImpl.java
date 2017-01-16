@@ -2,7 +2,7 @@ package com.technoserv.db.dao.security.impl;
 
 import java.util.List;
 
-import com.technoserv.db.dao.AbstractDao;
+import com.technoserv.db.dao.AbstractHibernateDao;
 import com.technoserv.db.dao.security.api.UserDao;
 import com.technoserv.db.model.security.User;
 import org.hibernate.Criteria;
@@ -17,12 +17,12 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository("userDao")
-public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
+public class UserDaoImpl extends AbstractHibernateDao<Integer,User> implements UserDao {
 
     static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
     public User findById(int id) {
-        User user = getByKey(id);
+        User user = findById(id);
         if(user!=null){
             Hibernate.initialize(user.getUserProfiles());
         }
@@ -53,10 +53,6 @@ public class UserDaoImpl extends AbstractDao<Integer, User> implements UserDao {
             Hibernate.initialize(user.getUserProfiles());
         }*/
         return users;
-    }
-
-    public void save(User user) {
-        persist(user);
     }
 
     public void deleteBySSO(String sso) {

@@ -24,6 +24,7 @@ import java.nio.file.Paths;
 public class FileStoreServiceImpl implements FileStoreService {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private CommonConfig config;
 
@@ -40,6 +41,11 @@ public class FileStoreServiceImpl implements FileStoreService {
         log.info("Root path: '{}' is valid", rootPath.getAbsolutePath());
     }
 
+    private String getImageRootDir() {
+        String separator = config.getImageRootDir().endsWith(File.separator) ? "" : File.separator;
+        return config.getImageRootDir() + separator;
+    }
+
     @Override
     public boolean saveFile(ImageStoreBean imageStoreBean) {
     	String base64Image;
@@ -50,7 +56,7 @@ public class FileStoreServiceImpl implements FileStoreService {
     		base64Image = encoded_file;
 
         byte[] data = Base64.decodeBase64(base64Image.getBytes());
-        File file = new File(config.getImageRootDir() + imageStoreBean.getFileName());
+        File file = new File(getFilePathString(imageStoreBean.getFileName()));
         try (OutputStream stream = new FileOutputStream(file)) {
             stream.write(data);
         } catch (IOException e) {
@@ -60,11 +66,21 @@ public class FileStoreServiceImpl implements FileStoreService {
         return true;
     }
 
+    private String getFilePathString(String fileName) {
+        StringBuilder builder = new StringBuilder();
+        builder.append(config.getImageRootDir());
+        if(!config.getImageRootDir().endsWith(File.separator)) {
+            builder.append(File.separator);
+        }
+        builder.append(fileName);
+        return builder.toString();
+    }
+
     @Override
     public byte[] getFile(String fileName) {
         byte[] result = null;
         try {
-            Path path = Paths.get(config.getImageRootDir() + fileName);
+            Path path = Paths.get(getFilePathString(fileName));
             if (!path.toFile().exists()) {
                 log.info("File '{}' doesn't exists", fileName);
                 return null;

@@ -7,22 +7,14 @@ import java.io.Serializable;
         import java.util.HashSet;
         import java.util.Set;
 
-        import javax.persistence.Column;
-        import javax.persistence.Entity;
-        import javax.persistence.FetchType;
-        import javax.persistence.GeneratedValue;
-        import javax.persistence.GenerationType;
-        import javax.persistence.Id;
-        import javax.persistence.JoinColumn;
-        import javax.persistence.JoinTable;
-        import javax.persistence.ManyToMany;
-        import javax.persistence.Table;
+import javax.persistence.*;
 
-        import org.hibernate.validator.constraints.NotEmpty;
+import com.technoserv.db.model.BaseEntity;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name="APP_USER")
-public class User implements Serializable{
+public class User extends BaseEntity<Integer> implements Serializable{
 
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;
@@ -48,7 +40,7 @@ public class User implements Serializable{
     private String email;
 
     @NotEmpty
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
     @JoinTable(name = "APP_USER_USER_PROFILE",
             joinColumns = { @JoinColumn(name = "USER_ID") },
             inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })

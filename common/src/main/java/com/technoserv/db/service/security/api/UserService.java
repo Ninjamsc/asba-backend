@@ -1,13 +1,14 @@
 package com.technoserv.db.service.security.api;
 
 import com.technoserv.db.model.security.User;
+import com.technoserv.db.service.Service;
 
 import java.util.List;
 
 
 
 
-public interface UserService {
+public interface UserService extends Service<Integer,User>{
 
     User findById(int id);
 

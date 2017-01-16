@@ -1,5 +1,7 @@
 package com.technoserv.db.model.security;
 
+import com.technoserv.db.model.BaseEntity;
+
 import java.io.Serializable;
 
 import javax.persistence.Column;
@@ -11,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="USER_PROFILE")
-public class UserProfile implements Serializable{
+public class UserProfile extends BaseEntity<Integer> implements Serializable{
 
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer id;

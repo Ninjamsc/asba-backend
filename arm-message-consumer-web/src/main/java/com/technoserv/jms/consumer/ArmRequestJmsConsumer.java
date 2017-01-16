@@ -79,6 +79,7 @@ public class ArmRequestJmsConsumer {
 //    }
 
     protected boolean saveRequest(String request) {
+
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(DATE_FORMAT);
         try {

@@ -1,0 +1,48 @@
+<!--todo скроллинг-->
+
+<div class="container main">
+    <h2>Реестр стоп-листов</h2>
+    <div>
+        <span>Всего стоп-листов: {{stopLists.length}}</span>
+        <span class="pull-right">
+            <button type="button" class="btn btn-primary btn-md"
+                    style="margin-bottom: 3%;margin-right: 5%" ng-show="!user"
+                    ng-click="login()">Войти</button>
+        </span>
+        <span class="pull-right">
+            <button type="button" class="btn btn-primary btn-md"
+                    style="margin-bottom: 3%;margin-right: 5%" ng-show="!!user"
+                    ng-click="addStoplist()">Добавить стоп-лист</button>
+        </span>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th style="width:26%;">Название стоп-листа</th>
+            <th style="width:23%">Порог срабатывания степени схожести</th>
+            <th style="width:14%">Тип листа</th>
+            <th style="width:22%">Идентификатор владельца</th>
+            <th style="width:15%">Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-repeat="stopList in stopLists">
+            <td style="vertical-align: middle; text-align: left;">
+                <a class="" ng-click="editStopList(stopList)">
+                    {{stopList.stopListName}}
+                </a>
+            </td>
+            <td style="vertical-align: middle;">{{stopList.similarity}}</td>
+            <td style="vertical-align: middle;">{{stopList.type=='common' ? 'Общий' : 'Банковский'}}</td>
+            <td style="vertical-align: middle;">{{getOwnerId(stopList)}}</td>
+            <td style="vertical-align: middle;">
+                <!--todo курсор изменяется на текстовый-->
+                <a class="" ng-show="!!user" ng-click="editStopList(stopList)">Редактировать</a>
+                <br/>
+                <a class="" ng-show="!!user" ng-click="deleteStopList(stopList)">Удалить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

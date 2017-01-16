@@ -1,0 +1,139 @@
+{
+  "Результат биометрической верификации": [
+    "Перечень сработавших правил, наверное enum какой-то надо завести либо от Миши напрямую кидать"
+  ],
+  "biometricCoreResponse": {
+    "creditRequestId": "113456",
+    "clientId": "cl 100500",
+    "operatorId": "op 13",
+    "requestDate": "12:45 13.56.2016",
+    "responseDate": "13:56 12.45.2016"
+  },
+  "clientPhotos": {
+    "comment": "Фотографии клиента, поступившие в биометрическое ядро, отображается всегда",
+    "items": [
+      {
+        "url": "https://pp.vk.me/c636028/v636028314/31824/I4r8J1it7Zk.jpg",
+        "description": "Фото с камеры"
+      },
+      {
+        "url": "https://pp.vk.me/c837127/v837127087/10288/3wvyKI247VU.jpg",
+        "description": "Превью фото с камеры"
+      },
+      {
+        "url": "https://pp.vk.me/c624521/v624521771/45043/iEehe9RnwA0.jpg",
+        "description": "Скан-фото"
+      },
+      {
+        "url": "https://pp.vk.me/c837127/v837127087/10288/3wvyKI247VU.jpg",
+        "description": "Превью скан-фото"
+      }
+    ]
+  },
+  "historicalClientPhotos": {
+    "comment": "Фотографии из исторических заявок клиента",
+    "comment1": "допустимый порог схожести должен быть",
+    "comment2": "отображается всегда",
+    "similarity" :"0.53",
+    "items": [
+      {
+        "url": "https://pp.vk.me/c837127/v837127087/10288/3wvyKI247VU.jpg",
+        "description": "0.98"
+      },
+      {
+        "url": "https://pp.vk.me/c636028/v636028314/31824/I4r8J1it7Zk.jpg",
+        "description": "0.84"
+      },
+      {
+        "url": "https://pp.vk.me/c624521/v624521771/45043/iEehe9RnwA0.jpg",
+        "description": "0.874"
+      }
+    ]
+  },
+  "bankStopListHits": {
+    "comment": "Совпадения в банковских стоп листах",
+    "comment1": "допустимый порог схожести должен быть",
+    "comment2": "отображается если есть соответсвующие совпдения",
+    "items": [
+      {
+        "name": "Стоплист 1",
+        "similarity": "0.98",
+        "photo": [
+          {
+            "url": "https://pp.vk.me/c837127/v837127087/10288/3wvyKI247VU.jpg",
+            "description": "0.98"
+          },
+          {
+            "url": "https://pp.vk.me/c636028/v636028314/31824/I4r8J1it7Zk.jpg",
+            "description": "0.84"
+          },
+          {
+            "url": "https://pp.vk.me/c624521/v624521771/45043/iEehe9RnwA0.jpg",
+            "description": "0.874"
+          }
+        ]
+      },
+      {
+        "name": "Стоплист 2",
+        "similarity": "0.8",
+        "photo": [
+          {
+            "url": "https://pp.vk.me/c837127/v837127087/10288/3wvyKI247VU.jpg",
+            "description": "0.98"
+          },
+          {
+            "url": "https://pp.vk.me/c636028/v636028314/31824/I4r8J1it7Zk.jpg",
+            "description": "0.84"
+          },
+          {
+            "url": "https://pp.vk.me/c624521/v624521771/45043/iEehe9RnwA0.jpg",
+            "description": "0.874"
+          }
+        ]
+      }
+    ]
+  },
+  "commonStopListHits": {
+    "comment": "Совпадения в общих стоп листах",
+    "comment1": "допустимый порог схожести должен быть",
+    "comment2": "отображается если есть соответсвующие совпдения",
+    "items": [
+      {
+        "name": "Стоплист 1",
+        "similarity": "0.9",
+        "photo": [
+          {
+            "url": "https://pp.vk.me/c837127/v837127087/10288/3wvyKI247VU.jpg",
+            "description": "0.98"
+          },
+          {
+            "url": "https://pp.vk.me/c636028/v636028314/31824/I4r8J1it7Zk.jpg",
+            "description": "0.84"
+          },
+          {
+            "url": "https://pp.vk.me/c624521/v624521771/45043/iEehe9RnwA0.jpg",
+            "description": "0.874"
+          }
+        ]
+      },
+      {
+        "name": "Стоплист 2",
+        "similarity": "0.87",
+        "photo": [
+          {
+            "url": "https://pp.vk.me/c837127/v837127087/10288/3wvyKI247VU.jpg",
+            "description": "0.98"
+          },
+          {
+            "url": "https://pp.vk.me/c636028/v636028314/31824/I4r8J1it7Zk.jpg",
+            "description": "0.84"
+          },
+          {
+            "url": "https://pp.vk.me/c624521/v624521771/45043/iEehe9RnwA0.jpg",
+            "description": "0.874"
+          }
+        ]
+      }
+    ]
+  }
+}
