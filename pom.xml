@@ -24,6 +24,7 @@
 
     <properties>
         <spring.version>4.3.0.RELEASE</spring.version>
+        <springsecurity.version>4.2.0.RELEASE</springsecurity.version>
         <hibernate.version>4.3.6.Final</hibernate.version>
     </properties>
 
