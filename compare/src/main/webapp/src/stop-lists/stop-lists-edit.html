@@ -108,14 +108,14 @@
                                     <!--<span class="glyphicon glyphicon-remove" ng-click="console.log(123)"></span>-->
                                     <!--</a>-->
                                     <img ng-src="src/icons/remove.png"
-                                         style="width: 15px; height: 15px;" alt="x"
+                                         style="width: 15px; height: 15px;" alt="x" ng-show="!!user"
                                          ng-click="removeImg(person);">
                                 </div>
                                 <div class="col-xs-2" ng-if="!!person.faceSquare">
                                     <img ng-src="{{person.faceSquare}}"
                                          alt="{{person.faceSquare}}"><br/>
                                     <img ng-src="src/icons/remove.png"
-                                         style="width: 15px; height: 15px;" alt="x"
+                                         style="width: 15px; height: 15px;" alt="x" ng-show="!!user"
                                          ng-click="removeImg(person);">
                                 </div>
                                 <!--<button type="button" class="pull-right btn btn-primary btn-md">Удалить персону</button>-->
