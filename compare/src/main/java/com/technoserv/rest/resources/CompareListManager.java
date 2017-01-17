@@ -51,7 +51,7 @@ public class CompareListManager implements InitializingBean  {
 	private SystemSettingsBean systemSettingsBean;
 
 
-	private String _commonLIst;
+	//private String _commonList;
 
 	private static final Log log = LogFactory.getLog(CompareListManager.class);
 
@@ -134,7 +134,7 @@ public class CompareListManager implements InitializingBean  {
 		managedStopLists.put(list.getId(), e);
 		return true;
 	}
-
+	// compare with exact list
 	public CompareResponseBlackListObject compare1(double[] vector, Long listId) throws Exception //TODO: specify exception
 	{
 		log.info("compare(double, Long) list size is "+managedStopLists.size());
@@ -175,7 +175,7 @@ public class CompareListManager implements InitializingBean  {
 		return null;
 	}
 
-
+	// compare with all list except specified
 	public ArrayList<CompareResponseBlackListObject> compare2(double[] vector, Long listId) throws Exception //TODO: specify exception
 	{
 		//log.info("COMPARATOR vector is ='"+vector+"'");
@@ -247,11 +247,11 @@ public class CompareListManager implements InitializingBean  {
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
-		this._commonLIst = this.systemSettingsBean.get(SystemSettingsType.COMPARATOR_COMMON_LIST_ID);
+		//this._commonList= this.systemSettingsBean.get(SystemSettingsType.COMPARATOR_COMMON_LIST_ID);
 		this.managedStopLists = new HashMap<Long,CompareServiceStopListElement>();
-		log.info("++++++++++++++++++++++++++++++++++++++++++++++++++");
-		log.info("list="+ _commonLIst);
-		log.info("++++++++++++++++++++++++++++++++++++++++++++++++++");
+		//log.info("++++++++++++++++++++++++++++++++++++++++++++++++++");
+		//log.info("list="+ _commonList);
+		//log.info("++++++++++++++++++++++++++++++++++++++++++++++++++");
 
 	}
 }
