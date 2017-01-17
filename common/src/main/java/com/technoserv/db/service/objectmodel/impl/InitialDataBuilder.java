@@ -67,16 +67,30 @@ public class InitialDataBuilder implements InitializingBean {
         if(userService.countAll() == 0) {
             User user = new User();
             Set<UserProfile> userProfileSet = new HashSet<UserProfile>();
-            user.setSsoId("admin");
-            user.setPassword("admin");
+            user.setSsoId("user");
+            user.setPassword("user");
             UserProfile userProfile = new UserProfile();
-            userProfile.setType(UserProfileType.ADMIN.name());
+            userProfile.setType(UserProfileType.USER.name());
             userProfileSet.add(userProfile);
             user.setUserProfiles(userProfileSet);
-            user.setFirstName("Админ");
-            user.setLastName("Админов");
+            user.setFirstName("Юзер");
+            user.setLastName("Юзеров");
             user.setEmail("admin@ru.ru");
             userService.saveOrUpdate(user);
+
+
+            User admin = new User();
+            Set<UserProfile> adminProfileSet = new HashSet<UserProfile>();
+            admin.setSsoId("admin");
+            admin.setPassword("admin");
+            UserProfile adminProfile = new UserProfile();
+            adminProfile.setType(UserProfileType.ADMIN.name());
+            adminProfileSet.add(adminProfile);
+            admin.setUserProfiles(adminProfileSet);
+            admin.setFirstName("Админ");
+            admin.setLastName("Админов");
+            admin.setEmail("admin@ru.ru");
+            userService.saveOrUpdate(admin);
         }
     }
 }
