@@ -1,4 +1,4 @@
-package com.technoserv.bio.kernel.rest.resource;
+package com.technoserv.rest.resources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.SerializationFeature;

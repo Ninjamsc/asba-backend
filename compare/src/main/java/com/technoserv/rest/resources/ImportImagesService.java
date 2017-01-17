@@ -1,4 +1,4 @@
-package com.technoserv.bio.kernel.rest.resource;
+package com.technoserv.rest.resources;
 
 import java.io.InputStream;
 import java.util.Map;
