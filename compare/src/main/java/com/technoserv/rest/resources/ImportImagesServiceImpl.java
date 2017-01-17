@@ -1,6 +1,6 @@
-package com.technoserv.bio.kernel.rest.resource;
+package com.technoserv.rest.resources;
 
-import com.technoserv.bio.kernel.rest.client.CompareServiceRestClient;
+import com.technoserv.rest.model.StopListElement;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class ImportImagesServiceImpl implements ImportImagesService{
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss_SSS");
 
     @Autowired
-    private CompareServiceRestClient compareServiceRestClient;
+    private CompareResource compareResource;
 
     public void importImage(Long stopListId, InputStream uploadedInputStream, String fileName) {
         Path uploadedFileLocation = null;
@@ -42,7 +42,9 @@ public class ImportImagesServiceImpl implements ImportImagesService{
                 p -> {
                     String file = encodeFile(p);
                     if(file != null) {
-                        compareServiceRestClient.importImage(stopListId, file);
+                        StopListElement stopListElement = new StopListElement();
+                        stopListElement.setPhoto(file);
+                        compareResource.add(stopListId, stopListElement);
                         return true;
                     }
                     return  false;
@@ -69,7 +71,9 @@ public class ImportImagesServiceImpl implements ImportImagesService{
                     System.out.println("Upload file: " + p.toAbsolutePath().toString());
                     String file = encodeFile(p);
                     if(file != null) {
-                        compareServiceRestClient.importImage(stopListId, file);
+                        StopListElement stopListElement = new StopListElement();
+                        stopListElement.setPhoto(file);
+                        compareResource.add(stopListId, stopListElement);
                         return true;
                     }
                     return false;

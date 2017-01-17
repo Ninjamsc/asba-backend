@@ -27,7 +27,7 @@ angular.module('stop-lists-edit', ['ui.router', 'commons', 'angularFileUpload'])
         };
 
         $scope.zipUploader = new FileUploader();
-        $scope.zipUploader.url = '/rpe/api/stop-list/' + $scope.stoplistId + '/upload';
+        $scope.zipUploader.url = '/compare/api/stop-list/' + $scope.stoplistId + '/upload';
         $scope.zipUploader.onSuccessItem = function (fileItem, response, status, headers) {
             $log.info('Success upload', response);
             $scope.refresh();
@@ -42,7 +42,7 @@ angular.module('stop-lists-edit', ['ui.router', 'commons', 'angularFileUpload'])
         };
 
         $scope.photoUploader = new FileUploader();
-        $scope.photoUploader.url = '/rpe/api/stop-list/' + $scope.stoplistId + '/upload-photo';
+        $scope.photoUploader.url = '/compare/api/stop-list/' + $scope.stoplistId + '/upload-photo';
         $scope.photoUploader.onSuccessItem = function (fileItem, response, status, headers) {
             $log.info('Success photo upload', response);
             $scope.refresh();

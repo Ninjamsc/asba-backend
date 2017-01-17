@@ -2,7 +2,10 @@ angular.module('stop-lists-registry', ['ui.router','commons'])
     .controller('stopListsRegistryController', function ($rootScope,$scope, $log, $httpService, $state, $stateParams) {
         if(!!$stateParams.auth) {
             $httpService.userInfo(function (user){
-                $rootScope.user = user;
+                $rootScope.user = user.data;
+                console.log($rootScope.user);
+                console.log('$rootScope.user = ' + $rootScope.user);
+                console.log('$rootScope.user.admin = ' + $rootScope.user.admin);
             });
         }
         $scope.stopLists = [];

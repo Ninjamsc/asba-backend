@@ -58,7 +58,7 @@
                 </div>
             </div>
         </div>
-        <div class="panel panel-default inner-panel" ng-if="!!stoplist.id && !!user">
+        <div class="panel panel-default inner-panel" ng-if="!!stoplist.id && !!user && !!user.admin">
             <div class="panel-body">
                 <div class="row">
                     <span>
@@ -74,7 +74,7 @@
             </div>
         </div>
 
-        <div class="panel panel-default inner-panel" ng-if="!!stoplist.id && !!user">
+        <div class="panel panel-default inner-panel" ng-if="!!stoplist.id && !!user && !!user.admin">
             <div class="panel-body">
                 <div class="row">
                     <span>
@@ -108,14 +108,14 @@
                                     <!--<span class="glyphicon glyphicon-remove" ng-click="console.log(123)"></span>-->
                                     <!--</a>-->
                                     <img ng-src="src/icons/remove.png"
-                                         style="width: 15px; height: 15px;" alt="x" ng-show="!!user"
+                                         style="width: 15px; height: 15px;" alt="x" ng-show="!!user && !!user.admin"
                                          ng-click="removeImg(person);">
                                 </div>
                                 <div class="col-xs-2" ng-if="!!person.faceSquare">
                                     <img ng-src="{{person.faceSquare}}"
                                          alt="{{person.faceSquare}}"><br/>
                                     <img ng-src="src/icons/remove.png"
-                                         style="width: 15px; height: 15px;" alt="x" ng-show="!!user"
+                                         style="width: 15px; height: 15px;" alt="x" ng-show="!!user && !!user.admin"
                                          ng-click="removeImg(person);">
                                 </div>
                                 <!--<button type="button" class="pull-right btn btn-primary btn-md">Удалить персону</button>-->
@@ -131,7 +131,7 @@
         <div class="row">
             <span class="pull-right" style="margin-right: 3%">
                 <button type="button" class="btn btn-primary btn-md" ng-click="toRegistry()">В реестр</button>
-                <button type="button" class="btn btn-primary btn-md" ng-show="!!user" ng-click="saveStoplist()">Сохранить</button>
+                <button type="button" class="btn btn-primary btn-md" ng-show="!!user && !!user.admin" ng-click="saveStoplist()">Сохранить</button>
             </span>
         </div>
     </div>
