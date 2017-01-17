@@ -1,14 +1,15 @@
 /*** Eclipse Class Decompiler plugin, copyright (c) 2016 Chen Chao (cnfree2000@hotmail.com) ***/
-package com.usetech.bridge.controller;
+package com.technoserv.bridge.controller;
 
-import com.usetech.bridge.bean.AuthBean;
-import com.usetech.bridge.bean.CVBean;
-import com.usetech.bridge.bean.ErrorBean;
-import com.usetech.bridge.bean.FrameBean;
-import com.usetech.bridge.bean.ImageType;
-import com.usetech.bridge.bean.RegBean;
-import com.usetech.bridge.config.CommonConfig;
-import com.usetech.bridge.service.SendImageService;
+import com.technoserv.bridge.config.CommonConfig;
+import com.technoserv.bridge.service.SendImageService;
+import com.technoserv.bridge.bean.AuthBean;
+import com.technoserv.bridge.bean.CVBean;
+import com.technoserv.bridge.bean.ErrorBean;
+import com.technoserv.bridge.bean.FrameBean;
+import com.technoserv.bridge.bean.ImageType;
+import com.technoserv.bridge.bean.RegBean;
+
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

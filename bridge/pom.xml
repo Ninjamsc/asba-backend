@@ -28,7 +28,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <addResources>true</addResources>
-                    <mainClass>com.usetech.bridge.Application</mainClass>
+                    <mainClass>com.technoserv.bridge.Application</mainClass>
                 </configuration>
             </plugin>
         </plugins>

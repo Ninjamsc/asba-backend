@@ -1,5 +1,5 @@
 /*** Eclipse Class Decompiler plugin, copyright (c) 2016 Chen Chao (cnfree2000@hotmail.com) ***/
-package com.usetech.bridge.config;
+package com.technoserv.bridge.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
