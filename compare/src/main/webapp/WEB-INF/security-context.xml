@@ -14,6 +14,7 @@
         <security:intercept-url method="POST" pattern="/api/stoplist/" access="hasRole('ROLE_ADMIN')"/>
         <security:intercept-url method="DELETE" pattern="/api/stoplist/**" access="hasRole('ROLE_ADMIN')"/>
         <security:intercept-url method="PUT" pattern="/api/stoplist/" access="hasRole('ROLE_ADMIN')"/>
+        <security:intercept-url method="PUT" pattern="/api/stoplist/**" access="hasRole('ROLE_ADMIN')"/>
         <security:form-login authentication-failure-url="/#/login?user=403"
                              login-page="/#/login"
                              password-parameter="password"
