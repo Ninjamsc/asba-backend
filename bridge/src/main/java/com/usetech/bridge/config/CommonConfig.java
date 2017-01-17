@@ -12,7 +12,7 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 public class CommonConfig {
 	@Value(value = "${com.technoserv.client.queueName}")
 	private String queueName;
-	@Value(value = "${com.techonserv.client.brokerUrl}")
+	@Value(value = "${com.technoserv.client.brokerUrl}")
 	private String brokerUrl;
 
 	@Value(value = "${com.technoserv.video.yaw_threshold}")
