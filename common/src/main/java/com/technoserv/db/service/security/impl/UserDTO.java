@@ -57,9 +57,13 @@ public class UserDTO implements UserDetails {
     public boolean isAdmin() {
         boolean result = false;
         for (GrantedAuthority grantedAuthority : getAuthorities()) {
-            if(grantedAuthority.getAuthority().equalsIgnoreCase("ROLE_ADMIN")) {
+            System.out.println("!!!!!!!"+grantedAuthority.getAuthority());
+            if(grantedAuthority.getAuthority().equalsIgnoreCase("ROLE_ADMIN"))
                 result = true;
-            }
+            if(grantedAuthority.getAuthority().equalsIgnoreCase("ROLE_WRITE"))
+                result = true;
+
+
         }
         return result;
     }
