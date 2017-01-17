@@ -11,7 +11,7 @@
         </span>
         <span class="pull-right">
             <button type="button" class="btn btn-primary btn-md"
-                    style="margin-bottom: 3%;margin-right: 5%" ng-show="!!user && user.admin"
+                    style="margin-bottom: 3%;margin-right: 5%" ng-show="!!user"
                     ng-click="addStoplist()">Добавить стоп-лист</button>
         </span>
     </div>
@@ -38,9 +38,9 @@
             <td style="vertical-align: middle;">{{getOwnerId(stopList)}}</td>
             <td style="vertical-align: middle;">
                 <!--todo курсор изменяется на текстовый-->
-                <a class="" ng-show="(!!user && user.admin)" ng-click="editStopList(stopList)">Редактировать</a>
+                <a class="" ng-show="!!user" ng-click="editStopList(stopList)">Редактировать</a>
                 <br/>
-                <a class="" ng-show="(!!user && user.admin)" ng-click="deleteStopList(stopList)">Удалить</a>
+                <a class="" ng-show="!!user" ng-click="deleteStopList(stopList)">Удалить</a>
             </td>
         </tr>
         </tbody>
