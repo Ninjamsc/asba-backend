@@ -3,6 +3,7 @@ package com.usetech.bridge.controller;
 
 import com.usetech.bridge.bean.*;
 import com.usetech.bridge.config.CommonConfig;
+import com.usetech.bridge.service.LogStoreService;
 import com.usetech.bridge.service.SendImageService;
 import com.usetech.bridge.service.SendLogService;
 import org.slf4j.Logger;
@@ -21,6 +22,9 @@ import javax.validation.Valid;
 @RequestMapping(value = { "/rest" })
 public class RequestController {
 	private static final Logger log = LoggerFactory.getLogger(RequestController.class);
+
+	@Autowired
+	private LogStoreService logStoreService;
 	@Autowired
 	private SendImageService sendImageService;
 	@Autowired
@@ -53,8 +57,17 @@ public class RequestController {
 		
 		return ResponseEntity.ok().body((Object) null);
 	}
-	
-	
+
+
+	@RequestMapping(value = { "/log" }, method = { RequestMethod.GET })
+	public ResponseEntity storeLog(@RequestBody LogStoreBean logStoreBean) {
+		if (logStoreService.saveFile(logStoreBean)) {
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+	}
+
+
 	@RequestMapping(value = { "/ping" }, method = { RequestMethod.GET })
 	public ResponseEntity ping() {
 		return ResponseEntity.ok().body((Object) null);
