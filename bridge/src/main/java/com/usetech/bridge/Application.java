@@ -1,4 +1,4 @@
-package com.technoserv.bridge;
+package com.usetech.bridge;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

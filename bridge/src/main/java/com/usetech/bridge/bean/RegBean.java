@@ -1,25 +1,25 @@
 /*** Eclipse Class Decompiler plugin, copyright (c) 2016 Chen Chao (cnfree2000@hotmail.com) ***/
-package com.technoserv.bridge.bean;
+package com.usetech.bridge.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
 import javax.validation.constraints.NotNull;
-// test
-public class AuthBean implements Serializable {
+
+public class RegBean implements Serializable {
 	private static final long serialVersionUID = -5054749880970511861L;
-	@JsonProperty(value = "token")
+	@JsonProperty(value = "UUID")
 	@NotNull
-	private String token;
+	private String uuid;
 	@JsonProperty(value = "username")
 	@NotNull
 	private String username;
 
-	public String getToken() {
-		return this.token;
+	public String getUUID() {
+		return this.uuid;
 	}
 
-	public void setToken(String token) {
-		this.token = token;
+	public void setUUD(String uuid) {
+		this.uuid = uuid;
 	}
 
 	public String getUsername() {
@@ -31,6 +31,6 @@ public class AuthBean implements Serializable {
 	}
 
 	public String toString() {
-		return "AuthBean{token='" + this.token + '\'' +  ", username='" + this.username + '\''  + '}';
+		return "AuthBean{uuid='" + this.uuid + '\'' +  ", username='" + this.username + '\''  + '}';
 	}
 }

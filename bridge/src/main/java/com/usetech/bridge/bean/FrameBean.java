@@ -1,11 +1,11 @@
 /*** Eclipse Class Decompiler plugin, copyright (c) 2016 Chen Chao (cnfree2000@hotmail.com) ***/
-package com.technoserv.bridge.bean;
+package com.usetech.bridge.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.technoserv.bridge.service.LocalDateTimeDeserializer;
-import com.technoserv.bridge.service.LocalDateTimeSerializer;
+import com.usetech.bridge.service.LocalDateTimeDeserializer;
+import com.usetech.bridge.service.LocalDateTimeSerializer;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import javax.validation.constraints.Digits;

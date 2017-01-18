@@ -1,7 +1,7 @@
 /*** Eclipse Class Decompiler plugin, copyright (c) 2016 Chen Chao (cnfree2000@hotmail.com) ***/
-package com.technoserv.bridge.controller;
+package com.usetech.bridge.controller;
 
-import com.technoserv.bridge.bean.ErrorBean;
+import com.usetech.bridge.bean.ErrorBean;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;

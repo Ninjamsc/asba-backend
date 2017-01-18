@@ -1,5 +1,5 @@
 /*** Eclipse Class Decompiler plugin, copyright (c) 2016 Chen Chao (cnfree2000@hotmail.com) ***/
-package com.technoserv.bridge.config;
+package com.usetech.bridge.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +10,8 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 @Configuration
 @PropertySource(value = { "classpath:application.properties" })
 public class CommonConfig {
+	@Value("${com.usetech.logstorage.rootDir}")
+	private String logRootDir;
 	@Value(value = "${com.technoserv.client.queueName}")
 	private String queueName;
 	@Value(value = "${com.technoserv.client.brokerUrl}")
@@ -198,5 +200,9 @@ public class CommonConfig {
 
 	public void setPic_width(String pic_width) {
 		this.pic_width = pic_width;
+	}
+
+	public String getLogRootDir() {
+		return logRootDir;
 	}
 }

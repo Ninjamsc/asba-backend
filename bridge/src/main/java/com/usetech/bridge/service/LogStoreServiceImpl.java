@@ -1,7 +1,8 @@
-package com.usetech.imagestorage.service;
+package com.usetech.bridge.service;
 
-import com.usetech.imagestorage.bean.LogStoreBean;
-import com.usetech.imagestorage.config.CommonConfig;
+
+import com.usetech.bridge.bean.LogStoreBean;
+import com.usetech.bridge.config.CommonConfig;
 import org.apache.commons.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
