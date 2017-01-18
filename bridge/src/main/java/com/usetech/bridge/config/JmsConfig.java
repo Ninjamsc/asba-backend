@@ -1,6 +1,7 @@
 /*** Eclipse Class Decompiler plugin, copyright (c) 2016 Chen Chao (cnfree2000@hotmail.com) ***/
 package com.usetech.bridge.config;
 
+import com.usetech.bridge.config.CommonConfig;
 import java.util.Arrays;
 import javax.jms.ConnectionFactory;
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -29,7 +30,7 @@ public class JmsConfig {
 	public ActiveMQConnectionFactory connectionFactory() {
 		ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
 		connectionFactory.setBrokerURL(this.config.getBrokerUrl());
-		connectionFactory.setTrustedPackages(Arrays.asList("com.technoserv.bridge"));
+		connectionFactory.setTrustedPackages(Arrays.asList("com.usetech.bridge"));
 		return connectionFactory;
 	}
 

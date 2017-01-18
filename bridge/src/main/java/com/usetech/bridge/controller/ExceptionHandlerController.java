@@ -2,7 +2,6 @@
 package com.usetech.bridge.controller;
 
 import com.usetech.bridge.bean.ErrorBean;
-
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

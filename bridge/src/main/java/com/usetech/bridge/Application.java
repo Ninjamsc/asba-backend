@@ -7,7 +7,7 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(value = { "com.technoserv.bridge" })
+@ComponentScan(value = { "com.usetech.bridge" })
 public class Application extends SpringBootServletInitializer {
 	public static void main(String[] args) {
 		SpringApplication.run((Object) Application.class, (String[]) args);

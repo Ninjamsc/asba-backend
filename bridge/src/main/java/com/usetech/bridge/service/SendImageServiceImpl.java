@@ -3,6 +3,7 @@ package com.usetech.bridge.service;
 
 import com.usetech.bridge.bean.FrameBean;
 import com.usetech.bridge.config.CommonConfig;
+import com.usetech.bridge.service.SendImageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
