@@ -14,17 +14,21 @@
 
 <body>
 	<div class="generic-container">
-		<%@include file="authheader.jsp" %>	
+
+		<div class="authbar">
+			<span> Зарегистрирован в панели управления как  <strong>${loggedinuser}</strong> </span> <span class="floatRight"><a href="<c:url value="/logout" />">Выход</a></span>
+		</div>
+
 		<div class="panel panel-default">
 			  <!-- Default panel contents -->
 		  	<div class="panel-heading"><span class="lead">Список пользователей </span></div>
 			<table class="table table-hover">
 	    		<thead>
 		      		<tr>
-				        <th>Firstname</th>
-				        <th>Lastname</th>
-				        <th>Email</th>
-				        <th>SSO ID</th>
+				        <th>Имя</th>
+				        <th>Фамилия</th>
+				        <th>адрес Email</th>
+				        <th>Логин</th>
 				        <sec:authorize access="hasRole('ADMIN')">
 				        	<th width="100"></th>
 				        </sec:authorize>

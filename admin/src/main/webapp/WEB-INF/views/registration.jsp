@@ -7,14 +7,16 @@
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>User Registration Form</title>
+	<title>Форма регистрации пользователя</title>
 	<link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
 	<link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
 </head>
 
 <body>
  	<div class="generic-container">
-		<%@include file="authheader.jsp" %>
+		<div class="authbar">
+			<span> Зарегистрирован в панели управления как  <strong>${loggedinuser}</strong> </span> <span class="floatRight"><a href="<c:url value="/logout" />">Выход</a></span>
+		</div>
 
 		<div class="well lead">Форма регистрации пользователя</div>
 	 	<form:form method="POST" modelAttribute="user" class="form-horizontal">
@@ -103,10 +105,10 @@
 				<div class="form-actions floatRight">
 					<c:choose>
 						<c:when test="${edit}">
-							<input type="submit" value="Update" class="btn btn-primary btn-sm"/> or <a href="<c:url value='/list' />">Cancel</a>
+							<input type="submit" alt="Обновить" value="Изменить" class="btn btn-primary btn-sm"/> или <a href="<c:url value='/list' />">Отменить</a>
 						</c:when>
 						<c:otherwise>
-							<input type="submit" value="Register" class="btn btn-primary btn-sm"/> or <a href="<c:url value='/list' />">Cancel</a>
+							<input type="submit" alt="Зарегистрировать" value="Зарегистрировать"  class="btn btn-primary btn-sm"/> или <a href="<c:url value='/list' />">Отменить</a>
 						</c:otherwise>
 					</c:choose>
 				</div>
