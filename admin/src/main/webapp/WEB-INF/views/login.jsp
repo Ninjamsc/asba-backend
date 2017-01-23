@@ -1,9 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="UTF-8"%>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<title>Login page</title>
 		<link href="<c:url value='/static/css/bootstrap.css' />"  rel="stylesheet"></link>
 		<link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
@@ -19,12 +19,12 @@
 						<form action="${loginUrl}" method="post" class="form-horizontal">
 							<c:if test="${param.error != null}">
 								<div class="alert alert-danger">
-									<p>Invalid username and password.</p>
+									<p>Неправильный логин или пароль.</p>
 								</div>
 							</c:if>
 							<c:if test="${param.logout != null}">
 								<div class="alert alert-success">
-									<p>You have been logged out successfully.</p>
+									<p>Успешная регистрация.</p>
 								</div>
 							</c:if>
 							<div class="input-group input-sm">

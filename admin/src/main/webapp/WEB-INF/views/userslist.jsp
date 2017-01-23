@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
@@ -6,7 +6,7 @@
 <html>
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Users List</title>
 	<link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
 	<link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
@@ -17,7 +17,7 @@
 		<%@include file="authheader.jsp" %>	
 		<div class="panel panel-default">
 			  <!-- Default panel contents -->
-		  	<div class="panel-heading"><span class="lead">List of Users </span></div>
+		  	<div class="panel-heading"><span class="lead">Список пользователей </span></div>
 			<table class="table table-hover">
 	    		<thead>
 		      		<tr>
@@ -42,10 +42,10 @@
 						<td>${user.email}</td>
 						<td>${user.ssoId}</td>
 					    <sec:authorize access="hasRole('ADMIN')">
-							<td><a href="<c:url value='/edit-user-${user.ssoId}' />" class="btn btn-success custom-width">edit</a></td>
+							<td><a href="<c:url value='/edit-user-${user.ssoId}' />" class="btn btn-success custom-width">изменить</a></td>
 				        </sec:authorize>
 				        <sec:authorize access="hasRole('ADMIN')">
-							<td><a href="<c:url value='/delete-user-${user.ssoId}' />" class="btn btn-danger custom-width">delete</a></td>
+							<td><a href="<c:url value='/delete-user-${user.ssoId}' />" class="btn btn-danger custom-width">удалить</a></td>
         				</sec:authorize>
 					</tr>
 				</c:forEach>
@@ -54,7 +54,7 @@
 		</div>
 		<sec:authorize access="hasRole('ADMIN')">
 		 	<div class="well">
-		 		<a href="<c:url value='/newuser' />">Add New User</a>
+		 		<a href="<c:url value='/newuser' />">Добавить нового пользователя</a>
 		 	</div>
 	 	</sec:authorize>
    	</div>

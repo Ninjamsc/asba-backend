@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page isELIgnored="false" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -6,7 +6,7 @@
 <html>
 
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>User Registration Form</title>
 	<link href="<c:url value='/static/css/bootstrap.css' />" rel="stylesheet"></link>
 	<link href="<c:url value='/static/css/app.css' />" rel="stylesheet"></link>
@@ -16,13 +16,13 @@
  	<div class="generic-container">
 		<%@include file="authheader.jsp" %>
 
-		<div class="well lead">User Registration Form</div>
+		<div class="well lead">Форма регистрации пользователя</div>
 	 	<form:form method="POST" modelAttribute="user" class="form-horizontal">
 			<form:input type="hidden" path="id" id="id"/>
 			
 			<div class="row">
 				<div class="form-group col-md-12">
-					<label class="col-md-3 control-lable" for="firstName">First Name</label>
+					<label class="col-md-3 control-lable" for="firstName">Имя</label>
 					<div class="col-md-7">
 						<form:input type="text" path="firstName" id="firstName" class="form-control input-sm"/>
 						<div class="has-error">
@@ -34,7 +34,7 @@
 	
 			<div class="row">
 				<div class="form-group col-md-12">
-					<label class="col-md-3 control-lable" for="lastName">Last Name</label>
+					<label class="col-md-3 control-lable" for="lastName">Фамилия</label>
 					<div class="col-md-7">
 						<form:input type="text" path="lastName" id="lastName" class="form-control input-sm" />
 						<div class="has-error">
@@ -46,7 +46,7 @@
 	
 			<div class="row">
 				<div class="form-group col-md-12">
-					<label class="col-md-3 control-lable" for="ssoId">SSO ID</label>
+					<label class="col-md-3 control-lable" for="ssoId">Логин</label>
 					<div class="col-md-7">
 						<c:choose>
 							<c:when test="${edit}">
@@ -65,7 +65,7 @@
 	
 			<div class="row">
 				<div class="form-group col-md-12">
-					<label class="col-md-3 control-lable" for="password">Password</label>
+					<label class="col-md-3 control-lable" for="password">Пароль</label>
 					<div class="col-md-7">
 						<form:input type="password" path="password" id="password" class="form-control input-sm" />
 						<div class="has-error">
@@ -77,7 +77,7 @@
 	
 			<div class="row">
 				<div class="form-group col-md-12">
-					<label class="col-md-3 control-lable" for="email">Email</label>
+					<label class="col-md-3 control-lable" for="email">Адрес Email</label>
 					<div class="col-md-7">
 						<form:input type="text" path="email" id="email" class="form-control input-sm" />
 						<div class="has-error">
@@ -89,7 +89,7 @@
 	
 			<div class="row">
 				<div class="form-group col-md-12">
-					<label class="col-md-3 control-lable" for="userProfiles">Roles</label>
+					<label class="col-md-3 control-lable" for="userProfiles">Роли</label>
 					<div class="col-md-7">
 						<form:select path="userProfiles" items="${roles}" multiple="true" itemValue="id" itemLabel="type" class="form-control input-sm" />
 						<div class="has-error">
