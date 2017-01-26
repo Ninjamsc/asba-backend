@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.text.SimpleDateFormat;
@@ -98,7 +99,7 @@ public class ImportImagesServiceImpl implements ImportImagesService{
 
     private Map<String, Boolean> unZip(InputStream inputStream, Path uploadedFileLocation){
         Map<String, Boolean>  report = new HashMap<>();
-        try(ZipInputStream zis = new ZipInputStream(inputStream);) {
+        try(ZipInputStream zis = new ZipInputStream(inputStream, Charset.forName("CP866"));) {
             ZipEntry ze = zis.getNextEntry();
             while(ze != null){
                 boolean res = false;
