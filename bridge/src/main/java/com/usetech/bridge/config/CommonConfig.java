@@ -10,6 +10,10 @@ import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 @Configuration
 @PropertySource(value = { "classpath:application.properties" })
 public class CommonConfig {
+
+	@Value(value = "${com.technoserv.logstorage.rootDir}")
+	private String logRootDir;
+
 	@Value(value = "${com.technoserv.client.queueName}")
 	private String queueName;
 	@Value(value = "${com.technoserv.client.brokerUrl}")
@@ -39,19 +43,19 @@ public class CommonConfig {
 	private String roll_mean;
 	@Value(value = "${com.technoserv.video.pitch_mean}")
 	private String pitch_mean;
-	
+
 	@Value(value = "${com.technoserv.pic.heigth}")
 	private String pic_height;
 	@Value(value = "${com.technoserv.pic.width}")
 	private String pic_width;
 
-	
+
 	@Bean
 	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
 		return new PropertySourcesPlaceholderConfigurer();
 	}
 
-	
+
 	public String getQueueName() {
 		return this.queueName;
 	}
@@ -198,5 +202,9 @@ public class CommonConfig {
 
 	public void setPic_width(String pic_width) {
 		this.pic_width = pic_width;
+	}
+
+	public String getLogRootDir() {
+		return logRootDir;
 	}
 }

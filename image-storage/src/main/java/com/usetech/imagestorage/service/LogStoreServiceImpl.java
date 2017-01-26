@@ -32,10 +32,10 @@ public class LogStoreServiceImpl implements LogStoreService {
         Path path = Paths.get(config.getLogRootDir());
         File rootPath = path.toFile();
         if (!(rootPath.exists() && rootPath.isDirectory())) {
-            throw new RuntimeException("Root path '" + config.getImageRootDir() + "' doesn't exist");
+            throw new RuntimeException("Root path '" + config.getLogRootDir() + "' doesn't exist");
         }
         if (!(rootPath.canRead() && rootPath.canWrite())) {
-            throw new RuntimeException("Root path '" + config.getImageRootDir() + "' doesn't have have enough permission for read/write");
+            throw new RuntimeException("Root path '" + config.getLogRootDir() + "' doesn't have have enough permission for read/write");
         }
         log.info("Root path: '{}' is valid", rootPath.getAbsolutePath());
     }
@@ -75,7 +75,7 @@ public class LogStoreServiceImpl implements LogStoreService {
     public byte[] getFile(String fileName) {
         byte[] result = null;
         try {
-            Path path = Paths.get(config.getImageRootDir() + fileName);
+            Path path = Paths.get(config.getLogRootDir() + fileName);
             if (!path.toFile().exists()) {
                 log.info("File '{}' doesn't exists", fileName);
                 return null;

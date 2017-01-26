@@ -67,15 +67,15 @@ public class InitialDataBuilder implements InitializingBean {
         if(userService.countAll() == 0) {
             User user = new User();
             Set<UserProfile> userProfileSet = new HashSet<UserProfile>();
-            user.setSsoId("user");
-            user.setPassword("user");
+            user.setSsoId("read");
+            user.setPassword("read");
             UserProfile userProfile = new UserProfile();
-            userProfile.setType(UserProfileType.USER.name());
+            userProfile.setType(UserProfileType.READ.name());
             userProfileSet.add(userProfile);
             user.setUserProfiles(userProfileSet);
-            user.setFirstName("Юзер");
-            user.setLastName("Юзеров");
-            user.setEmail("admin@ru.ru");
+            user.setFirstName("Read-Only user");
+            user.setLastName("Read-only user");
+            user.setEmail("read@nowhere.com");
             userService.saveOrUpdate(user);
 
 
@@ -87,9 +87,9 @@ public class InitialDataBuilder implements InitializingBean {
             adminProfile.setType(UserProfileType.ADMIN.name());
             adminProfileSet.add(adminProfile);
             admin.setUserProfiles(adminProfileSet);
-            admin.setFirstName("Админ");
-            admin.setLastName("Админов");
-            admin.setEmail("admin@ru.ru");
+            admin.setFirstName("Administrator");
+            admin.setLastName("Administrator");
+            admin.setEmail("admin@nowhere.com");
             userService.saveOrUpdate(admin);
         }
     }

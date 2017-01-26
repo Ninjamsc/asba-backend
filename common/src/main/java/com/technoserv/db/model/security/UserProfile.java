@@ -19,7 +19,7 @@ public class UserProfile extends BaseEntity<Integer> implements Serializable{
     private Integer id;
 
     @Column(name="TYPE", length=15, unique=true, nullable=false)
-    private String type = UserProfileType.USER.getUserProfileType();
+    private String type = UserProfileType.READ.getUserProfileType();
 
     public Integer getId() {
         return id;

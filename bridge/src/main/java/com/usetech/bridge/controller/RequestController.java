@@ -1,15 +1,11 @@
 /*** Eclipse Class Decompiler plugin, copyright (c) 2016 Chen Chao (cnfree2000@hotmail.com) ***/
 package com.usetech.bridge.controller;
 
-import com.usetech.bridge.bean.AuthBean;
-import com.usetech.bridge.bean.CVBean;
-import com.usetech.bridge.bean.ErrorBean;
-import com.usetech.bridge.bean.FrameBean;
-import com.usetech.bridge.bean.ImageType;
-import com.usetech.bridge.bean.RegBean;
+import com.usetech.bridge.bean.*;
 import com.usetech.bridge.config.CommonConfig;
+import com.usetech.bridge.service.LogStoreService;
 import com.usetech.bridge.service.SendImageService;
-import javax.validation.Valid;
+import com.usetech.bridge.service.SendLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +16,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = { "/rest" })
 public class RequestController {
 	private static final Logger log = LoggerFactory.getLogger(RequestController.class);
+
+	@Autowired
+	private LogStoreService logStoreService;
 	@Autowired
 	private SendImageService sendImageService;
+	@Autowired
+	private SendLogService sendLogService;
 	@Autowired
 	private CommonConfig config;
 
@@ -54,8 +57,17 @@ public class RequestController {
 		
 		return ResponseEntity.ok().body((Object) null);
 	}
-	
-	
+
+
+	@RequestMapping(value = { "/log" }, method = { RequestMethod.GET })
+	public ResponseEntity storeLog(@RequestBody LogStoreBean logStoreBean) {
+		if (logStoreService.saveFile(logStoreBean)) {
+			return ResponseEntity.status(HttpStatus.OK).body(null);
+		}
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+	}
+
+
 	@RequestMapping(value = { "/ping" }, method = { RequestMethod.GET })
 	public ResponseEntity ping() {
 		return ResponseEntity.ok().body((Object) null);
@@ -71,6 +83,18 @@ public class RequestController {
 		return this.send(frameBean, ImageType.FULLFRAME);
 	}
 
+	@RequestMapping(value = { "/log" }, method = { RequestMethod.PUT })
+	public ResponseEntity log(@Valid @RequestBody LogBean logBean) {
+		return this.send(logBean);
+	}
+	private ResponseEntity send(LogBean logBean) {
+		ResponseEntity responseEntity = this.validate(logBean);
+		if (responseEntity.getStatusCode() == HttpStatus.OK && !this.sendLogService.send(logBean)) {
+			return ResponseEntity.status((HttpStatus) HttpStatus.BAD_REQUEST)
+					.body((Object) new ErrorBean("failed to deliver message"));
+		}
+		return responseEntity;
+	}
 	private ResponseEntity send(FrameBean frameBean, ImageType imageType) {
 		ResponseEntity responseEntity = this.validate(frameBean, imageType);
 		if (responseEntity.getStatusCode() == HttpStatus.OK && !this.sendImageService.send(frameBean)) {
@@ -92,4 +116,9 @@ public class RequestController {
 		}
 		return ResponseEntity.status((HttpStatus) HttpStatus.OK).body((Object) null);
 	}
+
+	private ResponseEntity validate(LogBean logBean) {
+		return ResponseEntity.status((HttpStatus) HttpStatus.OK).body((Object) null);
+	}
+
 }

@@ -3,8 +3,8 @@ package com.technoserv.db.model.security;
 import java.io.Serializable;
 
 public enum UserProfileType implements Serializable{
-    USER("USER"),
-    DBA("DBA"),
+    READ("READ"),
+    WRITE("WRITE"),
     ADMIN("ADMIN");
 
     String userProfileType;

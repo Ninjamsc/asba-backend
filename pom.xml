@@ -19,6 +19,7 @@
         <module>quality</module>
         <module>bridge</module>
         <module>image-storage</module>
+	<module>admin</module>
         <!--<module>storage</module>-->
     </modules>
 
@@ -87,6 +88,13 @@
             <artifactId>jackson-annotations</artifactId>
             <version>2.8.1</version>
         </dependency>
+	 <dependency>
+            <groupId>org.apache.tomcat.maven</groupId>
+            <artifactId>tomcat7-maven-plugin</artifactId>
+            <version>2.2</version>
+            <type>maven-plugin</type>
+        </dependency>
+
     </dependencies>
 
 
@@ -125,6 +133,45 @@
             </activation>
             <properties>
                 <data-source-context.xml.name>data-source-context-mlevitin.xml</data-source-context.xml.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>kazpost</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <data-source-context.xml.name>data-source-context-kazpost.xml</data-source-context.xml.name>
+            </properties>
+        </profile>
+        <profile>
+            <id>tsi</id>
+		<build>
+		<plugins>
+            	    <plugin>
+                	<groupId>org.apache.tomcat.maven</groupId>
+                	<artifactId>tomcat7-maven-plugin</artifactId>
+                	<!-- Deploy to integration test server on Maven deploy -->
+                	<executions>
+                    	    <execution>
+                        	<id>deploy-to-integrationtest</id>
+                        	<goals>
+                            	    <goal>redeploy-only</goal>
+                        	</goals>
+                        	<phase>deploy</phase>
+                        	<configuration>
+                            	    <server>TomcatLocal</server>
+                        	</configuration>
+                    	    </execution>
+                	</executions>
+            	    </plugin>
+        	</plugins>
+		</build>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <data-source-context.xml.name>data-source-context-tsi.xml</data-source-context.xml.name>
             </properties>
         </profile>
     </profiles>
