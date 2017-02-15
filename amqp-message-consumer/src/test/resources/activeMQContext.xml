@@ -34,14 +34,9 @@
     <!-- ======================================================= -->
     <!-- Default Destination Queue Definition -->
 
-    <bean id="arm.queue" class="org.apache.activemq.command.ActiveMQQueue">
+    <bean id="bioskud.queue" class="org.apache.activemq.command.ActiveMQQueue">
         <!-- name of the queue -->
-        <constructor-arg index="0" value="arm.queue" />
-    </bean>
-
-    <bean id="arm-retry.queue" class="org.apache.activemq.command.ActiveMQQueue">
-        <!-- name of the queue -->
-        <constructor-arg index="0" value="arm-retry.queue" />
+        <constructor-arg index="0" value="bioskud.queue" />
     </bean>
 
     <!-- JmsTemplate Definition -->

@@ -11,24 +11,29 @@ import com.technoserv.db.service.objectmodel.api.PersonService;
 import com.technoserv.db.service.objectmodel.api.RequestService;
 import com.technoserv.jms.trusted.ArmRequestRetryMessage;
 import com.technoserv.jms.trusted.RequestDTO;
+import com.technoserv.jms.trusted.Snapshot;
 import com.technoserv.rest.client.PhotoPersistServiceRestClient;
+import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
+import com.technoserv.rest.request.PhotoTemplate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.security.crypto.codec.Base64;
 
 import javax.transaction.Transactional;
 import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
-
+import org.apache.commons.math3.linear.ArrayRealVector;
 /**
  * Created by sergey on 22.11.2016.
  */
@@ -48,6 +53,8 @@ public class ArmRequestJmsConsumer {
     @Autowired
     private PhotoPersistServiceRestClient photoServiceClient;
     @Autowired
+    private TemplateBuilderServiceRestClient templateBuilderServiceClient;
+    @Autowired
     private DocumentService documentService;
     @Autowired
     private DocumentTypeService documentTypeService;
@@ -57,28 +64,60 @@ public class ArmRequestJmsConsumer {
     @Value("${arm-retry.queue.maxRetryCount}")
     private static Integer maxTryCount = 10;
 
-    public void onReceive(String message) {
+    public void onReceive(String message) throws Exception{
         if(!saveRequest(message)) {
-            jmsTemplate.convertAndSend(new ArmRequestRetryMessage(message));
+            //jmsTemplate.convertAndSend(new ArmRequestRetryMessage(message));
+            System.out.println("Unable to process request");
         }
     }
 
-//    public void onReceive(ArmRequestRetryMessage message) {
-//        if(message.getTryCount()<=maxTryCount) {
-//            if (!saveRequest(message.getMessage())) {
-//                message.incTryCount();
-//                jmsTemplate.convertAndSend(message);
-//            }
-//        } else {
-//            try {
-//                writeToFile(message);
-//            } catch (IOException e) {
-//                log.error(e);
-//            }
-//        }
-//    }
+    protected boolean saveRequest(String request)  {
+        ArrayList<ArrayRealVector> templates = new ArrayList<ArrayRealVector>();
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(DATE_FORMAT);
+        try {
+            //System.out.println(request);
 
-    protected boolean saveRequest(String request) {
+            //todo переделать маппинг из очереди 1 в сервиc фоток и Request
+            RequestDTO requestDTO = objectMapper.readValue(request, RequestDTO.class);
+
+            String videoSource = requestDTO.getvideSouce();
+            String faceId = requestDTO.getFaceId();
+            Timestamp timestamp = requestDTO.getTimestamp();
+
+            System.out.println("Request received videosource="+videoSource+"face="+faceId);
+            ArrayList<Snapshot> al = requestDTO.getSnapshots();
+            if(al != null ) {
+                if (al.size() != 0) {
+                    for (Snapshot temp : al) {
+                        //System.out.println(temp.getSnapshot());
+                        String shot = handlePicture(temp.getSnapshot());
+                        String shotGuid = DatatypeConverter.printBase64Binary(UUID.randomUUID().toString().getBytes());
+                        String shotURL = photoServiceClient.putPhoto(shot, shotGuid);
+                        byte[] a = Base64.decode(shot.getBytes());
+                        //byte[] b = Base64.encode(a);
+                        PhotoTemplate tmplt = templateBuilderServiceClient.getPhotoTemplate(a);
+                        if(tmplt!=null && tmplt.template != null) {
+                            ArrayRealVector arv = new ArrayRealVector(tmplt.template);
+                            templates.add(arv);
+                        }
+                    }
+                }
+            }
+         System.out.println("Templates built:"+templates.size());
+            for ( ArrayRealVector t : templates) {
+                System.out.println(t.toString());
+            }
+            }
+        catch (IOException e) {
+            e.printStackTrace();
+            log.error(e);
+            return false;
+            }
+        return true;
+    }
+
+  /*  protected boolean saveRequest(String request) {
 
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(DATE_FORMAT);
@@ -161,7 +200,7 @@ public class ArmRequestJmsConsumer {
             return false;
         }
     }
-
+*/
     private String handlePicture(String picture) { //TODO ...
         if(picture!=null && "".equals(picture.trim())) {
             return null;

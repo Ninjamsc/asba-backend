@@ -34,20 +34,15 @@
     <!-- ======================================================= -->
     <!-- Default Destination Queue Definition -->
 
-    <bean id="arm.queue" class="org.apache.activemq.command.ActiveMQQueue">
+    <bean id="bioskud.queue" class="org.apache.activemq.command.ActiveMQQueue">
         <!-- name of the queue -->
-        <constructor-arg index="0" value="arm.queue" />
-    </bean>
-
-    <bean id="arm-retry.queue" class="org.apache.activemq.command.ActiveMQQueue">
-        <!-- name of the queue -->
-        <constructor-arg index="0" value="arm-retry.queue" />
+        <constructor-arg index="0" value="bioskud.queue" />
     </bean>
 
     <!-- JmsTemplate Definition -->
     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
         <property name="connectionFactory" ref="connectionFactory" />
-        <property name="defaultDestinationName" value="arm-retry.queue"/>
+        <property name="defaultDestinationName" value="bioskud.queue"/>
     </bean>
 
 
@@ -59,8 +54,7 @@
         container-type="default"
         connection-factory="connectionFactory"
         acknowledge="auto">
-            <jms:listener destination="arm.queue" ref="jmsConsumer" method="onReceive" />
-            <jms:listener destination="arm-retry.queue" ref="jmsConsumer" method="onReceive" />
+            <jms:listener destination="bioskud.queue" ref="jmsConsumer" method="onReceive" />
     </jms:listener-container>
 
 

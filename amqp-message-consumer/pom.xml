@@ -9,10 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>arm-message-consumer-web</artifactId>
+    <artifactId>amqp-message-consumer</artifactId>
     <packaging>war</packaging>
     <version>1.0.0</version>
-    <name>ARM Message Consumer Web</name>
+    <name>AMQP Message Consumer</name>
 
     <dependencies>
 
@@ -113,6 +113,11 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-dbcp2</artifactId>
             <version>2.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>RELEASE</version>
         </dependency>
 
 

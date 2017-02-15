@@ -5,59 +5,48 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 /**
- * Created by sergey on 22.11.2016.
+ * Created by mlevitin on 14.02.2016.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RequestDTO {
 
-    public enum Type{PREVIEW, FULLFRAME;
-        @JsonValue
-        String getValue() {
-            return this.toString().toLowerCase();
-        }
-    };
 
-    @JsonProperty("_comment")
-    private String comment;
-    @JsonProperty("wfmId")
-    private long wfNumber;
-    @JsonProperty("iin")
-    private long iin;
-    private String username;
-    private Type type;
+    @JsonProperty("videoSource")
+    private String videoSource;
+
+    @JsonProperty("faceId")
+    private String faceId;
+
+    @JsonProperty("timestamp")
     private Timestamp timestamp;
-    @JsonProperty("camPic")
-    private String webCameraPicture;
-    @JsonProperty("scanPic")
-    private String scannedPicture;
 
-    public String getComment() {
-        return comment;
-    }
-    public void setComment(String comment) {
-        this.comment = comment;
+    public ArrayList<Snapshot> getSnapshots() {
+        return snapshots;
     }
 
-    public long getWfNumber() {
-        return wfNumber;
-    }
-    public void setWfNumber(long wfNumber) {
-        this.wfNumber = wfNumber;
+    public void setSnapshots(ArrayList<Snapshot> snapshots) {
+        this.snapshots = snapshots;
     }
 
-    public long getIin() {
-        return iin;
+    @JsonProperty("Photos")
+    private ArrayList<Snapshot> snapshots;
+
+
+    public String getvideSouce() {
+        return videoSource;
     }
-    public void setIin(long iin) {
-        this.iin = iin;
+    public void setVideoSource(String comment) {
+        this.videoSource = comment;
     }
-    public String getUsername() {
-        return username;
+
+    public String getFaceId() {
+        return faceId;
     }
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFaceId(String faceId ) {
+        this.faceId = faceId;
     }
 
     public Timestamp getTimestamp() {
@@ -67,24 +56,4 @@ public class RequestDTO {
         this.timestamp = timestamp;
     }
 
-    public String getWebCameraPicture() {
-        return webCameraPicture;
-    }
-    public void setWebCameraPicture(String webCameraPicture) {
-        this.webCameraPicture = webCameraPicture;
-    }
-
-    public String getScannedPicture() {
-        return scannedPicture;
-    }
-    public void setScannedPicture(String scannedPicture) {
-        this.scannedPicture = scannedPicture;
-    }
-
-    public Type getType() {
-        return type;
-    }
-    public void setType(Type type) {
-        this.type = type;
-    }
 }

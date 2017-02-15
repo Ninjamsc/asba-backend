@@ -8,6 +8,7 @@
     <context:annotation-config/>
     <tx:annotation-driven />
     <bean id="photoServiceClient" class="com.technoserv.rest.client.PhotoPersistServiceRestClient"/>
+    <bean id="templateServiceClient" class="com.technoserv.rest.client.TemplateBuilderServiceRestClient"/>
     <import resource="activeMQContext.xml"/>
     <import resource="classpath:common-context.xml"/>
     <import resource="${data-source-context.xml.name}"/>
