@@ -23,6 +23,9 @@ public class RequestDTO {
     @JsonProperty("timestamp")
     private Timestamp timestamp;
 
+    @JsonProperty("Photos")
+    private ArrayList<Snapshot> snapshots;
+
     public ArrayList<Snapshot> getSnapshots() {
         return snapshots;
     }
@@ -30,10 +33,6 @@ public class RequestDTO {
     public void setSnapshots(ArrayList<Snapshot> snapshots) {
         this.snapshots = snapshots;
     }
-
-    @JsonProperty("Photos")
-    private ArrayList<Snapshot> snapshots;
-
 
     public String getvideSouce() {
         return videoSource;
@@ -47,6 +46,7 @@ public class RequestDTO {
     }
     public void setFaceId(String faceId ) {
         this.faceId = faceId;
+        System.out.println("!!!!!!!!!!!!!"+this.faceId);
     }
 
     public Timestamp getTimestamp() {

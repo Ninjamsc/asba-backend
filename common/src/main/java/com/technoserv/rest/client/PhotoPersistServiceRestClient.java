@@ -75,7 +75,7 @@ public class PhotoPersistServiceRestClient {
         PhotoSaveRequest request = new PhotoSaveRequest(file_content, file_name);
 
         if(log.isInfoEnabled()) {
-            writeLog("SAVING PHOTO: '" + file_name + "'" + " content:'" + file_content+"'");
+            writeLog("SAVING PHOTO: '" + file_name + "'" + " content:'" + file_content.length()+"'");
         }
         try {
             String finalUrl = String.format("%s/%s", url, file_name);

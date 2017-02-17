@@ -1,8 +1,7 @@
 package com.technoserv.bio.kernel;
 
-import com.technoserv.bio.kernel.rest.client.CompareServiceRestClient;
-import com.technoserv.bio.kernel.rest.request.CompareServiceRequest;
-import com.technoserv.rest.client.PhotoPersistServiceRestClient;
+import com.technoserv.rest.client.CompareServiceRestClient;
+import com.technoserv.rest.request.CompareServiceRequest;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 

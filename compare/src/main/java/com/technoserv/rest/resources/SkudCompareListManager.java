@@ -1,28 +1,5 @@
 package com.technoserv.rest.resources;
-import com.technoserv.rest.client.PhotoPersistServiceRestClient;
-import com.technoserv.rest.model.SelfCompareResult;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.*;
-
-import javax.annotation.Resource;
-
-import org.apache.commons.math3.analysis.function.Exp;
-import org.apache.commons.math3.analysis.function.Pow;
-import org.apache.commons.math3.linear.ArrayRealVector;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.technoserv.db.model.configuration.SystemSettingsType;
 import com.technoserv.db.model.objectmodel.Document;
 import com.technoserv.db.model.objectmodel.StopList;
@@ -30,18 +7,23 @@ import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
 import com.technoserv.db.service.objectmodel.api.DocumentService;
 import com.technoserv.rest.comparator.CompareServiceStopListElement;
 import com.technoserv.rest.comparator.CompareServiceStopListVector;
-import com.technoserv.rest.comparator.RuleResult;
 import com.technoserv.rest.model.CompareResponseBlackListObject;
 import com.technoserv.rest.model.CompareResponsePhotoObject;
+import com.technoserv.rest.model.SelfCompareResult;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.math3.analysis.function.Exp;
+import org.apache.commons.math3.analysis.function.Pow;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
+
+import java.util.*;
 
 @Component
-public class CompareListManager implements InitializingBean  {
-
-
-	//@Resource @Qualifier(value = "converters")
-//	private HashMap<String, String> compareRules;
+public class SkudCompareListManager implements InitializingBean  {
 
 	//@Autowired
 	Environment env;
@@ -53,71 +35,14 @@ public class CompareListManager implements InitializingBean  {
 
 	//private String _commonList;
 
-	private static final Log log = LogFactory.getLog(CompareListManager.class);
+	private static final Log log = LogFactory.getLog(SkudCompareListManager.class);
 
 	@Autowired
 	private DocumentService documentService;
 
 	private HashMap<Long,CompareServiceStopListElement> managedStopLists;
 
-	public CompareServiceStopListElement getList(Long id)
-	{
-		return this.managedStopLists.get(id);
-	}
 
-
-	/*
-	 * Добавление элемента в существующий список по его ID
-	 */
-	public void addElement (Long listId, Document vector) throws Exception
-	{
-		log.info("addElement(): adding element id="+vector.getId()+" to list id="+listId);
-		if(vector.getId() == null) {
-			log.error("addElement(): null document id. ignoring for the list_id="+listId);
-
-		}
-		CompareServiceStopListElement sl = managedStopLists.get(listId);
-		if (sl != null) sl.addVector(vector);
-	}
-	/*
-	 * удаление элемента списка ID по его ID
-	 */
-	public void delStopListElement(Long listId, Long listElementId)
-	{
-		log.info("delStopListElement(): removing element id="+listElementId+" from list id="+listId);
-		CompareServiceStopListElement list = this.managedStopLists.get(listId);
-		if(list != null)
-		{
-			ArrayList<CompareServiceStopListVector> elements = list.getVectors();
-			List<CompareServiceStopListVector> toDelete = new ArrayList<>();
-			for(Iterator<CompareServiceStopListVector> it=elements.iterator();it.hasNext();)
-			{
-				CompareServiceStopListVector el = it.next();
-				if (el.getDocId().longValue() == listElementId.longValue())
-				{
-					log.debug("delStopListElement(): Document id="+listId+" is deleted from list id="+listId);
-					toDelete.add(el);
-				}
-
-			}
-			elements.removeAll(toDelete);
-		}
-	}
-	/*
-	 * удаление списка по его ID
-	 */
-	public void delStopList(Long listId)
-	{
-		log.info("delStopList(): Removing list id="+listId);
-		if ( managedStopLists.get(listId) == null) {
-			log.debug("list id="+listId +" is absent");
-			return;
-		}
-		managedStopLists.remove(listId);
-	}
-	/*
-	 * Добавление нового стоплиста
-	 */
 	public boolean addList(StopList list)
 	{
 		log.info("addStopList(): Removing list id="+list.getId());
@@ -134,6 +59,22 @@ public class CompareListManager implements InitializingBean  {
 		managedStopLists.put(list.getId(), e);
 		return true;
 	}
+
+
+	/*
+ * Добавление элемента в существующий список по его ID
+ */
+	public void addElement (Long listId, Document vector) throws Exception
+	{
+		log.info("addElement(): adding element id="+vector.getId()+" to list id="+listId);
+		if(vector.getId() == null) {
+			log.error("addElement(): null document id. ignoring for the list_id="+listId);
+
+		}
+		CompareServiceStopListElement sl = managedStopLists.get(listId);
+		if (sl != null) sl.addVector(vector);
+	}
+
 	// compare with exact list
 	public CompareResponseBlackListObject compare1(double[] vector, Long listId) throws Exception //TODO: specify exception
 	{
