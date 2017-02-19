@@ -59,7 +59,7 @@ public class ArmRequestJmsConsumer {
     @Autowired
     private SkudResultService skudResultService;
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss.S");
 
     @Value("${arm-retry.queue.maxRetryCount}")
     private static Integer maxTryCount = 10;
@@ -81,7 +81,7 @@ public class ArmRequestJmsConsumer {
             //todo переделать маппинг из очереди 1 в сервиc фоток и Request
             RequestDTO requestDTO = objectMapper.readValue(request, RequestDTO.class);
 
-            String videoSource = requestDTO.getvideSouce();
+            String videoSource = requestDTO.getVideoSource();
             String faceId = requestDTO.getFaceId();
             Timestamp timestamp = requestDTO.getTimestamp();
 
@@ -104,9 +104,12 @@ public class ArmRequestJmsConsumer {
                             SkudResult t = new SkudResult();
                             t.setFaceId(new Long(requestDTO.getFaceId()));
                             t.setFaceSquare(shotURL);
-                            t.setPerson(13169l);
-                            t.setSimilarity(13.169);
-                            t.setTimestamp(tstmp);
+//                            t.setTimestamp(tstmp);
+                            t.setHeight(new Long(temp.getHeight()));
+                            t.setWidth(new Long(temp.getWidth()));
+                            t.setBlur(new Double(temp.getBlur()));
+                            t.setVideoSrc(requestDTO.getSourceName());
+                            t.setTimestamp(requestDTO.getTimestamp());
                             SkudCompareRequest r = new SkudCompareRequest();
                             r.setPictureURL(shotURL);
                             r.setTemplate(tmplt.template);

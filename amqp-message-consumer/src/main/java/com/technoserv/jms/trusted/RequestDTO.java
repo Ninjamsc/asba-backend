@@ -17,6 +17,9 @@ public class RequestDTO {
     @JsonProperty("videoSource")
     private String videoSource;
 
+    @JsonProperty("sourceName")
+    private String sourceName;
+
     @JsonProperty("faceId")
     private String faceId;
 
@@ -29,26 +32,21 @@ public class RequestDTO {
     public ArrayList<Snapshot> getSnapshots() {
         return snapshots;
     }
-
     public void setSnapshots(ArrayList<Snapshot> snapshots) {
         this.snapshots = snapshots;
     }
-
-    public String getvideSouce() {
+    public String getVideoSource() {
         return videoSource;
     }
     public void setVideoSource(String comment) {
         this.videoSource = comment;
     }
-
     public String getFaceId() {
         return faceId;
     }
-    public void setFaceId(String faceId ) {
-        this.faceId = faceId;
-        System.out.println("!!!!!!!!!!!!!"+this.faceId);
-    }
-
+    public void setFaceId(String faceId ) { this.faceId = faceId; }
+    public String getSourceName() { return sourceName;}
+    public void setSourceName(String sourceName) { this.sourceName = sourceName;}
     public Timestamp getTimestamp() {
         return timestamp;
     }
