@@ -446,6 +446,27 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         return stopListService.findById(id);
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @Path("/stoplist/{id}/{entry}")
+    public Response getListItem(@PathParam("id") Long id, @PathParam("entry") Long entry) {
+        System.out.println("(+) getListItem()");
+        StopList l =  stopListService.findById(id);
+        Iterator<Document> it = l.getOwner().iterator();
+        Document d = null;
+        while(it.hasNext())
+        {
+            d = it.next();
+            if (d.getId() == entry) break;
+            d=null;
+        }
+        if (d!= null) Response.status(Response.Status.OK).entity(d).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build();
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+
     /**
      * Список всех стоп листов
      * @return Список всех стоп листов

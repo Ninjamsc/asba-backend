@@ -26,17 +26,15 @@ import java.util.*;
 @Component
 @Path("")
 //@Api(value = "Compare")
-public class SkudResource extends BaseResource<Long,SkudResult> implements InitializingBean  {
+public class SkudResource implements InitializingBean  {
 
     private static final Log log = LogFactory.getLog(SkudResource.class);
 
-    @Autowired
+    @Autowired(required = true)
+    @Qualifier("skudResultService")
     private SkudResultService skudResultService;
 
-    @Override
-    protected Service<Long, SkudResult> getBaseService() {
-        return skudResultService;
-    }
+
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -65,7 +63,7 @@ public class SkudResource extends BaseResource<Long,SkudResult> implements Initi
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
-    @Override
+    //@Override
     public Collection<SkudResult> list() {
         if(skudResultService == null)  {System.out.println("skudResultService is null"); return null;}
         return skudResultService.getAll();
