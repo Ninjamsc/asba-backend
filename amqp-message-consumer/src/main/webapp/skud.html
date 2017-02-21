@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.css">
+    <link rel="stylesheet" href="skud.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+    <script type="text/javascript">
+
+$(document).ready(function(){
+
+  $.ajax({
+       url: 'http://localhost:9080/compare/api/results',
+       dataType: 'json',
+       success: function(data) {
+           $('#table').bootstrapTable({
+              data: data
+           });
+       },
+       error: function(e) {
+           console.log(e.responseText);
+       }
+    });
+ });
+
+
+    </script>
+  <style>
+  img {
+    height: 100px;
+    float: left;
+  }
+  </style>
+</head>
+<body>
+img:hover
+ {
+   margin:0;
+   padding:0;
+   width:90%;
+   height:90%;
+ }
+.formatTable td
+{
+width:100px;
+height:100px;
+text-align:center;
+}  
+    <form id="form1" runat="server">
+        <table id="table">
+            <thead>
+                <tr>
+                    <th data-field="id">Id</th>
+                    <th data-field="objectDate">Date</th>
+                    <th data-field="faceId">Face ID</th>
+                    <th data-field="videoSrc">Source</th>
+                    <th data-field="faceSquare" data-formatter="imageFormatter">Image</th>
+                    <th data-field="person">Person ID</th>
+                    <th data-field="height">Image width</th>
+                    <th data-field="width">Image heigth</th>
+                    <th data-field="blur">Blur</th>
+                    <th data-field="similarity">Similarity</th>
+<!--                    <th data-field="timestamp">Timestamp</th> -->
+                </tr>
+            </thead>
+        </table>
+    </form>
+</body>
+<script>
+
+    function imageFormatter(value, row) {
+      return '<img class=\"thumbnail zoom\" src="'+value+'" />';
+    }
+</script>
+</html>

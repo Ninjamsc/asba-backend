@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.technoserv.db.model.objectmodel.*;
+import com.technoserv.db.service.objectmodel.api.*;
 import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import com.technoserv.db.model.configuration.SystemSettingsType;
 import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
@@ -37,13 +38,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 import com.technoserv.db.service.Service;
-import com.technoserv.db.service.objectmodel.api.BioTemplateService;
-import com.technoserv.db.service.objectmodel.api.BioTemplateTypeService;
-import com.technoserv.db.service.objectmodel.api.BioTemplateVersionService;
-import com.technoserv.db.service.objectmodel.api.DocumentService;
-import com.technoserv.db.service.objectmodel.api.PersonService;
-import com.technoserv.db.service.objectmodel.api.RequestService;
-import com.technoserv.db.service.objectmodel.api.StopListService;
 import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
 import com.technoserv.utils.JsonUtils;
 import com.technoserv.rest.comparator.CompareRule;
@@ -64,6 +58,9 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 
     @Autowired
     private SkudCompareListManager skudListManager;
+
+    @Autowired
+    private SkudResultService skudResultService;
 
     @Autowired
     private RequestService requestService;
@@ -634,5 +631,15 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         bioTemplate.setBioTemplateType(bioTemplateType);
 
         bioTemplateService.saveOrUpdate(bioTemplate);
+    }
+
+    @Path("/results")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    public Collection<SkudResult> skud() {
+        if(skudResultService == null)  {System.out.println("skudResultService is null"); return null;}
+        return skudResultService.getAll();
     }
 }
