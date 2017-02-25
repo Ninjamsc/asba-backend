@@ -57,12 +57,6 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     private CompareListManager listManager;
 
     @Autowired
-    private SkudCompareListManager skudListManager;
-
-    @Autowired
-    private SkudResultService skudResultService;
-
-    @Autowired
     private RequestService requestService;
 
     @Autowired
@@ -114,7 +108,6 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         for (StopList element : allLists)
         {
             listManager.addList(element);
-            skudListManager.addList(element);
             System.out.println("name="+element.getStopListName()+" id="+element.getId()+" similarity="+element.getSimilarity());
             Iterator<Document> id = element.getOwner().iterator();
             while (id.hasNext())
@@ -246,32 +239,6 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     {
         return new Long(systemSettingsBean.get(SystemSettingsType.COMPARATOR_COMMON_LIST_ID));
     }
-
-    /*
-    * Сравнить картинки с блеклистами и досье и вернуть отчет
-    */
-    @PUT
-    @Path("/skud")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response skudCompareImages(SkudCompareRequest message)   {
-        SkudCompareResponse response = new SkudCompareResponse();
-
-        try {
-            CompareResponseBlackListObject res = skudListManager.compare1(message.getTemplate(), 16l); //TODO move to parameters HARDCODED
-            ArrayList<CompareResponsePhotoObject> res1 = res.getPhoto();
-            if (res1.size() > 0) //TODO returning only 1st element
-            response.setMatch(res1.get(0));
-
-            return Response.status(Response.Status.OK).entity(response).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build();
-        }
-        catch (Exception e)
-        {
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build();
-        }
-
-    }
-
 
     /*
      * Сравнить картинки с блеклистами и досье и вернуть отчет
@@ -654,13 +621,4 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         bioTemplateService.saveOrUpdate(bioTemplate);
     }
 
-    @Path("/results")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
-    public Collection<SkudResult> skud() {
-        if(skudResultService == null)  {System.out.println("skudResultService is null"); return null;}
-        return skudResultService.getAll();
-    }
 }

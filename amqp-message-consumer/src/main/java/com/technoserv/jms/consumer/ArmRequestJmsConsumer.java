@@ -113,10 +113,20 @@ public class ArmRequestJmsConsumer {
                             SkudCompareRequest r = new SkudCompareRequest();
                             r.setPictureURL(shotURL);
                             r.setTemplate(tmplt.template);
-                            SkudCompareResponse response = compareServiceClient.compare(r);
-                            t.setSimilarity(response.getMatch().getSimilarity() );
-                            t.setPerson(response.getMatch().getIdentity());
-                            System.out.println("========="+response);
+                            SkudCompareResponse response = null;
+                            try {
+                                response = compareServiceClient.compare(r);
+                            }
+                            catch(Exception e)
+                            {
+                                e.printStackTrace();
+                                response = null;
+                            }
+                            if (response != null) {
+                                t.setSimilarity(response.getMatch().getSimilarity());
+                                t.setPerson(response.getMatch().getIdentity());
+                                System.out.println("=========" + response);
+                            }
 
                             skudResultService.save(t);
                         }
