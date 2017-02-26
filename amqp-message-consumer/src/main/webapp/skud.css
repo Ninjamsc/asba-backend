@@ -19,11 +19,11 @@ cursor: zoom-in;
 .zoom:focus {
 /**adjust scale to desired size, 
 add browser prefixes**/
--ms-transform: scale(2.5);    
--moz-transform: scale(2.5);  
--webkit-transform: scale(2.5);  
--o-transform: scale(2.5);  
-transform: scale(2.5);    
+-ms-transform: scale(3);
+-moz-transform: scale(3);
+-webkit-transform: scale(3);
+-o-transform: scale(3);
+transform: scale(3);
 position:relative;      
 z-index:100;  
 }

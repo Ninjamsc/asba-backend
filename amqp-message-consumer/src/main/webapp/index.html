@@ -41,15 +41,17 @@ $(document).ready(function(){
             <thead>
                 <tr>
                     <th data-field="id">Id</th>
-                    <th data-field="objectDate">Date</th>
-                    <th data-field="faceId">Face ID</th>
-                    <th data-field="videoSrc">Source</th>
-                    <th data-field="faceSquare" data-formatter="imageFormatter">Image</th>
-                    <th data-field="person" data-formatter="personFormatter">Person ID</th>
+                    <th data-field="timestamp" data-formatter="dateFormatter">Время</th>
+                    <th data-field="timestamp" >Время</th>
+                    <th data-field="faceId">Группа фото</th>
+                    <th data-field="videoSrc">Видеопоток</th>
+                    <th data-field="faceSquare" class="col-xs-1" data-formatter="imageFormatter">Лицо</th>
+                    <th data-field="person" >Person ID</th>
+                    <th data-field="url" class="col-xs-1" data-formatter="imageFormatter">Similar to</th>
                     <th data-field="height">Image width</th>
                     <th data-field="width">Image heigth</th>
                     <th data-field="blur">Blur</th>
-                    <th data-field="similarity">Similarity</th>
+                    <th data-field="similarity">Схожесть</th>
 <!--                    <th data-field="timestamp">Timestamp</th> -->
                 </tr>
             </thead>
@@ -59,6 +61,19 @@ $(document).ready(function(){
 <script>
     function imageFormatter(value, row) {
       return '<img class=\"thumbnail zoom\" src="'+value+'" />';
+    }
+    function dateFormatter(value,row) {
+        var a = new Date(Number(value.toString().substr(0,10)) * 1000);
+        var months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+        var year = a.getFullYear();
+        var month = months[a.getMonth()];
+        var date = a.getDate().toString().length == 1 ? "0"+a.getDate():a.getDate();
+        var hour = a.getHours().toString().length == 1 ? "0"+a.getHours():a.getHours();
+        var min = a.getMinutes().toString().length == 1 ? "0"+a.getMinutes():a.getMinutes();
+        var sec = a.getSeconds().toString().length == 1 ? "0"+a.getSeconds():a.getSeconds();
+        var time = date + '.' + month + '.' + year + ' '
+            + hour + ':' + min + ':' + sec + "."+value.toString().substr(10,3) ;
+        return time;
     }
 </script>
 </html>

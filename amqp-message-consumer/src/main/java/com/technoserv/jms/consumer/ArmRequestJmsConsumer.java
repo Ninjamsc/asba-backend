@@ -125,6 +125,7 @@ public class ArmRequestJmsConsumer {
                             if (response != null) {
                                 t.setSimilarity(response.getMatch().getSimilarity());
                                 t.setPerson(response.getMatch().getIdentity());
+                                t.setUrl(response.getMatch().getUrl());
                                 System.out.println("=========" + response);
                             }
 

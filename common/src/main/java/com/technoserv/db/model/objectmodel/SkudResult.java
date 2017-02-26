@@ -22,8 +22,11 @@ public class SkudResult extends AbstractObject {
     @Column(name = "FACE_SQUARE", length = 2048) // picture URL
     private String faceSquare; //TODO String HTTP URL
 
-    @Column(name = "PERSON") // if similar to one of the stop list faces
+    @Column(name = "PERSON") // person ID
     private Long person;
+
+    @Column(name = "URL") // URL to picture of similar person
+    private String url;
 
     @Column(name = "HEIGHT")
     private Long height;
@@ -49,6 +52,13 @@ public class SkudResult extends AbstractObject {
     public void setFaceSquare(String faceSquare) { this.faceSquare = faceSquare;}
     public Timestamp getTimestamp() {
         return orderDate != null ? new Timestamp(orderDate.getTime()) : new Timestamp(0);
+    }
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
     public void setTimestamp(Timestamp timestamp) {
         this.orderDate = new Date(timestamp.getTime());

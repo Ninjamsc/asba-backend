@@ -95,11 +95,6 @@ public class SkudResource extends BaseResource<Long,StopList> implements Initial
     }
 
 
-    public Long getCommonListId()
-    {
-        return new Long(systemSettingsBean.get(SystemSettingsType.COMPARATOR_COMMON_LIST_ID));
-    }
-
     /*
     * Сравнить картинки с блеклистами и досье и вернуть отчет
     */
@@ -111,7 +106,7 @@ public class SkudResource extends BaseResource<Long,StopList> implements Initial
         SkudCompareResponse response = new SkudCompareResponse();
 
         try {
-            CompareResponseBlackListObject res = skudListManager.compare1(message.getTemplate(), 16l); //TODO move to parameters HARDCODED
+            CompareResponseBlackListObject res = skudListManager.compare1(message.getTemplate(), 2589l); //TODO move to parameters HARDCODED
             ArrayList<CompareResponsePhotoObject> res1 = res.getPhoto();
             if (res1.size() > 0) //TODO returning only 1st element
                 response.setMatch(res1.get(0));
