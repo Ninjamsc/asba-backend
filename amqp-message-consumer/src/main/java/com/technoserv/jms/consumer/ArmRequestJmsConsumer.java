@@ -76,7 +76,7 @@ public class ArmRequestJmsConsumer {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(DATE_FORMAT);
         try {
-            System.out.println("++++++++"+request);
+               log.info("++++++++"+request);
 
             //todo переделать маппинг из очереди 1 в сервиc фоток и Request
             RequestDTO requestDTO = objectMapper.readValue(request, RequestDTO.class);
@@ -87,57 +87,58 @@ public class ArmRequestJmsConsumer {
 
             System.out.println("Request received videosource="+videoSource+" face="+faceId);
             ArrayList<Snapshot> al = requestDTO.getSnapshots();
-            if(al != null ) {
-                if (al.size() != 0) {
-                    Timestamp tstmp = new Timestamp(System.currentTimeMillis());
-                    for (Snapshot temp : al) {
-                        //System.out.println(temp.getSnapshot());
-                        String shot = handlePicture(temp.getSnapshot());
-                        String shotGuid = DatatypeConverter.printBase64Binary(UUID.randomUUID().toString().getBytes());
-                        String shotURL = photoServiceClient.putPhoto(shot, shotGuid);
-                        byte[] a = Base64.decode(shot.getBytes());
-                        //byte[] b = Base64.encode(a);
-                        PhotoTemplate tmplt = templateBuilderServiceClient.getPhotoTemplate(a);
-                        if(tmplt!=null && tmplt.template != null) {
-                            ArrayRealVector arv = new ArrayRealVector(tmplt.template);
-                            templates.add(arv);
-                            SkudResult t = new SkudResult();
-                            t.setFaceId(new Long(requestDTO.getFaceId()));
-                            t.setFaceSquare(shotURL);
-//                            t.setTimestamp(tstmp);
-                            t.setHeight(new Long(temp.getHeight()));
-                            t.setWidth(new Long(temp.getWidth()));
-                            t.setBlur(new Double(temp.getBlur()));
-                            t.setVideoSrc(requestDTO.getSourceName());
-                            t.setTimestamp(requestDTO.getTimestamp());
-                            SkudCompareRequest r = new SkudCompareRequest();
-                            r.setPictureURL(shotURL);
-                            r.setTemplate(tmplt.template);
-                            SkudCompareResponse response = null;
-                            try {
-                                response = compareServiceClient.compare(r);
-                            }
-                            catch(Exception e)
-                            {
-                                e.printStackTrace();
-                                response = null;
-                            }
-                            if (response != null) {
-                                t.setSimilarity(response.getMatch().getSimilarity());
-                                t.setPerson(response.getMatch().getIdentity());
-                                t.setUrl(response.getMatch().getUrl());
-                                System.out.println("=========" + response);
-                            }
-
+            if(al == null ) return true; //empty photo list
+            if (al.size() == 0) return true; // empty photo list
+            Timestamp tstmp = new Timestamp(System.currentTimeMillis());
+            for (Snapshot temp : al) {
+                //System.out.println(temp.getSnapshot());
+                String shot = handlePicture(temp.getSnapshot());
+                String shotGuid = DatatypeConverter.printBase64Binary(UUID.randomUUID().toString().getBytes());
+                String shotURL = photoServiceClient.putPhoto(shot, shotGuid);
+                byte[] a = Base64.decode(shot.getBytes());
+                //byte[] b = Base64.encode(a);
+                PhotoTemplate tmplt = templateBuilderServiceClient.getPhotoTemplate(a);
+                if(tmplt != null  && tmplt.template !=null) {
+                     ArrayRealVector arv = new ArrayRealVector(tmplt.template);
+                    templates.add(arv);
+                    SkudResult t = new SkudResult();
+                    t.setFaceId(new Long(requestDTO.getFaceId()));
+                    t.setFaceSquare(shotURL);
+//                  t.setTimestamp(tstmp);
+                    t.setHeight(new Long(temp.getHeight()));
+                    t.setWidth(new Long(temp.getWidth()));
+                    t.setBlur(new Double(temp.getBlur()));
+                    t.setVideoSrc(requestDTO.getSourceName());
+                    t.setTimestamp(requestDTO.getTimestamp());
+                    SkudCompareRequest r = new SkudCompareRequest();
+                    r.setPictureURL(shotURL);
+                    r.setTemplate(tmplt.template);
+                    SkudCompareResponse response = null;
+                    try {
+                        response = compareServiceClient.compare(r);
+                        }
+                    catch(Exception e)
+                        {
+                            e.printStackTrace();
+                            log.error("Photo:"+shotURL);
+                            response = null;
+                        }
+                    if (response != null && response.getMatch() != null) {
+                        t.setSimilarity(response.getMatch().getSimilarity());
+                        t.setPerson(response.getMatch().getIdentity());
+                        t.setUrl(response.getMatch().getUrl());
+                        System.out.println("=========" + response);
+                        }
                             skudResultService.save(t);
                         }
                     }
-                }
-            }
-         System.out.println("Templates built:"+templates.size());
+
+
+         log.info("Templates built:"+templates.size());
             for ( ArrayRealVector t : templates) {
                 System.out.println(t.toString());
             }
+            log.info("+++++++++++++++");
             }
         catch (IOException e) {
             e.printStackTrace();

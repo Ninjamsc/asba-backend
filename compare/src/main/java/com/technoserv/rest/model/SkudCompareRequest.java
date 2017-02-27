@@ -9,8 +9,8 @@ public class SkudCompareRequest {
 
 
 	@JsonProperty("template")
-
 	private double[] template;
+
 	@JsonProperty("pictureURL")
 	private String pictureURL;
 

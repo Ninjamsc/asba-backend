@@ -51,7 +51,7 @@ import io.swagger.annotations.Api;
 @Api(value = "Skud")
 public class SkudResource extends BaseResource<Long,StopList> implements InitializingBean  {
 
-    private static final Log log = LogFactory.getLog(CompareResource.class);
+    private static final Log log = LogFactory.getLog(SkudResource.class);
 
     @Autowired
     private SkudCompareListManager skudListManager;
@@ -77,7 +77,7 @@ public class SkudResource extends BaseResource<Long,StopList> implements Initial
     @Override
     public void afterPropertiesSet() throws Exception {
 
-        log.debug("---------------------\nИницаиализация сервиса сравнения");
+        log.debug("---------------------\nИницаиализация сервиса сравнения BIOSKUD");
         //listManager = new CompareListManager(documentService);
         List<StopList> allLists = stopListService.getAll("owner","owner.bioTemplates");
         log.debug("Number of stop lists is:"+allLists.size());
@@ -91,7 +91,7 @@ public class SkudResource extends BaseResource<Long,StopList> implements Initial
 
         //Todo тут логика при старте приложенния
         //Фактически данный бин singleton и создаётся при старте приложения
-        System.out.println("Конец инициализации сервиса сравнения\n-------------------------");
+        System.out.println("Конец инициализации сервиса сравнения BIOSKUD\n-------------------------");
     }
 
 
@@ -103,10 +103,19 @@ public class SkudResource extends BaseResource<Long,StopList> implements Initial
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response skudCompareImages(SkudCompareRequest message)   {
+        if(message == null)
+        {
+            log.info("++++++++++ NULL Request ++++++++++++");
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build();
+        }
+
         SkudCompareResponse response = new SkudCompareResponse();
 
         try {
             CompareResponseBlackListObject res = skudListManager.compare1(message.getTemplate(), 2589l); //TODO move to parameters HARDCODED
+            if (res == null)
+                return Response.status(Response.Status.OK).entity(response).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build();
+
             ArrayList<CompareResponsePhotoObject> res1 = res.getPhoto();
             if (res1.size() > 0) //TODO returning only 1st element
                 response.setMatch(res1.get(0));
@@ -115,6 +124,7 @@ public class SkudResource extends BaseResource<Long,StopList> implements Initial
         }
         catch (Exception e)
         {
+            log.info("++++++++++ Exception BIOSKUD Comparer Request ++++++++++++");
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(e).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build();
         }
 
