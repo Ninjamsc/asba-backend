@@ -101,7 +101,7 @@ public class SkudCompareListManager implements InitializingBean  {
 			double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
 			if (norm > list.getSimilarity()) //HIT
 			{
-				log.debug("compare1 HITT" + list.getListName() + " norm:" + norm + " similarity:" + list.getSimilarity() + "doc=" + vect.getDocId());
+				log.debug("compare1 HIT" + list.getListName() + " norm:" + norm + " similarity:" + list.getSimilarity() + "doc=" + vect.getDocId());
 				Long doc = vect.getDocId();
 				Document d = this.documentService.findById(doc);
 				CompareResponsePhotoObject po = new CompareResponsePhotoObject();

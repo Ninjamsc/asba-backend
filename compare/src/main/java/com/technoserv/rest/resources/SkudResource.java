@@ -110,6 +110,9 @@ public class SkudResource extends BaseResource<Long,StopList> implements Initial
         }
 
         SkudCompareResponse response = new SkudCompareResponse();
+        CompareResponsePhotoObject po = new CompareResponsePhotoObject();
+        po.setSimilarity(0d);
+        response.setMatch(po);
 
         try {
             CompareResponseBlackListObject res = skudListManager.compare1(message.getTemplate(), 2589l); //TODO move to parameters HARDCODED
@@ -117,8 +120,16 @@ public class SkudResource extends BaseResource<Long,StopList> implements Initial
                 return Response.status(Response.Status.OK).entity(response).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build();
 
             ArrayList<CompareResponsePhotoObject> res1 = res.getPhoto();
-            if (res1.size() > 0) //TODO returning only 1st element
-                response.setMatch(res1.get(0));
+            if (res1.size() > 0) //writing most similar element
+            {
+                Double simil = 0d;
+                for(CompareResponsePhotoObject el : res1)
+                {
+                    if (el.getSimilarity() > response.getMatch().getSimilarity())
+                         response.setMatch(el);
+                }
+            }
+                //response.setMatch(res1.get(0));
 
             return Response.status(Response.Status.OK).entity(response).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build();
         }

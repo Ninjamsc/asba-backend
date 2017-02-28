@@ -40,18 +40,18 @@ $(document).ready(function(){
         <table id="table">
             <thead>
                 <tr>
-                    <th data-field="id">Id</th>
+<!--                    <th data-field="id">Id</th> -->
                     <th data-field="timestamp" data-formatter="dateFormatter">Время</th>
-                    <th data-field="timestamp" >Время</th>
-                    <th data-field="faceId">Группа фото</th>
-                    <th data-field="videoSrc">Видеопоток</th>
-                    <th data-field="faceSquare" class="col-xs-1" data-formatter="imageFormatter">Лицо</th>
-                    <th data-field="person" >Person ID</th>
-                    <th data-field="url" class="col-xs-1" data-formatter="imageFormatter">Similar to</th>
-                    <th data-field="height">Image width</th>
+<!--                    <th data-field="timestamp" >Время</th> -->
+                    <th data-field="faceId" class="col-xs-1">Группа фото</th>
+                    <th data-field="videoSrc" class="col-xs-1"'>Видеопоток</th>
+                    <th data-field="faceSquare" class="col-xs-1" data-formatter="imageFormatter">Лицо с камеры</th>
+<!--                    <th data-field="person" >Person ID</th> -->
+                    <th data-field="url" class="col-xs-1" data-formatter="imageFormatter">Похож на:</th>
+<!--                    <th data-field="height">Image width</th>
                     <th data-field="width">Image heigth</th>
-                    <th data-field="blur">Blur</th>
-                    <th data-field="similarity">Схожесть</th>
+                    <th data-field="blur">Blur</th> -->
+                    <th data-field="similarity" data-formatter="simFormatter">Схожесть</th>
 <!--                    <th data-field="timestamp">Timestamp</th> -->
                 </tr>
             </thead>
@@ -60,6 +60,8 @@ $(document).ready(function(){
 </body>
 <script>
     function imageFormatter(value, row) {
+        if(value == null )
+            return "NONE";
       return '<img class=\"thumbnail zoom\" src="'+value+'" />';
     }
     function dateFormatter(value,row) {
@@ -75,5 +77,12 @@ $(document).ready(function(){
             + hour + ':' + min + ':' + sec + "."+value.toString().substr(10,3) ;
         return time;
     }
+    function simFormatter(value, row) {
+        if(value == null || value === 0 )
+            return "-";
+        var a = new Number(value*100).toFixed(4);
+        return a +" %";
+    }
+
 </script>
 </html>
