@@ -8,7 +8,7 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>json-delivery-service</artifactId>
+    <artifactId>amqp</artifactId>
     <packaging>war</packaging>
     <version>1.0.0</version>
     <name>Workflow JSON Delivery Service</name>
@@ -119,7 +119,7 @@
                     <version>2.4</version>
                     <configuration>
                         <warSourceDirectory>src/main/webapp</warSourceDirectory>
-                        <warName>amqp</warName>
+                        <warName>${project.artifactId}##${project.version}</warName>
                         <failOnMissingWebXml>false</failOnMissingWebXml>
                     </configuration>
                 </plugin>

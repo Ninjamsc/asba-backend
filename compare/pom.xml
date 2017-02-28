@@ -225,7 +225,7 @@
                     <artifactId>maven-war-plugin</artifactId>
                     <version>2.4</version>
                     <configuration>
-                        <warName>compare</warName>
+                        <warName>compare##${project.version}</warName>
                         <webResources>
                             <resource>
                                 <directory>src/main/webapp</directory>
