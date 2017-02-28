@@ -8,10 +8,8 @@ import com.technoserv.db.model.objectmodel.CompareResult;
 import com.technoserv.db.service.objectmodel.api.CompareResultService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -39,9 +37,10 @@ public class CompareResultResource {
     @Path("/{id}") //id as wfm
     public Response find(@PathParam("id") Long id) throws IOException {
         CompareResult compareResult = compareResultService.findById(id);
-        return compareResult !=null ? Response.ok(objectMapper.readValue(compareResult.getJson(),JsonNode.class)).build()
+        return compareResult !=null ? Response.ok(objectMapper.readValue(compareResult.getJson(),JsonNode.class)).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build()
         : Response.status(Response.Status.NOT_FOUND).build();
     }
+
 
     @Path("/{id}")
     @POST
