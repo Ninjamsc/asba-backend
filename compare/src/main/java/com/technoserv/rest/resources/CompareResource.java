@@ -1,28 +1,19 @@
 package com.technoserv.rest.resources;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
-import java.util.Base64;
-
-import javax.annotation.Resource;
-import javax.ws.rs.*;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-//import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response;
-
-import com.technoserv.db.model.objectmodel.*;
-import com.technoserv.rest.client.PhotoPersistServiceRestClient;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 import com.technoserv.db.model.configuration.SystemSettingsType;
+import com.technoserv.db.model.objectmodel.*;
+import com.technoserv.db.service.Service;
 import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
+import com.technoserv.db.service.objectmodel.api.*;
+import com.technoserv.rest.client.PhotoPersistServiceRestClient;
+import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
 import com.technoserv.rest.model.*;
 import com.technoserv.rest.request.PhotoTemplate;
+import com.technoserv.utils.JsonUtils;
+import io.swagger.annotations.Api;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math3.analysis.function.Exp;
@@ -33,23 +24,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
-import com.technoserv.db.service.Service;
-import com.technoserv.db.service.objectmodel.api.BioTemplateService;
-import com.technoserv.db.service.objectmodel.api.BioTemplateTypeService;
-import com.technoserv.db.service.objectmodel.api.BioTemplateVersionService;
-import com.technoserv.db.service.objectmodel.api.DocumentService;
-import com.technoserv.db.service.objectmodel.api.PersonService;
-import com.technoserv.db.service.objectmodel.api.RequestService;
-import com.technoserv.db.service.objectmodel.api.StopListService;
-import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
-import com.technoserv.utils.JsonUtils;
-import com.technoserv.rest.comparator.CompareRule;
-import com.technoserv.rest.comparator.CompareServiceStopListElement;
+import javax.annotation.Resource;
+import javax.ws.rs.*;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.util.*;
 
-import io.swagger.annotations.Api;
+//import javax.ws.rs.core.Response;
 
 
 @Component
@@ -107,7 +90,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     @Override
     public void afterPropertiesSet() throws Exception {
 
-        log.debug("---------------------\nИницаиализация сервиса сравнения");
+        log.debug("---------------------\nРРЅРёС†Р°РёР°Р»РёР·Р°С†РёСЏ СЃРµСЂРІРёСЃР° СЃСЂР°РІРЅРµРЅРёСЏ");
         //listManager = new CompareListManager(documentService);
         List<StopList> allLists = stopListService.getAll("owner","owner.bioTemplates");
         log.debug("Number of stop lists is:"+allLists.size());
@@ -132,15 +115,15 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             }
         }
 
-        //Todo тут логика при старте приложенния
-        //Фактически данный бин singleton и создаётся при старте приложения
+        //Todo С‚СѓС‚ Р»РѕРіРёРєР° РїСЂРё СЃС‚Р°СЂС‚Рµ РїСЂРёР»РѕР¶РµРЅРЅРёСЏ
+        //Р¤Р°РєС‚РёС‡РµСЃРєРё РґР°РЅРЅС‹Р№ Р±РёРЅ singleton Рё СЃРѕР·РґР°С‘С‚СЃСЏ РїСЂРё СЃС‚Р°СЂС‚Рµ РїСЂРёР»РѕР¶РµРЅРёСЏ
         //this.listManager.compare("[0.020753301680088043, 0.04044751450419426, 0.13084986805915833, 0.059689026325941086, 0.15199658274650574, -0.15477296710014343, 0.10174626111984253, 0.09708714485168457, 0.05313556268811226, -0.003060600021854043, -0.027737755328416824, -0.09192277491092682, 0.024010395631194115, -0.061058711260557175, 0.046029217541217804, -0.1775650829076767, 0.07849898934364319, -0.04662546142935753, 0.07057669758796692, 0.08652392029762268, 0.0662936121225357, 0.03756343200802803, -0.04922910034656525, 0.03141292557120323, 0.08356206119060516, -0.1350899189710617, -0.20401452481746674, 0.10807696729898453, 0.04847602918744087, 0.030618079006671906, 0.1429709941148758, -0.08152655512094498, -0.05040675401687622, -0.0020790710113942623, 0.055735066533088684, -0.13398271799087524, -0.10305635631084442, 0.07367397099733353, -0.08056174218654633, 0.011274375021457672, 0.07565123587846756, 0.0006628360715694726, -0.14597639441490173, 0.06119852513074875, 0.10004027187824249, 0.023146357387304306, 0.11026181280612946, -0.0040884907357394695, -0.037800535559654236, 0.10853380709886551, -0.10188018530607224, -0.007757482118904591, -0.010982991196215153, 0.02395358681678772, 0.09733343869447708, -0.07628369331359863, 0.02649574540555477, 0.039745479822158813, -0.17949996888637543, 0.007255507633090019, 0.016987621784210205, 0.18098284304141998, -0.1025320366024971, -0.018973298370838165, 0.10926719754934311, 0.046763718128204346, 0.06041368842124939, 0.06826133280992508, 0.012208324857056141, -0.08431797474622726, 0.0037080312613397837, 0.20286907255649567, 0.03940027579665184, 0.03899642452597618, 0.014941767789423466, 0.17148782312870026, -0.0380895659327507, -0.019260890781879425, -0.19221830368041992, -0.03016120381653309, 0.08850887417793274, -0.012414127588272095, -0.004460429307073355, 0.04568830505013466, -0.12407730519771576, -0.1516706794500351, 0.0789976567029953, 0.04784555733203888, 0.0027379500679671764, -0.014989141374826431, -0.056807562708854675, -0.06459169834852219, -0.014003312215209007, 0.07949569821357727, -0.015189931727945805, 0.03384886682033539, 0.17762857675552368, -0.06609157472848892, -0.2093888819217682, -0.03780129551887512, 0.007640279829502106, -0.03648004308342934, 0.04399833083152771, 0.0316741056740284, 0.04010686278343201, 0.08813131600618362, -0.06487372517585754, -0.039993055164813995, 0.23097702860832214, -0.017569255083799362, -0.15538936853408813, 0.06488358229398727, 0.02634734846651554, -0.04101783409714699, -0.036427076905965805, 0.05655577406287193, -0.002288134302943945, -0.046763014048337936, -0.1639958918094635, 0.19583673775196075, 0.14950740337371826, -0.00714136241003871, -0.055665522813797, 0.043675411492586136, -0.018850823864340782, -0.01104491576552391, -0.04339916259050369, -0.03134331479668617]");
         //String s = compareRules.get("scanAndWeb")
         //Class cc = Class.forName(s);
         //CompareRule r = (CompareRule)cc.newInstance();
         //Collection<Request> coll = requestService.findByIin(new Long(123456789012l));
         //log.debug("Coll size is"+coll.size()); ///
-        System.out.println("Конец инициализации сервиса сравнения\n-------------------------");
+        System.out.println("РљРѕРЅРµС† РёРЅРёС†РёР°Р»РёР·Р°С†РёРё СЃРµСЂРІРёСЃР° СЃСЂР°РІРЅРµРЅРёСЏ\n-------------------------");
     }
 
     public ArrayList<CompareResponsePhotoObject> doCompare(Request r,ArrayRealVector comparing_vector,boolean less, double delta)
@@ -222,7 +205,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             if (result != null)
             {
                 log.debug("historyDifference adding photo to collection:");
-                // добавляем полученные объекты в общую коллекцию
+                // РґРѕР±Р°РІР»СЏРµРј РїРѕР»СѓС‡РµРЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹ РІ РѕР±С‰СѓСЋ РєРѕР»Р»РµРєС†РёСЋ
                 Iterator<CompareResponsePhotoObject> i = result.iterator();
                 while(i.hasNext())
                 {
@@ -236,7 +219,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         {
             rule.setRuleId("4.2.1");
             rule.setPhoto(photos);
-            rule.setRuleName("Фотография, прикрепленная к заявке, существенно отличается от других фотографий заемщика, имеющихся в базе");
+            rule.setRuleName("Р¤РѕС‚РѕРіСЂР°С„РёСЏ, РїСЂРёРєСЂРµРїР»РµРЅРЅР°СЏ Рє Р·Р°СЏРІРєРµ, СЃСѓС‰РµСЃС‚РІРµРЅРЅРѕ РѕС‚Р»РёС‡Р°РµС‚СЃСЏ РѕС‚ РґСЂСѓРіРёС… С„РѕС‚РѕРіСЂР°С„РёР№ Р·Р°РµРјС‰РёРєР°, РёРјРµСЋС‰РёС…СЃСЏ РІ Р±Р°Р·Рµ");
         }
         return rule;
     }
@@ -246,7 +229,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         return new Long(systemSettingsBean.get(SystemSettingsType.COMPARATOR_COMMON_LIST_ID));
     }
     /*
-     * Сравнить картинки с блеклистами и досье и вернуть отчет
+     * РЎСЂР°РІРЅРёС‚СЊ РєР°СЂС‚РёРЅРєРё СЃ Р±Р»РµРєР»РёСЃС‚Р°РјРё Рё РґРѕСЃСЊРµ Рё РІРµСЂРЅСѓС‚СЊ РѕС‚С‡РµС‚
      */
     @PUT
     @Path("/template")
@@ -283,7 +266,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
                 log.debug("4.2.3 rule ls.size="+ls.size()+" lw.size="+lw.size());
                 CompareResponseRulesObject rule = new CompareResponseRulesObject();
                 rule.setRuleId("4.2.3");
-                rule.setRuleName("Возможно соответствие с клиентом из банковского СТОП-ЛИСТА");
+                rule.setRuleName("Р’РѕР·РјРѕР¶РЅРѕ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ СЃ РєР»РёРµРЅС‚РѕРј РёР· Р±Р°РЅРєРѕРІСЃРєРѕРіРѕ РЎРўРћРџ-Р›РРЎРўРђ");
                 //rule.setRuleName("Perhaps photo is in stop-list.");
                 firedRules.add(rule);
             }
@@ -296,7 +279,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             {
                 CompareResponseRulesObject rule = new CompareResponseRulesObject();
                 rule.setRuleId("4.2.4");
-                rule.setRuleName("Возможно соответствие с клиентом из общего СТОП-ЛИСТА");
+                rule.setRuleName("Р’РѕР·РјРѕР¶РЅРѕ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ СЃ РєР»РёРµРЅС‚РѕРј РёР· РѕР±С‰РµРіРѕ РЎРўРћРџ-Р›РРЎРўРђ");
                 //rule.setRuleName("Perhaps photo is in  common stop-list.");
                 firedRules.add(rule);
             }
@@ -318,7 +301,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
                 response.setOthernessPictures(oth_report);
                 CompareResponseRulesObject rule = new CompareResponseRulesObject();
                 rule.setRuleId("4.2.1");
-                rule.setRuleName("Фотография, прикрепленная к заявке, существенно отличается от других фотографий заемщика, имеющихся в базе");
+                rule.setRuleName("Р¤РѕС‚РѕРіСЂР°С„РёСЏ, РїСЂРёРєСЂРµРїР»РµРЅРЅР°СЏ Рє Р·Р°СЏРІРєРµ, СЃСѓС‰РµСЃС‚РІРµРЅРЅРѕ РѕС‚Р»РёС‡Р°РµС‚СЃСЏ РѕС‚ РґСЂСѓРіРёС… С„РѕС‚РѕРіСЂР°С„РёР№ Р·Р°РµРјС‰РёРєР°, РёРјРµСЋС‰РёС…СЃСЏ РІ Р±Р°Р·Рµ");
                 firedRules.add(rule);
                 log.debug("compareImages 6.");
             }
@@ -340,7 +323,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
                 response.setSimilarPictures(sim_report);
                 CompareResponseRulesObject rule = new CompareResponseRulesObject();
                 rule.setRuleId("4.2.2");
-                rule.setRuleName("Фотография, прикрепленная к заявке, идентична имеющейся в базе");
+                rule.setRuleName("Р¤РѕС‚РѕРіСЂР°С„РёСЏ, РїСЂРёРєСЂРµРїР»РµРЅРЅР°СЏ Рє Р·Р°СЏРІРєРµ, РёРґРµРЅС‚РёС‡РЅР° РёРјРµСЋС‰РµР№СЃСЏ РІ Р±Р°Р·Рµ");
                 firedRules.add(rule);
                 log.debug("compareImages 6.");
             }
@@ -348,7 +331,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             log.error("exception during dossier similar: ", e);
             e.printStackTrace();
             throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
-        // сравнение 2 шаблонов на совпадение
+        // СЃСЂР°РІРЅРµРЅРёРµ 2 С€Р°Р±Р»РѕРЅРѕРІ РЅР° СЃРѕРІРїР°РґРµРЅРёРµ
         log.debug("compareImages 7.");
         try {
             SelfCompareResult res = this.listManager.isSimilar(message.getTemplate_scan(), message.getTemplate_web());
@@ -356,7 +339,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             {
                 CompareResponseRulesObject rule = new CompareResponseRulesObject();
                 rule.setRuleId("4.2.5");
-                rule.setRuleName("Возможно несоответствие фотографии в паспорте и фотографии, прикрепленной к заявке. Порог схожести="+res.getThreshold()+" схожесть="+res.getSimilarity());
+                rule.setRuleName("Р’РѕР·РјРѕР¶РЅРѕ РЅРµСЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ С„РѕС‚РѕРіСЂР°С„РёРё РІ РїР°СЃРїРѕСЂС‚Рµ Рё С„РѕС‚РѕРіСЂР°С„РёРё, РїСЂРёРєСЂРµРїР»РµРЅРЅРѕР№ Рє Р·Р°СЏРІРєРµ. РџРѕСЂРѕРі СЃС…РѕР¶РµСЃС‚Рё="+res.getThreshold()+" СЃС…РѕР¶РµСЃС‚СЊ="+res.getSimilarity());
                 //rule.setRuleName("Perhaps the discrepancy in the passport photo and the photo from webcap.");
                 firedRules.add(rule);
             }
@@ -372,9 +355,9 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     }
 
     /**
-     * Обновить стоп лист.
-     * @param entity Обновляемая заявка.
-     * @return ок
+     * РћР±РЅРѕРІРёС‚СЊ СЃС‚РѕРї Р»РёСЃС‚.
+     * @param entity РћР±РЅРѕРІР»СЏРµРјР°СЏ Р·Р°СЏРІРєР°.
+     * @return РѕРє
 
      @Path("/stoplist")
      @PUT
@@ -387,9 +370,9 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
      }
      */
     /**
-     * удалить стоп лист.
-     * @param id удаляемой заявки.
-     * @return ок
+     * СѓРґР°Р»РёС‚СЊ СЃС‚РѕРї Р»РёСЃС‚.
+     * @param id СѓРґР°Р»СЏРµРјРѕР№ Р·Р°СЏРІРєРё.
+     * @return РѕРє
      */
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
@@ -404,9 +387,9 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     }
 
     /**
-     * Получить стоп лист по ID
-     * @param id идентификатор.
-     * @return заявка по ID
+     * РџРѕР»СѓС‡РёС‚СЊ СЃС‚РѕРї Р»РёСЃС‚ РїРѕ ID
+     * @param id РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ.
+     * @return Р·Р°СЏРІРєР° РїРѕ ID
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -419,8 +402,8 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     }
 
     /**
-     * Список всех стоп листов
-     * @return Список всех стоп листов
+     * РЎРїРёСЃРѕРє РІСЃРµС… СЃС‚РѕРї Р»РёСЃС‚РѕРІ
+     * @return РЎРїРёСЃРѕРє РІСЃРµС… СЃС‚РѕРї Р»РёСЃС‚РѕРІ
      */
     @Path("/stoplist")
     @GET
@@ -433,9 +416,9 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     }
 
 //    /**
-//     * Получить стоп лист по ID
-//     * @param id идентификатор.
-//     * @return заявка по ID
+//     * РџРѕР»СѓС‡РёС‚СЊ СЃС‚РѕРї Р»РёСЃС‚ РїРѕ ID
+//     * @param id РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ.
+//     * @return Р·Р°СЏРІРєР° РїРѕ ID
 //     */
 //	/*
 // @GET
@@ -469,9 +452,9 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 //    }
 
     /**
-     * Добавить стоп лист.
-     * @param entity добавляемая конфигурация.
-     * @return Идентификатор добавленной заявки.
+     * Р”РѕР±Р°РІРёС‚СЊ СЃС‚РѕРї Р»РёСЃС‚.
+     * @param entity РґРѕР±Р°РІР»СЏРµРјР°СЏ РєРѕРЅС„РёРіСѓСЂР°С†РёСЏ.
+     * @return РРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РґРѕР±Р°РІР»РµРЅРЅРѕР№ Р·Р°СЏРІРєРё.
      */
     @Path("/stoplist")
     @POST
@@ -500,7 +483,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 
 
     /*
-     * Добавить новый элемент к заданному ID списку
+     * Р”РѕР±Р°РІРёС‚СЊ РЅРѕРІС‹Р№ СЌР»РµРјРµРЅС‚ Рє Р·Р°РґР°РЅРЅРѕРјСѓ ID СЃРїРёСЃРєСѓ
      */
     @Path("/stoplist/{ID}/entry")
     @PUT
@@ -508,7 +491,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     public Response add(@PathParam("ID")Long id, StopListElement element) {
-        // создали документ и установили тип
+        // СЃРѕР·РґР°Р»Рё РґРѕРєСѓРјРµРЅС‚ Рё СѓСЃС‚Р°РЅРѕРІРёР»Рё С‚РёРї
         Document aDocument = new Document();
         aDocument.setDocumentType(new DocumentType(DocumentType.Type.STOP_LIST));
         StopList stopList = stopListService.findById(id);
@@ -516,17 +499,17 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             System.out.println("StopList not found for ID="+id+" "+element);
             return Response.status(404).build();
         }
-        // 1. сходить в Template builder, построить шаблон
+        // 1. СЃС…РѕРґРёС‚СЊ РІ Template builder, РїРѕСЃС‚СЂРѕРёС‚СЊ С€Р°Р±Р»РѕРЅ
         byte a[] = Base64.getDecoder().decode(element.getPhoto());
         PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(a);
-        // 2. фотку в хранилку
+        // 2. С„РѕС‚РєСѓ РІ С…СЂР°РЅРёР»РєСѓ
         String scannedPictureURL = photoServiceClient.putPhoto(element.getPhoto(), UUID.randomUUID().toString());
         aDocument.setFaceSquare(scannedPictureURL);
         aDocument.setDescription("Stop list element");
         aDocument.setOrigImageURL(null);
-        // 3. добавить документ в Documents
+        // 3. РґРѕР±Р°РІРёС‚СЊ РґРѕРєСѓРјРµРЅС‚ РІ Documents
         Long docId = documentService.save(aDocument);
-        // 4. добавить шшшаблоны
+        // 4. РґРѕР±Р°РІРёС‚СЊ С€С€С€Р°Р±Р»РѕРЅС‹
         //aDocument.setId(docId);
         try {
             addBioTemplateToDocument(aDocument, scannedTemplate);
@@ -538,7 +521,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         catch (Exception exc) {
             throw new WebApplicationException("Unable to ad template to the document: " + id,Response.Status.INTERNAL_SERVER_ERROR);
         }
-        // 5. добавить документ в стоплист
+        // 5. РґРѕР±Р°РІРёС‚СЊ РґРѕРєСѓРјРµРЅС‚ РІ СЃС‚РѕРїР»РёСЃС‚
         stopList.getOwner().add(aDocument);
         stopListService.saveOrUpdate(stopList);
         System.out.println("Adding list element for ID="+id+" "+element + " "+scannedTemplate);
@@ -546,7 +529,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     }
 
     /*
-     * Удалить элемент из заданного списка по номеру списка и номеру элемента
+     * РЈРґР°Р»РёС‚СЊ СЌР»РµРјРµРЅС‚ РёР· Р·Р°РґР°РЅРЅРѕРіРѕ СЃРїРёСЃРєР° РїРѕ РЅРѕРјРµСЂСѓ СЃРїРёСЃРєР° Рё РЅРѕРјРµСЂСѓ СЌР»РµРјРµРЅС‚Р°
      */
     @Path("/stoplist/{listId}/entry/{itemId}")
     @DELETE
@@ -589,7 +572,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             bioTemplateVersion = new BioTemplateVersion();
             bioTemplateVersion.setId((long) scannedTemplate.version);
             bioTemplateVersion.setObjectDate(new Date());
-            bioTemplateVersion.setDescription("Версия " + scannedTemplate.version);
+            bioTemplateVersion.setDescription("Р’РµСЂСЃРёСЏ " + scannedTemplate.version);
             bioTemplateVersionService.saveOrUpdate(bioTemplateVersion);
         }
         bioTemplate.setBioTemplateVersion(bioTemplateVersion);
@@ -597,7 +580,7 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         if (bioTemplateType == null) {
             bioTemplateType = new BioTemplateType();
             bioTemplateType.setId((long) scannedTemplate.type);
-            bioTemplateType.setDescription("Новый тип " + scannedTemplate.type);
+            bioTemplateType.setDescription("РќРѕРІС‹Р№ С‚РёРї " + scannedTemplate.type);
             bioTemplateTypeService.saveOrUpdate(bioTemplateType);
         }
         bioTemplate.setBioTemplateType(bioTemplateType);
