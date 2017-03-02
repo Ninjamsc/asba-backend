@@ -1,0 +1,3 @@
+Build for tech demo:
+  script:
+    mvn clean install -P tsi -DskipTests
