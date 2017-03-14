@@ -15,7 +15,7 @@ public class TestUtil {
     public static FrontEnds generateFrontEnds(){
         FrontEnds result = new FrontEnds();
         setObjectDate(result);
-        result.setVersion(1);
+        result.setClientVersion("1");
         return result;
     }
 

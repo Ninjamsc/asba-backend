@@ -50,9 +50,9 @@ public class FrontEndsDaoTest {
         dao.saveOrUpdate(entity);
         FrontEnds frontEnds = dao.get(entity.getId());
         assertEquals(frontEnds, entity);
-        entity.setVersion(2);
+        entity.setClientVersion("2");
         dao.saveOrUpdate(entity);
-        assertEquals(2, dao.get(entity.getId()).getVersion()+0);
+        assertEquals(2, dao.get(entity.getId()).getClientVersion()+0);
     }
 
     @Test
