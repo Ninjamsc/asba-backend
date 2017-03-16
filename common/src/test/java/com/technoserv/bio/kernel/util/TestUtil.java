@@ -2,7 +2,7 @@ package com.technoserv.bio.kernel.util;
 
 
 import com.technoserv.db.model.configuration.FrontEndConfiguration;
-import com.technoserv.db.model.configuration.FrontEnds;
+import com.technoserv.db.model.configuration.FrontEnd;
 import com.technoserv.db.model.objectmodel.*;
 
 import java.util.Date;
@@ -12,8 +12,8 @@ import java.util.Date;
  */
 public class TestUtil {
 
-    public static FrontEnds generateFrontEnds(){
-        FrontEnds result = new FrontEnds();
+    public static FrontEnd generateFrontEnds(){
+        FrontEnd result = new FrontEnd();
         setObjectDate(result);
         result.setClientVersion("1");
         return result;

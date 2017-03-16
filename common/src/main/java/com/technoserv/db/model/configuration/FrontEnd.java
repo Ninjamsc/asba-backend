@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "FRONT_ENDS")
-public class FrontEnds extends AbstractObject {
+public class FrontEnd extends AbstractObject {
 
     @Column(name = "UUID", nullable = false)
     private String uuid;
@@ -67,5 +67,16 @@ public class FrontEnds extends AbstractObject {
 
     public void setClientVersion(String clientVersion) {
         this.clientVersion = clientVersion;
+    }
+
+    @Override
+    public String toString() {
+        return "FrontEnd{" +
+                "uuid='" + uuid + '\'' +
+                ", workstationName='" + workstationName + '\'' +
+                ", osVersion='" + osVersion + '\'' +
+                ", username='" + username + '\'' +
+                ", clientVersion='" + clientVersion + '\'' +
+                '}';
     }
 }
