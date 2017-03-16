@@ -8,4 +8,6 @@ import com.technoserv.db.service.Service;
  * Created by sergey on 15.11.2016.
  */
 public interface FrontEndsService extends Service<Long,FrontEnd> {
+
+    public FrontEnd findByUuid(String uuid);
 }
