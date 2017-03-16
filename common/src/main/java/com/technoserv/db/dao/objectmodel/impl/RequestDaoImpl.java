@@ -69,7 +69,6 @@ public class RequestDaoImpl extends AbstractHibernateDao<Long, Request> implemen
         return criteria.list();
     }
 
-    @Override
     public List<Request> findByCriteria(RequestSearchCriteria criteria) {
         Criteria c = createSearchCriteria(criteria);
         c.setMaxResults(criteria.getSize());
@@ -95,7 +94,6 @@ public class RequestDaoImpl extends AbstractHibernateDao<Long, Request> implemen
         return c;
     }
 
-    @Override
     public Integer countByCriteria(RequestSearchCriteria criteria) {
         return (Integer) createSearchCriteria(criteria).setProjection(Projections.rowCount()).uniqueResult();
     }

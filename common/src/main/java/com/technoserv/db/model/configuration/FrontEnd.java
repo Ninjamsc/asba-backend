@@ -11,6 +11,16 @@ import javax.persistence.Table;
 @Table(name = "FRONT_ENDS")
 public class FrontEnd extends AbstractObject {
 
+    public FrontEnd(String uuid, String workstationName, String osVersion, String username, String clientVersion) {
+        this.uuid = uuid;
+        this.workstationName = workstationName;
+        this.osVersion = osVersion;
+        this.username = username;
+        this.clientVersion = clientVersion;
+    }
+
+    public FrontEnd(){}
+
     @Column(name = "UUID", nullable = false)
     private String uuid;
 

@@ -1,6 +1,7 @@
 /*** Eclipse Class Decompiler plugin, copyright (c) 2016 Chen Chao (cnfree2000@hotmail.com) ***/
 package com.usetech.bridge.controller;
 
+import com.technoserv.db.model.configuration.FrontEnd;
 import com.usetech.bridge.bean.*;
 import com.usetech.bridge.config.CommonConfig;
 import com.usetech.bridge.service.LogStoreService;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import javax.validation.Valid;
 
@@ -32,8 +34,17 @@ public class RequestController {
 	@Autowired
 	private CommonConfig config;
 
+	private final RestTemplate restTemplate;
+
+	public RequestController() {
+		this.restTemplate = new RestTemplate();
+	}
+
 	@RequestMapping(value = { "/auth" }, method = { RequestMethod.PUT })
-	public ResponseEntity auth(@Valid @RequestBody AuthBean frameBean) {
+	public ResponseEntity auth(@Valid @RequestBody AuthBean authBean) {
+
+		log.info("Incoming AuthBean detected: {}", authBean);
+
 		CVBean cvs = new CVBean();
 		cvs.setBlur_detection_thres(config.getBlur_detection_thres());
 		cvs.setBlur_threshhold(config.getBlur_threshhold());
@@ -52,10 +63,21 @@ public class RequestController {
 		return ResponseEntity.ok().body((Object) cvs);
 	}
 	
-	@RequestMapping(value = { "/reg" }, method = { RequestMethod.PUT })
-	public ResponseEntity auth(@Valid @RequestBody RegBean frameBean) {
-		
-		return ResponseEntity.ok().body((Object) null);
+	@RequestMapping(value = { "/reg" }, method = { RequestMethod.POST })
+	public ResponseEntity auth(@Valid @RequestBody RegBean regBean) {
+
+		log.info("Incoming RegBean detected: {}", regBean);
+
+		RestTemplate restTemplate = new RestTemplate();
+		String REGISTRATION_URL = "http://localhost:9080/rpe/api/rest/front-ends";
+
+		FrontEnd frontEnd = new FrontEnd(
+				regBean.getUuid(),
+				regBean.getWorkstationName(),
+				regBean.getOsVersion(),
+				regBean.getUsername(),
+				regBean.getClientVersion());
+		return restTemplate.postForEntity(REGISTRATION_URL, frontEnd, FrontEnd.class);
 	}
 
 
