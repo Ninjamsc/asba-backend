@@ -20,7 +20,9 @@
         <module>quality</module>
         <module>bridge</module>
         <module>image-storage</module>
-	<module>admin</module>
+	    <module>admin</module>
+        <module>similarity</module>
+
         <!--<module>storage</module>-->
     </modules>
 
