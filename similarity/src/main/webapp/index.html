@@ -1,140 +1,191 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+
+<html>
 <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.css">
-    <link rel="stylesheet" href="similarity.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
-    <script type="text/javascript">
-        var aPictureB,aPictureS;
-        var bPictureB, bPictureS;
-        $(document).ready( function() {
+    <title>Face matcher</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <script
+            src="https://code.jquery.com/jquery-3.2.0.min.js"
+            integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I="
+            crossorigin="anonymous"></script>
 
-            $(document).on('change', '.btn-file :file', function() {
-                var input = $(this),
-                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-                input.trigger('fileselect', [label]);
-            });
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
 
-            $('.btn-file :file').on('fileselect', function(event, label) {
+    <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+            integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+            crossorigin="anonymous">
 
-                var input = $(this).parents('.input-group').find(':text'),
-                    log = label;
+    <link
+            rel="stylesheet"
+            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+            integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+            crossorigin="anonymous">
 
-                if( input.length ) {
-                    input.val(log);
-                } else {
-                    if( log ) alert(log);
-                }
-
-            });
-            function readURL1(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        $('#img-upload1').attr('src', e.target.result);
-                        aPictureS = e.target.result;
-                    }
-                    reader.readAsDataURL(input.files[0]);
-                    //console.log("'"+aPictureS+"'");
-                }
-            }
-            function readURL2(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function (e) {
-                        $('#img-upload2').attr('src', e.target.result);
-                        bPictureS = e.target.result;
-                    }
-                    reader.readAsDataURL(input.files[0]);
-                    //console.log(btoa("'"+bPictureS+"'"));
-                }
-            }
-
-            $("#imgInp1").change(function(){
-                readURL1(this);
-            });
-            $("#imgInp2").change(function(){
-                readURL2(this);
-            });
-
-        });
-        function compareFunction() {
-            var obj = {};
-            obj.pictureA=aPictureS;
-            obj.pictureB=bPictureS;
-            var c = JSON.stringify(obj);
-            //document.getElementById("demo1").innerHTML = c.toString();
-            $.ajax({
-
-                type: "PUT",
-                url: "/similarity/api/compare",
-                data: c,
-                contentType: "application/json",
-                dataType: "json",
-                success: function(response) {
-                    document.getElementById("demo1").innerHTML = "Similarity="+response.similarity;
-                    //console.log("!!!!"+response.similarity);
-
-                }
-            });
+    <style media="screen" type="text/css">
+        form {
+            width: 400px;
+            margin: 50px auto;
         }
-    </script>
+        .file-upload {
+            position: relative;
+            height: 32px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: sans-serif;
+            line-height: 1.42857143;
+            color: #555;
+        }
 
+        .file-upload:after {
+            content: "Обзор";
+            position: absolute;
+            display: block;
+            top: 0;
+            right: 0;
+            z-index: 5;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 0 4px 4px 0;
+            padding: 6px 12px;
+            color: #333;
+        }
+        .file-upload:hover:after {
+            color: #333;
+            background-color: #e6e6e6;
+            border-color: #adadad;
+        }
+
+        .file-upload:active:after {
+            outline: 0;
+            -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+            box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
+        }
+
+        .file-upload:before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 3;
+            display: block;
+            width: calc(100% - 40px);
+            padding: 6px 12px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .file-upload input {
+            position: absolute;
+            display: block;
+            top: 0;
+            height: 100%;
+            z-index: 99;
+            width: 100%;
+            opacity: 0;
+        }
+    </style>
 </head>
+
 <body>
-        <div class="container">
-    <table>
-        <tr>
-            <td>
-                <div class="form-group">
-                    <label>Image A</label>
-                    <div class="input-group">
-            <span class="input-group-btn">
-                <span class="btn btn-default btn-file">
-                    Browse image A<input type="file" id="imgInp1">
-                </span>
-            </span>
-                        <input type="text" class="form-control" readonly>
-                    </div>
-                </div>
-            </td>
-            <td>
-                <div class="form-group">
-                    <label>Image B</label>
-                    <div class="input-group">
-            <span class="input-group-btn">
-                <span class="btn btn-default btn-file">
-                    Browse image B<input type="file" id="imgInp2">
-                </span>
-            </span>
-                        <input type="text" class="form-control" readonly>
-                    </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td><img class="img-thumbnail" id='img-upload1'/></td>
-            <td><img class="img-thumbnail" id='img-upload2'/></td>
-        </tr>
-        <tr>
-            <td>
-            <a href="#" class="btn btn-block btn-success" id="compare" onclick="compareFunction()">Compare</a>
-            </td>
-        </tr>
-        <tr>
-            <td>
-            <p id="demo1"></p>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <p id="demo2"></p>
-            </td>
-        </tr>
-    </table>
+<div class="container">
+    <form action="/" method="post">
+        <fieldset>
+            <legend class="text-center">Верификация лиц</legend>
+            <div id="photo0_wrapper" class="file-upload" data-text="Выберите первую фотографию">
+                <input type="file" name="photo0" id="photo0">
+            </div>
+            <div id="photo1_wrapper" class="file-upload" data-text="Выберите вторую фотографию">
+                <input type="file" name="photo1" id="photo1">
+            </div>
+            <br>
+            <input id="submit_button" class="btn btn-success pre1 pre2" disabled style="width:100%;" type="button" value="Получить результат" onclick="upload()">
+        </fieldset>
+    </form>
+    <hr>
+    <div class="row">
+        <div class="col-md-6"><img id="prephoto0" class="pull-right" style="width: auto; height: 400px; display:block;"></div>
+        <div class="col-md-6"><img id="prephoto1" style="width: auto; height: 400px; display:block;"></div>
+    </div>
+    <hr>
+    <div id="score" class="text-center" style="font-size: 2em;"></div>
 </div>
+
+<script type="text/javascript">
+    var desc = [null, null];
+    var aPictureS;
+    var bPictureS;
+    $(document).ready(function() {
+        $('#photo0').change( function() {
+            readURL1(this);
+            $('#photo0_wrapper').attr('data-text', $(this).val());
+            $('#submit_button').removeClass('pre1');
+            if ($('#submit_button').hasClass('pre2') == false) {
+                $('#submit_button').prop('disabled', false);
+            }
+        });
+        $('#photo1').change( function() {
+            readURL2(this);
+            $('#photo1_wrapper').attr('data-text', $(this).val());
+            $('#submit_button').removeClass('pre2');
+            if ($('#submit_button').hasClass('pre1') == false) {
+                $('#submit_button').prop('disabled', false);
+            }
+        });
+    });
+
+    function readURL1(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                aPictureS = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+            //console.log("'"+aPictureS+"'");
+        }
+    }
+    function readURL2(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                bPictureS = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+            //console.log(btoa("'"+bPictureS+"'"));
+        }
+    }
+    function upload() {
+        $('#score').html('Processing...');
+        for (var photo_idx = 0; photo_idx < 2; photo_idx++) {
+            var photo = document.getElementById("photo" + photo_idx);
+            var file = photo.files[0];
+
+            $('#prephoto' + photo_idx).attr('src', window.URL.createObjectURL(file));
+        }
+
+        console.log(JSON.stringify({pictureA: aPictureS, pictureB: bPictureS}));
+        $.ajax({
+            async: false,
+            url: '/similarity/api/compare',
+            type: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify({pictureA: aPictureS, pictureB: bPictureS  }),
+            dataType: 'json',
+            success: function (result) {
+//                     alert(result['score']);
+                $('#score').html(result['similarity']);
+            },
+            error: function (jqXHR) {
+                alert('Error matching faces...');
+            },
+        });
+    };
+</script>
 </body>
+</html>
