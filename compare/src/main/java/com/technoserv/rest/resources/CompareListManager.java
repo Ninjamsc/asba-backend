@@ -166,6 +166,7 @@ public class CompareListManager implements InitializingBean  {
 				CompareResponsePhotoObject po = new CompareResponsePhotoObject();
 				po.setUrl(d.getFaceSquare());
 				po.setSimilarity(norm);
+				po.setIdentity(d.getId());
 				report.addPhoto(po);
 			}
 			else

@@ -12,6 +12,7 @@
     <artifactId>common</artifactId>
     <name>Common module</name>
     <packaging>jar</packaging>
+    <version>1.0.1</version>
 
     <dependencies>
 

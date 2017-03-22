@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.css">
+    <link rel="stylesheet" href="skud.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+    <script type="text/javascript">
+
+$(document).ready(function(){
+
+  $.ajax({
+       url: 'http://localhost:9080/compare/api/results',
+       dataType: 'json',
+       success: function(data) {
+           $('#table').bootstrapTable({
+              data: data
+           });
+       },
+       error: function(e) {
+           console.log(e.responseText);
+       }
+    });
+ });
+
+
+    </script>
+  <style>
+  img {
+    height: 100px;
+    float: left;
+  }
+  </style>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <table id="table">
+            <thead>
+                <tr>
+<!--                    <th data-field="id">Id</th> -->
+                    <th data-field="timestamp" data-formatter="dateFormatter">Время</th>
+<!--                    <th data-field="timestamp" >Время</th> -->
+                    <th data-field="faceId" class="col-xs-1">Группа фото</th>
+                    <th data-field="videoSrc" class="col-xs-1"'>Видеопоток</th>
+                    <th data-field="faceSquare" class="col-xs-1" data-formatter="imageFormatter">Лицо с камеры</th>
+<!--                    <th data-field="person" >Person ID</th> -->
+                    <th data-field="url" class="col-xs-1" data-formatter="imageFormatter">Похож на:</th>
+<!--                    <th data-field="height">Image width</th>
+                    <th data-field="width">Image heigth</th>
+                    <th data-field="blur">Blur</th> -->
+                    <th data-field="similarity" data-formatter="simFormatter">Схожесть</th>
+<!--                    <th data-field="timestamp">Timestamp</th> -->
+                </tr>
+            </thead>
+        </table>
+    </form>
+</body>
+<script>
+    function imageFormatter(value, row) {
+        if(value == null )
+            return "NONE";
+      return '<img class=\"thumbnail zoom\" src="'+value+'" />';
+    }
+    function dateFormatter(value,row) {
+        var a = new Date(Number(value.toString().substr(0,10)) * 1000);
+        var months = ['01','02','03','04','05','06','07','08','09','10','11','12'];
+        var year = a.getFullYear();
+        var month = months[a.getMonth()];
+        var date = a.getDate().toString().length == 1 ? "0"+a.getDate():a.getDate();
+        var hour = a.getHours().toString().length == 1 ? "0"+a.getHours():a.getHours();
+        var min = a.getMinutes().toString().length == 1 ? "0"+a.getMinutes():a.getMinutes();
+        var sec = a.getSeconds().toString().length == 1 ? "0"+a.getSeconds():a.getSeconds();
+        var time = date + '.' + month + '.' + year + ' '
+            + hour + ':' + min + ':' + sec + "."+value.toString().substr(10,3) ;
+        return time;
+    }
+    function simFormatter(value, row) {
+        if(value == null || value === 0 )
+            return "-";
+        var a = new Number(value*100).toFixed(4);
+        return a +" %";
+    }
+
+</script>
+</html>

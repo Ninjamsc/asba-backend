@@ -14,12 +14,15 @@
         <module>common</module>
         <module>json-delivery-service-web</module>
         <module>arm-message-consumer-web</module>
+        <module>amqp-message-consumer</module>
         <module>request-processing-engine-web</module>
         <module>compare</module>
         <module>quality</module>
         <module>bridge</module>
         <module>image-storage</module>
-	<module>admin</module>
+	    <module>admin</module>
+        <module>similarity</module>
+
         <!--<module>storage</module>-->
     </modules>
 

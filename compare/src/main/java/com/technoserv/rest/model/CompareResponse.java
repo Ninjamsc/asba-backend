@@ -1,9 +1,12 @@
 package com.technoserv.rest.model;
-import java.util.ArrayList;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.technoserv.db.model.objectmodel.Document;
 
-public class CompareResponse  {
+import java.util.ArrayList;
+
+public class CompareResponse {
 
 	@JsonInclude(Include.NON_EMPTY)
 	private ArrayList<CompareResponseRulesObject> Rules;
@@ -42,14 +45,14 @@ public class CompareResponse  {
 
 
 	public ArrayList<CompareResponseRulesObject> getRules() {
-	return Rules;
-}
+		return Rules;
+	}
 	public void setRules(ArrayList<CompareResponseRulesObject> rules) {
-	Rules = rules;
-}
+		Rules = rules;
+	}
 
 	@Override
 	public String toString() {
-	return "CompareRequest  [scannedPicture=" + scannedPicture + ",cameraPicture="+cameraPicture+", Rules="+Rules+"]";
+		return "CompareRequest  [scannedPicture=" + scannedPicture + ",cameraPicture="+cameraPicture+", Rules="+Rules+"]";
 	}
 }

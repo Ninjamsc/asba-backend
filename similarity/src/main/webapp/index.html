@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.css">
+    <link rel="stylesheet" href="similarity.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+    <script type="text/javascript">
+        var aPictureB,aPictureS;
+        var bPictureB, bPictureS;
+        $(document).ready( function() {
+
+            $(document).on('change', '.btn-file :file', function() {
+                var input = $(this),
+                    label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+                input.trigger('fileselect', [label]);
+            });
+
+            $('.btn-file :file').on('fileselect', function(event, label) {
+
+                var input = $(this).parents('.input-group').find(':text'),
+                    log = label;
+
+                if( input.length ) {
+                    input.val(log);
+                } else {
+                    if( log ) alert(log);
+                }
+
+            });
+            function readURL1(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#img-upload1').attr('src', e.target.result);
+                        aPictureS = e.target.result;
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                    //console.log("'"+aPictureS+"'");
+                }
+            }
+            function readURL2(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $('#img-upload2').attr('src', e.target.result);
+                        bPictureS = e.target.result;
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                    //console.log(btoa("'"+bPictureS+"'"));
+                }
+            }
+
+            $("#imgInp1").change(function(){
+                readURL1(this);
+            });
+            $("#imgInp2").change(function(){
+                readURL2(this);
+            });
+
+        });
+        function compareFunction() {
+            var obj = {};
+            obj.pictureA=aPictureS;
+            obj.pictureB=bPictureS;
+            var c = JSON.stringify(obj);
+            //document.getElementById("demo1").innerHTML = c.toString();
+            $.ajax({
+
+                type: "PUT",
+                url: "/similarity/api/compare",
+                data: c,
+                contentType: "application/json",
+                dataType: "json",
+                success: function(response) {
+                    document.getElementById("demo1").innerHTML = "Similarity="+response.similarity;
+                    //console.log("!!!!"+response.similarity);
+
+                }
+            });
+        }
+    </script>
+
+</head>
+<body>
+        <div class="container">
+    <table>
+        <tr>
+            <td>
+                <div class="form-group">
+                    <label>Image A</label>
+                    <div class="input-group">
+            <span class="input-group-btn">
+                <span class="btn btn-default btn-file">
+                    Browse image A<input type="file" id="imgInp1">
+                </span>
+            </span>
+                        <input type="text" class="form-control" readonly>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="form-group">
+                    <label>Image B</label>
+                    <div class="input-group">
+            <span class="input-group-btn">
+                <span class="btn btn-default btn-file">
+                    Browse image B<input type="file" id="imgInp2">
+                </span>
+            </span>
+                        <input type="text" class="form-control" readonly>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><img class="img-thumbnail" id='img-upload1'/></td>
+            <td><img class="img-thumbnail" id='img-upload2'/></td>
+        </tr>
+        <tr>
+            <td>
+            <a href="#" class="btn btn-block btn-success" id="compare" onclick="compareFunction()">Compare</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+            <p id="demo1"></p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p id="demo2"></p>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
