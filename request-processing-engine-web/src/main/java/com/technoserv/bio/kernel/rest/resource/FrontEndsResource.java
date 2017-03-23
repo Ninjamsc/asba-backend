@@ -42,7 +42,7 @@ public class FrontEndsResource {
         int total = frontEndsService.getAll().size();
 
         // check already exists
-        FrontEnd findObject = frontEndsService.findByUuid(entity.getUuid());
+        FrontEnd findObject = frontEndsService.findByWorkstationName(entity.getWorkstationName());
         if (findObject == null ) {
             if (total < MAX_REGISETED_CLIENTS_NUMBER) {
                 frontEndsService.save(entity);
