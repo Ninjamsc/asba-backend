@@ -4,6 +4,7 @@
 <head>
     <title>Face matcher</title>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <script
             src="https://code.jquery.com/jquery-3.2.0.min.js"
             integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I="
@@ -25,167 +26,139 @@
             href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
             integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
             crossorigin="anonymous">
+			
+	<link rel="stylesheet" href="similarity.css">
 
-    <style media="screen" type="text/css">
-        form {
-            width: 400px;
-            margin: 50px auto;
-        }
-        .file-upload {
-            position: relative;
-            height: 32px;
-            width: 100%;
-            cursor: pointer;
-            font-size: 14px;
-            font-family: sans-serif;
-            line-height: 1.42857143;
-            color: #555;
-        }
-
-        .file-upload:after {
-            content: "Обзор";
-            position: absolute;
-            display: block;
-            top: 0;
-            right: 0;
-            z-index: 5;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 0 4px 4px 0;
-            padding: 6px 12px;
-            color: #333;
-        }
-        .file-upload:hover:after {
-            color: #333;
-            background-color: #e6e6e6;
-            border-color: #adadad;
-        }
-
-        .file-upload:active:after {
-            outline: 0;
-            -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
-            box-shadow: inset 0 3px 5px rgba(0, 0, 0, .125);
-        }
-
-        .file-upload:before {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 3;
-            display: block;
-            width: calc(100% - 40px);
-            padding: 6px 12px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        .file-upload input {
-            position: absolute;
-            display: block;
-            top: 0;
-            height: 100%;
-            z-index: 99;
-            width: 100%;
-            opacity: 0;
-        }
-    </style>
+    <script src="similarity.js"></script>
+    <script src="js/jquery.facedetection.min.js"></script>
 </head>
 
 <body>
-<div class="container">
-    <form action="/" method="post">
-        <fieldset>
-            <legend class="text-center">Верификация лиц</legend>
-            <div id="photo0_wrapper" class="file-upload" data-text="Выберите первую фотографию">
-                <input type="file" name="photo0" id="photo0">
-            </div>
-            <div id="photo1_wrapper" class="file-upload" data-text="Выберите вторую фотографию">
-                <input type="file" name="photo1" id="photo1">
-            </div>
-            <br>
-            <input id="submit_button" class="btn btn-success pre1 pre2" disabled style="width:100%;" type="button" value="Получить результат" onclick="upload()">
-        </fieldset>
-    </form>
-    <hr>
-    <div class="row">
-        <div class="col-md-6"><img id="prephoto0" class="pull-right" style="width: auto; height: 400px; display:block;"></div>
-        <div class="col-md-6"><img id="prephoto1" style="width: auto; height: 400px; display:block;"></div>
+
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand technoserv-logo" href="#">
+        <img alt="Техносерв" src="assets/ts_logo_grafit_ru.png">
+      </a>
     </div>
-    <hr>
-    <div id="score" class="text-center" style="font-size: 2em;"></div>
+
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Сервис верификации лиц по фотографиям</a>
+        </div>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+<div class="face-detection" id="face1"></div>
+<div class="face-detection" id="face2"></div>
+
+<div class="container">
+    <div class="row">
+        <h3 class="text-center text-primary">Загрузите две фотографии для сравнения</h3>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel face-panel">
+                <div class="panel-body">
+                    <label for="photo-loader1" class="file-loader-label">
+                        <span class="face-placeholder" id="placeholder1">
+                            <span class="glyphicon glyphicon-user gray-face center-block text-center" aria-hidden="true"></span>
+                        </span>
+                        <img class="face-image" id="image1"
+                            onload="onImageLoaded(1)" onerror="onImageLoadingError(1)">
+                    </label>
+                </div>
+				<div class="panel-footer">
+                    <label for="photo-loader1" class="file-loader-label-footer">
+                        <span class="input-group">
+                            <input type="text" class="form-control file-input-name"
+                                placeholder="Загрузите файл" id="file-input1">
+                            <span class="input-group-btn">
+                                <span class="btn btn-default"
+                                    data-toggle="tooltip" data-placement="bottom"
+                                    title="Выбрать файл для загрузки">
+                                    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+                                </span>
+                            </span>
+                        </span>
+                    </label>
+                    <input type="file" id="photo-loader1" class="photo-loader"
+                        accept="image/jpeg,image/png,image/gif" onchange="LoadImageFromPC(event, 1)">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel face-panel">
+                <div class="panel-body">
+                    <label for="photo-loader2" class="file-loader-label">
+                        <span class="face-placeholder" id="placeholder2">
+                            <span class="glyphicon glyphicon-user gray-face center-block text-center" aria-hidden="true"></span>
+                        </span>
+                        <img class="face-image" id="image2"
+                            onload="onImageLoaded(2)"  onerror="onImageLoadingError(2)">
+                    </label>
+                </div>
+				<div class="panel-footer">
+                    <label for="photo-loader2" class="file-loader-label-footer">
+                        <span class="input-group">
+                            <input type="text" class="form-control file-input-name"
+                                placeholder="Загрузите файл" id="file-input2">
+                            <span class="input-group-btn">
+                                <span class="btn btn-default"
+                                    data-toggle="tooltip" data-placement="bottom"
+                                    title="Выбрать файл для загрузки">
+                                    <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+                                </span>
+                            </span>
+                        </span>
+                    </label>
+                    <input type="file" id="photo-loader2" class="photo-loader"
+                        accept="image/jpeg,image/png,image/gif" onchange="LoadImageFromPC(event, 2)">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button id="submit-button" class="btn btn-lg btn-success" disabled
+        type="button" onclick="SubmitPhotos()">
+
+        <span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span> 
+        Получить результат сравнения
+    </button>
+
+    <div class="alert alert-info alert-result text-center" id="alert-waiting" role="alert">
+        <span class="glyphicon glyphicon-refresh glyph-result loader" aria-hidden="true"></span>
+        <span>
+            <span class="text-waiting">Обработка запроса...</span>
+        </span>
+    </div>
+    <div class="alert alert-success alert-result text-center" id="alert-success" role="alert">
+        <span class="glyphicon glyphicon-ok-circle glyph-result" aria-hidden="true"></span>
+        <span>
+            <span class="text-result">На фотографиях один и тот же человек</span>
+            <span class="text-muted text-value">Мера сходства: <span class="result-value"></span></span>
+        </span>
+    </div>
+    <div class="alert alert-danger alert-result text-center" id="alert-fail" role="alert">
+        <span class="glyphicon glyphicon-remove-circle glyph-result" aria-hidden="true"></span>
+        <span>
+            <span class="text-result">На фотографиях разные люди</span>
+            <span class="text-muted text-value">Мера сходства: <span class="result-value"></span></span>
+        </span>
+    </div>
 </div>
 
-<script type="text/javascript">
-    var desc = [null, null];
-    var aPictureS;
-    var bPictureS;
-    $(document).ready(function() {
-        $('#photo0').change( function() {
-            readURL1(this);
-            $('#photo0_wrapper').attr('data-text', $(this).val());
-            $('#submit_button').removeClass('pre1');
-            if ($('#submit_button').hasClass('pre2') == false) {
-                $('#submit_button').prop('disabled', false);
-            }
-        });
-        $('#photo1').change( function() {
-            readURL2(this);
-            $('#photo1_wrapper').attr('data-text', $(this).val());
-            $('#submit_button').removeClass('pre2');
-            if ($('#submit_button').hasClass('pre1') == false) {
-                $('#submit_button').prop('disabled', false);
-            }
-        });
-    });
-
-    function readURL1(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                aPictureS = e.target.result;
-            }
-            reader.readAsDataURL(input.files[0]);
-            //console.log("'"+aPictureS+"'");
-        }
-    }
-    function readURL2(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                bPictureS = e.target.result;
-            }
-            reader.readAsDataURL(input.files[0]);
-            //console.log(btoa("'"+bPictureS+"'"));
-        }
-    }
-    function upload() {
-        $('#score').html('Processing...');
-        for (var photo_idx = 0; photo_idx < 2; photo_idx++) {
-            var photo = document.getElementById("photo" + photo_idx);
-            var file = photo.files[0];
-
-            $('#prephoto' + photo_idx).attr('src', window.URL.createObjectURL(file));
-        }
-
-        console.log(JSON.stringify({pictureA: aPictureS, pictureB: bPictureS}));
-        $.ajax({
-            async: false,
-            url: '/similarity/api/compare',
-            type: 'PUT',
-            contentType: 'application/json',
-            data: JSON.stringify({pictureA: aPictureS, pictureB: bPictureS  }),
-            dataType: 'json',
-            success: function (result) {
-//                     alert(result['score']);
-                $('#score').html(result['similarity']);
-            },
-            error: function (jqXHR) {
-                alert('Error matching faces...');
-            },
-        });
-    };
-</script>
 </body>
 </html>
