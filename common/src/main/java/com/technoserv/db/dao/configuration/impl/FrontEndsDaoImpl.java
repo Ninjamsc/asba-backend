@@ -16,4 +16,9 @@ public class FrontEndsDaoImpl extends AbstractHibernateDao<Long,FrontEnd> implem
         return (FrontEnd) getSession().createCriteria(getPersistentClass())
                 .add(Property.forName("uuid").eq(uuid)).uniqueResult();
     }
+
+    public FrontEnd findByWorkstationName(String workstationName) {
+        return (FrontEnd) getSession().createCriteria(getPersistentClass())
+                .add(Property.forName("workstationName").eq(workstationName)).uniqueResult();
+    }
 }

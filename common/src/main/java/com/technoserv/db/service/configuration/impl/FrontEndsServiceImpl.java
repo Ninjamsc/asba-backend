@@ -25,4 +25,7 @@ public class FrontEndsServiceImpl extends AbstractService<Long, FrontEnd,FrontEn
     public FrontEnd findByUuid(String uuid) {
         return getDao().findByUuid(uuid);
     }
+
+    @Transactional(readOnly = true)
+    public FrontEnd findByWorkstationName(String workstationName) { return getDao().findByWorkstationName(workstationName);}
 }

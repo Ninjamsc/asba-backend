@@ -1,4 +1,4 @@
-package com.technoserv.bio.kernel.rest.resource;
+package com.technoserv.rest.resource;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
@@ -42,7 +42,7 @@ public class FrontEndsResource {
         int total = frontEndsService.getAll().size();
 
         // check already exists
-        FrontEnd findObject = frontEndsService.findByUuid(entity.getUuid());
+        FrontEnd findObject = frontEndsService.findByWorkstationName(entity.getWorkstationName());
         if (findObject == null ) {
             if (total < MAX_REGISETED_CLIENTS_NUMBER) {
                 frontEndsService.save(entity);

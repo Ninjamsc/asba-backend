@@ -9,5 +9,6 @@ import com.technoserv.db.model.configuration.FrontEnd;
  */
 public interface FrontEndsDao extends Dao<Long,FrontEnd> {
 
-    public FrontEnd findByUuid(String uuid);
+    FrontEnd findByUuid(String uuid);
+    FrontEnd findByWorkstationName(String workstationName);
 }
