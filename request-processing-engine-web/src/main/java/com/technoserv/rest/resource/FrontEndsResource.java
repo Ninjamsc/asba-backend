@@ -4,7 +4,10 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 import com.technoserv.db.model.configuration.FrontEnd;
 import com.technoserv.db.service.configuration.api.FrontEndsService;
+import com.technoserv.rest.exception.ErrorBean;
 import io.swagger.annotations.Api;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +20,8 @@ import java.util.Collection;
 @Path("/rest/front-ends")
 @Api(value = "System Settings Rest API")
 public class FrontEndsResource {
+
+    private static final Log log = LogFactory.getLog(FrontEndsResource.class);
 
     private static final int MAX_REGISETED_CLIENTS_NUMBER = 400;
 
@@ -42,8 +47,10 @@ public class FrontEndsResource {
         int total = frontEndsService.getAll().size();
 
         // check already exists
-        FrontEnd findObject = frontEndsService.findByWorkstationName(entity.getWorkstationName());
-        if (findObject == null ) {
+        FrontEnd clientByWorkstationName = frontEndsService.findByWorkstationName(entity.getWorkstationName());
+        FrontEnd clientByUuid= frontEndsService.findByUuid(entity.getUuid());
+
+        if (clientByWorkstationName == null && clientByUuid == null) {
             if (total < MAX_REGISETED_CLIENTS_NUMBER) {
                 frontEndsService.save(entity);
                 return Response.status(Response.Status.CREATED).build();
@@ -51,7 +58,17 @@ public class FrontEndsResource {
                 return Response.status(Response.Status.PAYMENT_REQUIRED).build();
             }
         } else {
-            return Response.status(Response.Status.ACCEPTED).build();
+            if (clientByWorkstationName == null || clientByUuid == null) {
+                Response.ResponseBuilder responseBuilder = Response.status(Response.Status.NOT_ACCEPTABLE);
+                String message = String.format("Can't register workstation: workstationName %s found, uuid %s found",
+                        clientByWorkstationName == null ? "NOT" : "",
+                        clientByUuid == null ? "NOT" : "");
+                responseBuilder.entity(new ErrorBean(message));
+                log.error(message);
+                return responseBuilder.build();
+            } else {
+                return Response.status(Response.Status.ACCEPTED).build();
+            }
         }
     }
 
