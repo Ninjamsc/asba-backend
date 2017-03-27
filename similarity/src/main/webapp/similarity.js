@@ -166,6 +166,9 @@ function onImageLoaded(photo_idx) {
 }
 
 function onImageLoadingError(photo_idx) {
+    photos['photo' + photo_idx] = null;
+    CheckPhotos();
+    
     alert('Ошибка при загрузке фотографии');
     var image = $('#image' + photo_idx);
     var placeholder = $('#placeholder' + photo_idx);
