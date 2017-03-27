@@ -29,6 +29,9 @@ $(document).ready(function() {
 });
 
 $(window).resize(function(){
+    $('.face-detection').each(function() {
+        $(this).hide();
+    });
     clearTimeout(doResize);
     doResize = setTimeout(onResize, 100);
 });
