@@ -30,7 +30,7 @@
 	<link rel="stylesheet" href="similarity.css">
 
     <script src="similarity.js"></script>
-    <script src="js/jquery.facedetection.min.js"></script>
+    <!--<script src="js/jquery.facedetection.min.js"></script>-->
 </head>
 
 <body>
@@ -80,19 +80,20 @@
                             onload="onImageLoaded(1)" onerror="onImageLoadingError(1)">
                     </label>
                 </div>
-				<div class="panel-footer">
-                    <label for="photo-loader1" class="file-loader-label-footer">
-                        <span class="input-group">
+				<div class="panel-footer clearfix">
+                    <label for="photo-loader1" class="file-loader-label-footer pull-right">
+                        <!--<span class="input-group">
                             <input type="text" class="form-control file-input-name"
                                 placeholder="Загрузите файл" id="file-input1">
-                            <span class="input-group-btn">
+                            <span class="input-group-btn">-->
                                 <span class="btn btn-default"
                                     data-toggle="tooltip" data-placement="bottom"
                                     title="Выбрать файл для загрузки">
                                     <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+                                     Загрузить фото
                                 </span>
-                            </span>
-                        </span>
+                            <!--</span>
+                        </span>-->
                     </label>
                     <input type="file" id="photo-loader1" class="photo-loader"
                         accept="image/jpeg,image/png,image/gif" onchange="LoadImageFromPC(event, 1)">
@@ -110,19 +111,20 @@
                             onload="onImageLoaded(2)"  onerror="onImageLoadingError(2)">
                     </label>
                 </div>
-				<div class="panel-footer">
-                    <label for="photo-loader2" class="file-loader-label-footer">
-                        <span class="input-group">
+				<div class="panel-footer clearfix">
+                    <label for="photo-loader2" class="file-loader-label-footer pull-right">
+                        <!--<span class="input-group">
                             <input type="text" class="form-control file-input-name"
                                 placeholder="Загрузите файл" id="file-input2">
-                            <span class="input-group-btn">
+                            <span class="input-group-btn">-->
                                 <span class="btn btn-default"
                                     data-toggle="tooltip" data-placement="bottom"
                                     title="Выбрать файл для загрузки">
                                     <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+                                     Загрузить фото
                                 </span>
-                            </span>
-                        </span>
+                            <!--</span>
+                        </span>-->
                     </label>
                     <input type="file" id="photo-loader2" class="photo-loader"
                         accept="image/jpeg,image/png,image/gif" onchange="LoadImageFromPC(event, 2)">
