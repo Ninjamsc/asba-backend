@@ -29,35 +29,21 @@ $(document).ready(function() {
 });
 
 $(window).resize(function(){
+    $('.face-detection').each(function() {
+        $(this).hide();
+    });
     clearTimeout(doResize);
     doResize = setTimeout(onResize, 100);
 });
 
 function onResize() {
     ScaleFacePanels();
-    if (photos.photo1) {
-        TrackImage(1);
-    }
-    if (photos.photo2) {
-        TrackImage(2);
-    }
-}
-
-function FaceTrack(trackEvent, photo_idx) {
-    if (trackEvent.data.length === 0) {
-        // No faces were detected on this photo.
-    } else {
-        var faceDetection = trackEvent.data[0];
-        var faceRect = $('#face' + photo_idx);
-        var image = $('#image' + photo_idx);
-        faceRect.show();
-        faceRect.css({
-            left: image.offset().left + faceDetection.x,
-            top: image.offset().top + faceDetection.y,
-            width: faceDetection.width,
-            height: faceDetection.height
-        });
-    }
+    // if (photos.photo1) {
+    //     TrackImage(1);
+    // }
+    // if (photos.photo2) {
+    //     TrackImage(2);
+    // }
 }
 
 function ScaleFacePanels() {
@@ -160,9 +146,9 @@ function onImageLoaded(photo_idx) {
     placeholder.hide();
     ScaleImage(image);
     image.show();
-    setTimeout(function() {
-        TrackImage(photo_idx);
-    }, 100);
+    // setTimeout(function() {
+    //     TrackImage(photo_idx);
+    // }, 100);
 }
 
 function onImageLoadingError(photo_idx) {
