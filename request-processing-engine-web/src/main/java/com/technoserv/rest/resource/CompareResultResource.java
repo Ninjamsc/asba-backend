@@ -39,6 +39,10 @@ public class CompareResultResource {
     @Path("/{id}") //id as wfm
     public Response find(@PathParam("id") Long id) throws IOException {
         CompareResult compareResult = compareResultService.findById(id);
+        // перед тем, как отдавать результат, необходимо ЗДЕСЬ обновить значение URL фотографий, чтобы убрать проблему с
+        // асинхронной обработкой preview & fullframe
+        String compareResultStr = compareResult.getJson();
+
         return compareResult !=null ? Response.ok(objectMapper.readValue(compareResult.getJson(),JsonNode.class)).build()
         : Response.status(Response.Status.NOT_FOUND).build();
     }
