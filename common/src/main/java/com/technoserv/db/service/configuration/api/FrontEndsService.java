@@ -9,5 +9,6 @@ import com.technoserv.db.service.Service;
  */
 public interface FrontEndsService extends Service<Long,FrontEnd> {
 
-    public FrontEnd findByUuid(String uuid);
+    FrontEnd findByUuid(String uuid);
+    FrontEnd findByWorkstationName(String workstationName);
 }

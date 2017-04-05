@@ -1,0 +1,1 @@
+ALTER TABLE front_ends ADD CONSTRAINT workstation_name_unique UNIQUE (workstation_name);

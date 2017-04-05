@@ -1,0 +1,11 @@
+{
+  "_comment": "Это запрос от АРМ в back-end с парой фоток на сравнение",
+  "token":"0LfQsNGH0LXQvCDQstGLINC/0L7RgtGA0LDRgtC40LvQuCDQstGA0LXQvNGPINC90LAg0LTQtdC60L7QtNC40YDQvtCy0LDQvdC40LU/",
+  "wfmid": 13169,
+  "iin": 11154,
+  "username": "OperatorName",
+  "timestamp": "12.12.2016 12:00:12",
+  "type": "fullframe",
+  "camPic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEUAAAD///+l2Z/dAAAAM0lEQVR4nGP4/5/h/1+G/58ZDrAz3D/McH8yw83NDDeNGe4Ug9C9zwz3gVLMDA/A6P9/AFGGFyjOXZtQAAAAAElFTkSuQmCC",
+  "scanPic": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEUAAAD///+l2Z/dAAAAM0lEQVR4nGP4/5/h/1+G/58ZDrAz3D/McH8yw83NDDeNGe4Ug9C9zwz3gVLMDA/A6P9/AFGGFyjOXZtQAAAAAElFTkSuQmCC"
+}

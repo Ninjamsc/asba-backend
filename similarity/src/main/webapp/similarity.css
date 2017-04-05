@@ -1,0 +1,156 @@
+/* https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/ */
+.photo-loader {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.face-panel {
+	border-color: lightgray;
+	box-shadow: 3px 3px 5px rgba(0,0,0,.2);
+    transition: border-color 1s, box-shadow 1s;
+}
+
+.face-panel:hover {
+	border-color: rgb(69, 98, 128);
+	box-shadow: 3px 3px 5px rgba(69, 98, 128, 0.6);
+}
+
+.face-panel:hover .gray-face {
+	color: rgb(69, 98, 128);
+}
+
+.face-placeholder {
+	margin: auto;
+	border-radius: 50%;
+	background-color: #eee;
+	overflow: hidden;
+	box-shadow: 1px 1px 3px darkgrey;
+	opacity: 0.8;
+
+	transition: all .2s ease-in-out;
+}
+
+.face-placeholder:hover {
+	transform: scale(1.1);
+}
+
+.face-detection {
+	display: none;
+	position: absolute;
+	border: 2px solid green;
+    z-index: 10;
+	pointer-events: none;
+}
+
+.gray-face {
+	font-size: 20em;
+    line-height: 1em;
+	color: lightgray;
+	text-shadow: -1px -1px 3px darkgrey;
+	transition: color 1s;
+}
+
+.face-image {
+	margin: auto;
+	display: none;
+}
+
+/* http://bootsnipp.com/snippets/featured/circle-button */
+.btn-circle.btn-lg {
+	width: 50px;
+	height: 50px;
+	padding: 10px 16px;
+	font-size: 18px;
+	line-height: 1.33;
+	border-radius: 25px;
+}
+
+.technoserv-logo {
+	padding: 5px 15px;
+}
+
+.portrait {
+    height: 100%;
+}
+
+.landscape {
+    width: 100%;
+}
+
+.file-input-name {
+	pointer-events: none;
+}
+
+.file-loader-label {
+	margin: auto;
+	width: 100%;
+    height: 100%;
+	display: flex;
+	align-items: center;
+}
+
+.file-loader-label-footer {
+	margin: 0;
+}
+
+#submit-button {
+	display: block;
+	margin: auto;
+	margin-top: 1em;
+	margin-bottom: 2em;
+	/*min-width: 25em;*/
+}
+
+.glyph-result {
+	font-size: 3em;
+	text-shadow: 0px 0px 7px #777;
+}
+
+.alert-result {
+	max-width: 45em;
+	margin: auto;
+	margin-bottom: 2em;
+	display: none;
+}
+
+.alert-result > span {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.alert-result > span > span {
+	margin: 0;
+	margin-left: 1em;
+	display: block;
+}
+
+.text-result {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+.text-waiting {
+	font-size: 1.5em;
+	font-weight: bold;
+}
+
+.result-value {
+	font-weight: bold;
+}
+
+.text-value {
+	font-size: 1.2em;
+}
+
+.loader {
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
