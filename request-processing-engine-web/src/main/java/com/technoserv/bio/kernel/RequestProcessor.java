@@ -189,8 +189,10 @@ public class RequestProcessor {
                 ((ObjectNode) result).put("webCamPictureURL", request.getCameraDocument().getFaceSquare());
                 ((ObjectNode) result).put("webCamPicturePreviewURL", request.getCameraDocument().getOrigImageURL());
 */
+        if(request.getScannedDocument().getOrigImageURL() != null)
         ((ObjectNode) result).put("scannedPictureURL", request.getScannedDocument().getOrigImageURL());
         ((ObjectNode) result).put("scannedPicturePreviewURL", request.getScannedDocument().getFaceSquare());
+        if(request.getCameraDocument().getOrigImageURL() != null)
         ((ObjectNode) result).put("webCamPictureURL", request.getCameraDocument().getOrigImageURL());
         ((ObjectNode) result).put("webCamPicturePreviewURL", request.getCameraDocument().getFaceSquare());
 

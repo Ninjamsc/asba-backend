@@ -5,7 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 import com.technoserv.db.model.objectmodel.CompareResult;
+import com.technoserv.db.model.objectmodel.Document;
+import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.service.objectmodel.api.CompareResultService;
+import com.technoserv.db.service.objectmodel.api.RequestService;
+import com.technoserv.rest.model.CompareReport;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -27,6 +31,8 @@ public class CompareResultResource {
 
     @Autowired
     private CompareResultService compareResultService;
+    @Autowired
+    private RequestService requestService;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -36,9 +42,26 @@ public class CompareResultResource {
     @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     @Path("/{id}") //id as wfm
     public Response find(@PathParam("id") Long id) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        //objectMapper.setDateFormat(DATE_FORMAT);
+
         CompareResult compareResult = compareResultService.findById(id);
-        return compareResult !=null ? Response.ok(objectMapper.readValue(compareResult.getJson(),JsonNode.class)).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build()
-        : Response.status(Response.Status.NOT_FOUND).build();
+        Request req = requestService.findByOrderNumber(id);
+        CompareReport report = objectMapper.readValue(compareResult.getJson(), CompareReport.class);
+        if(req != null)
+        {
+            Document camera = req.getCameraDocument();
+            if (camera != null && camera.getOrigImageURL() != null)
+                report.getCameraPicture().setPictureURL(camera.getOrigImageURL());
+            Document scan = req.getScannedDocument();
+            if (scan != null && scan.getOrigImageURL() != null)
+                report.getScannedPicture().setPictureURL(scan.getOrigImageURL());
+
+        }
+//        return compareResult !=null ? Response.ok(objectMapper.readValue(compareResult.getJson(),JsonNode.class)).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build()
+//        : Response.status(Response.Status.NOT_FOUND).build();
+        return compareResult !=null ? Response.ok(report).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build()
+                : Response.status(Response.Status.NOT_FOUND).build();
     }
 
 
