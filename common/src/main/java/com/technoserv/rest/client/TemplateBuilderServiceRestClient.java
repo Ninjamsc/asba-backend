@@ -6,7 +6,6 @@ import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
 import com.technoserv.rest.exception.TemplateBuilderServiceException;
 import com.technoserv.rest.request.Base64Photo;
 import com.technoserv.rest.request.PhotoTemplate;
-import edu.emory.mathcs.backport.java.util.Arrays;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Arrays;
 
 /**
  * Created by VBasakov on 22.11.2016.

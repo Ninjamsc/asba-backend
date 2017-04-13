@@ -22,6 +22,7 @@
     <context:component-scan base-package="com.technoserv.rest.resources"/>
      <context:component-scan base-package="com.technoserv.rest.model"/>
     <import resource="${data-source-context.xml.name}"/>
+    <!--<import resource="data-source-context-prod.xml"/>-->
     <tx:annotation-driven />
 
 

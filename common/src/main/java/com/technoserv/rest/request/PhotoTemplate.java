@@ -1,9 +1,9 @@
 package com.technoserv.rest.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Массив template содержит построенный сервисом биометрический шаблон
