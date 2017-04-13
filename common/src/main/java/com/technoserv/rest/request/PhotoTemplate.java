@@ -1,6 +1,9 @@
 package com.technoserv.rest.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import edu.emory.mathcs.backport.java.util.Arrays;
+
+import java.util.ArrayList;
 
 /**
  * Массив template содержит построенный сервисом биометрический шаблон
@@ -23,7 +26,7 @@ public  class PhotoTemplate {
     	Double[] arr =  new Double[template.length];
     	for(int i=0;i< template.length;i++)
     		arr[i] = new Double(template[i]);
-    	return arr.toString();
+    	return new ArrayList<Double>(Arrays.asList(arr)).toString();
     }
 
 }
