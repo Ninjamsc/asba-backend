@@ -14,6 +14,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
@@ -52,13 +53,13 @@ public class TemplateBuilderServiceRestClient {
     public PhotoTemplate getPhotoTemplate(byte[] request) {
 
         if (TEVIAN_CORE_MODE) {
-            return getPhotoTemplateFromTevianCore(request);
+            return getPhotoTemplateFromTevianCore(request, true);
         } else {
             return getPhotoTemplateFromTechCore(request);
         }
     }
 
-    public PhotoTemplate getPhotoTemplateFromTevianCore(byte[] request) {
+    public PhotoTemplate getPhotoTemplateFromTevianCore(byte[] request, boolean isFirstAttempt) {
 
         System.out.println("Tevian template builder invoked");
 
@@ -72,17 +73,19 @@ public class TemplateBuilderServiceRestClient {
             System.out.println("Image vectorBase64: " + response.getBody());
             double[] vector = getVectorFromByteArray(Base64.decode(response.getBody().getBytes()));
 
-            try {
-                Thread.sleep(5000l);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
             // construct result
             photoTemplate = new PhotoTemplate();
             photoTemplate.setType(0);
             photoTemplate.setVersion(Integer.parseInt(TEVIAN_CORE_VERSION));
             photoTemplate.setTemplate(vector);
+        } catch (ResourceAccessException e) {
+            if (isFirstAttempt) {
+                System.out.println("ResourceAccessException at first attempt on Tevian core. Retrying...");
+                photoTemplate = getPhotoTemplateFromTevianCore(request, false);
+            } else {
+                log.error("ResourceAccessException occurred: " + e.getMessage());
+                e.printStackTrace();
+            }
         } catch (RestClientResponseException e) {
             log.error("BUILDER BIO TEMPLATE ERROR Code: " + e.getRawStatusCode());
             e.printStackTrace();
