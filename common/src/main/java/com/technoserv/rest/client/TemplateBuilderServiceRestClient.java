@@ -80,6 +80,7 @@ public class TemplateBuilderServiceRestClient {
             photoTemplate.setType(0);
             photoTemplate.setVersion(Integer.parseInt(getTevianCoreVersion()));
             photoTemplate.setTemplate(vector);
+            System.out.println("Vector = " + vector);
         } catch (ResourceAccessException e) {
             if (isFirstAttempt) {
                 System.out.println("ResourceAccessException at first attempt on Tevian core. Retrying...");
