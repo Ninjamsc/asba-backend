@@ -2,7 +2,8 @@ package com.technoserv.rest.resources;
 
 import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
-import com.technoserv.rest.model.*;
+import com.technoserv.rest.model.CompareRequest;
+import com.technoserv.rest.model.CompareResponse;
 import com.technoserv.rest.request.PhotoTemplate;
 import io.swagger.annotations.Api;
 import org.apache.commons.logging.Log;
@@ -12,13 +13,13 @@ import org.apache.commons.math3.analysis.function.Pow;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import org.springframework.security.crypto.codec.Base64;
 
 @Component
 @Path("")
