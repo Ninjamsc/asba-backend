@@ -27,17 +27,7 @@ import java.util.Arrays;
  * Created by VBasakov on 22.11.2016.
  */
 @Service
-@PropertySource("classpath:/application.properties")
 public class TemplateBuilderServiceRestClient {
-
-    @Value("${tevian.core.mode}")
-    private boolean TEVIAN_CORE_MODE;
-
-    @Value("${tevian.core.version}")
-    private String TEVIAN_CORE_VERSION;
-
-    @Value("${tevian.core.link}")
-    private String TEVIAN_CORE_LINK;
 
     private static final Log log = LogFactory.getLog(TemplateBuilderServiceRestClient.class);
 
@@ -50,9 +40,21 @@ public class TemplateBuilderServiceRestClient {
         return systemSettingsBean.get(SystemSettingsType.TEMPLATE_BUILDER_SERVICE_URL);
     }
 
+    public String getTevianCoreMode() {
+        return systemSettingsBean.get(SystemSettingsType.TEVIAN_CORE_MODE);
+    }
+
+    public String getTevianCoreLink() {
+        return systemSettingsBean.get(SystemSettingsType.TEVIAN_CORE_LINK);
+    }
+
+    public String getTevianCoreVersion() {
+        return systemSettingsBean.get(SystemSettingsType.TEVIAN_CORE_VERSION);
+    }
+
     public PhotoTemplate getPhotoTemplate(byte[] request) {
 
-        if (TEVIAN_CORE_MODE) {
+        if (getTevianCoreMode().equals("true")) {
             return getPhotoTemplateFromTevianCore(request, true);
         } else {
             return getPhotoTemplateFromTechCore(request);
@@ -63,7 +65,7 @@ public class TemplateBuilderServiceRestClient {
 
         System.out.println("Tevian template builder invoked");
 
-        String url = String.format("%s?version=%s", TEVIAN_CORE_LINK, TEVIAN_CORE_VERSION);
+        String url = String.format("%s?version=%s", getTevianCoreLink(), getTevianCoreVersion());
         PhotoTemplate photoTemplate = null;
         try {
             HttpHeaders requestHeaders = new HttpHeaders();
@@ -76,7 +78,7 @@ public class TemplateBuilderServiceRestClient {
             // construct result
             photoTemplate = new PhotoTemplate();
             photoTemplate.setType(0);
-            photoTemplate.setVersion(Integer.parseInt(TEVIAN_CORE_VERSION));
+            photoTemplate.setVersion(Integer.parseInt(getTevianCoreVersion()));
             photoTemplate.setTemplate(vector);
         } catch (ResourceAccessException e) {
             if (isFirstAttempt) {
@@ -134,17 +136,6 @@ public class TemplateBuilderServiceRestClient {
         }
     }
 
-    public void setTEVIAN_CORE_MODE(boolean TEVIAN_CORE_MODE) {
-        this.TEVIAN_CORE_MODE = TEVIAN_CORE_MODE;
-    }
-
-    public void setTEVIAN_CORE_VERSION(String TEVIAN_CORE_VERSION) {
-        this.TEVIAN_CORE_VERSION = TEVIAN_CORE_VERSION;
-    }
-
-    public void setTEVIAN_CORE_LINK(String TEVIAN_CORE_LINK) {
-        this.TEVIAN_CORE_LINK = TEVIAN_CORE_LINK;
-    }
 
     double[] getVectorFromByteArray(byte[] bytes) {
 
@@ -171,10 +162,6 @@ public class TemplateBuilderServiceRestClient {
                 return "http://localhost:8081/api/bio/build/";
             }
         };
-
-        restClient.setTEVIAN_CORE_MODE(true);
-        restClient.setTEVIAN_CORE_VERSION("1");
-        restClient.setTEVIAN_CORE_LINK("http://192.168.99.100:32768/generate");
 
 
         PhotoTemplate photoTemplate1 = restClient.getPhotoTemplate(Base64.decode(base64Photo1.getBytes()));

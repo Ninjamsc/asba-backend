@@ -15,7 +15,10 @@ public enum SystemSettingsType {
     COMPARATOR_POWER("4"),
     RULE_SELF_SIMILARITY("0.854321"),
     DOSSIER_SIMILARITY("0.954321"),
-    DOSSIER_OTHERNESS("0.834321");
+    DOSSIER_OTHERNESS("0.834321"),
+    TEVIAN_CORE_MODE("false"),
+    TEVIAN_CORE_VERSION("1"),
+    TEVIAN_CORE_LINK("http://localhost:8082/generate");
 
     private final String defauldValue;
 
