@@ -11,6 +11,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math3.analysis.function.Exp;
 import org.apache.commons.math3.analysis.function.Pow;
 import org.apache.commons.math3.linear.ArrayRealVector;
+import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.codec.Base64;
@@ -81,9 +82,12 @@ public class SimilarityResource  implements InitializingBean  {
         v1 = new ArrayRealVector(tmplt1.template);
         v2 = new ArrayRealVector(tmplt2.template);
 
-        ArrayRealVector diff = v1.subtract(v2);
-        double dot = diff.dotProduct(diff);
-        double norm = 1 / new Exp().value(new Pow().value(0.7*dot, 4));
+        double corr = new PearsonsCorrelation().correlation(v1.toArray(), v2.toArray());
+        double norm = (corr + 1) / 2.0;
+
+//        ArrayRealVector diff = v1.subtract(v2);
+//        double dot = diff.dotProduct(diff);
+//        double norm = 1 / new Exp().value(new Pow().value(0.7*dot, 4));
         resp.setSimilarity(norm);
         resp.setPictureAURL("none");
         resp.setPictureBURL("none");
