@@ -87,6 +87,7 @@ public class SimilarityResource  implements InitializingBean  {
         //ArrayRealVector diff = v1.subtract(v2);
         //double dot = diff.dotProduct(diff);
         System.out.println("=========VECTOR1 = "+new String(Base64.encode(tmplt1.binTemplate)));
+        System.out.println("=========VECTOR2 = "+new String(Base64.encode(tmplt2.binTemplate)));
         double norm = calculateSimilarity(new String(Base64.encode(tmplt1.binTemplate)),new String(Base64.encode(tmplt2.binTemplate)),"1");//1 / new Exp().value(new Pow().value(0.7*dot, 4));
         resp.setSimilarity(norm);
         resp.setPictureAURL("none");
