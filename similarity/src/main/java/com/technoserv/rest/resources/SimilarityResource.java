@@ -103,10 +103,12 @@ public class SimilarityResource  implements InitializingBean  {
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line = null;
             while ((line = in.readLine()) != null) {
+                System.out.println("Output line: " + line);
                 result = Double.valueOf(line);
             }
         } catch (IOException e) {
             System.out.print("++++++++++++Wrong format++++++++++++++");
+            e.printStackTrace();
         }
         return result;
     };
