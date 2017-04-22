@@ -8,8 +8,6 @@ import com.technoserv.rest.request.PhotoTemplate;
 import io.swagger.annotations.Api;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.math3.analysis.function.Exp;
-import org.apache.commons.math3.analysis.function.Pow;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,8 +97,9 @@ public class SimilarityResource  implements InitializingBean  {
     public double calculateSimilarity(String base64Vector1, String base64Vector2, String version){
         double result = 0;
         try {
-            System.out.println("====+++++=====String COMMAND:\n"+String.format("/opt/biometrics/tevian-similarity %s %s",base64Vector1,base64Vector2));
-            Process p = Runtime.getRuntime().exec(String.format("/opt/biometrics/tevian-similarity %s %s",base64Vector1,base64Vector2));
+            String command = String.format("export LD_LIBRARY_PATH=/usr/lib && /opt/biometrics/tevian-similarity %s %s",base64Vector1,base64Vector2);
+            System.out.println("====+++++=====String COMMAND:\n"+command);
+            Process p = Runtime.getRuntime().exec(command);
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line = null;
             while ((line = in.readLine()) != null) {
