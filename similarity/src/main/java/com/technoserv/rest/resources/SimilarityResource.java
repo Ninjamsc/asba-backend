@@ -97,7 +97,7 @@ public class SimilarityResource  implements InitializingBean  {
     public double calculateSimilarity(String base64Vector1, String base64Vector2, String version){
         double result = 0;
         try {
-            String command = String.format("export LD_LIBRARY_PATH=/usr/lib && /opt/biometrics/tevian-similarity %s %s",base64Vector1,base64Vector2);
+            String command = String.format("/bin/bash /opt/biometrics/run-tevian.sh %s %s",base64Vector1,base64Vector2);
             System.out.println("====+++++=====String COMMAND:\n"+command);
             Process p = Runtime.getRuntime().exec(command);
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
