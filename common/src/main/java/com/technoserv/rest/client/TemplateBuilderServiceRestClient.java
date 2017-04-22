@@ -74,13 +74,16 @@ public class TemplateBuilderServiceRestClient {
             ResponseEntity<String> response = rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, String.class);
             System.out.println("Image vectorBase64: " + response.getBody());
             double[] vector = getVectorFromByteArray(Base64.decode(response.getBody().getBytes()));
+            byte[] binTemplate = Base64.decode(response.getBody().getBytes());
 
             // construct result
             photoTemplate = new PhotoTemplate();
             photoTemplate.setType(0);
             photoTemplate.setVersion(Integer.parseInt(getTevianCoreVersion()));
             photoTemplate.setTemplate(vector);
+            photoTemplate.binTemplate = binTemplate;
             System.out.println("photoTemplate = " + photoTemplate);
+
         } catch (ResourceAccessException e) {
             if (isFirstAttempt) {
                 System.out.println("ResourceAccessException at first attempt on Tevian core. Retrying...");

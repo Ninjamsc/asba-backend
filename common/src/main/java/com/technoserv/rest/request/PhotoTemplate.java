@@ -17,6 +17,9 @@ public  class PhotoTemplate {
     /** массив Numeric	биометрический шаблон */
     @JsonProperty("vector")
     public double[] template;
+    /** массив байтов биометрического шаблона */
+    public byte[] binTemplate;
+
 
     /**Тип свёртки*/
     public int type;
@@ -36,10 +39,12 @@ public  class PhotoTemplate {
     @Override
     public String toString()
     {
-    	Double[] arr =  new Double[template.length];
-    	for(int i=0;i< template.length;i++)
-    		arr[i] = new Double(template[i]);
-    	return new ArrayList<Double>(Arrays.asList(arr)).toString() + "; version = " + version + "; type = " + type;
+        Double[] arr =  new Double[template.length];
+        for(int i=0;i< template.length;i++)
+            arr[i] = new Double(template[i]);
+        return new ArrayList<Double>(Arrays.asList(arr)).toString() + "; version = " + version + "; type = " + type +
+                "; bin.vector.length = " + binTemplate.length;
     }
+
 
 }

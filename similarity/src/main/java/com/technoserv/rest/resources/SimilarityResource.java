@@ -84,9 +84,10 @@ public class SimilarityResource  implements InitializingBean  {
         v1 = new ArrayRealVector(tmplt1.template);
         v2 = new ArrayRealVector(tmplt2.template);
 
-        ArrayRealVector diff = v1.subtract(v2);
-        double dot = diff.dotProduct(diff);
-        double norm = calculateSimilarity(null,null,"1");//1 / new Exp().value(new Pow().value(0.7*dot, 4));
+        //ArrayRealVector diff = v1.subtract(v2);
+        //double dot = diff.dotProduct(diff);
+        System.out.println("=========VECTOR1 = "+new String(Base64.encode(tmplt1.binTemplate)));
+        double norm = calculateSimilarity(new String(Base64.encode(tmplt1.binTemplate)),new String(Base64.encode(tmplt2.binTemplate)),"1");//1 / new Exp().value(new Pow().value(0.7*dot, 4));
         resp.setSimilarity(norm);
         resp.setPictureAURL("none");
         resp.setPictureBURL("none");
@@ -94,10 +95,10 @@ public class SimilarityResource  implements InitializingBean  {
         return Response.status(Response.Status.OK).entity(resp).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build();
     }
 
-    public double calculateSimilarity(byte[] binVector1, byte[] binVector2, String version){
+    public double calculateSimilarity(String base64Vector1, String base64Vector2, String version){
         double result = 0;
         try {
-            Process p = Runtime.getRuntime().exec("cat /opt/technoserv/similariti.tmp");
+            Process p = Runtime.getRuntime().exec(String.format("/opt/biometrics/tevian-similarity %s %s",base64Vector1,base64Vector2));
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line = null;
             while ((line = in.readLine()) != null) {
