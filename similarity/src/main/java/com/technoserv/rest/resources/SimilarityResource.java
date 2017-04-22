@@ -20,6 +20,9 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 @Component
 @Path("")
@@ -83,12 +86,27 @@ public class SimilarityResource  implements InitializingBean  {
 
         ArrayRealVector diff = v1.subtract(v2);
         double dot = diff.dotProduct(diff);
-        double norm = 1 / new Exp().value(new Pow().value(0.7*dot, 4));
+        double norm = calculateSimilarity(null,null,"1");//1 / new Exp().value(new Pow().value(0.7*dot, 4));
         resp.setSimilarity(norm);
         resp.setPictureAURL("none");
         resp.setPictureBURL("none");
         System.out.println("SIMILARITY="+norm);
         return Response.status(Response.Status.OK).entity(resp).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build();
     }
+
+    public double calculateSimilarity(byte[] binVector1, byte[] binVector2, String version){
+        double result = 0;
+        try {
+            Process p = Runtime.getRuntime().exec("cat /opt/technoserv/similariti.tmp");
+            BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line = null;
+            while ((line = in.readLine()) != null) {
+                result = Double.valueOf(line);
+            }
+        } catch (IOException e) {
+            System.out.print("++++++++++++Wrong format++++++++++++++");
+        }
+        return result;
+    };
 
 }
