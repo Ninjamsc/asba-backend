@@ -1,5 +1,6 @@
 package com.technoserv.rest.comparator;
 
+import com.technoserv.utils.TevianVectorComparator;
 import org.apache.commons.math3.analysis.function.Exp;
 import org.apache.commons.math3.analysis.function.Pow;
 import org.apache.commons.math3.linear.ArrayRealVector;
@@ -19,12 +20,15 @@ public class Compare2Photos implements CompareRule {
 				double mult = 0.7f;
 				int power = 4;
 				double threshold = 0.85;
+		/*
 				ArrayRealVector v1 = new ArrayRealVector(a1);
 				ArrayRealVector v2 = new ArrayRealVector(a2);
 		   		ArrayRealVector diff =v1.subtract(v2);
 				double dot = diff.dotProduct(diff);
 				double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
-				if (norm < threshold) ret.setFired(true);
+				*/
+		double norm = TevianVectorComparator.calculateSimilarityWrapper(a1,a2);
+		if (norm < threshold) ret.setFired(true);
 				else ret.setFired(false);
 		return null;
 	}

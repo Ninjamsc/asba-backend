@@ -13,6 +13,7 @@ import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
 import com.technoserv.rest.model.*;
 import com.technoserv.rest.request.PhotoTemplate;
 import com.technoserv.utils.JsonUtils;
+import com.technoserv.utils.TevianVectorComparator;
 import io.swagger.annotations.Api;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -139,9 +140,10 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             ObjectMapper mapper = new ObjectMapper();
             try {
                 double[] array = mapper.readValue(t.getTemplateVector(), double[].class);
-                ArrayRealVector diff =comparing_vector.subtract(new ArrayRealVector(array));
+                /*ArrayRealVector diff =comparing_vector.subtract(new ArrayRealVector(array));
                 double dot = diff.dotProduct(diff);
-                double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
+                double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
+                double norm = TevianVectorComparator.calculateSimilarityWrapper(comparing_vector.getDataRef(),array);
                 if(
                         (less && (norm < delta))
                                 ||
@@ -164,9 +166,10 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             ObjectMapper mapper = new ObjectMapper();
             try {
                 double[] array = mapper.readValue(t.getTemplateVector(), double[].class);
-                ArrayRealVector diff =comparing_vector.subtract(new ArrayRealVector(array));
+                /*ArrayRealVector diff =comparing_vector.subtract(new ArrayRealVector(array));
                 double dot = diff.dotProduct(diff);
-                double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
+                double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
+                double norm = TevianVectorComparator.calculateSimilarityWrapper(comparing_vector.getDataRef(),array);
                 if((less && (norm < delta)) ||(!less && (norm > delta)) )
                 {
                     CompareResponsePhotoObject ph = new CompareResponsePhotoObject();
