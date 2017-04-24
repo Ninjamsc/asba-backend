@@ -210,6 +210,7 @@ public class CompareListManager implements InitializingBean  {
 				/*ArrayRealVector diff =arv.subtract(vect.getVector());
 				double dot = diff.dotProduct(diff);
 				double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
+				//TODO: Разобраться с проблеммой заведения этого бина. Возможно он пытается завестись 2 раза в контексте.
 				double norm = TevianVectorComparator.calculateSimilarityWrapper(arv.getDataRef(),vect.getVector().getDataRef());
 				if (norm > similarity) //HIT
 				{

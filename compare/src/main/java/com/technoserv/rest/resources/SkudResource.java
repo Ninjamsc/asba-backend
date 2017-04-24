@@ -115,7 +115,7 @@ public class SkudResource extends BaseResource<Long,StopList> implements Initial
         response.setMatch(po);
 
         try {
-            CompareResponseBlackListObject res = skudListManager.compare1(message.getTemplate(), 2589l); //TODO move to parameters HARDCODED
+            CompareResponseBlackListObject res = skudListManager.compare1(message.getTemplate(), 6119l); //TODO move to parameters HARDCODED
             if (res == null)
                 return Response.status(Response.Status.OK).entity(response).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build();
 
