@@ -3,12 +3,17 @@ package com.technoserv.utils;
 public class TevianVectorComparator {
 
     static {
-        
-        System.out.println("java.library.path = "+ System.getProperty("java.library.path"));
+        //TODO Оберннуть в try catch http://stackoverflow.com/questions/7325579/java-lang-noclassdeffounderror-could-not-initialize-class-xxx
+        try {
+            System.out.println("java.library.path = " + System.getProperty("java.library.path"));
 
-        System.out.println("Loading TevianVectorComparator library...");
-        System.loadLibrary("TevianVectorComparator");
-        System.out.println("TevianVectorComparator library loaded");
+            System.out.println("Loading TevianVectorComparator library...");
+            //System.loadLibrary("TevianVectorComparator");
+            System.out.println("TevianVectorComparator library loaded");
+        } catch (Throwable t){
+            System.out.println("+++++++++++CANT_LOAD_LIB"+t);
+            t.printStackTrace();
+        }
     }
 
     public static double calculateSimilarityWrapper(double[] vector1, double[] vector2) {

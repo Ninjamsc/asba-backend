@@ -88,7 +88,9 @@ public class SkudResource extends BaseResource<Long,StopList> implements Initial
             Iterator<Document> id = element.getOwner().iterator();
 
         }
-
+        System.out.println("++++++++BEFORE_LOAD_TevianVectorComparator+++++++++");
+        System.loadLibrary("TevianVectorComparator");
+        System.out.println("++++++++AFTER_LOAD_TevianVectorComparator+++++++++");
         //Todo тут логика при старте приложенния
         //Фактически данный бин singleton и создаётся при старте приложения
         System.out.println("Конец инициализации сервиса сравнения BIOSKUD\n-------------------------");
