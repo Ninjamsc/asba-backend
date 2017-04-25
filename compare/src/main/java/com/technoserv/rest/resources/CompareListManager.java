@@ -9,6 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+import java.util.Base64;
 
 import javax.annotation.Resource;
 
@@ -22,6 +23,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.security.crypto.codec.*;
 import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.technoserv.db.model.configuration.SystemSettingsType;
@@ -159,7 +161,10 @@ public class CompareListManager implements InitializingBean  {
 			/*ArrayRealVector diff = arv.subtract(vect.getVector());
 			double dot = diff.dotProduct(diff);
 			double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
-			double norm = TevianVectorComparator.calculateSimilarityWrapper(arv.getDataRef(),vect.getVector().getDataRef());
+			//double norm = TevianVectorComparator.calculateSimilarityWrapper(arv.getDataRef(),vect.getVector().getDataRef());
+			double norm = TevianVectorComparator.calculateSimilarityCliWrapper(
+					new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(arv.getDataRef()))),
+					new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(vect.getVector().getDataRef()))),"1");
 			if (norm > list.getSimilarity()) //HIT
 			{
 				log.debug("compare1 HITT" + list.getListName() + " norm:" + norm + " similarity:" + list.getSimilarity() + "doc=" + vect.getDocId());
@@ -210,8 +215,10 @@ public class CompareListManager implements InitializingBean  {
 				/*ArrayRealVector diff =arv.subtract(vect.getVector());
 				double dot = diff.dotProduct(diff);
 				double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
-				//TODO: Разобраться с проблеммой заведения этого бина. Возможно он пытается завестись 2 раза в контексте.
-				double norm = TevianVectorComparator.calculateSimilarityWrapper(arv.getDataRef(),vect.getVector().getDataRef());
+				//double norm = TevianVectorComparator.calculateSimilarityWrapper(arv.getDataRef(),vect.getVector().getDataRef());
+				double norm = TevianVectorComparator.calculateSimilarityCliWrapper(
+						new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(arv.getDataRef()))),
+						new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(vect.getVector().getDataRef()))),"1");
 				if (norm > similarity) //HIT
 				{
 					log.debug(list.getListName()+"compare2 HITT norm:"+norm+" similarity:"+similarity+" list id="+list.getId()+" doc_id="+vect.getDocId());
@@ -239,7 +246,10 @@ public class CompareListManager implements InitializingBean  {
 		ArrayRealVector diff =v1.subtract(v2);
 		double dot = diff.dotProduct(diff);
 		double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
-		double norm = TevianVectorComparator.calculateSimilarityWrapper(a1,a2);
+		//double norm = TevianVectorComparator.calculateSimilarityWrapper(a1,a2);
+		double norm = TevianVectorComparator.calculateSimilarityCliWrapper(
+				new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(a1))),
+				new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(a2))),"1");
 		log.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 		log.info("SIMILARITY="+norm+" THRESHOLD+"+similarity);
 		log.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");

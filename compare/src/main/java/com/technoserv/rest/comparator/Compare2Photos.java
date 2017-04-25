@@ -4,6 +4,7 @@ import com.technoserv.utils.TevianVectorComparator;
 import org.apache.commons.math3.analysis.function.Exp;
 import org.apache.commons.math3.analysis.function.Pow;
 import org.apache.commons.math3.linear.ArrayRealVector;
+import org.springframework.security.crypto.codec.Base64;
 
 public class Compare2Photos implements CompareRule {
 	
@@ -27,7 +28,10 @@ public class Compare2Photos implements CompareRule {
 				double dot = diff.dotProduct(diff);
 				double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
 				*/
-		double norm = TevianVectorComparator.calculateSimilarityWrapper(a1,a2);
+//		double norm = TevianVectorComparator.calculateSimilarityWrapper(a1,a2);
+		double norm = TevianVectorComparator.calculateSimilarityCliWrapper(
+				new String(Base64.encode(TevianVectorComparator.getByteArrayFromVector(a1))),
+				new String(Base64.encode(TevianVectorComparator.getByteArrayFromVector(a1))),"1");
 		if (norm < threshold) ret.setFired(true);
 				else ret.setFired(false);
 		return null;

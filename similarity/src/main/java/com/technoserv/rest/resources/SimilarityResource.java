@@ -83,10 +83,10 @@ public class SimilarityResource  implements InitializingBean  {
         v1 = new ArrayRealVector(tmplt1.template);
         v2 = new ArrayRealVector(tmplt2.template);
 
-        //ArrayRealVector diff = v1.subtract(v2);
+//      ArrayRealVector diff = v1.subtract(v2);
         //double dot = diff.dotProduct(diff);
-        System.out.println("=========VECTOR1 = "+new String(Base64.encode(tmplt1.binTemplate)));
-        System.out.println("=========VECTOR2 = "+new String(Base64.encode(tmplt2.binTemplate)));
+//       System.out.println("=========VECTOR1 = "+new String(Base64.encode(tmplt1.binTemplate)));
+//       System.out.println("=========VECTOR2 = "+new String(Base64.encode(tmplt2.binTemplate)));
 
 /*        System.out.println("Invocation native method...");
         double norm = TevianVectorComparator.calculateSimilarity(tmplt1.binTemplate, tmplt2.binTemplate, "1");

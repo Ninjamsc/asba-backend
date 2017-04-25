@@ -143,7 +143,10 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
                 /*ArrayRealVector diff =comparing_vector.subtract(new ArrayRealVector(array));
                 double dot = diff.dotProduct(diff);
                 double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
-                double norm = TevianVectorComparator.calculateSimilarityWrapper(comparing_vector.getDataRef(),array);
+                //double norm = TevianVectorComparator.calculateSimilarityWrapper(comparing_vector.getDataRef(),array);
+                double norm = TevianVectorComparator.calculateSimilarityCliWrapper(
+                        new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(comparing_vector.getDataRef()))),
+                        new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(array))),"1");
                 if(
                         (less && (norm < delta))
                                 ||
@@ -169,7 +172,10 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
                 /*ArrayRealVector diff =comparing_vector.subtract(new ArrayRealVector(array));
                 double dot = diff.dotProduct(diff);
                 double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
-                double norm = TevianVectorComparator.calculateSimilarityWrapper(comparing_vector.getDataRef(),array);
+                //double norm = TevianVectorComparator.calculateSimilarityWrapper(comparing_vector.getDataRef(),array);
+                double norm = TevianVectorComparator.calculateSimilarityCliWrapper(
+                        new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(comparing_vector.getDataRef()))),
+                        new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(array))),"1");
                 if((less && (norm < delta)) ||(!less && (norm > delta)) )
                 {
                     CompareResponsePhotoObject ph = new CompareResponsePhotoObject();
