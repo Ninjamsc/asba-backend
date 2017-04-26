@@ -50,7 +50,8 @@ public class FrontEndsResource {
         FrontEnd clientByWorkstationName = frontEndsService.findByWorkstationName(entity.getWorkstationName());
         FrontEnd clientByUuid= frontEndsService.findByUuid(entity.getUuid());
 
-        if (clientByWorkstationName == null && clientByUuid == null) {
+        //uuid УНИКАЛЕН! В случае не совпадения НАСТОЯЩЕГО юзера с ЮЗЕРОМ из БД возможно лишь изменить запись
+        if (clientByWorkstationName == null && clientByUuid == null) { //Если ни станции ни ключа машины не найдено, то смело пишем новую регистрацию
             if (total < MAX_REGISETED_CLIENTS_NUMBER) {
                 frontEndsService.save(entity);
                 return Response.status(Response.Status.CREATED).build();
@@ -58,17 +59,30 @@ public class FrontEndsResource {
                 return Response.status(Response.Status.PAYMENT_REQUIRED).build();
             }
         } else {
-            if (clientByWorkstationName == null || clientByUuid == null) {
-                Response.ResponseBuilder responseBuilder = Response.status(Response.Status.NOT_ACCEPTABLE);
-                String message = String.format("Can't register workstation: workstationName %s found, uuid %s found",
-                        clientByWorkstationName == null ? "NOT" : "",
-                        clientByUuid == null ? "NOT" : "");
-                responseBuilder.entity(new ErrorBean(message));
-                log.error(message);
-                return responseBuilder.build();
-            } else {
-                return Response.status(Response.Status.ACCEPTED).build();
-            }
+            /*Здесь смотрим наличие ключа машины и перезаписываем нового чела на ней
+                Проблемма возникла когда тестировщики поменялись компьютерами и поменяли WorkstationName на них
+                Получилось что по отдельности мы находим либо человека, либо его АРМ. Поэтому было решено при наличии машины в нашей БД, но новом юзере или WorkstationName на ней
+                перезаписываем регистрационную запись для этого компьютера.
+             */
+            if(clientByUuid != null){
+                //clientByUuid.setUuid(entity.getUuid());
+                clientByUuid.setWorkstationName(entity.getWorkstationName());
+                clientByUuid.setOsVersion(entity.getOsVersion());
+                clientByUuid.setUsername(entity.getUsername());
+                clientByUuid.setClientVersion(entity.getClientVersion());
+                frontEndsService.update(clientByUuid);
+                return Response.status(Response.Status.CREATED).build();
+            } else if (clientByWorkstationName == null || clientByUuid == null) {
+                    Response.ResponseBuilder responseBuilder = Response.status(Response.Status.NOT_ACCEPTABLE);
+                    String message = String.format("Can't register workstation: workstationName %s found, uuid %s found",
+                            clientByWorkstationName == null ? "NOT" : "",
+                            clientByUuid == null ? "NOT" : "");
+                    responseBuilder.entity(new ErrorBean(message));
+                    log.error(message);
+                    return responseBuilder.build();
+                } else {
+                    return Response.status(Response.Status.ACCEPTED).build();
+                }
         }
     }
 
