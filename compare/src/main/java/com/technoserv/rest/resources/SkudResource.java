@@ -150,7 +150,8 @@ public class SkudResource extends BaseResource<Long,StopList> implements Initial
     @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     public Collection<SkudResult> skud() {
         if(skudResultService == null)  {System.out.println("skudResultService is null"); return null;}
-        return skudResultService.getAll();
+        //return skudResultService.getAll();
+        return skudResultService.findAll();
     }
 
 
