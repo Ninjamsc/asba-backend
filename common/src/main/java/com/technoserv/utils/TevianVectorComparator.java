@@ -1,5 +1,9 @@
 package com.technoserv.utils;
 
+import org.apache.commons.math3.analysis.function.Exp;
+import org.apache.commons.math3.analysis.function.Pow;
+import org.apache.commons.math3.linear.ArrayRealVector;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -20,6 +24,14 @@ public class TevianVectorComparator {
         }
     }*/
 
+    public static double calculateSimilarityByArrayRealVector(ArrayRealVector v1,ArrayRealVector v2){
+        double mult = 0.7f;
+        int power = 4;
+        ArrayRealVector diff =v1.subtract(v2);
+        double dot = diff.dotProduct(diff);
+        double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
+        return norm;
+    }
 
     public static double calculateSimilarityCliWrapper(String base64Vector1, String base64Vector2, String version){
         double result = 0;
@@ -38,13 +50,13 @@ public class TevianVectorComparator {
         return result;
     }
 
-
+/*
     public static double calculateSimilarityWrapper(double[] vector1, double[] vector2) {
         byte[] vector1bytes = getByteArrayFromVector(vector1), vector2bytes = getByteArrayFromVector(vector2);
         return calculateSimilarity(vector1bytes,vector2bytes,"1");
     }
-
-    public static native float calculateSimilarity(byte[] binVector1, byte[] binVector2, String version);
+*/
+    //public static native float calculateSimilarity(byte[] binVector1, byte[] binVector2, String version);
 
     public static byte[]  getByteArrayFromVector(double[] vector) {
         byte[] result = new byte[vector.length * 4];

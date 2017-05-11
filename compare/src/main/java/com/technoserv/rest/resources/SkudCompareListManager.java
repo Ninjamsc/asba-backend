@@ -175,17 +175,18 @@ public class SkudCompareListManager implements InitializingBean  {
 		double similarity= new Double(systemSettingsBean.get(SystemSettingsType.RULE_SELF_SIMILARITY));
 		double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
 		int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
-		/*ArrayRealVector v1 = new ArrayRealVector(a1);
+		ArrayRealVector v1 = new ArrayRealVector(a1);
 		ArrayRealVector v2 = new ArrayRealVector(a2);
 		ArrayRealVector diff =v1.subtract(v2);
 		double dot = diff.dotProduct(diff);
-		double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
+		double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
 
 		//double norm = TevianVectorComparator.calculateSimilarityWrapper(a1,a2);
+		/*
 		double norm = TevianVectorComparator.calculateSimilarityCliWrapper(
 				new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(a1))),
 				new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(a2))),"1");
-
+*/
 		log.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 		log.info("SIMILARITY="+norm+" THRESHOLD+"+similarity);
 		log.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
@@ -211,13 +212,15 @@ public class SkudCompareListManager implements InitializingBean  {
 		double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER)), norm;
 		int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
 		if(v1.getDimension() == v2.getDimension()) {
-			/*ArrayRealVector diff = v1.subtract(v2);
+			ArrayRealVector diff = v1.subtract(v2);
 			double dot = diff.dotProduct(diff);
-			norm = 1 / new Exp().value(new Pow().value(mult * dot, power));*/
+			norm = 1 / new Exp().value(new Pow().value(mult * dot, power));
 			//norm = TevianVectorComparator.calculateSimilarityWrapper(v1.getDataRef(),v2.getDataRef());
+			/*
 			norm = TevianVectorComparator.calculateSimilarityCliWrapper(
 					new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(v1.getDataRef()))),
 					new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(v2.getDataRef()))),"1");
+		*/
 		} else norm = 0;
 		return norm;
 	}

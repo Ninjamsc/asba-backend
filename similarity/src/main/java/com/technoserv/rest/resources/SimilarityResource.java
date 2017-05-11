@@ -9,6 +9,8 @@ import com.technoserv.utils.TevianVectorComparator;
 import io.swagger.annotations.Api;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.commons.math3.analysis.function.Exp;
+import org.apache.commons.math3.analysis.function.Pow;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,8 +85,13 @@ public class SimilarityResource  implements InitializingBean  {
         v1 = new ArrayRealVector(tmplt1.template);
         v2 = new ArrayRealVector(tmplt2.template);
 
-//      ArrayRealVector diff = v1.subtract(v2);
-        //double dot = diff.dotProduct(diff);
+        double mult = 0.7f;
+        int power = 4;
+        double threshold = 0.85;
+
+        ArrayRealVector diff = v1.subtract(v2);
+        double dot = diff.dotProduct(diff);
+        double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
 //       System.out.println("=========VECTOR1 = "+new String(Base64.encode(tmplt1.binTemplate)));
 //       System.out.println("=========VECTOR2 = "+new String(Base64.encode(tmplt2.binTemplate)));
 
@@ -92,7 +99,7 @@ public class SimilarityResource  implements InitializingBean  {
         double norm = TevianVectorComparator.calculateSimilarity(tmplt1.binTemplate, tmplt2.binTemplate, "1");
         System.out.println("Native method completed");
 */
-        double norm = calculateSimilarity(new String(Base64.encode(tmplt1.binTemplate)),new String(Base64.encode(tmplt2.binTemplate)),"1");//1 / new Exp().value(new Pow().value(0.7*dot, 4));
+//        double norm = calculateSimilarity(new String(Base64.encode(tmplt1.binTemplate)),new String(Base64.encode(tmplt2.binTemplate)),"1");//1 / new Exp().value(new Pow().value(0.7*dot, 4));
         resp.setSimilarity(norm);
         resp.setPictureAURL("none");
         resp.setPictureBURL("none");

@@ -158,13 +158,14 @@ public class CompareListManager implements InitializingBean  {
 		ArrayList<CompareServiceStopListVector> vectors = list.getVectors();
 		for ( CompareServiceStopListVector vect : vectors)
 		{
-			/*ArrayRealVector diff = arv.subtract(vect.getVector());
+			ArrayRealVector diff = arv.subtract(vect.getVector());
 			double dot = diff.dotProduct(diff);
-			double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
+			double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
 			//double norm = TevianVectorComparator.calculateSimilarityWrapper(arv.getDataRef(),vect.getVector().getDataRef());
-			double norm = TevianVectorComparator.calculateSimilarityCliWrapper(
+			/*double norm = TevianVectorComparator.calculateSimilarityCliWrapper(
 					new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(arv.getDataRef()))),
 					new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(vect.getVector().getDataRef()))),"1");
+			*/
 			if (norm > list.getSimilarity()) //HIT
 			{
 				log.debug("compare1 HITT" + list.getListName() + " norm:" + norm + " similarity:" + list.getSimilarity() + "doc=" + vect.getDocId());
@@ -212,13 +213,15 @@ public class CompareListManager implements InitializingBean  {
 			ArrayList<CompareServiceStopListVector> vectors = list.getVectors();
 			for ( CompareServiceStopListVector vect : vectors)
 			{
-				/*ArrayRealVector diff =arv.subtract(vect.getVector());
+				ArrayRealVector diff =arv.subtract(vect.getVector());
 				double dot = diff.dotProduct(diff);
-				double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
+				double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
 				//double norm = TevianVectorComparator.calculateSimilarityWrapper(arv.getDataRef(),vect.getVector().getDataRef());
+				/*
 				double norm = TevianVectorComparator.calculateSimilarityCliWrapper(
 						new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(arv.getDataRef()))),
 						new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(vect.getVector().getDataRef()))),"1");
+				*/
 				if (norm > similarity) //HIT
 				{
 					log.debug(list.getListName()+"compare2 HITT norm:"+norm+" similarity:"+similarity+" list id="+list.getId()+" doc_id="+vect.getDocId());
@@ -241,15 +244,17 @@ public class CompareListManager implements InitializingBean  {
 		double similarity= new Double(systemSettingsBean.get(SystemSettingsType.RULE_SELF_SIMILARITY));
 		double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
 		int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
-		/*ArrayRealVector v1 = new ArrayRealVector(a1);
+		ArrayRealVector v1 = new ArrayRealVector(a1);
 		ArrayRealVector v2 = new ArrayRealVector(a2);
 		ArrayRealVector diff =v1.subtract(v2);
 		double dot = diff.dotProduct(diff);
-		double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
+		double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));
 		//double norm = TevianVectorComparator.calculateSimilarityWrapper(a1,a2);
+		/*
 		double norm = TevianVectorComparator.calculateSimilarityCliWrapper(
 				new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(a1))),
 				new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(a2))),"1");
+		*/
 		log.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 		log.info("SIMILARITY="+norm+" THRESHOLD+"+similarity);
 		log.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
