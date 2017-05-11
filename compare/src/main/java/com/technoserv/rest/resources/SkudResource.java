@@ -89,7 +89,7 @@ public class SkudResource extends BaseResource<Long,StopList> implements Initial
 
         }
         System.out.println("++++++++BEFORE_LOAD_TevianVectorComparator+++++++++");
-        System.loadLibrary("TevianVectorComparator");
+        //System.loadLibrary("TevianVectorComparator");
         System.out.println("++++++++AFTER_LOAD_TevianVectorComparator+++++++++");
         //Todo тут логика при старте приложенния
         //Фактически данный бин singleton и создаётся при старте приложения
