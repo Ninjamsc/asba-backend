@@ -23,7 +23,7 @@ public class FrontEndsResource {
 
     private static final Log log = LogFactory.getLog(FrontEndsResource.class);
 
-    private static final int MAX_REGISETED_CLIENTS_NUMBER = 400;
+    private static final int MAX_REGISETED_CLIENTS_NUMBER = 800;
 
     @Autowired
     private FrontEndsService frontEndsService;
@@ -42,10 +42,11 @@ public class FrontEndsResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
     public Response add(FrontEnd entity) {
+        System.out.println("++++++++++++++++++FrontEnd="+entity);
 
         // check registered number
         int total = frontEndsService.getAll().size();
-
+        System.out.println("++++++++++++++++++total = "+total + " MAX_REGISETED_CLIENTS_NUMBER="+MAX_REGISETED_CLIENTS_NUMBER);
         // check already exists
         FrontEnd clientByWorkstationName = frontEndsService.findByWorkstationName(entity.getWorkstationName());
         FrontEnd clientByUuid= frontEndsService.findByUuid(entity.getUuid());
