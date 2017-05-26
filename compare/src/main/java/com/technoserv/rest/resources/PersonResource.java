@@ -30,18 +30,18 @@ public class PersonResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     @Path("/{iin}")
-    public PersonResponse history(@PathParam("iin")Long id) {
+    public PersonResponse history(@PathParam("iin") Long id) {
         PersonResponse response = new PersonResponse();
         Person person = personService.history(id);
-        if(person==null) {
+        if (person == null) {
             return null;
         }
         //response.setTimestamp(); TODO ...
         response.setIin(person.getId());
 
-        for (Request request : person.getDossier() ) {
+        for (Request request : person.getDossier()) {
             HistoryRequestResponse requestResponse = new HistoryRequestResponse();
             requestResponse.setWfmid(request.getId());
             requestResponse.setUsername(request.getLogin());
@@ -136,10 +136,14 @@ public class PersonResource {
     }
 
     public static class PersonResponse {
+
         @JsonProperty("_comment")
         private String comment;
+
         private Long iin;
+
         private Timestamp timestamp;
+
         private Collection<HistoryRequestResponse> dossier = new ArrayList<>();
 
         public String getComment() {

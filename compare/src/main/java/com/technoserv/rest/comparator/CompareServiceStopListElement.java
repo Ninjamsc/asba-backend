@@ -1,82 +1,81 @@
 package com.technoserv.rest.comparator;
 
-import java.util.ArrayList;
-
-import org.apache.commons.math3.linear.ArrayRealVector;
-
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.technoserv.db.model.objectmodel.Document;
+import org.apache.commons.math3.linear.ArrayRealVector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CompareServiceStopListElement {
-	private String listName;
-	private Long id;
-	private Double similarity;
-	@JsonInclude(Include.NON_EMPTY)
-	ArrayList<CompareServiceStopListVector> vectors;
-	
-public 	CompareServiceStopListElement(String listName, Long id, Double similarity)
-{
-	this.vectors = new ArrayList<CompareServiceStopListVector>();
-	this.setId(id);
-	this.setListName(listName);
-	this.setSimilarity(similarity);
-}
 
-public boolean addVector(Document doc) 
-{
-	if(vectors == null) this.vectors = new ArrayList<CompareServiceStopListVector>();
-	CompareServiceStopListVector v = new CompareServiceStopListVector();
-	ObjectMapper mapper = new ObjectMapper();
-	try {
-	 double[] array = mapper.readValue(doc.getBioTemplates().get(0).getTemplateVector(), double[].class);
-	 v.setVector(new ArrayRealVector(array));
-	 v.setDocId(doc.getId());
-	 vectors.add(v);
-	}
-	catch (Exception e)
-	{
-		System.out.println(e);
-		return false;
-	}
-	 return true;
-}
+    private static final Logger log = LoggerFactory.getLogger(CompareServiceStopListElement.class);
 
-public void setVectors(ArrayList<CompareServiceStopListVector> vector)
-{
-	this.vectors = vector;
-}
+    private String listName;
+    private Long id;
+    private Double similarity;
 
-public ArrayList<CompareServiceStopListVector> getVectors()
-{
-	return vectors;
-}
+    @JsonInclude(Include.NON_EMPTY)
+    List<CompareServiceStopListVector> vectors;
 
-public Long getId() {
-	return id;
-}
+    public CompareServiceStopListElement(String listName, Long id, Double similarity) {
+        this.vectors = new ArrayList<>();
+        this.setId(id);
+        this.setListName(listName);
+        this.setSimilarity(similarity);
+    }
 
-public void setId(Long id) {
-	this.id = id;
-}
+    public boolean addVector(Document doc) {
+        if (vectors == null) this.vectors = new ArrayList<>();
+        CompareServiceStopListVector v = new CompareServiceStopListVector();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            double[] array = mapper.readValue(doc.getBioTemplates().get(0).getTemplateVector(), double[].class);
+            v.setVector(new ArrayRealVector(array));
+            v.setDocId(doc.getId());
+            vectors.add(v);
+        } catch (Exception e) {
+            log.error(String.format("Can't add vector doc: %s", doc), e);
+            return false;
+        }
+        return true;
+    }
 
-public Double getSimilarity() {
-	return similarity;
-}
+    public void setVectors(ArrayList<CompareServiceStopListVector> vector) {
+        this.vectors = vector;
+    }
 
-public void setSimilarity(Double similarity) {
-	this.similarity = similarity;
-}
+    public List<CompareServiceStopListVector> getVectors() {
+        return vectors;
+    }
 
-public String getListName() {
-	return listName;
-}
+    public Long getId() {
+        return id;
+    }
 
-public void setListName(String listName) {
-	this.listName = listName;
-}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    public Double getSimilarity() {
+        return similarity;
+    }
+
+    public void setSimilarity(Double similarity) {
+        this.similarity = similarity;
+    }
+
+    public String getListName() {
+        return listName;
+    }
+
+    public void setListName(String listName) {
+        this.listName = listName;
+    }
 
 }
 

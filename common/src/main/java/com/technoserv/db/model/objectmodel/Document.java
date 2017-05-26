@@ -2,6 +2,7 @@ package com.technoserv.db.model.objectmodel;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.base.MoreObjects;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -69,5 +70,16 @@ public class Document extends AbstractObject {
 
     public void setBioTemplates(List<BioTemplate> bioTemplates) {
         this.bioTemplates = bioTemplates;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("description", description)
+                .add("documentType", documentType)
+                .add("origImageURL", origImageURL)
+                .add("faceSquare", faceSquare)
+                .add("bioTemplates", bioTemplates)
+                .toString();
     }
 }

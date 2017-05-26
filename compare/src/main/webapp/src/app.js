@@ -14,30 +14,30 @@ myApp.config(function ($stateProvider, $routeProvider, $urlRouterProvider) {
     //todo путь считается относительно index.html, некрасиво. Проще всего перенести его в src/* и подправить nginx.conf
     //но тогда к node-modules досуп через ../ будет
 
-    $stateProvider.state('stop-lists-registry',{
-            url:'/stoplists?auth',
-            params: {
-                id: null
-            },
-            // todo resolve: {
-            //   stopListId : function($stateParams){console.log('Resolving id...');console.log($stateParams); return $stateParams.id;}
-            // },
-            templateUrl: 'src/stop-lists/stop-lists-registry.html',
-            controller: 'stopListsRegistryController'
-    }).state('stop-lists-edit',{
-        url:'/stoplists/edit?stoplistId',
+    $stateProvider.state('stop-lists-registry', {
+        url: '/stoplists?auth',
+        params: {
+            id: null
+        },
+        // todo resolve: {
+        //   stopListId : function($stateParams){console.log('Resolving id...');console.log($stateParams); return $stateParams.id;}
+        // },
+        templateUrl: 'src/stop-lists/stop-lists-registry.html',
+        controller: 'stopListsRegistryController'
+    }).state('stop-lists-edit', {
+        url: '/stoplists/edit?stoplistId',
         templateUrl: 'src/stop-lists/stop-lists-edit.html',
         controller: 'stopListsEditController'
-    }).state('stop-lists-add',{
-        url:'/stoplists/add',
+    }).state('stop-lists-add', {
+        url: '/stoplists/add',
         templateUrl: 'src/stop-lists/stop-lists-edit.html',
         controller: 'stopListsEditController'
-    }).state('compare-result',{
-        url:'/compare?requestId',
+    }).state('compare-result', {
+        url: '/compare?requestId',
         templateUrl: 'src/compare/compare-result.html',
         controller: 'compareResultViewController'
-    }).state('login',{
-        url:'/login',
+    }).state('login', {
+        url: '/login',
         templateUrl: 'src/login/login.html',
         controller: 'loginController'
     });

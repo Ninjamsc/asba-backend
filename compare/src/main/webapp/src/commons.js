@@ -128,7 +128,7 @@ angular.module('commons', []).constant('contextualClass', {
         };
 
         this.deletePhoto = function (listId, itemId, callback) {
-            var url = 'api/stoplist/'+listId + '/entry/' + itemId;
+            var url = 'api/stoplist/' + listId + '/entry/' + itemId;
 
             http(url, callback, "DELETE", {}, {})
         };
@@ -141,7 +141,8 @@ angular.module('commons', []).constant('contextualClass', {
 
 
         return this;
-    });/*.service('$modalService', ['$modal',
+    });
+/*.service('$modalService', ['$modal',
  // NB: For Angular-bootstrap 0.14.0 or later, use $uibModal above instead of $modal
  function ($modal) {
 

@@ -10,7 +10,8 @@ import java.util.ArrayList;
 /**
  * Created by mlevitin on 17.01.17.
  */
-public class BankListCompareService  implements CompareService {
+public class BankListCompareService implements CompareService {
+
     @Override
     public void initialize() {
 

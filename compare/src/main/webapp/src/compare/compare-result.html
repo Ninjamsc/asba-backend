@@ -51,12 +51,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-12" ng-if="compareResult.picSimilarity > compareResult.picSimilarityThreshold">
+                        <div class="col-xs-12"
+                             ng-if="compareResult.picSimilarity > compareResult.picSimilarityThreshold">
                             <div class="col-xs-1">
                                 <img src="src/icons/check.png" style="width: 40px; height: 40px;">
                             </div>
                             <div class="col-xs-11 align-middle">
-                                Схожесть фото скана документа и фото с веб-камеры выше заданного порога ({{compareResult.picSimilarityThreshold}}) .<!--<br/> -->
+                                Схожесть фото скана документа и фото с веб-камеры выше заданного порога
+                                ({{compareResult.picSimilarityThreshold}}) .<!--<br/> -->
                                 Коэффициент схожести - {{compareResult.picSimilarity}}.
                             </div>
                         </div>

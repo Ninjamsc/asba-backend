@@ -1,5 +1,7 @@
 package com.technoserv.db.model.objectmodel;
 
+import com.google.common.base.MoreObjects;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -19,7 +21,9 @@ public class StopList extends AbstractObject {
      * список банков, которым доступен этот список
      */
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL, CascadeType.REMOVE})
-    @JoinTable(name = "STOP_LISTS_CONTENTS", joinColumns = {@JoinColumn(name = "LISTS_ID")}, inverseJoinColumns = {@JoinColumn(name = "DOC_ID")})
+    @JoinTable(name = "STOP_LISTS_CONTENTS",
+            joinColumns = {@JoinColumn(name = "LISTS_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "DOC_ID")})
     private List<Document> owner;
 
     @Column(name = "TYPE", nullable = false, columnDefinition = "character varying default 'bank'")
@@ -27,9 +31,6 @@ public class StopList extends AbstractObject {
 
     @Column(name = "DESCRIPTION")
     private String description;
-    //TODO ...
-//    @Transient
-//    private List<Person> persons;
 
     @Column(name = "SIMILARITY")
     private Double similarity;
@@ -58,14 +59,6 @@ public class StopList extends AbstractObject {
         this.similarity = similarity;
     }
 
-//    public List<Person> getPersons() {
-//        return persons;
-//    }
-//
-//    public void setPersons(List<Person> persons) {
-//        this.persons = persons;
-//    }
-
     public String getType() {
         return type;
     }
@@ -80,5 +73,16 @@ public class StopList extends AbstractObject {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("stopListName", stopListName)
+                .add("owner", owner)
+                .add("type", type)
+                .add("description", description)
+                .add("similarity", similarity)
+                .toString();
     }
 }

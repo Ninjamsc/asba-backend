@@ -27,21 +27,21 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
 
                 if (!!$scope.compareResult.similarPictures &&
                     !!$scope.compareResult.similarPictures.photos &&
-                    !!$scope.compareResult.similarPictures.photos.length > 0){
+                    !!$scope.compareResult.similarPictures.photos.length > 0) {
                     $scope.similarPicturesMatrix = $c.arrayToMatrix($scope.compareResult.similarPictures.photos, 5);
                     // console.log($scope.similarPicturesMatrix);
                 }
 
                 if (!!$scope.compareResult.othernessPictures &&
                     !!$scope.compareResult.othernessPictures.photos &&
-                    !!$scope.compareResult.othernessPictures.photos.length > 0){
+                    !!$scope.compareResult.othernessPictures.photos.length > 0) {
                     $scope.othernessPicturesMatrix = $c.arrayToMatrix($scope.compareResult.othernessPictures.photos, 5);
                     // console.log($scope.othernessPicturesMatrix);
                 }
             });
         };
 
-        $scope.onSearch = function(){
+        $scope.onSearch = function () {
             $scope.searchInitialized = true;
             $scope.findRequest();
         };
@@ -62,10 +62,10 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
             }
         };
 
-        $scope.onShowDetailsButton = function(){
+        $scope.onShowDetailsButton = function () {
             $scope.showDetails = !$scope.showDetails;
         };
-        
+
         //Инициализация
         $scope.showDetails = false;
         if ($stateParams.requestId) {

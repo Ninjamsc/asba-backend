@@ -107,6 +107,11 @@
             <artifactId>spring-security-web</artifactId>
             <version>RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>RELEASE</version>
+        </dependency>
         <!--   <dependency>
                <groupId>org.hibernate</groupId>
                <artifactId>hibernate-validator</artifactId>

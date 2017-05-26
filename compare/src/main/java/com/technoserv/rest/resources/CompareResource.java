@@ -17,8 +17,6 @@ import com.technoserv.utils.TevianVectorComparator;
 import io.swagger.annotations.Api;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.commons.math3.analysis.function.Exp;
-import org.apache.commons.math3.analysis.function.Pow;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,13 +31,11 @@ import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.*;
 
-//import javax.ws.rs.core.Response;
-
 
 @Component
 @Path("")
 @Api(value = "Compare")
-public class CompareResource extends BaseResource<Long,StopList> implements InitializingBean  {
+public class CompareResource extends BaseResource<Long, StopList> implements InitializingBean {
 
     private static final Log log = LogFactory.getLog(CompareResource.class);
 
@@ -79,8 +75,8 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     @Autowired
     private SystemSettingsBean systemSettingsBean;
 
-
-    @Resource @Qualifier(value = "converters")
+    @Resource
+    @Qualifier(value = "converters")
     private HashMap<String, String> compareRules;
 
     @Override
@@ -90,28 +86,22 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 
     @Override
     public void afterPropertiesSet() throws Exception {
-
         log.debug("---------------------\nИницаиализация сервиса сравнения");
         //listManager = new CompareListManager(documentService);
-        List<StopList> allLists = stopListService.getAll("owner","owner.bioTemplates");
-        log.debug("Number of stop lists is:"+allLists.size());
-        for (StopList element : allLists)
-        {
+        List<StopList> allLists = stopListService.getAll("owner", "owner.bioTemplates");
+        log.debug("Number of stop lists is:" + allLists.size());
+        for (StopList element : allLists) {
             listManager.addList(element);
-            System.out.println("name="+element.getStopListName()+" id="+element.getId()+" similarity="+element.getSimilarity());
-            Iterator<Document> id = element.getOwner().iterator();
-            while (id.hasNext())
-            {
-                Document d = id.next();
+            System.out.println("name=" + element.getStopListName() + " id=" + element.getId() + " similarity=" + element.getSimilarity());
+            for (Document d : element.getOwner()) {
                 //listManager.addElement(element.getId(), d);
-                log.debug(" doc_id="+d.getId());
+                log.debug(" doc_id=" + d.getId());
                 List<BioTemplate> blist = d.getBioTemplates();
-                for(BioTemplate t: blist)
-                {
+                for (BioTemplate t : blist) {
                     ObjectMapper mapper = new ObjectMapper();
                     double[] array = mapper.readValue(t.getTemplateVector(), double[].class);
                     ArrayRealVector arv = new ArrayRealVector(array);
-                    log.debug("\tvector="+arv.toString());
+                    log.debug("\tvector=" + arv.toString());
                 }
             }
         }
@@ -127,16 +117,14 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         System.out.println("Конец инициализации сервиса сравнения\n-------------------------");
     }
 
-    public ArrayList<CompareResponsePhotoObject> doCompare(Request r,ArrayRealVector comparing_vector,boolean less, double delta)
-    {
+    public ArrayList<CompareResponsePhotoObject> doCompare(Request r, ArrayRealVector comparing_vector, boolean less, double delta) {
         ArrayList<CompareResponsePhotoObject> photos = new ArrayList<CompareResponsePhotoObject>();
         double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
         int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
-        List <BioTemplate> l1 = r.getScannedDocument().getBioTemplates();
-        List <BioTemplate> l2 =  r.getCameraDocument().getBioTemplates();
+        List<BioTemplate> l1 = r.getScannedDocument().getBioTemplates();
+        List<BioTemplate> l2 = r.getCameraDocument().getBioTemplates();
         //
-        for(BioTemplate t: l1)
-        {
+        for (BioTemplate t : l1) {
             ObjectMapper mapper = new ObjectMapper();
             try {
                 double[] array = mapper.readValue(t.getTemplateVector(), double[].class);
@@ -146,26 +134,24 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
                 //double norm = TevianVectorComparator.calculateSimilarityWrapper(comparing_vector.getDataRef(),array);
                 double norm = TevianVectorComparator.calculateSimilarityCliWrapper(
                         new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(comparing_vector.getDataRef()))),
-                        new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(array))),"1");
-                if(
+                        new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(array))), "1");
+                if (
                         (less && (norm < delta))
                                 ||
                                 (!less && (norm > delta))
-                        )
-                {
+                        ) {
                     CompareResponsePhotoObject ph = new CompareResponsePhotoObject();
                     ph.setSimilarity(norm);
                     ph.setUrl(r.getScannedDocument().getFaceSquare());
                     photos.add(ph);
                 }
-            } catch(IOException e) {
-                log.error("Error retrieving vector: "+e);
+            } catch (IOException e) {
+                log.error("Error retrieving vector: " + e);
                 return null;
             }
         }
         //
-        for(BioTemplate t: l2)
-        {
+        for (BioTemplate t : l2) {
             ObjectMapper mapper = new ObjectMapper();
             try {
                 double[] array = mapper.readValue(t.getTemplateVector(), double[].class);
@@ -175,57 +161,52 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
                 //double norm = TevianVectorComparator.calculateSimilarityWrapper(comparing_vector.getDataRef(),array);
                 double norm = TevianVectorComparator.calculateSimilarityCliWrapper(
                         new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(comparing_vector.getDataRef()))),
-                        new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(array))),"1");
-                if((less && (norm < delta)) ||(!less && (norm > delta)) )
-                {
+                        new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(array))), "1");
+                if ((less && (norm < delta)) || (!less && (norm > delta))) {
                     CompareResponsePhotoObject ph = new CompareResponsePhotoObject();
                     ph.setSimilarity(norm);
                     ph.setUrl(r.getCameraDocument().getFaceSquare());
                     photos.add(ph);
                 }
-            } catch(IOException e) {
-                log.error("Error retrieving vector: "+e);
+            } catch (IOException e) {
+                log.error("Error retrieving vector: " + e);
                 return null;
             }
         }
         if (photos.size() > 0) return photos;
         return null;
     }
-    public CompareResponseRulesObject historyDifference( Long wfmId, Long iin, double[] vector,double coeff, boolean less)
-    {
+
+    public CompareResponseRulesObject historyDifference(Long wfmId, Long iin, double[] vector, double coeff, boolean less) {
         //double otherness = new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS));
-        double otherness =coeff;
+        double otherness = coeff;
         ArrayRealVector comparing_vector = new ArrayRealVector(vector);
         CompareResponseRulesObject rule = new CompareResponseRulesObject();
         ArrayList<CompareResponsePhotoObject> photos = new ArrayList<CompareResponsePhotoObject>();
-        Collection<Request> coll = requestService.findByIin(iin,"scannedDocument","scannedDocument.bioTemplates","cameraDocument","cameraDocument.bioTemplates");
+        Collection<Request> coll = requestService.findByIin(iin, "scannedDocument", "scannedDocument.bioTemplates", "cameraDocument", "cameraDocument.bioTemplates");
         if (coll.size() <= 0) return null;
         Iterator<Request> it = coll.iterator();
-        while(it.hasNext())
-        {
+        while (it.hasNext()) {
             Request r = it.next();
-            log.info("historyDifference CHECK my id="+wfmId.longValue()+" hist_id="+r.getId().longValue());
-            if(r.getId().longValue() == wfmId.longValue()) {
+            log.info("historyDifference CHECK my id=" + wfmId.longValue() + " hist_id=" + r.getId().longValue());
+            if (r.getId().longValue() == wfmId.longValue()) {
                 log.info("historyDifference(): skipping myself");
                 continue;
             }
             List<BioTemplate> lw = r.getScannedDocument().getBioTemplates();
-            ArrayList<CompareResponsePhotoObject> result = doCompare(r,comparing_vector,less,otherness);
-            if (result != null)
-            {
+            ArrayList<CompareResponsePhotoObject> result = doCompare(r, comparing_vector, less, otherness);
+            if (result != null) {
                 log.debug("historyDifference adding photo to collection:");
                 // добавляем полученные объекты в общую коллекцию
                 Iterator<CompareResponsePhotoObject> i = result.iterator();
-                while(i.hasNext())
-                {
+                while (i.hasNext()) {
                     CompareResponsePhotoObject o = i.next();
-                    log.debug("historyDifference(): url="+o.getUrl()+", similarity="+o.getSimilarity());
+                    log.debug("historyDifference(): url=" + o.getUrl() + ", similarity=" + o.getSimilarity());
                     photos.add(o);
                 }
             }
         }
-        if(photos.size() > 0)
-        {
+        if (photos.size() > 0) {
             rule.setRuleId("4.2.1");
             rule.setPhoto(photos);
             rule.setRuleName("Фотография, прикрепленная к заявке, существенно отличается от других фотографий заемщика, имеющихся в базе");
@@ -233,11 +214,11 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         return rule;
     }
 
-    public Long getCommonListId()
-    {
+    public Long getCommonListId() {
         return new Long(systemSettingsBean.get(SystemSettingsType.COMPARATOR_COMMON_LIST_ID));
     }
-    /*
+
+    /**
      * Сравнить картинки с блеклистами и досье и вернуть отчет
      */
     @PUT
@@ -250,8 +231,8 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         try {
             log.debug("compareImages 1.");
             // compare scanned pic
-            ArrayList<CompareResponseBlackListObject> ls = this.listManager.compare2(message.getTemplate_scan(),getCommonListId());
-            CompareResponseBlackListObject CommonScan = listManager.compare1(message.getTemplate_scan(),getCommonListId());
+            ArrayList<CompareResponseBlackListObject> ls = this.listManager.compare2(message.getTemplate_scan(), getCommonListId());
+            CompareResponseBlackListObject CommonScan = listManager.compare1(message.getTemplate_scan(), getCommonListId());
             CompareResponsePictureReport reportScan = new CompareResponsePictureReport();
             reportScan.setBlackLists(ls);
             reportScan.setPictureURL(message.getScanFullFrameURL());
@@ -259,8 +240,8 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             log.debug("compareImages 2.");
 
             // compare webcam pic
-            ArrayList<CompareResponseBlackListObject> lw = this.listManager.compare2(message.getTemplate_web(),getCommonListId());
-            CompareResponseBlackListObject CommonWeb = listManager.compare1(message.getTemplate_web(),getCommonListId());
+            ArrayList<CompareResponseBlackListObject> lw = this.listManager.compare2(message.getTemplate_web(), getCommonListId());
+            CompareResponseBlackListObject CommonWeb = listManager.compare1(message.getTemplate_web(), getCommonListId());
             CompareResponsePictureReport reportWeb = new CompareResponsePictureReport();
             reportWeb.setBlackLists(lw);
             reportWeb.setPictureURL(message.getWebFullFrameURL());
@@ -269,23 +250,23 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 
             response.setCameraPicture(reportWeb);
             response.setScannedPicture(reportScan);
-            response.setRules(new ArrayList<CompareResponseRulesObject>());//TODO (rplace with the rules
-            if (ls.size() > 0 || lw.size() > 0)
-            {
-                log.debug("4.2.3 rule ls.size="+ls.size()+" lw.size="+lw.size());
+            response.setRules(new ArrayList<>()); //TODO: rplace with the rules
+
+            if (ls.size() > 0 || lw.size() > 0) {
+                log.debug("4.2.3 rule ls.size=" + ls.size() + " lw.size=" + lw.size());
                 CompareResponseRulesObject rule = new CompareResponseRulesObject();
                 rule.setRuleId("4.2.3");
                 rule.setRuleName("Возможно соответствие с клиентом из банковского СТОП-ЛИСТА");
                 //rule.setRuleName("Perhaps photo is in stop-list.");
                 firedRules.add(rule);
             }
+
             log.debug("compareImages 4.");
             if (CommonScan != null)
                 ls.add(CommonScan);
             if (CommonWeb != null)
                 lw.add(CommonWeb);
-            if (CommonScan != null || CommonWeb != null)
-            {
+            if (CommonScan != null || CommonWeb != null) {
                 CompareResponseRulesObject rule = new CompareResponseRulesObject();
                 rule.setRuleId("4.2.4");
                 rule.setRuleName("Возможно соответствие с клиентом из общего СТОП-ЛИСТА");
@@ -295,14 +276,17 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
             log.debug("compareImages 5.");
         } catch (Exception e) {
             log.error(e);
-            throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
+            throw new WebApplicationException(e, Response.Status.INTERNAL_SERVER_ERROR);
+        }
         try {
             //
-            CompareResponseRulesObject otherness_scan =  historyDifference( message.getWfmId(),message.getIin(), message.getTemplate_scan(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)),true);
-            CompareResponseRulesObject otherness_web =  historyDifference( message.getWfmId(),message.getIin(), message.getTemplate_web(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)),true);
-            ArrayList<CompareResponsePhotoObject> all  = new ArrayList<CompareResponsePhotoObject>();
-            if (otherness_scan!= null && otherness_scan.getPhoto() != null && otherness_scan.getPhoto().size() > 0) all.addAll(otherness_scan.getPhoto());
-            if (otherness_web != null && otherness_web.getPhoto() !=null && otherness_web.getPhoto().size() > 0) all.addAll(otherness_web.getPhoto());
+            CompareResponseRulesObject otherness_scan = historyDifference(message.getWfmId(), message.getIin(), message.getTemplate_scan(), new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)), true);
+            CompareResponseRulesObject otherness_web = historyDifference(message.getWfmId(), message.getIin(), message.getTemplate_web(), new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)), true);
+            ArrayList<CompareResponsePhotoObject> all = new ArrayList<CompareResponsePhotoObject>();
+            if (otherness_scan != null && otherness_scan.getPhoto() != null && otherness_scan.getPhoto().size() > 0)
+                all.addAll(otherness_scan.getPhoto());
+            if (otherness_web != null && otherness_web.getPhoto() != null && otherness_web.getPhoto().size() > 0)
+                all.addAll(otherness_web.getPhoto());
             if (all.size() > 0) {
                 CompareResponseDossierReport oth_report = new CompareResponseDossierReport();
                 oth_report.setSimilarity(new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)));
@@ -318,14 +302,17 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         } catch (Exception e) {
             log.error("exception during dossier different: ", e);
             e.printStackTrace();
-            throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
+            throw new WebApplicationException(e, Response.Status.INTERNAL_SERVER_ERROR);
+        }
         try {
-            CompareResponseRulesObject similar_scan =  historyDifference( message.getWfmId(),message.getIin(), message.getTemplate_scan(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY)),false);
-            CompareResponseRulesObject similar_web =  historyDifference( message.getWfmId(),message.getIin(), message.getTemplate_web(),new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY)),false);
-            ArrayList<CompareResponsePhotoObject> all  = new ArrayList<CompareResponsePhotoObject>();
-            if (similar_scan != null && similar_scan.getPhoto()!=null && similar_scan.getPhoto().size() > 0) all.addAll(similar_scan.getPhoto());
-            if (similar_web!= null && similar_web.getPhoto()!=null && similar_web.getPhoto().size() >0 ) all.addAll(similar_web.getPhoto());
-            if(all.size() > 0) {
+            CompareResponseRulesObject similar_scan = historyDifference(message.getWfmId(), message.getIin(), message.getTemplate_scan(), new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY)), false);
+            CompareResponseRulesObject similar_web = historyDifference(message.getWfmId(), message.getIin(), message.getTemplate_web(), new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY)), false);
+            ArrayList<CompareResponsePhotoObject> all = new ArrayList<CompareResponsePhotoObject>();
+            if (similar_scan != null && similar_scan.getPhoto() != null && similar_scan.getPhoto().size() > 0)
+                all.addAll(similar_scan.getPhoto());
+            if (similar_web != null && similar_web.getPhoto() != null && similar_web.getPhoto().size() > 0)
+                all.addAll(similar_web.getPhoto());
+            if (all.size() > 0) {
                 CompareResponseDossierReport sim_report = new CompareResponseDossierReport();
                 sim_report.setSimilarity(new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_SIMILARITY)));
                 sim_report.setPhotos(all);
@@ -336,74 +323,61 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
                 firedRules.add(rule);
                 log.debug("compareImages 6.");
             }
-        }    catch (Exception e) {
+        } catch (Exception e) {
             log.error("exception during dossier similar: ", e);
             e.printStackTrace();
-            throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
+            throw new WebApplicationException(e, Response.Status.INTERNAL_SERVER_ERROR);
+        }
         // сравнение 2 шаблонов на совпадение
         log.debug("compareImages 7.");
         try {
             SelfCompareResult res = this.listManager.isSimilar(message.getTemplate_scan(), message.getTemplate_web());
-            if (!res.isSimilar())
-            {
+            if (!res.isSimilar()) {
                 CompareResponseRulesObject rule = new CompareResponseRulesObject();
                 rule.setRuleId("4.2.5");
-                rule.setRuleName("Возможно несоответствие фотографии в паспорте и фотографии, прикрепленной к заявке. Порог схожести="+res.getThreshold()+" схожесть="+res.getSimilarity());
+                rule.setRuleName("Возможно несоответствие фотографии в паспорте и фотографии, прикрепленной к заявке. Порог схожести=" + res.getThreshold() + " схожесть=" + res.getSimilarity());
                 //rule.setRuleName("Perhaps the discrepancy in the passport photo and the photo from webcap.");
                 firedRules.add(rule);
             }
             response.setPicSimilarity(res.getSimilarity());
             response.setPicSimilarityThreshold(res.getThreshold());
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.error("exception during self-similarity check:", e);
             e.printStackTrace();
-            throw new WebApplicationException(e,Response.Status.INTERNAL_SERVER_ERROR);}
+            throw new WebApplicationException(e, Response.Status.INTERNAL_SERVER_ERROR);
+        }
         // add fired rule
         response.setRules(firedRules);
-        return Response.status(Response.Status.OK).entity(response).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build();
+        return Response.status(Response.Status.OK).entity(response).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON + "; charset=UTF-8").build();
     }
 
     /**
-     * Обновить стоп лист.
-     * @param entity Обновляемая заявка.
-     * @return ок
-
-     @Path("/stoplist")
-     @PUT
-     @Produces(MediaType.APPLICATION_JSON)
-     @Consumes(MediaType.APPLICATION_JSON)
-     @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
-     @Override
-     public Response update(StopList entity) {
-     return super.update(entity);
-     }
-     */
-    /**
      * удалить стоп лист.
+     *
      * @param id удаляемой заявки.
      * @return ок
      */
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     @Path("/stoplist/{id}")
     @Override
-    public Response delete(@PathParam("id") Long id)
-    {
+    public Response delete(@PathParam("id") Long id) {
         this.listManager.delStopList(id);
         return super.delete(id);
     }
 
     /**
      * Получить стоп лист по ID
+     *
      * @param id идентификатор.
      * @return заявка по ID
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     @Path("/stoplist/{id}")
     @Override
     public StopList get(@PathParam("id") Long id) {
@@ -412,56 +386,22 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
 
     /**
      * Список всех стоп листов
+     *
      * @return Список всех стоп листов
      */
     @Path("/stoplist")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     @Override
     public Collection<StopList> list() {
         return stopListService.getAll();
     }
 
-//    /**
-//     * Получить стоп лист по ID
-//     * @param id идентификатор.
-//     * @return заявка по ID
-//     */
-//	/*
-// @GET
-// @Produces(MediaType.APPLICATION_JSON)
-// @Consumes(MediaType.APPLICATION_JSON)
-// @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
-// @Path("/stoplist/{id}")
-// @Override
-// public StopList get(@PathParam("id") Long id) {
-// 	StopList t = super.get(id);
-// 	if (t == null)
-// 		throw new WebApplicationException("Entity not found for id: " + id,Response.Status.NOT_FOUND);
-// 		//return Response.status(Response.Status.NOT_FOUND).entity("Entity not found for id: " + id).build();
-// 		System.out.println("No such list:"+id);
-//     return t;
-// }
-// */
-//    @GET
-//    @Produces(MediaType.APPLICATION_JSON)
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
-//    @Path("/stoplist/{id}")
-//    public CompareServiceStopListElement getElement(@PathParam("id") Long id) {
-//        StopList t = super.get(id);
-//        if (t == null)
-//            throw new WebApplicationException("Entity not found for id: " + id,Response.Status.NOT_FOUND);
-//        //return Response.status(Response.Status.NOT_FOUND).entity("Entity not found for id: " + id).build();
-//        System.out.println("No such list:"+id);
-//
-//        return this.listManager.getList(id);
-//    }
-
     /**
      * Добавить стоп лист.
+     *
      * @param entity добавляемая конфигурация.
      * @return Идентификатор добавленной заявки.
      */
@@ -469,11 +409,11 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     @Override
     public Long add(StopList entity) {
         Long id = super.add(entity);
-        System.out.println("added list id="+entity.getId());
+        System.out.println("added list id=" + entity.getId());
         listManager.addList(entity);
         return id;
     }
@@ -482,10 +422,10 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     public Long edit(StopList entity) {
         stopListService.update(entity);
-        System.out.println("changed list id="+entity.getId());
+        System.out.println("changed list id=" + entity.getId());
         listManager.addList(entity);
         return entity.getId();
     }
@@ -498,14 +438,14 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
     @PUT
     //@Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
-    public Response add(@PathParam("ID")Long id, StopListElement element) {
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
+    public Response add(@PathParam("ID") Long id, StopListElement element) {
         // создали документ и установили тип
         Document aDocument = new Document();
         aDocument.setDocumentType(new DocumentType(DocumentType.Type.STOP_LIST));
         StopList stopList = stopListService.findById(id);
-        if(stopList==null) {
-            System.out.println("StopList not found for ID="+id+" "+element);
+        if (stopList == null) {
+            System.out.println("StopList not found for ID=" + id + " " + element);
             return Response.status(404).build();
         }
         // 1. сходить в Template builder, построить шаблон
@@ -522,18 +462,16 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
         //aDocument.setId(docId);
         try {
             addBioTemplateToDocument(aDocument, scannedTemplate);
-            listManager.addElement(id,aDocument);
-        }
-        catch (IOException exc) {
-            throw new WebApplicationException("Unable to ad template to the document: " + id,Response.Status.INTERNAL_SERVER_ERROR);
-        }
-        catch (Exception exc) {
-            throw new WebApplicationException("Unable to ad template to the document: " + id,Response.Status.INTERNAL_SERVER_ERROR);
+            listManager.addElement(id, aDocument);
+        } catch (IOException exc) {
+            throw new WebApplicationException("Unable to ad template to the document: " + id, Response.Status.INTERNAL_SERVER_ERROR);
+        } catch (Exception exc) {
+            throw new WebApplicationException("Unable to ad template to the document: " + id, Response.Status.INTERNAL_SERVER_ERROR);
         }
         // 5. добавить документ в стоплист
         stopList.getOwner().add(aDocument);
         stopListService.saveOrUpdate(stopList);
-        System.out.println("Adding list element for ID="+id+" "+element + " "+scannedTemplate);
+        System.out.println("Adding list element for ID=" + id + " " + element + " " + scannedTemplate);
         return Response.ok().header("Access-Control-Allow-Origin", "*").build();
     }
 
@@ -542,36 +480,33 @@ public class CompareResource extends BaseResource<Long,StopList> implements Init
      */
     @Path("/stoplist/{listId}/entry/{itemId}")
     @DELETE
-    @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
-    public Response delete(@PathParam("listId")Long listId,@PathParam("itemId")Long itemId) {
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
+    public Response delete(@PathParam("listId") Long listId, @PathParam("itemId") Long itemId) {
 
         //todo write native sql
         try {
             listManager.delStopListElement(listId, itemId);
             StopList stopList = stopListService.findById(listId);
-            if(stopList!=null) {
+            if (stopList != null) {
                 Document delDocument = null;
                 for (Document document : stopList.getOwner()) {
-                    if(document.getId().equals(itemId)) {
+                    if (document.getId().equals(itemId)) {
                         delDocument = document;
                     }
                 }
-                if(delDocument!=null) {
+                if (delDocument != null) {
                     stopList.getOwner().remove(delDocument);
                     stopListService.saveOrUpdate(stopList);
                 }
             }
             return Response.ok().build();
-        }
-        catch (Exception exc)
-        {
+        } catch (Exception exc) {
             exc.printStackTrace();
             return Response.serverError().build();
         }
     }
 
     private void addBioTemplateToDocument(Document document, PhotoTemplate scannedTemplate) throws IOException {
-
         BioTemplate bioTemplate = new BioTemplate();
         bioTemplate.setInsUser("StopLists");
         bioTemplate.setTemplateVector(JsonUtils.serializeJson(scannedTemplate.template));

@@ -1,160 +1,192 @@
 {
-  "id" : 1,
-  "objectDate" : 1482106081246,
-  "stopListName" : "Имя стоп листа",
-  "owner" : [ {
-    "id" : null,
-    "objectDate" : 1482106081246,
-    "description" : "Описание",
-    "documentType" : null,
-    "origImageURL" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
-    "faceSquare" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
-  }, {
-    "id" : null,
-    "objectDate" : 1482106081246,
-    "description" : "Описание",
-    "documentType" : null,
-    "origImageURL" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
-    "faceSquare" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
-  }, {
-    "id" : null,
-    "objectDate" : 1482106081246,
-    "description" : "Описание",
-    "documentType" : null,
-    "origImageURL" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
-    "faceSquare" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
-  }, {
-    "id" : null,
-    "objectDate" : 1482106081246,
-    "description" : "Описание",
-    "documentType" : null,
-    "origImageURL" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
-    "faceSquare" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
-  }, {
-    "id" : null,
-    "objectDate" : 1482106081246,
-    "description" : "Описание",
-    "documentType" : null,
-    "origImageURL" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
-    "faceSquare" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
-  }, {
-    "id" : null,
-    "objectDate" : 1482106081246,
-    "description" : "Описание",
-    "documentType" : null,
-    "origImageURL" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
-    "faceSquare" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
-  }, {
-    "id" : null,
-    "objectDate" : 1482106081246,
-    "description" : "Описание",
-    "documentType" : null,
-    "origImageURL" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
-    "faceSquare" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
-  }, {
-    "id" : null,
-    "objectDate" : 1482106081246,
-    "description" : "Описание",
-    "documentType" : null,
-    "origImageURL" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
-    "faceSquare" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
-  }, {
-    "id" : null,
-    "objectDate" : 1482106081246,
-    "description" : "Описание",
-    "documentType" : null,
-    "origImageURL" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
-    "faceSquare" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
-  }, {
-    "id" : null,
-    "objectDate" : 1482106081246,
-    "description" : "Описание",
-    "documentType" : null,
-    "origImageURL" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
-    "faceSquare" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
-  }, {
-    "id" : null,
-    "objectDate" : 1482106081246,
-    "description" : "Описание",
-    "documentType" : null,
-    "origImageURL" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
-    "faceSquare" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
-  }, {
-    "id" : null,
-    "objectDate" : 1482106081246,
-    "description" : "Описание",
-    "documentType" : null,
-    "origImageURL" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
-    "faceSquare" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
-  }, {
-    "id" : null,
-    "objectDate" : 1482106081246,
-    "description" : "Описание",
-    "documentType" : null,
-    "origImageURL" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
-    "faceSquare" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
-  }, {
-    "id" : null,
-    "objectDate" : 1482106081246,
-    "description" : "Описание",
-    "documentType" : null,
-    "origImageURL" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
-    "faceSquare" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
-  }, {
-    "id" : null,
-    "objectDate" : 1482106081246,
-    "description" : "Описание",
-    "documentType" : null,
-    "origImageURL" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
-    "faceSquare" : "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
-  } ],
-  "type" : "Тип листа",
-  "description" : "Тестовый стоп лист",
-  "persons" : [ {
-    "id" : 0,
-    "dossier" : [ ]
-  }, {
-    "id" : 1,
-    "dossier" : [ ]
-  }, {
-    "id" : 2,
-    "dossier" : [ ]
-  }, {
-    "id" : 3,
-    "dossier" : [ ]
-  }, {
-    "id" : 4,
-    "dossier" : [ ]
-  }, {
-    "id" : 5,
-    "dossier" : [ ]
-  }, {
-    "id" : 6,
-    "dossier" : [ ]
-  }, {
-    "id" : 7,
-    "dossier" : [ ]
-  }, {
-    "id" : 8,
-    "dossier" : [ ]
-  }, {
-    "id" : 9,
-    "dossier" : [ ]
-  }, {
-    "id" : 10,
-    "dossier" : [ ]
-  }, {
-    "id" : 11,
-    "dossier" : [ ]
-  }, {
-    "id" : 12,
-    "dossier" : [ ]
-  }, {
-    "id" : 13,
-    "dossier" : [ ]
-  }, {
-    "id" : 14,
-    "dossier" : [ ]
-  } ],
-  "similarity" : 0.888
+  "id": 1,
+  "objectDate": 1482106081246,
+  "stopListName": "Имя стоп листа",
+  "owner": [
+    {
+      "id": null,
+      "objectDate": 1482106081246,
+      "description": "Описание",
+      "documentType": null,
+      "origImageURL": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
+      "faceSquare": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
+    },
+    {
+      "id": null,
+      "objectDate": 1482106081246,
+      "description": "Описание",
+      "documentType": null,
+      "origImageURL": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
+      "faceSquare": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
+    },
+    {
+      "id": null,
+      "objectDate": 1482106081246,
+      "description": "Описание",
+      "documentType": null,
+      "origImageURL": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
+      "faceSquare": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
+    },
+    {
+      "id": null,
+      "objectDate": 1482106081246,
+      "description": "Описание",
+      "documentType": null,
+      "origImageURL": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
+      "faceSquare": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
+    },
+    {
+      "id": null,
+      "objectDate": 1482106081246,
+      "description": "Описание",
+      "documentType": null,
+      "origImageURL": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
+      "faceSquare": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
+    },
+    {
+      "id": null,
+      "objectDate": 1482106081246,
+      "description": "Описание",
+      "documentType": null,
+      "origImageURL": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
+      "faceSquare": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
+    },
+    {
+      "id": null,
+      "objectDate": 1482106081246,
+      "description": "Описание",
+      "documentType": null,
+      "origImageURL": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
+      "faceSquare": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
+    },
+    {
+      "id": null,
+      "objectDate": 1482106081246,
+      "description": "Описание",
+      "documentType": null,
+      "origImageURL": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
+      "faceSquare": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
+    },
+    {
+      "id": null,
+      "objectDate": 1482106081246,
+      "description": "Описание",
+      "documentType": null,
+      "origImageURL": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
+      "faceSquare": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
+    },
+    {
+      "id": null,
+      "objectDate": 1482106081246,
+      "description": "Описание",
+      "documentType": null,
+      "origImageURL": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
+      "faceSquare": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
+    },
+    {
+      "id": null,
+      "objectDate": 1482106081246,
+      "description": "Описание",
+      "documentType": null,
+      "origImageURL": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
+      "faceSquare": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
+    },
+    {
+      "id": null,
+      "objectDate": 1482106081246,
+      "description": "Описание",
+      "documentType": null,
+      "origImageURL": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
+      "faceSquare": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
+    },
+    {
+      "id": null,
+      "objectDate": 1482106081246,
+      "description": "Описание",
+      "documentType": null,
+      "origImageURL": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
+      "faceSquare": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
+    },
+    {
+      "id": null,
+      "objectDate": 1482106081246,
+      "description": "Описание",
+      "documentType": null,
+      "origImageURL": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
+      "faceSquare": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
+    },
+    {
+      "id": null,
+      "objectDate": 1482106081246,
+      "description": "Описание",
+      "documentType": null,
+      "origImageURL": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90",
+      "faceSquare": "https://placeholdit.imgix.net/~text?txtsize=33&txt=90%C3%9790&w=90&h=90"
+    }
+  ],
+  "type": "Тип листа",
+  "description": "Тестовый стоп лист",
+  "persons": [
+    {
+      "id": 0,
+      "dossier": []
+    },
+    {
+      "id": 1,
+      "dossier": []
+    },
+    {
+      "id": 2,
+      "dossier": []
+    },
+    {
+      "id": 3,
+      "dossier": []
+    },
+    {
+      "id": 4,
+      "dossier": []
+    },
+    {
+      "id": 5,
+      "dossier": []
+    },
+    {
+      "id": 6,
+      "dossier": []
+    },
+    {
+      "id": 7,
+      "dossier": []
+    },
+    {
+      "id": 8,
+      "dossier": []
+    },
+    {
+      "id": 9,
+      "dossier": []
+    },
+    {
+      "id": 10,
+      "dossier": []
+    },
+    {
+      "id": 11,
+      "dossier": []
+    },
+    {
+      "id": 12,
+      "dossier": []
+    },
+    {
+      "id": 13,
+      "dossier": []
+    },
+    {
+      "id": 14,
+      "dossier": []
+    }
+  ],
+  "similarity": 0.888
 }
