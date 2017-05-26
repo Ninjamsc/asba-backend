@@ -12,8 +12,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.jms.ConnectionFactory;
 
 /**
-* Created by Adrey on 20.11.2016.
-*/
+ * Created by Adrey on 20.11.2016.
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/testContext.xml")
 @Ignore
@@ -39,13 +39,13 @@ public class JmsClientTest {
 
     }
 
-    public static ConnectionFactory connectionFactory(){
+    public static ConnectionFactory connectionFactory() {
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
         connectionFactory.setBrokerURL("tcp://localhost:61616");
         return connectionFactory;
     }
 
-    public static ConnectionFactory internalConnectionFactory(){
+    public static ConnectionFactory internalConnectionFactory() {
         ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
         connectionFactory.setBrokerURL("vm://localhost");
         return connectionFactory;

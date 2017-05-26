@@ -76,7 +76,7 @@ public class RequestProcessorIT {//todo mock jmsTemplate and rename to RequestPr
         Document webCam;
         Document scan;
         Request requestEntity = requestService.findByOrderNumber(requestDTO.getWfNumber());
-        if(requestEntity != null) { //TODO discuss что куда и когда и в каком формате доки
+        if (requestEntity != null) { //TODO discuss что куда и когда и в каком формате доки
             // TODO соответствие между дто и ентити
             webCam = requestEntity.getCameraDocument();
             scan = requestEntity.getScannedDocument();
@@ -86,13 +86,14 @@ public class RequestProcessorIT {//todo mock jmsTemplate and rename to RequestPr
             webCam = new Document();
             scan = new Document();
         }
-        if(requestDTO.getType() == RequestDTO.Type.PREVIEW) {
+        if (requestDTO.getType() == RequestDTO.Type.PREVIEW) {
             webCam.setOrigImageURL(webCamPictureURL);
             webCam.setDocumentType(documentTypeService.findByType(DocumentType.Type.WEB_CAM));
 
             scan.setOrigImageURL(scannedPictureURL);
             scan.setDocumentType(documentTypeService.findByType(DocumentType.Type.SCANNER));
-        } if (requestDTO.getType() == RequestDTO.Type.FULLFRAME) {
+        }
+        if (requestDTO.getType() == RequestDTO.Type.FULLFRAME) {
             webCam.setFaceSquare(webCamPictureURL);
             webCam.setDocumentType(documentTypeService.findByType(DocumentType.Type.WEB_CAM));
 
@@ -102,7 +103,7 @@ public class RequestProcessorIT {//todo mock jmsTemplate and rename to RequestPr
         documentService.saveOrUpdate(scan);
         documentService.saveOrUpdate(webCam);
         Person person = personService.findById(requestDTO.getIin());
-        if(person==null) {
+        if (person == null) {
             person = new Person();
             person.setDossier(new ArrayList<Request>());
         }

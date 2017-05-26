@@ -10,7 +10,7 @@ import java.util.Date;
  * На базе данного документа может быть построено несколько версий биометрического шаблона данного типа
  */
 @Entity
-@Table(name="BIO_TEMPLATES_VERSION")
+@Table(name = "BIO_TEMPLATES_VERSION")
 public class BioTemplateVersion extends BaseEntity<Long> {
     /**
      * уникальный идентификатор объекта

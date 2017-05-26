@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  * Created by sergey on 15.11.2016.
  */
 @Repository("frontEndConfigurationDao")
-public class FrontEndConfigurationDaoImpl extends AbstractHibernateDao<Long,FrontEndConfiguration> implements FrontEndConfigurationDao {
+public class FrontEndConfigurationDaoImpl extends AbstractHibernateDao<Long, FrontEndConfiguration> implements FrontEndConfigurationDao {
 }

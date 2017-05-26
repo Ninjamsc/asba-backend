@@ -2,7 +2,9 @@
 package com.usetech.bridge.controller;
 
 import com.usetech.bridge.bean.ErrorBean;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +17,19 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
-	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		return ResponseEntity.status((HttpStatus) HttpStatus.BAD_REQUEST).body((Object) new ErrorBean(ex.getMessage()));
-	}
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return ResponseEntity.status((HttpStatus) HttpStatus.BAD_REQUEST).body((Object) new ErrorBean(ex.getMessage()));
+    }
 
-	@ExceptionHandler(value = { Exception.class })
-	public ResponseEntity<Object> badRequest(HttpServletRequest req, Exception exception) {
-		return ResponseEntity.status((HttpStatus) HttpStatus.INTERNAL_SERVER_ERROR)
-				.body((Object) new ErrorBean(exception.getMessage()));
-	}
+    @ExceptionHandler(value = {Exception.class})
+    public ResponseEntity<Object> badRequest(HttpServletRequest req, Exception exception) {
+        return ResponseEntity.status((HttpStatus) HttpStatus.INTERNAL_SERVER_ERROR)
+                .body((Object) new ErrorBean(exception.getMessage()));
+    }
 
-	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		return ResponseEntity.status((HttpStatus) HttpStatus.BAD_REQUEST).body((Object) new ErrorBean(ex.getMessage()));
-	}
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
+        return ResponseEntity.status((HttpStatus) HttpStatus.BAD_REQUEST).body((Object) new ErrorBean(ex.getMessage()));
+    }
 }

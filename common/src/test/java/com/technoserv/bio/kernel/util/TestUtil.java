@@ -12,21 +12,21 @@ import java.util.Date;
  */
 public class TestUtil {
 
-    public static FrontEnd generateFrontEnds(){
+    public static FrontEnd generateFrontEnds() {
         FrontEnd result = new FrontEnd();
         setObjectDate(result);
         result.setClientVersion("1");
         return result;
     }
 
-    public static FrontEndConfiguration generateFrontEndConfiguration(){
+    public static FrontEndConfiguration generateFrontEndConfiguration() {
         FrontEndConfiguration result = new FrontEndConfiguration();
         setObjectDate(result);
         result.setVersion(1);
         return result;
     }
 
-    public static Document generateDocument(DocumentType type){
+    public static Document generateDocument(DocumentType type) {
         Document result = new Document();
         setObjectDate(result);
         result.setDescription("Description");
@@ -36,14 +36,14 @@ public class TestUtil {
         return result;
     }
 
-    public static Person generatePerson(){
+    public static Person generatePerson() {
         Person result = new Person();
         //setObjectDate(result); TODO ...
         result.setId(1L);
         return result;
     }
 
-    public static Request generateRequest(){
+    public static Request generateRequest() {
         Request result = new Request();
         result.setObjectDate(new Date());
         result.setId(1L);
@@ -55,7 +55,7 @@ public class TestUtil {
         return result;
     }
 
-    public static StopList generateStopList(String name){
+    public static StopList generateStopList(String name) {
         StopList result = new StopList();
         setObjectDate(result);
         result.setStopListName(name);

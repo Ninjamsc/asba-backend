@@ -24,7 +24,7 @@ import java.util.List;
  * Created by sergey on 15.11.2016.
  */
 @Service
-public class RequestServiceImpl extends AbstractService<Long, Request,RequestDao> implements RequestService {
+public class RequestServiceImpl extends AbstractService<Long, Request, RequestDao> implements RequestService {
 
     @Autowired
     private PersonService personService;
@@ -46,13 +46,14 @@ public class RequestServiceImpl extends AbstractService<Long, Request,RequestDao
     }
 
     @Transactional(readOnly = true)
-    public Collection<Request> findByIin(Long id,String... properties) {
+    public Collection<Request> findByIin(Long id, String... properties) {
 
         Collection<Request> result = dao.findByIin(id);
         HibernateInitializer.initializeProperties(result, properties);
 
         return result;
     }
+
     @Transactional(readOnly = true)
     public Collection<Request> findNotProcessed() {
         return dao.findNotProcessed();
@@ -81,7 +82,7 @@ public class RequestServiceImpl extends AbstractService<Long, Request,RequestDao
         document.setFaceSquare(fullFrameUrl);
         document.setDocumentType(documentTypeService.findByType(type));
         documentService.save(document);
-        if(DocumentType.Type.SCANNER == type){
+        if (DocumentType.Type.SCANNER == type) {
             request.setScannedDocument(document);
         } else if (DocumentType.Type.WEB_CAM == type) {
             request.setCameraDocument(document);

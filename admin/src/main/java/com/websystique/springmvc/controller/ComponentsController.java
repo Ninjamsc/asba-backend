@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
 public class ComponentsController {
 
     @RequestMapping("/components")
-    public Map<String,List<String>> aboutApps() {
+    public Map<String, List<String>> aboutApps() {
         return collectAllDeployedApps();
     }
 
-    private static Map<String,List<String>> collectAllDeployedApps() {
+    private static Map<String, List<String>> collectAllDeployedApps() {
 
-        final Map<String,List<String>> result = new HashMap<>();
+        final Map<String, List<String>> result = new HashMap<>();
         try {
             final List<String> apps = new ArrayList<>();
 
@@ -28,7 +28,8 @@ public class ComponentsController {
             MBeanServer mBeanServer = findServer();
             if (mBeanServer == null) {
                 result.put("error-message", Arrays.asList("Tomcat MBean Server is not available"));
-                return result;}
+                return result;
+            }
 
             // get apps
             final Set<ObjectName> instances = mBeanServer
@@ -47,7 +48,7 @@ public class ComponentsController {
                     .collect(Collectors.toList());
 
             if (components.size() > 0) {
-                 result.put("components", components);
+                result.put("components", components);
             }
 
 

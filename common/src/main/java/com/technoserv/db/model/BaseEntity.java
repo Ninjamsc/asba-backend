@@ -3,7 +3,7 @@ package com.technoserv.db.model;
 import java.io.Serializable;
 
 public abstract class BaseEntity<ID extends Serializable> implements Serializable {
-    
+
     private static final long serialVersionUID = -779738708199712530L;
 
     public abstract ID getId();

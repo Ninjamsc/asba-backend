@@ -26,6 +26,7 @@ public class CommonConfig {
     public String getImageRootDir() {
         return imageRootDir;
     }
+
     public String getLogRootDir() {
         return logRootDir;
     }

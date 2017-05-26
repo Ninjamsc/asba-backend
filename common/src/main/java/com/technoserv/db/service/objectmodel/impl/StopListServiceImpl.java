@@ -14,7 +14,7 @@ import java.util.List;
  * Created by sergey on 15.11.2016.
  */
 @Service
-public class StopListServiceImpl extends AbstractService<Long, StopList,StopListDao> implements StopListService {
+public class StopListServiceImpl extends AbstractService<Long, StopList, StopListDao> implements StopListService {
     @Override
     @Autowired
     @Qualifier("stopListDao")

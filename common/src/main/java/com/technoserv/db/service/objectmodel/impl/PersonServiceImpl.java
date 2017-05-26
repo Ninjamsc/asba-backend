@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by sergey on 15.11.2016.
  */
 @Service
-public class PersonServiceImpl extends AbstractService<Long, Person,PersonDao> implements PersonService {
+public class PersonServiceImpl extends AbstractService<Long, Person, PersonDao> implements PersonService {
     @Autowired
     @Qualifier("personDao")
     public void setDao(PersonDao dao) {

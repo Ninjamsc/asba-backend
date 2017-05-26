@@ -30,12 +30,13 @@ public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndCo
 
     /**
      * Список всех конфигураций
+     *
      * @return Список всех конфигураций
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     @Override
     public Collection<FrontEndConfiguration> list() {
         return super.list();
@@ -43,13 +44,14 @@ public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndCo
 
     /**
      * Получить конфигурацию по ID
+     *
      * @param id идентификатор.
      * @return Конфигурация по ID
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     @Path("/{id}")
     @Override
     public FrontEndConfiguration get(@PathParam("id") Long id) {
@@ -58,39 +60,44 @@ public class FrontEndConfigurationResource extends BaseResource<Long, FrontEndCo
 
     /**
      * Добавить конфигурацию.
+     *
      * @param entity добавляемая конфигурация.
      * @return Идентификатор добавленной конфигурации.
      */
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     @Override
     public Long add(FrontEndConfiguration entity) {
         return super.add(entity);
     }
+
     /**
      * Обновить конфигурацию.
+     *
      * @param entity Обновляемая конфигурация.
      * @return ок
      */
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     @Override
     public Response update(FrontEndConfiguration entity) {
         return super.update(entity);
     }
+
     /**
      * удалить конфигурацию.
+     *
      * @param id удаляемой конфигурации.
      * @return ок
      */
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     @Path("/{id}")
     @Override
     public Response delete(@PathParam("id") Long id) {

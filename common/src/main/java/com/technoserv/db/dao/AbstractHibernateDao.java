@@ -12,7 +12,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public abstract class AbstractHibernateDao<ID extends Serializable,T extends BaseEntity<ID>> implements Dao<ID,T> {
+public abstract class AbstractHibernateDao<ID extends Serializable, T extends BaseEntity<ID>> implements Dao<ID, T> {
 
     private Class<T> persistentClass;
     @Autowired
@@ -28,15 +28,15 @@ public abstract class AbstractHibernateDao<ID extends Serializable,T extends Bas
 
     @SuppressWarnings("unchecked")
     public AbstractHibernateDao() {
-		Type type = getClass().getGenericSuperclass();
-		while (type != null) {
-			if(type instanceof ParameterizedType) {
-				persistentClass = (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[1];
-				break;
-			} else if (type instanceof Class) {
-				type = ((Class) type).getGenericSuperclass();
-			}
-		}
+        Type type = getClass().getGenericSuperclass();
+        while (type != null) {
+            if (type instanceof ParameterizedType) {
+                persistentClass = (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[1];
+                break;
+            } else if (type instanceof Class) {
+                type = ((Class) type).getGenericSuperclass();
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -59,16 +59,16 @@ public abstract class AbstractHibernateDao<ID extends Serializable,T extends Bas
     }
 
     @SuppressWarnings("unchecked")
-	public List<T> getAll() {
-    	return getSession().createCriteria(getPersistentClass()).list();
+    public List<T> getAll() {
+        return getSession().createCriteria(getPersistentClass()).list();
     }
 
-	public int countAll() {
-    	Object o = getSession().createCriteria(getPersistentClass())
-				.setProjection(Projections.rowCount())
-				.uniqueResult();
+    public int countAll() {
+        Object o = getSession().createCriteria(getPersistentClass())
+                .setProjection(Projections.rowCount())
+                .uniqueResult();
 
-		return o == null ? 0 : ((Number)o).intValue();
+        return o == null ? 0 : ((Number) o).intValue();
     }
 
     public void delete(T entity) {

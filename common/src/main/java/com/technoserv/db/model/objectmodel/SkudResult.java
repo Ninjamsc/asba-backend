@@ -1,7 +1,5 @@
 package com.technoserv.db.model.objectmodel;
 
-import com.technoserv.db.model.BaseEntity;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -46,13 +44,21 @@ public class SkudResult extends AbstractObject {
     private Date orderDate;
 
 
-    public SkudResult() {}
+    public SkudResult() {
+    }
 
-    public String getFaceSquare() { return faceSquare; }
-    public void setFaceSquare(String faceSquare) { this.faceSquare = faceSquare;}
+    public String getFaceSquare() {
+        return faceSquare;
+    }
+
+    public void setFaceSquare(String faceSquare) {
+        this.faceSquare = faceSquare;
+    }
+
     public Timestamp getTimestamp() {
         return orderDate != null ? new Timestamp(orderDate.getTime()) : new Timestamp(0);
     }
+
     public String getUrl() {
         return url;
     }
@@ -60,23 +66,66 @@ public class SkudResult extends AbstractObject {
     public void setUrl(String url) {
         this.url = url;
     }
+
     public void setTimestamp(Timestamp timestamp) {
         this.orderDate = new Date(timestamp.getTime());
     }
-    public Long getFaceId() { return faceId; }
-    public void setFaceId(Long faceId) { this.faceId = faceId; }
-    public Long getPerson() { return person; }
-    public void setPerson(Long person) { this.person = person; }
-    public Double getSimilarity() { return similarity; }
-    public void setSimilarity(Double similarity) { this.similarity = similarity;}
-    public String getVideoSrc() { return videoSrc; }
-    public void setVideoSrc(String videoSrc) { this.videoSrc = videoSrc; }
-    public Long getHeight() {return height;}
-    public void setHeight(Long height) {this.height = height;}
-    public Long getWidth() {return width;}
-    public void setWidth(Long width) {this.width = width;}
-    public Double getBlur() {return blur;}
-    public void setBlur(Double blur) {this.blur = blur;}
+
+    public Long getFaceId() {
+        return faceId;
+    }
+
+    public void setFaceId(Long faceId) {
+        this.faceId = faceId;
+    }
+
+    public Long getPerson() {
+        return person;
+    }
+
+    public void setPerson(Long person) {
+        this.person = person;
+    }
+
+    public Double getSimilarity() {
+        return similarity;
+    }
+
+    public void setSimilarity(Double similarity) {
+        this.similarity = similarity;
+    }
+
+    public String getVideoSrc() {
+        return videoSrc;
+    }
+
+    public void setVideoSrc(String videoSrc) {
+        this.videoSrc = videoSrc;
+    }
+
+    public Long getHeight() {
+        return height;
+    }
+
+    public void setHeight(Long height) {
+        this.height = height;
+    }
+
+    public Long getWidth() {
+        return width;
+    }
+
+    public void setWidth(Long width) {
+        this.width = width;
+    }
+
+    public Double getBlur() {
+        return blur;
+    }
+
+    public void setBlur(Double blur) {
+        this.blur = blur;
+    }
 
 
 }

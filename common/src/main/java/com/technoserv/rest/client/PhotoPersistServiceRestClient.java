@@ -27,7 +27,7 @@ public class PhotoPersistServiceRestClient {
     @Autowired
     private SystemSettingsBean systemSettingsBean;
 
-    private  RestTemplate rest = new RestTemplate();
+    private RestTemplate rest = new RestTemplate();
 
     public PhotoPersistServiceRestClient() {
         this.rest = new RestTemplate();
@@ -35,27 +35,27 @@ public class PhotoPersistServiceRestClient {
     }
 
     public byte[] getPhoto(String photoUrl) {
-        if(photoUrl==null) {
+        if (photoUrl == null) {
             return null;
         }
-        if(log.isInfoEnabled()) {
+        if (log.isInfoEnabled()) {
             writeLog("REQUESTING PHOTO: '" + photoUrl + "'");
         }
         try {
-            HttpHeaders  headers = new HttpHeaders();
+            HttpHeaders headers = new HttpHeaders();
             headers.setAccept(Arrays.asList(MediaType.APPLICATION_OCTET_STREAM));
 
             HttpEntity<String> entity = new HttpEntity<String>(headers);
 
             ResponseEntity<byte[]> response = rest.exchange(URI.create(photoUrl), HttpMethod.GET, entity, byte[].class);
-            if(log.isInfoEnabled()) {
+            if (log.isInfoEnabled()) {
                 writeLog("REQUESTING PHOTO: '" + photoUrl + "' DONE");
             }
             return response.getBody();
         } catch (RestClientResponseException e) {
             writeError(e.getMessage());
-            writeError("Error status code"+e.getRawStatusCode());
-            switch (e.getRawStatusCode()){
+            writeError("Error status code" + e.getRawStatusCode());
+            switch (e.getRawStatusCode()) {
                 case 500://log.error("Прочие ошибки");break;
                 case 404://log.error("Фото не найдено");break;
                 case 400://log.error("Неполный/неверный запрос");break;
@@ -65,34 +65,35 @@ public class PhotoPersistServiceRestClient {
             }
         }
     }
+
     public String putPhoto(String file_content, String file_name) {
         String url = systemSettingsBean.get(SystemSettingsType.PHOTO_PERSIST_SERVICE_URL);
-        if(file_content==null) {
+        if (file_content == null) {
             writeLog("No Content.");
             return null;
         }
         file_name = String.format("%s.png", file_name); //TODO
         PhotoSaveRequest request = new PhotoSaveRequest(file_content, file_name);
 
-        if(log.isInfoEnabled()) {
-            writeLog("SAVING PHOTO: '" + file_name + "'" + " content:'" + file_content.length()+"'");
+        if (log.isInfoEnabled()) {
+            writeLog("SAVING PHOTO: '" + file_name + "'" + " content:'" + file_content.length() + "'");
         }
         try {
             String finalUrl = String.format("%s/%s", url, file_name);
             //todo request -> json with jackson
             HttpHeaders requestHeaders = new HttpHeaders();
             requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<PhotoSaveRequest> requestEntity = new HttpEntity<PhotoSaveRequest>(request,requestHeaders);
+            HttpEntity<PhotoSaveRequest> requestEntity = new HttpEntity<PhotoSaveRequest>(request, requestHeaders);
             ResponseEntity<String> response = rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, String.class);
 
-            if(log.isInfoEnabled()) {
-               writeLog("SAVING PHOTO: '" + url + "' DONE");
+            if (log.isInfoEnabled()) {
+                writeLog("SAVING PHOTO: '" + url + "' DONE");
             }
             return finalUrl;
         } catch (RestClientResponseException e) {
             writeError(e.getMessage());
-            writeError("Error status code"+e.getRawStatusCode());
-            switch (e.getRawStatusCode()){
+            writeError("Error status code" + e.getRawStatusCode());
+            switch (e.getRawStatusCode()) {
                 case 500://log.error("Прочие ошибки");break;
                 case 400://log.error("Неполный/неверный запрос");break;
                 default:
@@ -107,11 +108,11 @@ public class PhotoPersistServiceRestClient {
         System.out.println(message);
         log.info(message);
     }
+
     private void writeError(String message) {
         System.out.println(message);
         log.error(message);
     }
-
 
 
 //    public static void main(String[] args) {

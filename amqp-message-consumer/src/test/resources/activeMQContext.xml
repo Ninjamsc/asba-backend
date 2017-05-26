@@ -10,7 +10,7 @@
     http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd">
 
 
-    <context:component-scan base-package="com.technoserv.jms.*" />
+    <context:component-scan base-package="com.technoserv.jms.*"/>
 
     <!-- =============================================== -->
     <!-- JMS Common, Define JMS connectionFactory       -->
@@ -18,14 +18,14 @@
     <!-- Activemq connection factory -->
     <bean id="amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
         <!-- brokerURL, You may have different IP or port -->
-        <constructor-arg index="0" value="tcp://localhost:61616" />
+        <constructor-arg index="0" value="tcp://localhost:61616"/>
         <property name="trustAllPackages" value="true"/>
     </bean>
 
     <!-- Pooled Spring connection factory -->
     <bean id="connectionFactory"
           class="org.springframework.jms.connection.CachingConnectionFactory">
-        <constructor-arg ref="amqConnectionFactory" />
+        <constructor-arg ref="amqConnectionFactory"/>
 
     </bean>
 
@@ -36,12 +36,12 @@
 
     <bean id="bioskud.queue" class="org.apache.activemq.command.ActiveMQQueue">
         <!-- name of the queue -->
-        <constructor-arg index="0" value="bioskud.queue" />
+        <constructor-arg index="0" value="bioskud.queue"/>
     </bean>
 
     <!-- JmsTemplate Definition -->
     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="connectionFactory" ref="connectionFactory"/>
         <property name="defaultDestinationName" value="arm-retry.queue"/>
     </bean>
 
@@ -51,17 +51,12 @@
     </bean>
 
     <jms:listener-container
-        container-type="default"
-        connection-factory="connectionFactory"
-        acknowledge="auto">
-            <jms:listener destination="arm.queue" ref="jmsConsumer" method="onReceive" />
-            <jms:listener destination="arm-retry.queue" ref="jmsConsumer" method="onReceive" />
+            container-type="default"
+            connection-factory="connectionFactory"
+            acknowledge="auto">
+        <jms:listener destination="arm.queue" ref="jmsConsumer" method="onReceive"/>
+        <jms:listener destination="arm-retry.queue" ref="jmsConsumer" method="onReceive"/>
     </jms:listener-container>
-
-
-
-
-
 
 
 </beans>

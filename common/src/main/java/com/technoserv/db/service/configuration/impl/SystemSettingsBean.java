@@ -21,14 +21,13 @@ public class SystemSettingsBean implements InitializingBean {
     private SystemSettingService systemSettingService;
 
 
-    private Map<SystemSettingsType,SystemSettings> systemSettingsCache = new HashMap<SystemSettingsType, SystemSettings>();
+    private Map<SystemSettingsType, SystemSettings> systemSettingsCache = new HashMap<SystemSettingsType, SystemSettings>();
 
 
     private Date nextReloadDate;
 
     private static final int AMOUNT_TTL = 1;//Колличество прибавляемых единиц
     private static final int FIELD_TTL = Calendar.MINUTE;//Единицап измерения времени
-
 
 
     public void afterPropertiesSet() throws Exception {
@@ -40,7 +39,7 @@ public class SystemSettingsBean implements InitializingBean {
         systemSettingsCache.clear();
         List<SystemSettings> all = systemSettingService.getAll();
         for (SystemSettings systemSettings : all) {
-            systemSettingsCache.put(systemSettings.getId(),systemSettings);
+            systemSettingsCache.put(systemSettings.getId(), systemSettings);
         }
 
         Calendar calendar = Calendar.getInstance();
@@ -48,10 +47,10 @@ public class SystemSettingsBean implements InitializingBean {
         calendar.add(FIELD_TTL, AMOUNT_TTL);
         nextReloadDate = calendar.getTime();
 
-}
+    }
 
     public String get(SystemSettingsType systemSettingsType) {
-        if(new Date().after(nextReloadDate) || systemSettingsCache.isEmpty()) {
+        if (new Date().after(nextReloadDate) || systemSettingsCache.isEmpty()) {
             reloadCache();
         }
         return systemSettingsCache.get(systemSettingsType).getValue();

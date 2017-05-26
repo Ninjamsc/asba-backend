@@ -26,10 +26,12 @@ public class FrontEndConfigurationDaoTest {
     FrontEndConfigurationDao dao;
 
     @Before
-    public void setUp(){}
+    public void setUp() {
+    }
 
     @After
-    public void tearDown(){}
+    public void tearDown() {
+    }
 
     @Test
     public void createFrontEndConfiguration() throws Exception {
@@ -50,7 +52,7 @@ public class FrontEndConfigurationDaoTest {
         assertEquals(frontEndConfiguration, entity);
         entity.setVersion(2);
         dao.saveOrUpdate(entity);
-        assertEquals(2, dao.get(entity.getId()).getVersion()+0);
+        assertEquals(2, dao.get(entity.getId()).getVersion() + 0);
     }
 
     @Test

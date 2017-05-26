@@ -33,7 +33,7 @@ public class ArmRequestSendMessageTest {
             jmsTemplate.convertAndSend("arm.queue", request2);
         }
 
-        Assert.assertEquals(1,requestService.countAll());
+        Assert.assertEquals(1, requestService.countAll());
 
     }
 }

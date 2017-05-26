@@ -3,7 +3,6 @@ package com.technoserv.rest.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.technoserv.db.model.objectmodel.Document;
 
 import java.util.ArrayList;
 
@@ -31,27 +30,50 @@ public class CompareReport {
     private String webCamPictureURL;
 
 
-    public Double getPicSimilarity() {return picSimilarity;}
-    public void setPicSimilarity(Double picSimilarity) {this.picSimilarity = picSimilarity;}
-    public Double getPicSimilarityThreshold() {return picSimilarityThreshold;}
-    public void setPicSimilarityThreshold(Double picSimilarityThreshold) {this.picSimilarityThreshold = picSimilarityThreshold;}
+    public Double getPicSimilarity() {
+        return picSimilarity;
+    }
+
+    public void setPicSimilarity(Double picSimilarity) {
+        this.picSimilarity = picSimilarity;
+    }
+
+    public Double getPicSimilarityThreshold() {
+        return picSimilarityThreshold;
+    }
+
+    public void setPicSimilarityThreshold(Double picSimilarityThreshold) {
+        this.picSimilarityThreshold = picSimilarityThreshold;
+    }
+
     public CompareResponseDossierReport getSimilarPictures() {
         return similarPictures;
     }
-    public void setSimilarPictures(CompareResponseDossierReport similarPictures) {this.similarPictures = similarPictures;}
+
+    public void setSimilarPictures(CompareResponseDossierReport similarPictures) {
+        this.similarPictures = similarPictures;
+    }
+
     public CompareResponseDossierReport getOthernessPictures() {
         return othernessPictures;
     }
-    public void setOthernessPictures(CompareResponseDossierReport othernessPictures) {this.othernessPictures = othernessPictures;}
+
+    public void setOthernessPictures(CompareResponseDossierReport othernessPictures) {
+        this.othernessPictures = othernessPictures;
+    }
+
     public CompareResponsePictureReport getScannedPicture() {
         return scannedPicture;
     }
+
     public void setScannedPicture(CompareResponsePictureReport scannedPicture) {
         this.scannedPicture = scannedPicture;
     }
+
     public CompareResponsePictureReport getCameraPicture() {
         return cameraPicture;
     }
+
     public void setCameraPicture(CompareResponsePictureReport cameraPicture) {
         this.cameraPicture = cameraPicture;
     }
@@ -59,9 +81,11 @@ public class CompareReport {
     public ArrayList<CompareResponseRulesObject> getRules() {
         return Rules;
     }
+
     public void setRules(ArrayList<CompareResponseRulesObject> rules) {
         Rules = rules;
     }
+
     public Long getWfNumber() {
         return wfNumber;
     }
@@ -133,8 +157,9 @@ public class CompareReport {
     public void setWebCamPictureURL(String webCamPictureURL) {
         this.webCamPictureURL = webCamPictureURL;
     }
+
     @Override
     public String toString() {
-        return "CompareRequest  [scannedPicture=" + scannedPicture + ",cameraPicture="+cameraPicture+", Rules="+Rules+"]";
+        return "CompareRequest  [scannedPicture=" + scannedPicture + ",cameraPicture=" + cameraPicture + ", Rules=" + Rules + "]";
     }
 }

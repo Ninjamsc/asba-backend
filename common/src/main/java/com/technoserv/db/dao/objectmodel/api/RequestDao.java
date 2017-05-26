@@ -13,7 +13,9 @@ import java.util.List;
  */
 public interface RequestDao extends Dao<Long, Request> {
     Request findByOrderNumber(Long id);
+
     Collection<Request> findNotProcessed();
+
     Collection<Request> findByIin(Long id);
 
     List<Request> findByCriteria(RequestSearchCriteria criteria);

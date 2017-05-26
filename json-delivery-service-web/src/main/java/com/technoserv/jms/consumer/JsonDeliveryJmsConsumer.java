@@ -32,13 +32,13 @@ public class JsonDeliveryJmsConsumer {
     public int maxTryCount;
 
     public void onReceive(String message) {
-        if(!httpRestClient.put(message)) {
+        if (!httpRestClient.put(message)) {
             jmsTemplate.convertAndSend(new JsonDeliveryRetryMessage(message));
         }
     }
 
     public void onReceive(JsonDeliveryRetryMessage message) {
-        if(message.getTryCount()<=maxTryCount) {
+        if (message.getTryCount() <= maxTryCount) {
             if (!httpRestClient.put(message.getMessage())) {
                 message.incTryCount();
                 jmsTemplate.convertAndSend(message);
@@ -62,4 +62,4 @@ public class JsonDeliveryJmsConsumer {
         fileWriter.write(message.getMessage());
         fileWriter.close();
     }
- }
+}

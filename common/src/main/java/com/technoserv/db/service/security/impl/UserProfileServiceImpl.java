@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service("userProfileService")
 @Transactional
-public class UserProfileServiceImpl extends AbstractService<Integer,UserProfile,UserProfileDao> implements UserProfileService {
+public class UserProfileServiceImpl extends AbstractService<Integer, UserProfile, UserProfileDao> implements UserProfileService {
 
     @Autowired
     @Qualifier("userProfileDao")
@@ -25,7 +25,7 @@ public class UserProfileServiceImpl extends AbstractService<Integer,UserProfile,
         return dao.findById(id);
     }
 
-    public UserProfile findByType(String type){
+    public UserProfile findByType(String type) {
         return dao.findByType(type);
     }
 

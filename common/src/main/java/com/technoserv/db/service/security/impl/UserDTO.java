@@ -24,8 +24,8 @@ public class UserDTO implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
-        for(UserProfile userProfile : user.getUserProfiles()){
-            authorities.add(new SimpleGrantedAuthority("ROLE_"+userProfile.getType()));
+        for (UserProfile userProfile : user.getUserProfiles()) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + userProfile.getType()));
         }
         return authorities;
     }
@@ -57,10 +57,10 @@ public class UserDTO implements UserDetails {
     public boolean isAdmin() {
         boolean result = false;
         for (GrantedAuthority grantedAuthority : getAuthorities()) {
-            System.out.println("!!!!!!!"+grantedAuthority.getAuthority());
-            if(grantedAuthority.getAuthority().equalsIgnoreCase("ROLE_ADMIN"))
+            System.out.println("!!!!!!!" + grantedAuthority.getAuthority());
+            if (grantedAuthority.getAuthority().equalsIgnoreCase("ROLE_ADMIN"))
                 result = true;
-            if(grantedAuthority.getAuthority().equalsIgnoreCase("ROLE_WRITE"))
+            if (grantedAuthority.getAuthority().equalsIgnoreCase("ROLE_WRITE"))
                 result = true;
 
 

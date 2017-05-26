@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.technoserv</groupId>
-	<artifactId>technoserv-root</artifactId>
-	<version>1.0.0</version>
-	<packaging>pom</packaging>
+    <groupId>com.technoserv</groupId>
+    <artifactId>technoserv-root</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
 
-	<name>Root Module</name>
+    <name>Root Module</name>
 
     <modules>
         <module>common</module>
@@ -20,7 +20,7 @@
         <module>quality</module>
         <module>bridge</module>
         <module>image-storage</module>
-	    <module>admin</module>
+        <module>admin</module>
         <module>similarity</module>
 
         <!--<module>storage</module>-->
@@ -91,7 +91,7 @@
             <artifactId>jackson-annotations</artifactId>
             <version>2.8.1</version>
         </dependency>
-	 <dependency>
+        <dependency>
             <groupId>org.apache.tomcat.maven</groupId>
             <artifactId>tomcat7-maven-plugin</artifactId>
             <version>2.2</version>
@@ -149,27 +149,27 @@
         </profile>
         <profile>
             <id>tsi</id>
-		<build>
-		<plugins>
-            	    <plugin>
-                	<groupId>org.apache.tomcat.maven</groupId>
-                	<artifactId>tomcat7-maven-plugin</artifactId>
-                	<!-- Deploy to integration test server on Maven deploy -->
-                	<executions>
-                    	    <execution>
-                        	<id>deploy-to-integrationtest</id>
-                        	<goals>
-                            	    <goal>redeploy-only</goal>
-                        	</goals>
-                        	<phase>deploy</phase>
-                        	<configuration>
-                            	    <server>TomcatLocal</server>
-                        	</configuration>
-                    	    </execution>
-                	</executions>
-            	    </plugin>
-        	</plugins>
-		</build>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <!-- Deploy to integration test server on Maven deploy -->
+                        <executions>
+                            <execution>
+                                <id>deploy-to-integrationtest</id>
+                                <goals>
+                                    <goal>redeploy-only</goal>
+                                </goals>
+                                <phase>deploy</phase>
+                                <configuration>
+                                    <server>TomcatLocal</server>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>

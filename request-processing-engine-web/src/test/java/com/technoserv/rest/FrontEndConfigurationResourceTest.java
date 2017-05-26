@@ -1,9 +1,9 @@
 package com.technoserv.rest;
 
 
-import com.technoserv.rest.resource.FrontEndConfigurationResource;
 import com.technoserv.db.model.configuration.FrontEndConfiguration;
 import com.technoserv.db.service.configuration.api.FrontEndConfigurationService;
+import com.technoserv.rest.resource.FrontEndConfigurationResource;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;

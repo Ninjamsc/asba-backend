@@ -38,6 +38,6 @@ public class JsonDeliveryRetryMessage implements Serializable {
     }
 
     public void incTryCount() {
-        tryCount ++;
+        tryCount++;
     }
 }

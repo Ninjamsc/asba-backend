@@ -8,12 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.Serializable;
 import java.util.List;
 
-public abstract class AbstractService<ID extends Serializable,T extends BaseEntity<ID>, D extends Dao<ID,T>> implements Service<ID,T> {
+public abstract class AbstractService<ID extends Serializable, T extends BaseEntity<ID>, D extends Dao<ID, T>> implements Service<ID, T> {
 
     protected D dao;
 
     @Transactional(readOnly = true)
-    public T findById(ID id,String... properties) {
+    public T findById(ID id, String... properties) {
         T t = getDao().get(id);
         HibernateInitializer.initializeProperties(t, properties);
         return t;
@@ -58,14 +58,14 @@ public abstract class AbstractService<ID extends Serializable,T extends BaseEnti
         return dao;
     }
 
-	@Transactional(readOnly = true)
-	public int countAll() {
-		return dao.countAll();
-	}
+    @Transactional(readOnly = true)
+    public int countAll() {
+        return dao.countAll();
+    }
 
     @Transactional(readOnly = true)
-    public List<T> getAll(int page, int max,String... properties) {
-        List<T> result = dao.getAll(page,max);
+    public List<T> getAll(int page, int max, String... properties) {
+        List<T> result = dao.getAll(page, max);
         HibernateInitializer.initializeProperties(result, properties);
         return result;
     }

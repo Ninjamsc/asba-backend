@@ -1,8 +1,6 @@
 package com.technoserv.db.dao.objectmodel.api;
 
 import com.technoserv.db.dao.Dao;
-import com.technoserv.db.model.objectmodel.CompareResult;
-import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.model.objectmodel.SkudResult;
 
 import java.util.List;

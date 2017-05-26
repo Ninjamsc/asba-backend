@@ -1,7 +1,6 @@
 package com.technoserv.bio.kernel;
 
 import com.technoserv.rest.client.PhotoPersistServiceRestClient;
-import com.technoserv.rest.request.Base64Photo;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 

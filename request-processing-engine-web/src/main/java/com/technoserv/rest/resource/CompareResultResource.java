@@ -1,6 +1,5 @@
 package com.technoserv.rest.resource;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
@@ -39,7 +38,7 @@ public class CompareResultResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     @Path("/{id}") //id as wfm
     public Response find(@PathParam("id") Long id) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -48,8 +47,7 @@ public class CompareResultResource {
         CompareResult compareResult = compareResultService.findById(id);
         Request req = requestService.findByOrderNumber(id);
         CompareReport report = objectMapper.readValue(compareResult.getJson(), CompareReport.class);
-        if(req != null)
-        {
+        if (req != null) {
             Document camera = req.getCameraDocument();
             if (camera != null && camera.getOrigImageURL() != null)
                 report.getCameraPicture().setPictureURL(camera.getOrigImageURL());
@@ -60,7 +58,7 @@ public class CompareResultResource {
         }
 //        return compareResult !=null ? Response.ok(objectMapper.readValue(compareResult.getJson(),JsonNode.class)).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build()
 //        : Response.status(Response.Status.NOT_FOUND).build();
-        return compareResult !=null ? Response.ok(report).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build()
+        return compareResult != null ? Response.ok(report).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON + "; charset=UTF-8").build()
                 : Response.status(Response.Status.NOT_FOUND).build();
     }
 
@@ -69,10 +67,10 @@ public class CompareResultResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     public Response save(@PathParam("id") Long id, String json) {
         CompareResult result = compareResultService.findById(id);
-        if(result==null) {
+        if (result == null) {
             result = new CompareResult();
             result.setId(id);
         }
@@ -84,7 +82,7 @@ public class CompareResultResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     public List<CompareResult> getAll() {
         return compareResultService.getAll();
     }

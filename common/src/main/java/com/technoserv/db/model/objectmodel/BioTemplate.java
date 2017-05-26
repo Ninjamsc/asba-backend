@@ -8,7 +8,7 @@ import javax.persistence.*;
  * по которому этот шаблон построен
  */
 @Entity
-@Table(name="BIO_TEMPLATES")
+@Table(name = "BIO_TEMPLATES")
 public class BioTemplate extends AbstractObject {
 
     @ManyToOne

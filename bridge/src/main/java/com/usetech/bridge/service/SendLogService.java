@@ -4,5 +4,5 @@ package com.usetech.bridge.service;
 import com.usetech.bridge.bean.LogBean;
 
 public interface SendLogService {
-	public boolean send(LogBean var1);
+    public boolean send(LogBean var1);
 }

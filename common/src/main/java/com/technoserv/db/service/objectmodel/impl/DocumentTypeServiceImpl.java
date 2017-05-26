@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by sergey on 23.11.2016.
  */
 @Service
-public class DocumentTypeServiceImpl extends AbstractService<Long, DocumentType,DocumentTypeDao> implements DocumentTypeService {
+public class DocumentTypeServiceImpl extends AbstractService<Long, DocumentType, DocumentTypeDao> implements DocumentTypeService {
     @Override
     @Autowired
     @Qualifier("documentTypeDao")

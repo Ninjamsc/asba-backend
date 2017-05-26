@@ -13,10 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-
 @Service("userService")
 @Transactional
-public class UserServiceImpl extends AbstractService<Integer,User,UserDao> implements UserService {
+public class UserServiceImpl extends AbstractService<Integer, User, UserDao> implements UserService {
 
     @Autowired
     @Qualifier("userDao")
@@ -50,9 +49,9 @@ public class UserServiceImpl extends AbstractService<Integer,User,UserDao> imple
      */
     public void updateUser(User user) {
         User entity = dao.findById(user.getId());
-        if(entity!=null){
+        if (entity != null) {
             entity.setSsoId(user.getSsoId());
-            if(!user.getPassword().equals(entity.getPassword())){
+            if (!user.getPassword().equals(entity.getPassword())) {
                 //TODO entity.setPassword(passwordEncoder.encode(user.getPassword()));
                 entity.setPassword(user.getPassword());
             }
@@ -74,7 +73,7 @@ public class UserServiceImpl extends AbstractService<Integer,User,UserDao> imple
 
     public boolean isUserSSOUnique(Integer id, String sso) {
         User user = findBySSO(sso);
-        return ( user == null || ((id != null) && (user.getId() == id)));
+        return (user == null || ((id != null) && (user.getId() == id)));
     }
 
 }

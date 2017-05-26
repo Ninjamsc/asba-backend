@@ -2,27 +2,21 @@ package com.technoserv.db.model.security;
 
 import com.technoserv.db.model.BaseEntity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 @Entity
-@Table(name="PERSISTENT_LOGINS")
-public class PersistentLogin extends BaseEntity<String> implements Serializable{
+@Table(name = "PERSISTENT_LOGINS")
+public class PersistentLogin extends BaseEntity<String> implements Serializable {
 
     @Id
     private String series;
 
-    @Column(name="USERNAME", unique=true, nullable=false)
+    @Column(name = "USERNAME", unique = true, nullable = false)
     private String username;
 
-    @Column(name="TOKEN", unique=true, nullable=false)
+    @Column(name = "TOKEN", unique = true, nullable = false)
     private String token;
 
     @Temporal(TemporalType.TIMESTAMP)

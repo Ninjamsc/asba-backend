@@ -98,7 +98,7 @@
             <scope>test</scope>
         </dependency>
 
-      </dependencies>
+    </dependencies>
 
     <build>
         <pluginManagement>
@@ -125,14 +125,14 @@
                 </plugin>
 
                 <!--<plugin>-->
-                    <!--<groupId>org.apache.tomcat.maven</groupId>-->
-                    <!--<artifactId>tomcat7-maven-plugin</artifactId>-->
-                    <!--<version>2.2</version>-->
-                    <!--<configuration>-->
-                        <!--<url>http://localhost:8080/</url>-->
-                        <!--<server>tomcat</server>-->
-                        <!--<path>/${project.name}</path>-->
-                    <!--</configuration>-->
+                <!--<groupId>org.apache.tomcat.maven</groupId>-->
+                <!--<artifactId>tomcat7-maven-plugin</artifactId>-->
+                <!--<version>2.2</version>-->
+                <!--<configuration>-->
+                <!--<url>http://localhost:8080/</url>-->
+                <!--<server>tomcat</server>-->
+                <!--<path>/${project.name}</path>-->
+                <!--</configuration>-->
                 <!--</plugin>-->
             </plugins>
         </pluginManagement>

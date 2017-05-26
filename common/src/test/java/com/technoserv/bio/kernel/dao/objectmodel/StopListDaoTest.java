@@ -40,10 +40,12 @@ public class StopListDaoTest {
     DocumentTypeDao documentTypeDao;
 
     @Before
-    public void setUp(){}
+    public void setUp() {
+    }
 
     @After
-    public void tearDown(){}
+    public void tearDown() {
+    }
 
     @Test
     public void createStopList() throws Exception {
@@ -94,6 +96,6 @@ public class StopListDaoTest {
         dao.saveOrUpdate(entity2);
 
 
-        Assert.assertEquals(2,dao.countAll());
+        Assert.assertEquals(2, dao.countAll());
     }
 }

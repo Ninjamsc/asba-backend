@@ -32,10 +32,12 @@ public class RequestDaoTest {
     PersonDao personDao;
 
     @Before
-    public void setUp(){}
+    public void setUp() {
+    }
 
     @After
-    public void tearDown(){}
+    public void tearDown() {
+    }
 
     @Test
     public void createRequest() throws Exception {
@@ -96,7 +98,7 @@ public class RequestDaoTest {
         Assert.assertEquals(111L, result.getId().longValue());
     }
 
-    public static Request generateRequest(){
+    public static Request generateRequest() {
         Request result = new Request();
         result.setId(1L);
         result.setInsUser("1");

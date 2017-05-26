@@ -7,5 +7,5 @@ import com.technoserv.db.service.Service;
 /**
  * Created by sergey on 15.11.2016.
  */
-public interface FrontEndConfigurationService extends Service<Long,FrontEndConfiguration> {
+public interface FrontEndConfigurationService extends Service<Long, FrontEndConfiguration> {
 }

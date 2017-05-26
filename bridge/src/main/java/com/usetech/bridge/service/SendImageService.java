@@ -4,5 +4,5 @@ package com.usetech.bridge.service;
 import com.usetech.bridge.bean.FrameBean;
 
 public interface SendImageService {
-	public boolean send(FrameBean var1);
+    public boolean send(FrameBean var1);
 }

@@ -3,16 +3,16 @@ package com.technoserv.bio.kernel;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.technoserv.rest.client.CompareServiceRestClient;
-import com.technoserv.rest.client.PhotoAnalyzerServiceRestClient;
 import com.technoserv.db.model.configuration.SystemSettingsType;
 import com.technoserv.db.model.objectmodel.*;
 import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
 import com.technoserv.db.service.objectmodel.api.*;
+import com.technoserv.rest.client.CompareServiceRestClient;
+import com.technoserv.rest.client.PhotoAnalyzerServiceRestClient;
+import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
 import com.technoserv.rest.exception.RestClientException;
 import com.technoserv.rest.request.CompareServiceRequest;
-import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import com.technoserv.rest.request.PhotoTemplate;
 import com.technoserv.utils.JsonUtils;
 import org.apache.commons.logging.Log;
@@ -70,7 +70,8 @@ public class RequestProcessor {
 
     private SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
-    public RequestProcessor() {}
+    public RequestProcessor() {
+    }
 
 
     public Collection<Request> findRequestForProcessing() {
@@ -131,12 +132,12 @@ public class RequestProcessor {
                 compareServiceRequest.setScanFullFrameURL(request.getScannedDocument().getOrigImageURL());
                 compareServiceRequest.setScanPreviewURL(request.getScannedDocument().getFaceSquare());
 
-                if(scannedTemplate!=null) {
+                if (scannedTemplate != null) {
                     compareServiceRequest.setScanTemplate(scannedTemplate.template);
                 } else {
                     compareServiceRequest.setScanTemplate(new double[]{});
                 }
-                if(webCamTemplate!=null) {
+                if (webCamTemplate != null) {
                     compareServiceRequest.setWebTemplate(webCamTemplate.template);
                 } else {
                     compareServiceRequest.setWebTemplate(new double[]{});
@@ -144,7 +145,7 @@ public class RequestProcessor {
                 String compareResult = сompareServiceRestClient.compare(compareServiceRequest);
                 String jsonResult = enrich(compareResult, request);
                 compareResultService.saveOrUpdate(new CompareResult(request.getId(), jsonResult));
-                if(isNeedToSentToWorkflowQueue()) {
+                if (isNeedToSentToWorkflowQueue()) {
                     jmsTemplate.convertAndSend(jsonResult);
                 }
                 writeLog("Send compareServiceRequest Done");
@@ -156,7 +157,7 @@ public class RequestProcessor {
                 writeLog("Update request status to FAILED for id = '" + request.getId() + "'");
                 updateRequestStatus(request, Request.Status.FAILED);
                 writeLog("Update request status to FAILED for id = '" + request.getId() + "' Done");
-                if(isNeedToSentToWorkflowQueue()) {
+                if (isNeedToSentToWorkflowQueue()) {
                     jmsTemplate.convertAndSend(ex.toJSON());
                 }
             } catch (Throwable e) {
@@ -168,13 +169,13 @@ public class RequestProcessor {
         }
     }
 
-    private boolean isNeedToSentToWorkflowQueue () {
+    private boolean isNeedToSentToWorkflowQueue() {
         return "true".equalsIgnoreCase(systemSettingsBean.get(SystemSettingsType.SEND_TO_WORKFLOW_QUEUE));
     }
 
     protected String enrich(String compareResult, Request request) throws Exception {
         writeLog("compareServiceRequest - scannedTemplate +  webCamTemplate Done: " + new String(compareResult.getBytes()));
-        JsonNode  result = objectMapper.readValue(compareResult, JsonNode.class);
+        JsonNode result = objectMapper.readValue(compareResult, JsonNode.class);
         Long iin = request.getPerson().getId();
         Long wfm = request.getId();
         ((ObjectNode) result).put("wfNumber", wfm);
@@ -189,11 +190,11 @@ public class RequestProcessor {
                 ((ObjectNode) result).put("webCamPictureURL", request.getCameraDocument().getFaceSquare());
                 ((ObjectNode) result).put("webCamPicturePreviewURL", request.getCameraDocument().getOrigImageURL());
 */
-        if(request.getScannedDocument().getOrigImageURL() != null)
-        ((ObjectNode) result).put("scannedPictureURL", request.getScannedDocument().getOrigImageURL());
+        if (request.getScannedDocument().getOrigImageURL() != null)
+            ((ObjectNode) result).put("scannedPictureURL", request.getScannedDocument().getOrigImageURL());
         ((ObjectNode) result).put("scannedPicturePreviewURL", request.getScannedDocument().getFaceSquare());
-        if(request.getCameraDocument().getOrigImageURL() != null)
-        ((ObjectNode) result).put("webCamPictureURL", request.getCameraDocument().getOrigImageURL());
+        if (request.getCameraDocument().getOrigImageURL() != null)
+            ((ObjectNode) result).put("webCamPictureURL", request.getCameraDocument().getOrigImageURL());
         ((ObjectNode) result).put("webCamPicturePreviewURL", request.getCameraDocument().getFaceSquare());
 
         writeLog("Send compareServiceRequest");
@@ -204,7 +205,7 @@ public class RequestProcessor {
     }
 
     private void addBioTemplateToDocument(Request request, Document document, PhotoTemplate scannedTemplate) throws IOException {
-        if(scannedTemplate==null) {
+        if (scannedTemplate == null) {
             return;
         }
         BioTemplate bioTemplate = new BioTemplate();

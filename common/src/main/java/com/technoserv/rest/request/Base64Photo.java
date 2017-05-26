@@ -3,6 +3,7 @@ package com.technoserv.rest.request;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+
 import org.apache.commons.codec.binary.Base64;
 
 /**
@@ -12,10 +13,13 @@ import org.apache.commons.codec.binary.Base64;
  */
 public class Base64Photo {
 
-    /** base46 encoded изображение */
+    /**
+     * base46 encoded изображение
+     */
     public String photo;
 
-    public Base64Photo() {}
+    public Base64Photo() {
+    }
 
     public Base64Photo(byte[] imageByteArray) {
         StringBuilder sb = new StringBuilder();

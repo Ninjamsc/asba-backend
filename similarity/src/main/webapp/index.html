@@ -9,8 +9,8 @@
     <script src="js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-			
-	<link rel="stylesheet" href="similarity.css">
+
+    <link rel="stylesheet" href="similarity.css">
     <script src="similarity.js"></script>
     <!--<script src="js/jquery.facedetection.min.js"></script>-->
 </head>
@@ -18,28 +18,29 @@
 <body>
 
 <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand technoserv-logo" href="#">
-        <img alt="Техносерв" src="assets/ts_logo_grafit_ru.png">
-      </a>
-    </div>
-
-
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Сервис верификации лиц по фотографиям (powered by Tevian)</a>
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand technoserv-logo" href="#">
+                <img alt="Техносерв" src="assets/ts_logo_grafit_ru.png">
+            </a>
         </div>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Сервис верификации лиц по фотографиям (powered by Tevian)</a>
+            </div>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
 </nav>
 
 <div class="face-detection" id="face1"></div>
@@ -56,29 +57,30 @@
                 <div class="panel-body">
                     <label for="photo-loader1" class="file-loader-label">
                         <span class="face-placeholder" id="placeholder1">
-                            <span class="glyphicon glyphicon-user gray-face center-block text-center" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-user gray-face center-block text-center"
+                                  aria-hidden="true"></span>
                         </span>
                         <img class="face-image" id="image1"
-                            onload="onImageLoaded(1)" onerror="onImageLoadingError(1)">
+                             onload="onImageLoaded(1)" onerror="onImageLoadingError(1)">
                     </label>
                 </div>
-				<div class="panel-footer clearfix">
+                <div class="panel-footer clearfix">
                     <label for="photo-loader1" class="file-loader-label-footer pull-right">
                         <!--<span class="input-group">
                             <input type="text" class="form-control file-input-name"
                                 placeholder="Загрузите файл" id="file-input1">
                             <span class="input-group-btn">-->
-                                <span class="btn btn-default"
-                                    data-toggle="tooltip" data-placement="bottom"
-                                    title="Выбрать файл для загрузки">
+                        <span class="btn btn-default"
+                              data-toggle="tooltip" data-placement="bottom"
+                              title="Выбрать файл для загрузки">
                                     <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
                                      Загрузить фото
                                 </span>
-                            <!--</span>
-                        </span>-->
+                        <!--</span>
+                    </span>-->
                     </label>
                     <input type="file" id="photo-loader1" class="photo-loader"
-                        accept="image/jpeg,image/png,image/gif" onchange="LoadImageFromPC(event, 1)">
+                           accept="image/jpeg,image/png,image/gif" onchange="LoadImageFromPC(event, 1)">
                 </div>
             </div>
         </div>
@@ -87,38 +89,39 @@
                 <div class="panel-body">
                     <label for="photo-loader2" class="file-loader-label">
                         <span class="face-placeholder" id="placeholder2">
-                            <span class="glyphicon glyphicon-user gray-face center-block text-center" aria-hidden="true"></span>
+                            <span class="glyphicon glyphicon-user gray-face center-block text-center"
+                                  aria-hidden="true"></span>
                         </span>
                         <img class="face-image" id="image2"
-                            onload="onImageLoaded(2)"  onerror="onImageLoadingError(2)">
+                             onload="onImageLoaded(2)" onerror="onImageLoadingError(2)">
                     </label>
                 </div>
-				<div class="panel-footer clearfix">
+                <div class="panel-footer clearfix">
                     <label for="photo-loader2" class="file-loader-label-footer pull-right">
                         <!--<span class="input-group">
                             <input type="text" class="form-control file-input-name"
                                 placeholder="Загрузите файл" id="file-input2">
                             <span class="input-group-btn">-->
-                                <span class="btn btn-default"
-                                    data-toggle="tooltip" data-placement="bottom"
-                                    title="Выбрать файл для загрузки">
+                        <span class="btn btn-default"
+                              data-toggle="tooltip" data-placement="bottom"
+                              title="Выбрать файл для загрузки">
                                     <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
                                      Загрузить фото
                                 </span>
-                            <!--</span>
-                        </span>-->
+                        <!--</span>
+                    </span>-->
                     </label>
                     <input type="file" id="photo-loader2" class="photo-loader"
-                        accept="image/jpeg,image/png,image/gif" onchange="LoadImageFromPC(event, 2)">
+                           accept="image/jpeg,image/png,image/gif" onchange="LoadImageFromPC(event, 2)">
                 </div>
             </div>
         </div>
     </div>
 
     <button id="submit-button" class="btn btn-lg btn-primary" disabled
-        type="button" onclick="SubmitPhotos()">
+            type="button" onclick="SubmitPhotos()">
 
-        <span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span> 
+        <span class="glyphicon glyphicon-duplicate" aria-hidden="true"></span>
         Получить результат сравнения
     </button>
 

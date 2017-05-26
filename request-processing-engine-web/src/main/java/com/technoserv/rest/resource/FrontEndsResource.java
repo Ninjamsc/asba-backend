@@ -32,7 +32,7 @@ public class FrontEndsResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     public Collection<FrontEnd> list() {
         return frontEndsService.getAll();
     }
@@ -40,16 +40,16 @@ public class FrontEndsResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     public Response add(FrontEnd entity) {
-        System.out.println("++++++++++++++++++FrontEnd="+entity);
+        System.out.println("++++++++++++++++++FrontEnd=" + entity);
 
         // check registered number
         int total = frontEndsService.getAll().size();
-        System.out.println("++++++++++++++++++total = "+total + " MAX_REGISETED_CLIENTS_NUMBER="+MAX_REGISETED_CLIENTS_NUMBER);
+        System.out.println("++++++++++++++++++total = " + total + " MAX_REGISETED_CLIENTS_NUMBER=" + MAX_REGISETED_CLIENTS_NUMBER);
         // check already exists
         FrontEnd clientByWorkstationName = frontEndsService.findByWorkstationName(entity.getWorkstationName());
-        FrontEnd clientByUuid= frontEndsService.findByUuid(entity.getUuid());
+        FrontEnd clientByUuid = frontEndsService.findByUuid(entity.getUuid());
 
         //uuid УНИКАЛЕН! В случае не совпадения НАСТОЯЩЕГО юзера с ЮЗЕРОМ из БД возможно лишь изменить запись
         if (clientByWorkstationName == null && clientByUuid == null) { //Если ни станции ни ключа машины не найдено, то смело пишем новую регистрацию
@@ -65,7 +65,7 @@ public class FrontEndsResource {
                 Получилось что по отдельности мы находим либо человека, либо его АРМ. Поэтому было решено при наличии машины в нашей БД, но новом юзере или WorkstationName на ней
                 перезаписываем регистрационную запись для этого компьютера.
              */
-            if(clientByUuid != null){
+            if (clientByUuid != null) {
                 //clientByUuid.setUuid(entity.getUuid());
                 clientByUuid.setWorkstationName(entity.getWorkstationName());
                 clientByUuid.setOsVersion(entity.getOsVersion());
@@ -74,16 +74,16 @@ public class FrontEndsResource {
                 frontEndsService.update(clientByUuid);
                 return Response.status(Response.Status.CREATED).build();
             } else if (clientByWorkstationName == null || clientByUuid == null) {
-                    Response.ResponseBuilder responseBuilder = Response.status(Response.Status.NOT_ACCEPTABLE);
-                    String message = String.format("Can't register workstation: workstationName %s found, uuid %s found",
-                            clientByWorkstationName == null ? "NOT" : "",
-                            clientByUuid == null ? "NOT" : "");
-                    responseBuilder.entity(new ErrorBean(message));
-                    log.error(message);
-                    return responseBuilder.build();
-                } else {
-                    return Response.status(Response.Status.ACCEPTED).build();
-                }
+                Response.ResponseBuilder responseBuilder = Response.status(Response.Status.NOT_ACCEPTABLE);
+                String message = String.format("Can't register workstation: workstationName %s found, uuid %s found",
+                        clientByWorkstationName == null ? "NOT" : "",
+                        clientByUuid == null ? "NOT" : "");
+                responseBuilder.entity(new ErrorBean(message));
+                log.error(message);
+                return responseBuilder.build();
+            } else {
+                return Response.status(Response.Status.ACCEPTED).build();
+            }
         }
     }
 

@@ -18,26 +18,24 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service("customUserDetailsService")
-public class CustomUserDetailsService implements UserDetailsService{
+public class CustomUserDetailsService implements UserDetailsService {
 
     static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
     @Autowired
     private UserService userService;
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String ssoId)
             throws UsernameNotFoundException {
         User user = userService.findBySSO(ssoId);
         logger.info("User : {}", user);
-        if(user==null){
+        if (user == null) {
             logger.info("User not found");
             throw new UsernameNotFoundException("Username not found");
         }
         return new UserDTO(user);
     }
-
-
 
 
 }

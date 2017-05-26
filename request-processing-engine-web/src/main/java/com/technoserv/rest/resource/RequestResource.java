@@ -3,12 +3,9 @@ package com.technoserv.rest.resource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
-import com.technoserv.db.model.objectmodel.Document;
 import com.technoserv.db.model.objectmodel.DocumentType;
 import com.technoserv.db.model.objectmodel.Person;
 import com.technoserv.db.model.objectmodel.Request;
-import com.technoserv.db.service.objectmodel.api.DocumentService;
-import com.technoserv.db.service.objectmodel.api.DocumentTypeService;
 import com.technoserv.db.service.objectmodel.api.PersonService;
 import com.technoserv.db.service.objectmodel.api.RequestService;
 import com.technoserv.rest.request.RequestSearchCriteria;
@@ -45,6 +42,7 @@ public class RequestResource {
         public String getComment() {
             return comment;
         }
+
         public void setComment(String comment) {
             this.comment = comment;
         }
@@ -52,6 +50,7 @@ public class RequestResource {
         public Long getIin() {
             return iin;
         }
+
         public void setIin(Long iin) {
             this.iin = iin;
         }
@@ -59,6 +58,7 @@ public class RequestResource {
         public Long getWfmId() {
             return wfmId;
         }
+
         public void setWfmId(Long wfmId) {
             this.wfmId = wfmId;
         }
@@ -66,6 +66,7 @@ public class RequestResource {
         public String getUsername() {
             return username;
         }
+
         public void setUsername(String username) {
             this.username = username;
         }
@@ -234,13 +235,14 @@ public class RequestResource {
 
     /**
      * Получить заявку по номеру в Workflow (wfmId)
+     *
      * @param wfmId
      * @return
      */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     @Path("/lists/rest/dossier/{wfmId}")
     public GetRequestResponse get(@PathParam("wfmId") Long wfmId) {
 
@@ -265,6 +267,7 @@ public class RequestResource {
 
     /**
      * Создание заявки. Инициатор создания - Сервис обработки
+     *
      * @param createOrderRequest
      * @return
      */
@@ -272,7 +275,7 @@ public class RequestResource {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     @Path("/db/rest/request/")
     public Long add(CreateOrderRequest createOrderRequest) {
         return requestService.createOrder(createOrderRequest.getIin(),
@@ -282,13 +285,14 @@ public class RequestResource {
 
     /**
      * Добавление к заявке фотографий, полученных со сканера
+     *
      * @param addScanPhotoRequest
      * @return
      */
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     @Path("/db/rest/request/{wfmId}/scan")
     public Response updateScan(@PathParam("wfmId") Long wfmId, AddScanPhotoRequest addScanPhotoRequest) {
         requestService.updateDocument(wfmId, addScanPhotoRequest.getPreviewURL(),
@@ -297,12 +301,12 @@ public class RequestResource {
     }
 
     /**
-     *  Добавление к заявке фотографий,полученных с веб-камеры
+     * Добавление к заявке фотографий,полученных с веб-камеры
      */
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     @Path("/db/rest/request/{wfmId}/fullframe")
     public Response updateWebCamPicture(@PathParam("wfmId") Long wfmId, AddScanPhotoRequest addScanPhotoRequest) {
         requestService.updateDocument(wfmId, addScanPhotoRequest.getPreviewURL(),

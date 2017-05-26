@@ -25,7 +25,8 @@ public class CompareResourceTest {
     private static Long WFM = 1L;
 
     public void setUp() throws Exception {
-        String json = TestUtils.readFile("compare-result-view.json");;
+        String json = TestUtils.readFile("compare-result-view.json");
+        ;
         CompareResult compareResult = new CompareResult(WFM, json);
         compareResultService.save(compareResult);
     }
@@ -39,7 +40,7 @@ public class CompareResourceTest {
 
     @Test
     public void find404Test() throws Exception {
-        int status = compareResultResource.find(WFM  +1).getStatus();
+        int status = compareResultResource.find(WFM + 1).getStatus();
         Assert.assertEquals(404, status);
     }
 }

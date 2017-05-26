@@ -7,6 +7,6 @@ import com.technoserv.db.model.objectmodel.Person;
 /**
  * Created by sergey on 15.11.2016.
  */
-public interface PersonDao extends Dao<Long,Person> {
+public interface PersonDao extends Dao<Long, Person> {
     Person history(Long iin);
 }

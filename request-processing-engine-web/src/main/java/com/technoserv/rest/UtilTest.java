@@ -59,7 +59,7 @@ public class UtilTest {
         System.out.println(problem);
     }
 
-    private static class Response{
+    private static class Response {
         public int version;
         public double[] template;
     }

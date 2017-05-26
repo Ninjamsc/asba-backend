@@ -6,5 +6,5 @@ import com.technoserv.db.service.Service;
 /**
  * Created by sergey on 23.11.2016.
  */
-public interface BioTemplateVersionService extends Service<Long, BioTemplateVersion>{
+public interface BioTemplateVersionService extends Service<Long, BioTemplateVersion> {
 }

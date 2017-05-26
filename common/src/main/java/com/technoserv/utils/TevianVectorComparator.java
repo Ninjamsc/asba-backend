@@ -21,10 +21,10 @@ public class TevianVectorComparator {
     }*/
 
 
-    public static double calculateSimilarityCliWrapper(String base64Vector1, String base64Vector2, String version){
+    public static double calculateSimilarityCliWrapper(String base64Vector1, String base64Vector2, String version) {
         double result = 0;
         try {
-            String command = String.format("/bin/bash /opt/biometrics/run-tevian.sh %s %s",base64Vector1,base64Vector2);
+            String command = String.format("/bin/bash /opt/biometrics/run-tevian.sh %s %s", base64Vector1, base64Vector2);
             Process p = Runtime.getRuntime().exec(command);
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line = null;
@@ -41,12 +41,12 @@ public class TevianVectorComparator {
 
     public static double calculateSimilarityWrapper(double[] vector1, double[] vector2) {
         byte[] vector1bytes = getByteArrayFromVector(vector1), vector2bytes = getByteArrayFromVector(vector2);
-        return calculateSimilarity(vector1bytes,vector2bytes,"1");
+        return calculateSimilarity(vector1bytes, vector2bytes, "1");
     }
 
     public static native float calculateSimilarity(byte[] binVector1, byte[] binVector2, String version);
 
-    public static byte[]  getByteArrayFromVector(double[] vector) {
+    public static byte[] getByteArrayFromVector(double[] vector) {
         byte[] result = new byte[vector.length * 4];
         for (int i = 0; i < vector.length; i++) {
             double d = vector[i];
