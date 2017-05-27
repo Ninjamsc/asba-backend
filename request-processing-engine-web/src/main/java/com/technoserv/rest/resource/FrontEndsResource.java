@@ -23,7 +23,7 @@ public class FrontEndsResource {
 
     private static final Log log = LogFactory.getLog(FrontEndsResource.class);
 
-    private static final int MAX_REGISETED_CLIENTS_NUMBER = 800;
+    private static final int MAX_REGISTERED_CLIENTS_NUMBER = 850;
 
     @Autowired
     private FrontEndsService frontEndsService;
@@ -46,14 +46,14 @@ public class FrontEndsResource {
 
         // check registered number
         int total = frontEndsService.getAll().size();
-        System.out.println("++++++++++++++++++total = " + total + " MAX_REGISETED_CLIENTS_NUMBER=" + MAX_REGISETED_CLIENTS_NUMBER);
+        System.out.println("++++++++++++++++++total = " + total + " MAX_REGISTERED_CLIENTS_NUMBER=" + MAX_REGISTERED_CLIENTS_NUMBER);
         // check already exists
         FrontEnd clientByWorkstationName = frontEndsService.findByWorkstationName(entity.getWorkstationName());
         FrontEnd clientByUuid = frontEndsService.findByUuid(entity.getUuid());
 
         //uuid УНИКАЛЕН! В случае не совпадения НАСТОЯЩЕГО юзера с ЮЗЕРОМ из БД возможно лишь изменить запись
         if (clientByWorkstationName == null && clientByUuid == null) { //Если ни станции ни ключа машины не найдено, то смело пишем новую регистрацию
-            if (total < MAX_REGISETED_CLIENTS_NUMBER) {
+            if (total < MAX_REGISTERED_CLIENTS_NUMBER) {
                 frontEndsService.save(entity);
                 return Response.status(Response.Status.CREATED).build();
             } else {
