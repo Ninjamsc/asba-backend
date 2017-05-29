@@ -1,9 +1,13 @@
 package com.technoserv.rest.model;
 
+import com.google.common.base.MoreObjects;
+
 public class CompareResponsePhotoObject {
 
     private String url;
+
     private double similarity;
+
     private Long identity;
 
 
@@ -29,5 +33,14 @@ public class CompareResponsePhotoObject {
 
     public void setSimilarity(double similarity) {
         this.similarity = similarity;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("url", url)
+                .add("similarity", similarity)
+                .add("identity", identity)
+                .toString();
     }
 }

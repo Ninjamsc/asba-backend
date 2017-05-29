@@ -131,7 +131,7 @@ public class SkudCompareListManager implements InitializingBean {
             List<CompareServiceStopListVector> vectors = list.getVectors();
             for (CompareServiceStopListVector vect : vectors) {
                 /*ArrayRealVector diff =arv.subtract(vect.getVector());
-				double dot = diff.dotProduct(diff);
+                double dot = diff.dotProduct(diff);
 				double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
                 double norm = wrapSimilarityCalculation(arv, vect.getVector());
 

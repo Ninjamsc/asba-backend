@@ -1,13 +1,14 @@
 package com.technoserv.rest.model;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
+import com.google.common.base.MoreObjects;
+
+import java.util.List;
 
 public class CompareResponseDossierReport {
 
-    private ArrayList<CompareResponsePhotoObject> photos;
-    private Double similarity;
+    private List<CompareResponsePhotoObject> photos;
 
+    private Double similarity;
 
     public Double getSimilarity() {
         return similarity;
@@ -17,16 +18,19 @@ public class CompareResponseDossierReport {
         this.similarity = similarity;
     }
 
-    public ArrayList<CompareResponsePhotoObject> getPhotos() {
+    public List<CompareResponsePhotoObject> getPhotos() {
         return photos;
     }
 
-    public void setPhotos(ArrayList<CompareResponsePhotoObject> photos) {
+    public void setPhotos(List<CompareResponsePhotoObject> photos) {
         this.photos = photos;
     }
 
     @Override
     public String toString() {
-        return "CompareResponseDossierReport  [photos=" + photos + "]";
+        return MoreObjects.toStringHelper(this)
+                .add("photos", photos)
+                .add("similarity", similarity)
+                .toString();
     }
 }

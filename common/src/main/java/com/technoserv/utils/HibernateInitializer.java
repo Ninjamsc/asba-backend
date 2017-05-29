@@ -21,7 +21,6 @@ import java.util.StringTokenizer;
  */
 public final class HibernateInitializer {
 
-
     // todo: it's possible to add optimization for properties[n] n>2, to avoid count to call reflection methods and hibernate.initialize.
 
     public static void initializeProperties(Object entity_or_collection, String... properties) {

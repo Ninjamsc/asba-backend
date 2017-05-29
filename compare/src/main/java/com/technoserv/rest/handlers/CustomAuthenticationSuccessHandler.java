@@ -32,8 +32,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         clearAuthenticationAttributes(request);
     }
 
-    protected void handle(HttpServletRequest request,
-                          HttpServletResponse response, Authentication authentication) throws IOException {
+    protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+            throws IOException {
+
         String targetUrl = determineTargetUrl(authentication);
 
         if (response.isCommitted()) {

@@ -1,12 +1,14 @@
 package com.technoserv.rest.comparator;
 
+import com.google.common.base.MoreObjects;
+
 public class RuleResult {
 
     private boolean fired; // if true, rule is fired
-    private String ruleId;
-    private String ruleDescription;
-    //ArrayList<CompareResponsePhotoObject> photos;
 
+    private String ruleId;
+
+    private String ruleDescription;
 
     public RuleResult() {
 
@@ -34,5 +36,14 @@ public class RuleResult {
 
     public void setRuleDescription(String ruleDescription) {
         this.ruleDescription = ruleDescription;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("fired", fired)
+                .add("ruleId", ruleId)
+                .add("ruleDescription", ruleDescription)
+                .toString();
     }
 }

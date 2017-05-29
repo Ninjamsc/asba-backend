@@ -15,9 +15,9 @@ import com.technoserv.rest.request.PhotoTemplate;
 import com.technoserv.utils.JsonUtils;
 import com.technoserv.utils.TevianVectorComparator;
 import io.swagger.annotations.Api;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math3.linear.ArrayRealVector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,7 +37,7 @@ import java.util.*;
 @Api(value = "Compare")
 public class CompareResource extends BaseResource<Long, StopList> implements InitializingBean {
 
-    private static final Log log = LogFactory.getLog(CompareResource.class);
+    private static final Logger log = LoggerFactory.getLogger(CompareResource.class);
 
     @Autowired
     private CompareListManager listManager;
@@ -275,7 +275,7 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
             }
             log.debug("compareImages 5.");
         } catch (Exception e) {
-            log.error(e);
+            log.error("Can't compare images.", e);
             throw new WebApplicationException(e, Response.Status.INTERNAL_SERVER_ERROR);
         }
         try {

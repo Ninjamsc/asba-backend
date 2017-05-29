@@ -20,7 +20,6 @@ public class TevianVectorComparator {
         }
     }*/
 
-
     public static double calculateSimilarityCliWrapper(String base64Vector1, String base64Vector2, String version) {
         double result = 0;
         try {
@@ -37,7 +36,6 @@ public class TevianVectorComparator {
         }
         return result;
     }
-
 
     public static double calculateSimilarityWrapper(double[] vector1, double[] vector2) {
         byte[] vector1bytes = getByteArrayFromVector(vector1), vector2bytes = getByteArrayFromVector(vector2);

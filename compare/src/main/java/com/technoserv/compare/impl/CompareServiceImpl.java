@@ -8,14 +8,14 @@ import com.technoserv.db.service.objectmodel.api.DocumentService;
 import com.technoserv.db.service.objectmodel.api.StopListService;
 import com.technoserv.rest.comparator.CompareServiceStopListElement;
 import com.technoserv.rest.comparator.CompareServiceStopListVector;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by mlevitin on 17.01.17.
@@ -23,7 +23,7 @@ import java.util.List;
 @Component
 public abstract class CompareServiceImpl implements CompareService {
 
-    private static final Log log = LogFactory.getLog(CompareServiceImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(CompareServiceImpl.class);
 
     private SystemSettingsBean systemSettingsBean;
 
@@ -43,7 +43,7 @@ public abstract class CompareServiceImpl implements CompareService {
     }
 
     // map of stopLists which this service controls
-    private HashMap<Long, CompareServiceStopListElement> managedStopLists;
+    private Map<Long, CompareServiceStopListElement> managedStopLists;
 
     private String listType;
 
@@ -63,7 +63,7 @@ public abstract class CompareServiceImpl implements CompareService {
     }
 
     public void delStopList(Long listId) {
-        log.info(String.format("delStopList listId: %d", listId));
+        log.info("delStopList listId: {}", listId);
         if (managedStopLists.get(listId) == null) {
             log.warn("list id=" + listId + " is absent");
             return;
@@ -72,7 +72,7 @@ public abstract class CompareServiceImpl implements CompareService {
     }
 
     public boolean addList(StopList list) {
-        log.debug(String.format("addList list: %s", list));
+        log.debug("addList list: {}", list);
 
         if (list == null) return false;
         CompareServiceStopListElement stopListElement = new CompareServiceStopListElement(
@@ -93,7 +93,7 @@ public abstract class CompareServiceImpl implements CompareService {
     }
 
     public void delStopListElement(Long listId, Long listElementId) {
-        log.info(String.format("delStopListElement removing element: %d from list: %d", listElementId, listId));
+        log.info("delStopListElement removing element: {}from list: {}", listElementId, listId);
         CompareServiceStopListElement list = this.managedStopLists.get(listId);
 
         if (list != null) {

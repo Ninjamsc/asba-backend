@@ -2,7 +2,7 @@ package com.technoserv.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.technoserv.db.model.objectmodel.Document;
+import com.google.common.base.MoreObjects;
 
 import java.util.ArrayList;
 
@@ -10,11 +10,17 @@ public class CompareResponse {
 
     @JsonInclude(Include.NON_EMPTY)
     private ArrayList<CompareResponseRulesObject> Rules;
+
     private CompareResponsePictureReport scannedPicture;
+
     private CompareResponsePictureReport cameraPicture;
+
     private CompareResponseDossierReport othernessPictures;
+
     private CompareResponseDossierReport similarPictures;
+
     private Double picSimilarity;
+
     private Double picSimilarityThreshold;
 
     public Double getPicSimilarity() {
@@ -76,6 +82,14 @@ public class CompareResponse {
 
     @Override
     public String toString() {
-        return "CompareRequest  [scannedPicture=" + scannedPicture + ",cameraPicture=" + cameraPicture + ", Rules=" + Rules + "]";
+        return MoreObjects.toStringHelper(this)
+                .add("Rules", Rules)
+                .add("scannedPicture", scannedPicture)
+                .add("cameraPicture", cameraPicture)
+                .add("othernessPictures", othernessPictures)
+                .add("similarPictures", similarPictures)
+                .add("picSimilarity", picSimilarity)
+                .add("picSimilarityThreshold", picSimilarityThreshold)
+                .toString();
     }
 }

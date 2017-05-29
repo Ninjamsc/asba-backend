@@ -1,9 +1,6 @@
 package com.technoserv.rest.request;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
+import com.google.common.base.MoreObjects;
 import org.apache.commons.codec.binary.Base64;
 
 /**
@@ -35,19 +32,11 @@ public class Base64Photo {
     public void setPhoto(String photo) {
         this.photo = photo;
     }
-    //    public static void main(String[] args) throws IOException {
-//        FileInputStream fileInputStream=null;
-//
-//        File file = new File("D:\\images\\01-spitzer-omeganebula.jpg");
-//
-//        byte[] bFile = new byte[(int) file.length()];
-//
-//            fileInputStream = new FileInputStream(file);
-//            fileInputStream.read(bFile);
-//            fileInputStream.close();
-//
-//
-//            System.out.println(new Base64Photo(bFile).photo);
-//    }
 
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("photo", photo)
+                .toString();
+    }
 }

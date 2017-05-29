@@ -9,8 +9,6 @@ import com.technoserv.rest.request.PhotoTemplate;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Service;
@@ -153,7 +151,6 @@ public class TemplateBuilderServiceRestClient {
             float f = ByteBuffer.wrap(fourBytes).order(ByteOrder.LITTLE_ENDIAN).getFloat();
             result[i] = f;
         }
-//        Arrays.stream(result).forEach(System.out::println);
         return result;
     }
 
@@ -176,9 +173,9 @@ public class TemplateBuilderServiceRestClient {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         PhotoTemplate photoTemplate2 = restClient.getPhotoTemplate(Base64.decode(base64Photo2.getBytes()));
         System.out.println("photoTemplate2 = " + photoTemplate2);
-
     }
 
 }

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:beans="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:jms="http://www.springframework.org/schema/jms"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd">
-
 
     <context:component-scan base-package="com.technoserv.jms.*"/>
 
@@ -50,7 +48,6 @@
         <property name="defaultDestinationName" value="arm-retry.queue"/>
     </bean>
 
-
     <bean id="jmsConsumer" class="com.technoserv.jms.consumer.ArmRequestJmsConsumer">
 
     </bean>
@@ -62,6 +59,5 @@
         <jms:listener destination="arm.queue" ref="jmsConsumer" method="onReceive"/>
         <jms:listener destination="arm-retry.queue" ref="jmsConsumer" method="onReceive"/>
     </jms:listener-container>
-
 
 </beans>

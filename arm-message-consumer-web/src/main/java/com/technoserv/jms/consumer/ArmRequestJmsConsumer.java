@@ -5,21 +5,21 @@ import com.technoserv.db.model.objectmodel.Document;
 import com.technoserv.db.model.objectmodel.DocumentType;
 import com.technoserv.db.model.objectmodel.Person;
 import com.technoserv.db.model.objectmodel.Request;
-import com.technoserv.db.service.objectmodel.api.*;
+import com.technoserv.db.service.objectmodel.api.DocumentService;
+import com.technoserv.db.service.objectmodel.api.DocumentTypeService;
+import com.technoserv.db.service.objectmodel.api.PersonService;
+import com.technoserv.db.service.objectmodel.api.RequestService;
 import com.technoserv.jms.trusted.ArmRequestRetryMessage;
 import com.technoserv.jms.trusted.RequestDTO;
 import com.technoserv.rest.client.PhotoPersistServiceRestClient;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jms.core.JmsTemplate;
 
-import javax.transaction.Transactional;
 import javax.xml.bind.DatatypeConverter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,20 +32,23 @@ import java.util.UUID;
 @PropertySource("classpath:arm-consumer.properties")
 public class ArmRequestJmsConsumer {
 
-    private static final Log log = LogFactory.getLog(ArmRequestJmsConsumer.class);
+    private static final Logger log = LoggerFactory.getLogger(ArmRequestJmsConsumer.class);
 
     @Autowired
     private JmsTemplate jmsTemplate;
 
     @Autowired
     private RequestService requestService;
+
     @Autowired
     private PersonService personService;
 
     @Autowired
     private PhotoPersistServiceRestClient photoServiceClient;
+
     @Autowired
     private DocumentService documentService;
+
     @Autowired
     private DocumentTypeService documentTypeService;
 
@@ -60,23 +63,7 @@ public class ArmRequestJmsConsumer {
         }
     }
 
-//    public void onReceive(ArmRequestRetryMessage message) {
-//        if(message.getTryCount()<=maxTryCount) {
-//            if (!saveRequest(message.getMessage())) {
-//                message.incTryCount();
-//                jmsTemplate.convertAndSend(message);
-//            }
-//        } else {
-//            try {
-//                writeToFile(message);
-//            } catch (IOException e) {
-//                log.error(e);
-//            }
-//        }
-//    }
-
     protected boolean saveRequest(String request) {
-
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(DATE_FORMAT);
         try {
@@ -92,8 +79,8 @@ public class ArmRequestJmsConsumer {
             String scannedPictureURL = photoServiceClient.putPhoto(scannedPicture, scannedGuid);
             String webCamPictureURL = photoServiceClient.putPhoto(webCamPicture, webCamGuid);
 
-            Document webCam = null;
-            Document scan = null;
+            Document webCam;
+            Document scan;
             log.info("scannedPictureURL " + scannedPictureURL);
             log.info("webCamPictureURL " + webCamPictureURL);
             //TODO Find request to add
@@ -155,12 +142,13 @@ public class ArmRequestJmsConsumer {
             return true;
         } catch (IOException e) {
             e.printStackTrace();
-            log.error(e);
+            log.error("Can't save request", e);
             return false;
         }
     }
 
-    private String handlePicture(String picture) { //TODO ...
+    private String handlePicture(String picture) {
+        //TODO ...
         if (picture != null && "".equals(picture.trim())) {
             return null;
         }
@@ -171,17 +159,6 @@ public class ArmRequestJmsConsumer {
 //        } else {
         return picture;
 //        }
-    }
-
-    private void writeToFile(ArmRequestRetryMessage message) throws IOException {
-        File file = new File("arm_req_" + DATE_FORMAT.format(new Date()) + ".txt");
-        log.info("create file " + file.getAbsolutePath());
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-        FileWriter fileWriter = new FileWriter(file);
-        fileWriter.write(message.getMessage());
-        fileWriter.close();
     }
 
 }

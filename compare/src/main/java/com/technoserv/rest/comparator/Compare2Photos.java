@@ -24,7 +24,7 @@ public class Compare2Photos implements CompareRule {
         int power = 4;
         double threshold = 0.85;
         /*
-				ArrayRealVector v1 = new ArrayRealVector(a1);
+                ArrayRealVector v1 = new ArrayRealVector(a1);
 				ArrayRealVector v2 = new ArrayRealVector(a2);
 		   		ArrayRealVector diff =v1.subtract(v2);
 				double dot = diff.dotProduct(diff);

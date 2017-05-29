@@ -1,5 +1,7 @@
 package com.technoserv.rest.request;
 
+import com.google.common.base.MoreObjects;
+
 //TODO DTO from Compare module ...
 public class StopListElement {
 
@@ -15,6 +17,8 @@ public class StopListElement {
 
     @Override
     public String toString() {
-        return "StopListElement  [photo=" + Photo + "]";
+        return MoreObjects.toStringHelper(this)
+                .add("Photo", Photo)
+                .toString();
     }
 }

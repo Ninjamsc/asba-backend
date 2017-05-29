@@ -26,7 +26,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -84,7 +83,7 @@ public class SkudResource extends BaseResource<Long, StopList> implements Initia
     }
 
     /**
-     *  Сравнить картинки с блеклистами и досье и вернуть отчет.
+     * Сравнить картинки с блеклистами и досье и вернуть отчет.
      */
     @PUT
     @Path("/skud")
@@ -112,7 +111,7 @@ public class SkudResource extends BaseResource<Long, StopList> implements Initia
                         .build();
             }
 
-            ArrayList<CompareResponsePhotoObject> res1 = res.getPhoto();
+            List<CompareResponsePhotoObject> res1 = res.getPhoto();
             if (res1.size() > 0) {
                 // writing most similar element
                 for (CompareResponsePhotoObject el : res1) {

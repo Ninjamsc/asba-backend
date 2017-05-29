@@ -21,19 +21,24 @@ public class RequestDTO {
         }
     }
 
-    ;
-
     @JsonProperty("_comment")
     private String comment;
+
     @JsonProperty("wfmId")
     private long wfNumber;
+
     @JsonProperty("iin")
     private long iin;
+
     private String username;
+
     private Type type;
+
     private Timestamp timestamp;
+
     @JsonProperty("camPic")
     private String webCameraPicture;
+
     @JsonProperty("scanPic")
     private String scannedPicture;
 

@@ -1,11 +1,16 @@
 package com.technoserv.rest.model;
 
+import com.google.common.base.MoreObjects;
+
 /**
  * Created by mlevitin on 21.12.2016.
  */
 public class SelfCompareResult {
+
     private boolean isSimilar;
+
     private double threshold;
+
     private double similarity;
 
     public boolean isSimilar() {
@@ -32,4 +37,12 @@ public class SelfCompareResult {
         this.similarity = similarity;
     }
 
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("isSimilar", isSimilar)
+                .add("threshold", threshold)
+                .add("similarity", similarity)
+                .toString();
+    }
 }

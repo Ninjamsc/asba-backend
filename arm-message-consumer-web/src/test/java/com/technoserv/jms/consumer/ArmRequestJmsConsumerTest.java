@@ -3,19 +3,15 @@ package com.technoserv.jms.consumer;
 import com.technoserv.db.model.objectmodel.Person;
 import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.service.objectmodel.api.DocumentService;
-import com.technoserv.db.service.objectmodel.api.DocumentTypeService;
 import com.technoserv.db.service.objectmodel.api.PersonService;
 import com.technoserv.db.service.objectmodel.api.RequestService;
 import com.technoserv.jms.trusted.RequestDTO;
-import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import com.technoserv.utils.JsonUtils;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -33,10 +29,13 @@ public class ArmRequestJmsConsumerTest {
 
     @Autowired
     private PersonService personService;
+
     @Autowired
     private DocumentService documentService;
+
     @Autowired
     private ArmRequestJmsConsumer consumer;
+
     @Autowired
     private RequestService requestService;
 

@@ -24,19 +24,8 @@ import java.util.*;
 @Component
 public class CompareListManager implements InitializingBean {
 
-
-    //@Resource @Qualifier(value = "converters")
-//	private HashMap<String, String> compareRules;
-
-    //@Autowired
-    Environment env;
-    //@Value("${com.technoserv.bio.kernel.compare.commonlist}")
-
     @Autowired
     private SystemSettingsBean systemSettingsBean;
-
-
-    //private String _commonList;
 
     private static final Log log = LogFactory.getLog(CompareListManager.class);
 
@@ -184,7 +173,7 @@ public class CompareListManager implements InitializingBean {
             report.setSimilarity(list.getSimilarity());
             List<CompareServiceStopListVector> vectors = list.getVectors();
             for (CompareServiceStopListVector vect : vectors) {
-				/*ArrayRealVector diff =arv.subtract(vect.getVector());
+                /*ArrayRealVector diff =arv.subtract(vect.getVector());
 				double dot = diff.dotProduct(diff);
 				double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
                 //double norm = TevianVectorComparator.calculateSimilarityWrapper(arv.getDataRef(),vect.getVector().getDataRef());

@@ -1,11 +1,17 @@
 package com.technoserv.rest.model;
 
+import com.google.common.base.MoreObjects;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class CompareResponseRulesObject {
+
     private String ruleId;
+
     private String ruleName;
-    private ArrayList<CompareResponsePhotoObject> photo;
+
+    private List<CompareResponsePhotoObject> photo;
 
     public String getRuleId() {
         return ruleId;
@@ -23,11 +29,20 @@ public class CompareResponseRulesObject {
         this.ruleName = ruleName;
     }
 
-    public ArrayList<CompareResponsePhotoObject> getPhoto() {
+    public List<CompareResponsePhotoObject> getPhoto() {
         return photo;
     }
 
-    public void setPhoto(ArrayList<CompareResponsePhotoObject> photo) {
+    public void setPhoto(List<CompareResponsePhotoObject> photo) {
         this.photo = photo;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("ruleId", ruleId)
+                .add("ruleName", ruleName)
+                .add("photo", photo)
+                .toString();
     }
 }

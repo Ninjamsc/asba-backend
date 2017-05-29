@@ -6,6 +6,8 @@ import com.technoserv.rest.exception.PhotoPersistServiceException;
 import com.technoserv.rest.request.PhotoSaveRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
@@ -15,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Created by VBasakov on 22.11.2016.
@@ -22,7 +25,7 @@ import java.util.Arrays;
 @Service
 public class PhotoPersistServiceRestClient {
 
-    private static final Log log = LogFactory.getLog(PhotoPersistServiceRestClient.class);
+    private static final Logger log = LoggerFactory.getLogger(PhotoPersistServiceRestClient.class);
 
     @Autowired
     private SystemSettingsBean systemSettingsBean;
@@ -43,7 +46,7 @@ public class PhotoPersistServiceRestClient {
         }
         try {
             HttpHeaders headers = new HttpHeaders();
-            headers.setAccept(Arrays.asList(MediaType.APPLICATION_OCTET_STREAM));
+            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_OCTET_STREAM));
 
             HttpEntity<String> entity = new HttpEntity<String>(headers);
 
@@ -114,7 +117,6 @@ public class PhotoPersistServiceRestClient {
         log.error(message);
     }
 
-
 //    public static void main(String[] args) {
 //        String url = "http://localhost:8080/storage/rest/image";
 //        String file_name = "1";
@@ -128,8 +130,6 @@ public class PhotoPersistServiceRestClient {
 //        PhotoSaveRequest request = new PhotoSaveRequest(file_content, file_name);
 //        HttpEntity<PhotoSaveRequest> requestEntity = new HttpEntity<PhotoSaveRequest>(request,requestHeaders);
 //        ResponseEntity<String> response = rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, String.class);
-//
-//
 //    }
 
 }

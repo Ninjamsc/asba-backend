@@ -1,11 +1,16 @@
 package com.technoserv.rest.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CompareResponseBlackListObject {
+
     private Long listId; // list identifier
+
     private String listName; // list name
-    private ArrayList<CompareResponsePhotoObject> photo; // array of photos (templates) corresponding to the list
+
+    private List<CompareResponsePhotoObject> photo; // array of photos (templates) corresponding to the list
+
     private Double similarity; //
 
     public CompareResponseBlackListObject() {
@@ -32,11 +37,11 @@ public class CompareResponseBlackListObject {
         this.listName = listName;
     }
 
-    public ArrayList<CompareResponsePhotoObject> getPhoto() {
+    public List<CompareResponsePhotoObject> getPhoto() {
         return photo;
     }
 
-    public void setPhoto(ArrayList<CompareResponsePhotoObject> photo) {
+    public void setPhoto(List<CompareResponsePhotoObject> photo) {
         this.photo = photo;
     }
 

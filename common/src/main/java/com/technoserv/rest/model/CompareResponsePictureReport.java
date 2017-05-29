@@ -1,28 +1,27 @@
 package com.technoserv.rest.model;
 
-import java.util.ArrayList;
+import com.google.common.base.MoreObjects;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.List;
 
 @XmlRootElement
 public class CompareResponsePictureReport {
 
     private String pictureURL;
+
     private String previewURL;
-    private ArrayList<CompareResponseBlackListObject> BlackLists;
+
+    private List<CompareResponseBlackListObject> BlackLists;
 
 
-    public ArrayList<CompareResponseBlackListObject> getBlackLists() {
+    public List<CompareResponseBlackListObject> getBlackLists() {
         return BlackLists;
     }
 
     public void setBlackLists(ArrayList<CompareResponseBlackListObject> blackLists) {
         BlackLists = blackLists;
-    }
-
-    @Override
-    public String toString() {
-        return "CompareResponsePictureReport  [BlackLists=" + BlackLists + "]";
     }
 
     public String getPictureURL() {
@@ -39,5 +38,14 @@ public class CompareResponsePictureReport {
 
     public void setPreviewURL(String previewURL) {
         this.previewURL = previewURL;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("pictureURL", pictureURL)
+                .add("previewURL", previewURL)
+                .add("BlackLists", BlackLists)
+                .toString();
     }
 }

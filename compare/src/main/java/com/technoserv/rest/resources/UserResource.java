@@ -2,10 +2,8 @@ package com.technoserv.rest.resources;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
-import com.technoserv.db.service.security.api.UserService;
 import com.technoserv.db.service.security.impl.UserDTO;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 

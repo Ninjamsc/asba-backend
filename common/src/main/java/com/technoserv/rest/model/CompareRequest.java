@@ -2,23 +2,31 @@ package com.technoserv.rest.model;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.MoreObjects;
 
 public class CompareRequest {
 
     @JsonProperty("template_web")
     private double[] template_web;
+
     @JsonProperty("template_scan")
     private double[] template_scan;
+
     @JsonProperty("scanFullFrameURL")
     private String scanFullFrameURL;
+
     @JsonProperty("scanPreviewURL")
     private String scanPreviewURL;
+
     @JsonProperty("webFullFrameURL")
     private String webFullFrameURL;
+
     @JsonProperty("webPreviewURL")
     private String webPreviewURL;
+
     @JsonProperty("iin")
     private Long iin;
+
     @JsonProperty("wfmId")
     private Long wfmId;
 
@@ -88,7 +96,16 @@ public class CompareRequest {
 
     @Override
     public String toString() {
-        return "CompareRequest  [template_web=" + template_web + ", template_scan=" + template_scan + "]";
+        return MoreObjects.toStringHelper(this)
+                .add("template_web", template_web)
+                .add("template_scan", template_scan)
+                .add("scanFullFrameURL", scanFullFrameURL)
+                .add("scanPreviewURL", scanPreviewURL)
+                .add("webFullFrameURL", webFullFrameURL)
+                .add("webPreviewURL", webPreviewURL)
+                .add("iin", iin)
+                .add("wfmId", wfmId)
+                .toString();
     }
 
 }

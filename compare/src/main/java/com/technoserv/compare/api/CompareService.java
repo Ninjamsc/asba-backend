@@ -5,6 +5,7 @@ import com.technoserv.db.model.objectmodel.StopList;
 import com.technoserv.rest.model.CompareResponseBlackListObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mlevitin on 17.01.17.
@@ -13,9 +14,9 @@ public interface CompareService {
 
     void initialize();
 
-    ArrayList<CompareResponseBlackListObject> compare(double[] vector);
+    List<CompareResponseBlackListObject> compare(double[] vector);
 
-    ArrayList<CompareResponseBlackListObject> compare(double[] vector, Long listId);
+    List<CompareResponseBlackListObject> compare(double[] vector, Long listId);
 
     void delStopListElement(Long listId, Long listElementId);
 
