@@ -16,11 +16,13 @@ public class PhotoTemplate {
      * версия сети, с помощь. которой построен шаблон
      */
     public int version;
+
     /**
-     * массив Numeric	биометрический шаблон
+     * массив Numeric биометрический шаблон
      */
     @JsonProperty("vector")
     public double[] template;
+
     /**
      * массив байтов биометрического шаблона
      */
@@ -50,10 +52,9 @@ public class PhotoTemplate {
         for (int i = 0; i < template.length; i++) {
             arr[i] = template[i];
         }
-        return new ArrayList<Double>(Arrays.asList(arr)).toString() + "; version = " + version + "; type = " + type +
+        return new ArrayList<>(Arrays.asList(arr)).toString() + "; version = " + version + "; type = " + type +
                 "; bin.vector.length = " + binTemplate.length;
     }
-
 
 
 }

@@ -21,6 +21,6 @@ public class CompareServlet extends GenericServlet implements Servlet {
 
     @Override
     public void init(ServletConfig config) throws ServletException {
-        log.info("Compare initialized successfully.");
+        log.info("Compare service initialized successfully.");
     }
 }

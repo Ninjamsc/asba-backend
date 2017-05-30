@@ -85,7 +85,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.3</version>
+            <version>${logback.version}</version>
         </dependency>
 
         <!-- Servlet+JSP+JSTL -->
@@ -225,6 +225,7 @@
     </dependencies>
 
     <build>
+        <finalName>compare</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -254,19 +255,17 @@
                         </webResources>
                     </configuration>
                 </plugin>
-
                 <!--<plugin>-->
-                <!--<groupId>org.apache.tomcat.maven</groupId>-->
-                <!--<artifactId>tomcat7-maven-plugin</artifactId>-->
-                <!--<version>2.2</version>-->
-                <!--<configuration>-->
-                <!--<url>http://localhost:8080/</url>-->
-                <!--<server>tomcat</server>-->
-                <!--<path>/${project.name}</path>-->
-                <!--</configuration>-->
+                    <!--<groupId>org.apache.tomcat.maven</groupId>-->
+                    <!--<artifactId>tomcat7-maven-plugin</artifactId>-->
+                    <!--<version>2.2</version>-->
+                    <!--<configuration>-->
+                        <!--<url>${tomcat.remote.name}</url>-->
+                        <!--<server>${tomcat.remote.name}</server>-->
+                        <!--<path>/{project.artifactId}</path>-->
+                    <!--</configuration>-->
                 <!--</plugin>-->
             </plugins>
         </pluginManagement>
-        <finalName>compare</finalName>
     </build>
 </project>

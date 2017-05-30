@@ -19,10 +19,7 @@ public class Base64Photo {
     }
 
     public Base64Photo(byte[] imageByteArray) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("data:image/jpg;base64,");
-        sb.append(new String(Base64.encodeBase64(imageByteArray)));
-        photo = sb.toString();
+        photo = "data:image/jpg;base64," + new String(Base64.encodeBase64(imageByteArray));
     }
 
     public String getPhoto() {

@@ -1,5 +1,5 @@
 <div class="container">
-    <img src="src/icons/logo.png"
+    <img src="app/icons/logo.png"
          style="max-width: 100%;max-height: 100%;"
          class="pull-right" style="margin-top: 1%"/>
 </div>
@@ -42,7 +42,7 @@
                         <div ng-repeat="rule in compareResult.rules">
                             <div class="col-xs-12">
                                 <div class="col-xs-1">
-                                    <img src="src/icons/warning.png" style="width: 40px; height: 40px;">
+                                    <img src="app/icons/warning.png" style="width: 40px; height: 40px;">
 
                                 </div>
                                 <div class="col-xs-11 align-middle">
@@ -54,7 +54,7 @@
                         <div class="col-xs-12"
                              ng-if="compareResult.picSimilarity > compareResult.picSimilarityThreshold">
                             <div class="col-xs-1">
-                                <img src="src/icons/check.png" style="width: 40px; height: 40px;">
+                                <img src="app/icons/check.png" style="width: 40px; height: 40px;">
                             </div>
                             <div class="col-xs-11 align-middle">
                                 Схожесть фото скана документа и фото с веб-камеры выше заданного порога
@@ -64,7 +64,7 @@
                         </div>
                     </div>
                     <div class="col-xs-1" ng-if="!compareResult.rules || compareResult.rules.length === 0">
-                        <img src="src/icons/check.png" style="width: 40px; height: 40px;">
+                        <img src="app/icons/check.png" style="width: 40px; height: 40px;">
                     </div>
                     <div class="col-xs-7" style="padding-top: 1%; padding-left: 0;"
                          ng-if="!compareResult.rules || compareResult.rules.length === 0">

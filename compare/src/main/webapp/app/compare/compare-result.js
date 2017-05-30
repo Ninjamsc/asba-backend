@@ -1,8 +1,7 @@
 angular.module('compare-result-view', ['ui.router', 'commons'])
     .controller('compareResultViewController', function ($scope, $log, $state, $stateParams,
-                                                         $httpService, $c,
-                                                         RuleErrorType) {
-        // console.log($stateParams);
+                                                         $httpService, $c, RuleErrorType) {
+        console.log('compareResultViewController');
 
         $scope.findRequest = function () {
             $log.info("$scope.findRequest requestId =", $scope.creditRequestIdForSearch);

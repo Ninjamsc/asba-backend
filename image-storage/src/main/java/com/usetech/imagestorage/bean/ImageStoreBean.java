@@ -10,8 +10,10 @@ import java.io.Serializable;
 public class ImageStoreBean implements Serializable {
 
     private static final long serialVersionUID = -5054749880960511861L;
+
     @JsonProperty(value = "file-content")
     private String fileContent;
+
     @JsonProperty(value = "file-name")
     private String fileName;
 

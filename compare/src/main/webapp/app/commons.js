@@ -28,6 +28,7 @@ angular.module('commons', []).constant('contextualClass', {
         ID: "4.2.5",
         NAME: "Возможно несоответствие фотографии в паспорте и фотографии, прикрепленной к заявке"
     }
+
 }).factory('$c', function () {
     this.arrayToMatrix = function (arr, n) {
         var res = [];
@@ -37,6 +38,7 @@ angular.module('commons', []).constant('contextualClass', {
         return res;
     };
     return this;
+
 }).factory('$httpService',
     function ($log, $http, $httpParamSerializer) {
         var logErrorCallback = function (error) {
@@ -44,12 +46,10 @@ angular.module('commons', []).constant('contextualClass', {
         };
         this.buildUrl = function (url, params) {
             var serializedParams = $httpParamSerializer(params);
-
             if (serializedParams.length > 0) {
                 $log.info(serializedParams);
                 url += ((url.indexOf('?') === -1) ? '?' : '&') + serializedParams;
             }
-
             return url;
         };
 
@@ -73,8 +73,7 @@ angular.module('commons', []).constant('contextualClass', {
                     clbck(response)
                 }
             }, logErrorCallback);
-        };
-
+        }
 
         var singleStoplist = function (id, callback, method, params, data) {
             console.log();
@@ -83,7 +82,7 @@ angular.module('commons', []).constant('contextualClass', {
                 url = url + id;
             }
             if (id === 'test') {
-                url = 'src/json/stop-list-edit.json';
+                url = 'app/json/stop-list-edit.json';
             }
             http(url, callback, method, params, data)
         };
@@ -91,7 +90,6 @@ angular.module('commons', []).constant('contextualClass', {
         this.findStopLists = function (callback) {
             singleStoplist(null, callback, 'GET')
         };
-
 
         this.getStoplist = function (id, callback) {
             console.log('getStoplist');
@@ -122,7 +120,7 @@ angular.module('commons', []).constant('contextualClass', {
         this.findCompareResult = function (id, callback) {
             var url = 'rpe/api/rest/compare-result/' + id;
             if (id == 'compare-result-view.json') {
-                url = 'src/json/compare-result-view.json';
+                url = 'app/json/compare-result-view.json';
             }
             http(url, callback, "GET", {}, {})
         };
@@ -139,57 +137,5 @@ angular.module('commons', []).constant('contextualClass', {
             http(url, callback, "GET", {}, {})
         };
 
-
         return this;
     });
-/*.service('$modalService', ['$modal',
- // NB: For Angular-bootstrap 0.14.0 or later, use $uibModal above instead of $modal
- function ($modal) {
-
- var modalDefaults = {
- backdrop: true,
- keyboard: true,
- modalFade: true,
- templateUrl: '/src/modal.html'
- };
-
- var modalOptions = {
- closeButtonText: 'Close',
- actionButtonText: 'OK',
- headerText: 'Proceed?',
- bodyText: 'Perform this action?'
- };
-
- this.showModal = function (customModalDefaults, customModalOptions) {
- if (!customModalDefaults) customModalDefaults = {};
- customModalDefaults.backdrop = 'static';
- return this.show(customModalDefaults, customModalOptions);
- };
-
- this.show = function (customModalDefaults, customModalOptions) {
- //Create temp objects to work with since we're in a singleton service
- var tempModalDefaults = {};
- var tempModalOptions = {};
-
- //Map angular-ui modal custom defaults to modal defaults defined in service
- angular.extend(tempModalDefaults, modalDefaults, customModalDefaults);
-
- //Map modal.html $scope custom properties to defaults defined in service
- angular.extend(tempModalOptions, modalOptions, customModalOptions);
-
- if (!tempModalDefaults.controller) {
- tempModalDefaults.controller = function ($scope, $modalInstance) {
- $scope.modalOptions = tempModalOptions;
- $scope.modalOptions.ok = function (result) {
- $modalInstance.close(result);
- };
- $scope.modalOptions.close = function (result) {
- $modalInstance.dismiss('cancel');
- };
- };
- }
-
- return $modal.open(tempModalDefaults).result;
- };
-
- }])*/

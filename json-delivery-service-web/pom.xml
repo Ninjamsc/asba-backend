@@ -52,7 +52,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.1.7</version>
+            <version>${logback.version}</version>
         </dependency>
         <!-- Servlet+JSP+JSTL -->
         <dependency>
@@ -101,6 +101,7 @@
     </dependencies>
 
     <build>
+        <finalName>delivery</finalName>
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -108,8 +109,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.2</version>
                     <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
+                        <source>1.8</source>
+                        <target>1.8</target>
                     </configuration>
                 </plugin>
 
@@ -123,19 +124,17 @@
                         <failOnMissingWebXml>false</failOnMissingWebXml>
                     </configuration>
                 </plugin>
-
                 <!--<plugin>-->
-                <!--<groupId>org.apache.tomcat.maven</groupId>-->
-                <!--<artifactId>tomcat7-maven-plugin</artifactId>-->
-                <!--<version>2.2</version>-->
-                <!--<configuration>-->
-                <!--<url>http://localhost:8080/</url>-->
-                <!--<server>tomcat</server>-->
-                <!--<path>/${project.name}</path>-->
-                <!--</configuration>-->
+                    <!--<groupId>org.apache.tomcat.maven</groupId>-->
+                    <!--<artifactId>tomcat7-maven-plugin</artifactId>-->
+                    <!--<version>2.2</version>-->
+                    <!--<configuration>-->
+                        <!--<url>${tomcat.remote.url}</url>-->
+                        <!--<server>${tomcat.remote.name}</server>-->
+                        <!--<path>/{project.artifactId}</path>-->
+                    <!--</configuration>-->
                 <!--</plugin>-->
             </plugins>
         </pluginManagement>
-        <finalName>delivery</finalName>
     </build>
 </project>

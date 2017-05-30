@@ -29,6 +29,6 @@
 
         </property>
         <!-- Another way of indicating that we want to update the schema; Spring calls this after the session factory is created, while the
-        hbm2ddl flag above is processed by Hibernate during creationo f the session factory. <property name="schemaUpdate" value="true" /> -->
+        hbm2ddl flag above is processed by Hibernate during creation of the session factory. <property name="schemaUpdate" value="true" /> -->
     </bean>
 </beans>

@@ -27,7 +27,7 @@ public final class HibernateInitializer {
         try {
             for (String complex_property : properties) {
                 StringTokenizer tokenizer = new StringTokenizer(complex_property, ".");
-                List<String> props = new LinkedList<String>();
+                List<String> props = new LinkedList<>();
                 while (tokenizer.hasMoreElements()) {
                     props.add((String) tokenizer.nextElement());
                 }
@@ -41,7 +41,6 @@ public final class HibernateInitializer {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     private static void recursion_initializeProperties(Object obj_property, String[] props, int idx) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {

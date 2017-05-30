@@ -10,6 +10,7 @@ import java.io.Serializable;
 public class ErrorBean implements Serializable {
 
     private static final long serialVersionUID = -5054349990970511861L;
+
     @JsonProperty(value = "message")
     private String message;
 

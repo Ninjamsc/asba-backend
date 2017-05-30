@@ -6,27 +6,13 @@ import java.io.InputStreamReader;
 
 public class TevianVectorComparator {
 
-    /*static {
-        //TODO Оберннуть в try catch http://stackoverflow.com/questions/7325579/java-lang-noclassdeffounderror-could-not-initialize-class-xxx
-        try {
-            System.out.println("java.library.path = " + System.getProperty("java.library.path"));
-
-            System.out.println("Loading TevianVectorComparator library...");
-            //System.loadLibrary("TevianVectorComparator");
-            System.out.println("TevianVectorComparator library loaded");
-        } catch (Throwable t){
-            System.out.println("+++++++++++CANT_LOAD_LIB"+t);
-            t.printStackTrace();
-        }
-    }*/
-
     public static double calculateSimilarityCliWrapper(String base64Vector1, String base64Vector2, String version) {
         double result = 0;
         try {
             String command = String.format("/bin/bash /opt/biometrics/run-tevian.sh %s %s", base64Vector1, base64Vector2);
             Process p = Runtime.getRuntime().exec(command);
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String line = null;
+            String line;
             while ((line = in.readLine()) != null) {
                 result = Double.valueOf(line);
             }

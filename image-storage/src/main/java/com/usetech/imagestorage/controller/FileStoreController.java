@@ -24,19 +24,22 @@ public class FileStoreController {
 
     @Autowired
     private FileStoreService fileStoreService;
+
     @Autowired
     private LogStoreService logStoreService;
 
     @RequestMapping(value = "/log", method = RequestMethod.PUT)
     public ResponseEntity storeLog(@RequestBody LogStoreBean logStoreBean) {
         if (logStoreService.saveFile(logStoreBean)) {
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+            return ResponseEntity.ok().build();
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @RequestMapping(value = "/image", method = RequestMethod.PUT)
     public ResponseEntity storeImage(@RequestBody ImageStoreBean imageStoreBean) {
+        log.debug("storeImage: {}", imageStoreBean);
+
         if (fileStoreService.saveFile(imageStoreBean)) {
             return ResponseEntity.status(HttpStatus.OK).body(null);
         }
@@ -45,6 +48,8 @@ public class FileStoreController {
 
     @RequestMapping(value = "/image/{fileName:.+}", method = RequestMethod.GET)
     public ResponseEntity get(@PathVariable("fileName") String fileName) {
+        log.debug("get fileName: {}", fileName);
+
         byte[] file = fileStoreService.getFile(fileName);
         if (file != null) {
             return ResponseEntity.ok()

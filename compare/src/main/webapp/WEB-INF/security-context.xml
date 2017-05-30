@@ -6,7 +6,6 @@
              xsi:schemaLocation="
     	http://www.springframework.org/schema/beans
     	http://www.springframework.org/schema/beans/spring-beans.xsd
-
         http://www.springframework.org/schema/security
         http://www.springframework.org/schema/security/spring-security.xsd">
 
@@ -18,7 +17,6 @@
                                 access="hasRole('ROLE_ADMIN') or hasRole('ROLE_WRITE')"/>
         <security:intercept-url method="PUT" pattern="/api/stoplist/"
                                 access="hasRole('ROLE_ADMIN') or hasRole('ROLE_WRITE')"/>
-
 
         <security:intercept-url method="POST" pattern="/api/stop-list/**"
                                 access="hasRole('ROLE_ADMIN') or hasRole('ROLE_WRITE')"/>
