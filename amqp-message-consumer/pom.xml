@@ -2,12 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <artifactId>technoserv-root</artifactId>
         <groupId>com.technoserv</groupId>
         <version>1.0.0</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <artifactId>amqp-message-consumer</artifactId>
     <packaging>war</packaging>
@@ -15,7 +17,6 @@
     <name>AMQP Message Consumer</name>
 
     <dependencies>
-
         <dependency>
             <groupId>com.technoserv</groupId>
             <artifactId>common</artifactId>
@@ -41,7 +42,6 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-spring</artifactId>
@@ -55,8 +55,9 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.1.7</version>
+            <version>${logback.version}</version>
         </dependency>
+
         <!-- Servlet+JSP+JSTL -->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -73,13 +74,11 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-broker</artifactId>
             <version>5.14.1</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-kahadb-store</artifactId>
@@ -87,28 +86,22 @@
         </dependency>
 
         <!-- Test -->
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-
-
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.8.1</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-dbcp2</artifactId>
@@ -169,8 +162,6 @@
             <artifactId>jersey-container-servlet-core</artifactId>
             <version>RELEASE</version>
         </dependency>
-
-
     </dependencies>
 
     <build>
@@ -182,8 +173,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.2</version>
                     <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
                     </configuration>
                 </plugin>
 
@@ -192,7 +183,7 @@
                     <artifactId>maven-war-plugin</artifactId>
                     <version>2.1.1</version>
                     <configuration>
-                        <warName>${project.artifactId}</warName>
+                        <warName>${project.artifactId}##${project.version}</warName>
                         <webResources>
                             <resource>
                                 <directory>src/main/webapp</directory>
@@ -204,8 +195,6 @@
                         </webResources>
                     </configuration>
                 </plugin>
-
-
                 <!--<plugin>-->
                 <!--<groupId>org.apache.tomcat.maven</groupId>-->
                 <!--<artifactId>tomcat7-maven-plugin</artifactId>-->

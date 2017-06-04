@@ -19,40 +19,43 @@ import java.util.List;
 @Repository("requestDao")
 public class RequestDaoImpl extends AbstractHibernateDao<Long, Request> implements RequestDao {
 
-    private static final int AMOUNT_TTL = -1;//Колличество прибавляемых единиц
-    private static final int FIELD_TTL = Calendar.MINUTE;//Единицап измерения времени
+    private static final int AMOUNT_TTL = -1; //Колличество прибавляемых единиц
+    private static final int FIELD_TTL = Calendar.MINUTE; //Единицап измерения времени
 
     public Request findByOrderNumber(Long id) { //TODO ...
         return (Request) getSession().createCriteria(getPersistentClass())
-                .add(Property.forName("id").eq(id)).uniqueResult();
+                .add(Property.forName("id").eq(id))
+                .uniqueResult();
     }
 
     /*
      *  Вернуть все заявки, связанные с данным ИИН
      */
-    public Collection<Request> findByIin(Long id)
-    {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(FIELD_TTL, AMOUNT_TTL);
-        Date ttlDate = calendar.getTime();
+    public Collection<Request> findByIin(Long id) {
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(new Date());
+//        calendar.add(FIELD_TTL, AMOUNT_TTL);
+//        Date ttlDate = calendar.getTime();
         Criteria criteria = getSession().createCriteria(getPersistentClass());
         criteria.add(Property.forName("person.id").eq(id));
         return criteria.list();
 
     }
+
     /**
      * Находим запросы где заполнены все изображения или где прошло более N минут
+     *
      * @returnk
      */
-    public Collection<Request> findNotProcessed() {
+    public List<Request> findNotProcessed() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(FIELD_TTL, AMOUNT_TTL);
         Date ttlDate = calendar.getTime();
+
         Criteria criteria = getSession().createCriteria(getPersistentClass());
-        criteria.createCriteria("scannedDocument","sd");
-        criteria.createCriteria("cameraDocument","cd");
+        criteria.createCriteria("scannedDocument", "sd");
+        criteria.createCriteria("cameraDocument", "cd");
 
         Disjunction disjunction = Restrictions.disjunction();
 
@@ -78,17 +81,17 @@ public class RequestDaoImpl extends AbstractHibernateDao<Long, Request> implemen
 
     private Criteria createSearchCriteria(RequestSearchCriteria criteria) {
         Criteria c = getSession().createCriteria(getPersistentClass());
-        if(criteria.getFrom()!=null) {
+        if (criteria.getFrom() != null) {
             c.add(Property.forName("objectDate").ge(criteria.getFrom()));
         }
-        if(criteria.getTo()!=null) {
+        if (criteria.getTo() != null) {
             c.add(Property.forName("objectDate").le(criteria.getTo()));
         }
 
-        if(criteria.getRequestId()!=null) {
+        if (criteria.getRequestId() != null) {
             c.add(Property.forName("id").eq(criteria.getRequestId()));
         }
-        if(criteria.getIin()!=null) {
+        if (criteria.getIin() != null) {
             c.add(Property.forName("person").eq(criteria.getIin()));
         }
         return c;

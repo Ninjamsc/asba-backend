@@ -54,7 +54,7 @@ public class RequestProcessorIT {//todo mock jmsTemplate and rename to RequestPr
     public void process() {
         requestProcessor.setPhotoAnalyzerServiceRestClient(new MockPhotoAnalyzerServiceClient());
         requestProcessor.setTemplateBuilderServiceRestClient(new MockTemplateBuilderServiceRestClient());
-        requestProcessor.setСompareServiceRestClient(new MockCompareServiceClient());
+        requestProcessor.setCompareServiceRestClient(new MockCompareServiceClient());
         requestProcessor.setPhotoPersistServiceRestClient(new MockPhotoServiceClient());
 
         requestProcessor.process();

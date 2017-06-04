@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.technoserv</groupId>
-	<artifactId>technoserv-root</artifactId>
-	<version>1.0.0</version>
-	<packaging>pom</packaging>
+    <groupId>com.technoserv</groupId>
+    <artifactId>technoserv-root</artifactId>
+    <version>1.0.0</version>
+    <packaging>pom</packaging>
 
-	<name>Root Module</name>
+    <name>Root Module</name>
 
     <modules>
         <module>common</module>
@@ -20,32 +20,38 @@
         <module>quality</module>
         <module>bridge</module>
         <module>image-storage</module>
-	    <module>admin</module>
+        <module>admin</module>
         <module>similarity</module>
 
         <!--<module>storage</module>-->
     </modules>
 
     <properties>
+        <java.version>1.8</java.version>
         <spring.version>4.3.0.RELEASE</spring.version>
         <springsecurity.version>4.2.0.RELEASE</springsecurity.version>
         <hibernate.version>4.3.6.Final</hibernate.version>
+        <guava.version>22.0</guava.version>
+        <logback.version>1.2.3</logback.version>
+        <log4j.version>1.2.17</log4j.version>
     </properties>
 
     <dependencies>
-
-        <!-- log4j -->
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
+            <version>${log4j.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.6.4</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
         </dependency>
 
         <!--Spring-->
@@ -54,52 +60,44 @@
             <artifactId>spring-orm</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aspects</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jms</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>${spring.version}</version>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
             <version>2.8.1</version>
         </dependency>
-	 <dependency>
+        <dependency>
             <groupId>org.apache.tomcat.maven</groupId>
             <artifactId>tomcat7-maven-plugin</artifactId>
             <version>2.2</version>
             <type>maven-plugin</type>
         </dependency>
-
     </dependencies>
-
 
     <profiles>
         <profile>
@@ -149,27 +147,27 @@
         </profile>
         <profile>
             <id>tsi</id>
-		<build>
-		<plugins>
-            	    <plugin>
-                	<groupId>org.apache.tomcat.maven</groupId>
-                	<artifactId>tomcat7-maven-plugin</artifactId>
-                	<!-- Deploy to integration test server on Maven deploy -->
-                	<executions>
-                    	    <execution>
-                        	<id>deploy-to-integrationtest</id>
-                        	<goals>
-                            	    <goal>redeploy-only</goal>
-                        	</goals>
-                        	<phase>deploy</phase>
-                        	<configuration>
-                            	    <server>TomcatLocal</server>
-                        	</configuration>
-                    	    </execution>
-                	</executions>
-            	    </plugin>
-        	</plugins>
-		</build>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.tomcat.maven</groupId>
+                        <artifactId>tomcat7-maven-plugin</artifactId>
+                        <!-- Deploy to integration test server on Maven deploy -->
+                        <executions>
+                            <execution>
+                                <id>deploy-to-integrationtest</id>
+                                <goals>
+                                    <goal>redeploy-only</goal>
+                                </goals>
+                                <phase>deploy</phase>
+                                <configuration>
+                                    <server>TomcatLocal</server>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
@@ -178,5 +176,4 @@
             </properties>
         </profile>
     </profiles>
-
 </project>

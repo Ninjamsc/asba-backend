@@ -1,10 +1,9 @@
 package com.technoserv.db.model.objectmodel;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.base.MoreObjects;
 import com.technoserv.db.model.BaseEntity;
 
 import javax.persistence.*;
-import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -16,7 +15,8 @@ import java.util.Date;
 @Entity
 @Table(name = "REQUESTS")
 public class Request extends BaseEntity<Long> {
-    public enum Status {SAVED, IN_PROCESS, SUCCESS, FAILED};
+
+    public enum Status {SAVED, IN_PROCESS, SUCCESS, FAILED}
 
     /**
      * номер заявки из BPM
@@ -26,7 +26,7 @@ public class Request extends BaseEntity<Long> {
     private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(columnDefinition = "PERSON_ID",referencedColumnName = "ID")
+    @JoinColumn(columnDefinition = "PERSON_ID", referencedColumnName = "ID")
     private Person person;
     /**
      * дата создания объекта
@@ -65,6 +65,7 @@ public class Request extends BaseEntity<Long> {
     public Long getId() {
         return id;
     } //TODO ...
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -72,6 +73,7 @@ public class Request extends BaseEntity<Long> {
     public Document getScannedDocument() {
         return scannedDocument;
     }
+
     public void setScannedDocument(Document scannedDocument) {
         this.scannedDocument = scannedDocument;
     }
@@ -79,6 +81,7 @@ public class Request extends BaseEntity<Long> {
     public Document getCameraDocument() {
         return cameraDocument;
     }
+
     public void setCameraDocument(Document cameraDocument) {
         this.cameraDocument = cameraDocument;
     }
@@ -86,6 +89,7 @@ public class Request extends BaseEntity<Long> {
     public Status getStatus() {
         return status;
     }
+
     public void setStatus(Status status) {
         this.status = status;
     }
@@ -93,6 +97,7 @@ public class Request extends BaseEntity<Long> {
     public String getLogin() {
         return login;
     }
+
     public void setLogin(String login) {
         this.login = login;
     }
@@ -100,6 +105,7 @@ public class Request extends BaseEntity<Long> {
     public String getInsUser() {
         return insUser;
     }
+
     public void setInsUser(String insUser) {
         this.insUser = insUser;
     }
@@ -107,6 +113,7 @@ public class Request extends BaseEntity<Long> {
     public Date getObjectDate() {
         return objectDate;
     }
+
     public void setObjectDate(Date objectDate) {
         this.objectDate = objectDate;
     }
@@ -127,4 +134,18 @@ public class Request extends BaseEntity<Long> {
         this.orderDate = new Date(timestamp.getTime());
     }
 
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("person", person)
+                .add("objectDate", objectDate)
+                .add("status", status)
+                .add("scannedDocument", scannedDocument)
+                .add("cameraDocument", cameraDocument)
+                .add("login", login)
+                .add("insUser", insUser)
+                .add("orderDate", orderDate)
+                .toString();
+    }
 }

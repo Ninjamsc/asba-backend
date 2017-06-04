@@ -12,8 +12,11 @@ import java.util.List;
  * Created by sergey on 15.11.2016.
  */
 public interface RequestDao extends Dao<Long, Request> {
+
     Request findByOrderNumber(Long id);
-    Collection<Request> findNotProcessed();
+
+    List<Request> findNotProcessed();
+
     Collection<Request> findByIin(Long id);
 
     List<Request> findByCriteria(RequestSearchCriteria criteria);
