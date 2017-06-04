@@ -20,7 +20,7 @@ public class MockPhotoServiceClient extends PhotoPersistServiceRestClient {
     }
 
     @Override
-    public String putPhoto(String file_content, String file_name) {
+    public String putPhoto(String fileContent, String file_name) {
         return foto;
     }
 

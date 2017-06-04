@@ -1,25 +1,26 @@
 package com.technoserv.jms.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 import com.technoserv.db.model.objectmodel.Document;
 import com.technoserv.db.model.objectmodel.DocumentType;
 import com.technoserv.db.model.objectmodel.Person;
 import com.technoserv.db.model.objectmodel.Request;
-import com.technoserv.db.service.objectmodel.api.*;
+import com.technoserv.db.service.objectmodel.api.DocumentService;
+import com.technoserv.db.service.objectmodel.api.DocumentTypeService;
+import com.technoserv.db.service.objectmodel.api.PersonService;
+import com.technoserv.db.service.objectmodel.api.RequestService;
 import com.technoserv.jms.trusted.ArmRequestRetryMessage;
 import com.technoserv.jms.trusted.RequestDTO;
 import com.technoserv.rest.client.PhotoPersistServiceRestClient;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.jms.core.JmsTemplate;
 
-import javax.transaction.Transactional;
 import javax.xml.bind.DatatypeConverter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,20 +33,23 @@ import java.util.UUID;
 @PropertySource("classpath:arm-consumer.properties")
 public class ArmRequestJmsConsumer {
 
-    private static final Log log = LogFactory.getLog(ArmRequestJmsConsumer.class);
+    private static final Logger log = LoggerFactory.getLogger(ArmRequestJmsConsumer.class);
 
     @Autowired
     private JmsTemplate jmsTemplate;
 
     @Autowired
     private RequestService requestService;
+
     @Autowired
     private PersonService personService;
 
     @Autowired
     private PhotoPersistServiceRestClient photoServiceClient;
+
     @Autowired
     private DocumentService documentService;
+
     @Autowired
     private DocumentTypeService documentTypeService;
 
@@ -55,7 +59,8 @@ public class ArmRequestJmsConsumer {
     private static Integer maxTryCount = 10;
 
     public void onReceive(String message) {
-        if(!saveRequest(message)) {
+        log.debug("onReceive message: {}", message);
+        if (!saveRequest(message)) {
             jmsTemplate.convertAndSend(new ArmRequestRetryMessage(message));
         }
     }
@@ -75,32 +80,45 @@ public class ArmRequestJmsConsumer {
 //        }
 //    }
 
-    protected boolean saveRequest(String request) {
-
+    private boolean saveRequest(String request) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(DATE_FORMAT);
         try {
-            //todo переделать маппинг из очереди 1 в сервиc фоток и Request
+            //todo переделать маппинг из очереди 1 в сервис фоток и Request
             RequestDTO requestDTO = objectMapper.readValue(request, RequestDTO.class);
+            log.debug("Request: %d comes from workstation queue: %s", requestDTO.getWfNumber(), request);
+
+            Request requestEntity = requestService.findByOrderNumber(requestDTO.getWfNumber());
+
+            // do not save request which was already processed
+            if (requestEntity != null) {
+                log.warn("Request: %d already exists in the database: %s", requestEntity.getId(), requestEntity);
+                if (requestEntity.getStatus() == Request.Status.SUCCESS
+                        && requestEntity.getStatus() == Request.Status.FAILED) {
+
+                    log.warn("Request: %d is process already and now its status: %s. Request will NOT be processed again.",
+                            requestEntity.getId(), requestEntity.getStatus());
+
+                    return true;
+                }
+            }
 
             String scannedPicture = handlePicture(requestDTO.getScannedPicture());
             String webCamPicture = handlePicture(requestDTO.getWebCameraPicture());
 
-            String scannedGuid = DatatypeConverter.printBase64Binary(UUID.randomUUID().toString().getBytes());
-            String webCamGuid = DatatypeConverter.printBase64Binary(UUID.randomUUID().toString().getBytes());
+            String scannedUuid = DatatypeConverter.printBase64Binary(UUID.randomUUID().toString().getBytes());
+            String webCamUuid = DatatypeConverter.printBase64Binary(UUID.randomUUID().toString().getBytes());
 
-            String scannedPictureURL = photoServiceClient.putPhoto(scannedPicture, scannedGuid);
-            String webCamPictureURL = photoServiceClient.putPhoto(webCamPicture, webCamGuid);
+            String scannedPictureURL = photoServiceClient.putPhoto(scannedPicture, scannedUuid);
+            String webCamPictureURL = photoServiceClient.putPhoto(webCamPicture, webCamUuid);
 
-            Document webCam = null;
-            Document scan = null;
-            log.info("scannedPictureURL " + scannedPictureURL);
-            log.info("webCamPictureURL " + webCamPictureURL);
-            //TODO Find request to add
-            Request requestEntity = requestService.findByOrderNumber(requestDTO.getWfNumber());
+            log.info("scannedPictureURL: {} ", scannedPictureURL);
+            log.info("webCamPictureURL: {} ", webCamPictureURL);
 
-            if(requestEntity != null) { //TODO discuss что куда и когда и в каком формате доки
-                // TODO соответствие между дто и ентити
+            Document webCam;
+            Document scan;
+
+            if (requestEntity != null) {
                 webCam = requestEntity.getCameraDocument();
                 scan = requestEntity.getScannedDocument();
 
@@ -110,21 +128,24 @@ public class ArmRequestJmsConsumer {
                 webCam = new Document();
                 scan = new Document();
             }
-            if(requestDTO.getType() == RequestDTO.Type.FULLFRAME) {
-                if(webCamPictureURL!=null) {
+
+            if (requestDTO.getType() == RequestDTO.Type.FULLFRAME) {
+                if (webCamPictureURL != null) {
                     webCam.setOrigImageURL(webCamPictureURL);
                 }
                 webCam.setDocumentType(documentTypeService.findByType(DocumentType.Type.WEB_CAM));
-                if(scannedPictureURL!=null) {
+                if (scannedPictureURL != null) {
                     scan.setOrigImageURL(scannedPictureURL);
                 }
                 scan.setDocumentType(documentTypeService.findByType(DocumentType.Type.SCANNER));
-            } if (requestDTO.getType() == RequestDTO.Type.PREVIEW) {
-                if(webCamPictureURL!=null) {
+            }
+
+            if (requestDTO.getType() == RequestDTO.Type.PREVIEW) {
+                if (webCamPictureURL != null) {
                     webCam.setFaceSquare(webCamPictureURL);
                 }
                 webCam.setDocumentType(documentTypeService.findByType(DocumentType.Type.WEB_CAM));
-                if(scannedPictureURL!=null) {
+                if (scannedPictureURL != null) {
                     scan.setFaceSquare(scannedPictureURL);
                 }
                 scan.setDocumentType(documentTypeService.findByType(DocumentType.Type.SCANNER));
@@ -134,9 +155,9 @@ public class ArmRequestJmsConsumer {
             documentService.saveOrUpdate(webCam);
 
             Person person = personService.findById(requestDTO.getIin());
-            if(person==null) {
+            if (person == null) {
                 person = new Person();
-                person.setDossier(new ArrayList<Request>());
+                person.setDossier(new ArrayList<>());
             }
             requestEntity.setPerson(person);
             person.setId(requestDTO.getIin());
@@ -149,18 +170,17 @@ public class ArmRequestJmsConsumer {
             requestEntity.setLogin(requestDTO.getUsername());
             requestEntity.setObjectDate(new Date());
             requestEntity.setStatus(Request.Status.SAVED);
-            //Todo save request
             requestService.saveOrUpdate(requestEntity);
+
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
-            log.error(e);
+            log.error(String.format("Can't save request: %s", request), e);
             return false;
         }
     }
 
-    private String handlePicture(String picture) { //TODO ...
-        if(picture!=null && "".equals(picture.trim())) {
+    private String handlePicture(String picture) {
+        if (Strings.isNullOrEmpty(picture)) {
             return null;
         }
 //        if(picture.contains("data:image")) {
@@ -172,15 +192,5 @@ public class ArmRequestJmsConsumer {
 //        }
     }
 
-    private void writeToFile(ArmRequestRetryMessage message) throws IOException {
-        File file = new File("arm_req_" + DATE_FORMAT.format(new Date()) + ".txt");
-        log.info("create file " + file.getAbsolutePath());
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-        FileWriter fileWriter = new FileWriter(file);
-        fileWriter.write(message.getMessage());
-        fileWriter.close();
-    }
 
 }

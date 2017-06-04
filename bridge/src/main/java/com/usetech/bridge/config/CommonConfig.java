@@ -21,31 +21,43 @@ public class CommonConfig {
 
 	@Value(value = "${com.technoserv.video.yaw_threshold}")
 	private String yaw_threshold;
+
 	@Value(value = "${com.technoserv.video.roll_threshold}")
 	private String roll_threshold;
+
 	@Value(value = "${com.technoserv.video.pitch_threshold}")
 	private String pitch_threshold;
+
 	@Value(value = "${com.technoserv.video.blur_detection_thres}")
 	private String blur_detection_thres;
+
 	@Value(value = "${com.technoserv.video.brithness_thres_low}")
 	private String brithness_thres_low;
+
 	@Value(value = "${com.technoserv.video.brithness_thres_high}")
 	private String brithness_thres_high;
+
 	@Value(value = "${com.technoserv.video.lips_threshhold}")
 	private String lips_threshhold;
+
 	@Value(value = "${com.technoserv.video.blur_threshhold}")
 	private String blur_threshhold;
+
 	@Value(value = "${com.technoserv.video.video_record_max_duration}")
 	private String video_record_max_duration;
+
 	@Value(value = "${com.technoserv.video.yaw_mean}")
 	private String yaw_mean;
+
 	@Value(value = "${com.technoserv.video.roll_mean}")
 	private String roll_mean;
+
 	@Value(value = "${com.technoserv.video.pitch_mean}")
 	private String pitch_mean;
 
 	@Value(value = "${com.technoserv.pic.heigth}")
 	private String pic_height;
+
 	@Value(value = "${com.technoserv.pic.width}")
 	private String pic_width;
 
@@ -54,7 +66,6 @@ public class CommonConfig {
 	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
 		return new PropertySourcesPlaceholderConfigurer();
 	}
-
 
 	public String getQueueName() {
 		return this.queueName;

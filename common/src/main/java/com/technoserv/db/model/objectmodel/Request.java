@@ -64,7 +64,7 @@ public class Request extends BaseEntity<Long> {
 
     public Long getId() {
         return id;
-    } //TODO ...
+    }
 
     public void setId(Long id) {
         this.id = id;

@@ -3,6 +3,7 @@ package com.technoserv.jms.trusted;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.common.base.MoreObjects;
 
 import java.sql.Timestamp;
 
@@ -12,30 +13,40 @@ import java.sql.Timestamp;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class RequestDTO {
 
-    public enum Type{PREVIEW, FULLFRAME;
+    public enum Type {
+        PREVIEW, FULLFRAME;
+
         @JsonValue
         String getValue() {
             return this.toString().toLowerCase();
         }
-    };
+    }
 
     @JsonProperty("_comment")
     private String comment;
+
     @JsonProperty("wfmId")
     private long wfNumber;
+
     @JsonProperty("iin")
     private long iin;
+
     private String username;
+
     private Type type;
+
     private Timestamp timestamp;
+
     @JsonProperty("camPic")
     private String webCameraPicture;
+
     @JsonProperty("scanPic")
     private String scannedPicture;
 
     public String getComment() {
         return comment;
     }
+
     public void setComment(String comment) {
         this.comment = comment;
     }
@@ -43,6 +54,7 @@ public class RequestDTO {
     public long getWfNumber() {
         return wfNumber;
     }
+
     public void setWfNumber(long wfNumber) {
         this.wfNumber = wfNumber;
     }
@@ -50,12 +62,15 @@ public class RequestDTO {
     public long getIin() {
         return iin;
     }
+
     public void setIin(long iin) {
         this.iin = iin;
     }
+
     public String getUsername() {
         return username;
     }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -63,6 +78,7 @@ public class RequestDTO {
     public Timestamp getTimestamp() {
         return timestamp;
     }
+
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
@@ -70,6 +86,7 @@ public class RequestDTO {
     public String getWebCameraPicture() {
         return webCameraPicture;
     }
+
     public void setWebCameraPicture(String webCameraPicture) {
         this.webCameraPicture = webCameraPicture;
     }
@@ -77,6 +94,7 @@ public class RequestDTO {
     public String getScannedPicture() {
         return scannedPicture;
     }
+
     public void setScannedPicture(String scannedPicture) {
         this.scannedPicture = scannedPicture;
     }
@@ -84,7 +102,22 @@ public class RequestDTO {
     public Type getType() {
         return type;
     }
+
     public void setType(Type type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("comment", comment)
+                .add("wfNumber", wfNumber)
+                .add("iin", iin)
+                .add("username", username)
+                .add("type", type)
+                .add("timestamp", timestamp)
+                .add("webCameraPicture", webCameraPicture)
+                .add("scannedPicture", scannedPicture)
+                .toString();
     }
 }

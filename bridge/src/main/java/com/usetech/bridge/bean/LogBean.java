@@ -4,6 +4,7 @@ package com.usetech.bridge.bean;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.base.MoreObjects;
 import com.usetech.bridge.service.LocalDateTimeDeserializer;
 import com.usetech.bridge.service.LocalDateTimeSerializer;
 
@@ -13,117 +14,132 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 public class LogBean implements Serializable {
-	private static final long serialVersionUID = -5054749880970511861L;
-	@JsonProperty(value = "token")
-	@NotNull
-	private String token;
 
-	@NotNull
-	@JsonProperty(value = "wfmId")
-	//private String wfmId;
-	private Long wfmId;
+    private static final long serialVersionUID = -5054749880970511861L;
 
-	@JsonProperty(value = "iin")
-	@NotNull
-	@Digits(integer = 19, fraction = 0)
-	private Long iin;
+    @JsonProperty(value = "token")
+    @NotNull
+    private String token;
 
-	@JsonProperty(value = "username")
-	@NotNull
-	private String username;
+    @NotNull
+    @JsonProperty(value = "wfmId")
+    private Long wfmId;
 
-	@JsonProperty(value = "workstation")
-	@NotNull
-	private String workstation;
+    @JsonProperty(value = "iin")
+    @NotNull
+    @Digits(integer = 19, fraction = 0)
+    private Long iin;
 
-	@JsonProperty(value = "timestamp")
-	@JsonDeserialize(using = LocalDateTimeDeserializer.class)
-	@JsonSerialize(using = LocalDateTimeSerializer.class)
-	@NotNull
-	private LocalDateTime timestamp;
+    @JsonProperty(value = "username")
+    @NotNull
+    private String username;
 
-	@JsonProperty(value = "type")
-	@NotNull
-	private String type;
+    @JsonProperty(value = "workstation")
+    @NotNull
+    private String workstation;
 
-	@JsonProperty(value = "fileName")
-	@NotNull
-	private String fileName;
+    @JsonProperty(value = "timestamp")
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @NotNull
+    private LocalDateTime timestamp;
 
-	@JsonProperty(value = "fileContent")
-	@NotNull
-	private String fileContent;
+    @JsonProperty(value = "type")
+    @NotNull
+    private String type;
 
-	public String getWorkstation() { return workstation; }
+    @JsonProperty(value = "fileName")
+    @NotNull
+    private String fileName;
 
-	public void setWorkstation(String workstation) { this.workstation = workstation; }
-	public String getToken() {
-		return this.token;
-	}
+    @JsonProperty(value = "fileContent")
+    @NotNull
+    private String fileContent;
 
-	public void setToken(String token) {
-		this.token = token;
-	}
+    public String getWorkstation() {
+        return workstation;
+    }
 
-	public Long getWfmId() {
-		return this.wfmId;
-	}
+    public void setWorkstation(String workstation) {
+        this.workstation = workstation;
+    }
 
-	public void setWfmId(Long wfmId) {
-		this.wfmId = wfmId;
-	}
+    public String getToken() {
+        return this.token;
+    }
 
-	public Long getIin() {
-		return this.iin;
-	}
+    public void setToken(String token) {
+        this.token = token;
+    }
 
-	public void setIin(Long iin) {
-		this.iin = iin;
-	}
+    public Long getWfmId() {
+        return this.wfmId;
+    }
 
-	public String getUsername() {
-		return this.username;
-	}
+    public void setWfmId(Long wfmId) {
+        this.wfmId = wfmId;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    public Long getIin() {
+        return this.iin;
+    }
 
-	public LocalDateTime getTimestamp() {
-		return this.timestamp;
-	}
+    public void setIin(Long iin) {
+        this.iin = iin;
+    }
 
-	public void setTimestamp(LocalDateTime timestamp) {
-		this.timestamp = timestamp;
-	}
+    public String getUsername() {
+        return this.username;
+    }
 
-	public String getType() {
-		return this.type;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public LocalDateTime getTimestamp() {
+        return this.timestamp;
+    }
 
-	public String getFileName() {
-		return this.fileName;
-	}
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
 
-	public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
+    public String getType() {
+        return this.type;
+    }
 
-	public String getFileContent() {
-		return this.fileContent;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setFileContent(String fileContent) {
-		this.fileContent = fileContent;
-	}
+    public String getFileName() {
+        return this.fileName;
+    }
 
-	public String toString() {
-		return "FrameBean{token='" + this.token + '\'' + ", wfmId='" + this.wfmId + '\'' + ", iin=" + this.iin
-				+ ", username='" + this.username + '\'' + ", timestamp='" + this.timestamp + '\'' + ", type='"
-				+ this.type + '\'' + '}';
-	}
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getFileContent() {
+        return this.fileContent;
+    }
+
+    public void setFileContent(String fileContent) {
+        this.fileContent = fileContent;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("token", token)
+                .add("wfmId", wfmId)
+                .add("iin", iin)
+                .add("username", username)
+                .add("workstation", workstation)
+                .add("timestamp", timestamp)
+                .add("type", type)
+                .add("fileName", fileName)
+                .add("fileContent", fileContent)
+                .toString();
+    }
 }

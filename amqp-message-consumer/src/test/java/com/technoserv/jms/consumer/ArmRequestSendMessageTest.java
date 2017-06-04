@@ -1,7 +1,6 @@
 package com.technoserv.jms.consumer;
 
 import com.technoserv.db.service.objectmodel.api.RequestService;
-import org.aspectj.lang.annotation.Before;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -15,9 +14,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * Created by sergey on 24.11.2016.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/testContext.xml")
+@ContextConfiguration("/applicationContext.xml")
 @Ignore
 public class ArmRequestSendMessageTest {
+
     @Autowired
     private JmsTemplate jmsTemplate;
 
@@ -32,8 +32,6 @@ public class ArmRequestSendMessageTest {
             jmsTemplate.convertAndSend("arm.queue", request);
             jmsTemplate.convertAndSend("arm.queue", request2);
         }
-
-        Assert.assertEquals(1,requestService.countAll());
-
+        Assert.assertEquals(1, requestService.countAll());
     }
 }

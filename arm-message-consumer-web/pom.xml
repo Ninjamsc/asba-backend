@@ -2,12 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <artifactId>technoserv-root</artifactId>
         <groupId>com.technoserv</groupId>
         <version>1.0.0</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <artifactId>arm-message-consumer-web</artifactId>
     <packaging>war</packaging>
@@ -15,7 +17,6 @@
     <name>ARM Message Consumer Web</name>
 
     <dependencies>
-
         <dependency>
             <groupId>com.technoserv</groupId>
             <artifactId>common</artifactId>
@@ -41,7 +42,6 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-spring</artifactId>
