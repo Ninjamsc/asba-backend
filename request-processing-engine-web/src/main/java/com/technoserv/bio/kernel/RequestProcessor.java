@@ -109,10 +109,10 @@ public class RequestProcessor {
             log.debug("Status updated to IN_PROCESS for request id: {}", request.getId());
 
             byte[] scannedPhoto = photoPersistServiceRestClient.getPhoto(request.getScannedDocument().getFaceSquare());
-            log.debug("Downloaded scannedPhoto: {} URL: {}", scannedPhoto, request.getScannedDocument().getFaceSquare());
+            log.debug("Downloaded scannedPhoto size: {} URL: {}", scannedPhoto.length, request.getScannedDocument().getFaceSquare());
 
             byte[] webCamPhoto = photoPersistServiceRestClient.getPhoto(request.getCameraDocument().getFaceSquare());
-            log.debug("Downloaded webCamPhoto: {} URL: {}", webCamPhoto, request.getCameraDocument().getFaceSquare());
+            log.debug("Downloaded webCamPhoto size: {} URL: {}", webCamPhoto.length, request.getCameraDocument().getFaceSquare());
 
             // шаг 4 построение шаблона
             // компонент 7. Сервис построения шаблонов(биометрическое ядро)
@@ -130,18 +130,17 @@ public class RequestProcessor {
 
             //шаг 5 Построение фильтров
             // компонент 8 Сервис анализа изображений
-
 //                photoAnalyzerServiceRestClient.analyzePhoto(scannedPhoto);//todo uncomment me
-            log.debug("analyzed scannedPhoto: ", scannedPhoto);
+            log.debug("analyzed scannedPhoto size: {}", scannedPhoto.length);
 
 //                photoAnalyzerServiceRestClient.analyzePhoto(webCamPhoto);//todo uncomment me
-            log.debug("analyzed webCamPhoto: {}", webCamPhoto);
+            log.debug("analyzed webCamPhoto size: {}", webCamPhoto.length);
 
             //шаг в 6 Сравнение со списками
             // компонент 9 Сервис сравнения
             log.debug("compareServiceRequest - scannedTemplate + webCamTemplate");
-            CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
 
+            CompareServiceRequest compareServiceRequest = new CompareServiceRequest();
             compareServiceRequest.setIin(request.getPerson().getId());
             compareServiceRequest.setWfmId(request.getId());
             compareServiceRequest.setWebFullFrameURL(request.getCameraDocument().getOrigImageURL());
@@ -227,7 +226,10 @@ public class RequestProcessor {
                                 MAX_NUMBER_OF_RETRIES, retry.getRequestId());
                     } else {
                         Request request = requestService.findById(retry.getRequestId());
-                        processRequest(request, retry.getRetryCount());
+                        if (request.getStatus() != Request.Status.SUCCESS
+                                && request.getStatus() != Request.Status.IN_PROCESS) {
+                            processRequest(request, retry.getRetryCount());
+                        }
                     }
                 }
 

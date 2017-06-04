@@ -17,7 +17,7 @@
         <!-- see the example of method invoking job above -->
         <property name="jobDetail" ref="jobDetail"/>
         <!-- 1 seconds -->
-        <property name="startDelay" value="1000"/>
+        <property name="startDelay" value="3000"/>
         <!-- repeat every 5 second -->
         <property name="repeatInterval" value="5000"/>
     </bean>
@@ -27,6 +27,11 @@
             <list>
                 <ref bean="simpleTrigger"/>
             </list>
+        </property>
+        <property name="quartzProperties">
+            <props>
+                <prop key="org.quartz.threadPool.threadCount">1</prop>
+            </props>
         </property>
     </bean>
 

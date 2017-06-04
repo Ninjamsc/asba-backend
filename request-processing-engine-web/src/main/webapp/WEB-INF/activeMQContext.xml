@@ -37,13 +37,18 @@
         <constructor-arg index="0" value="workflow.queue"/>
     </bean>
 
+    <bean id="rpeRetryRequestQueue" class="org.apache.activemq.command.ActiveMQQueue">
+        <!-- name of the queue -->
+        <constructor-arg index="0" value="rpe.retry.request"/>
+    </bean>
+
     <!-- JmsTemplate Definition -->
-    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+    <bean id="jmsTemplate" name="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
         <property name="connectionFactory" ref="connectionFactory"/>
         <property name="defaultDestinationName" value="workflow.queue"/>
     </bean>
 
-    <bean id="retryRequestTemplate" class="org.springframework.jms.core.JmsTemplate">
+    <bean id="retryRequestJmsTemplate" name="retryRequestJmsTemplate" class="org.springframework.jms.core.JmsTemplate">
         <property name="connectionFactory" ref="connectionFactory"/>
         <property name="defaultDestinationName" value="rpe.retry.request"/>
     </bean>
