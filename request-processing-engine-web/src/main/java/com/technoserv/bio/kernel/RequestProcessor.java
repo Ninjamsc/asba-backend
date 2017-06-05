@@ -103,7 +103,7 @@ public class RequestProcessor {
             }
             log.debug("Requests cycle complete.");
 
-            retryFailedRequests();
+//            retryFailedRequests();
             log.debug("Failed requests queue processed.");
         }
     }
