@@ -1,7 +1,5 @@
 package com.technoserv.db.dao.security.impl;
 
-import java.util.Date;
-
 import com.technoserv.db.dao.AbstractHibernateDao;
 import com.technoserv.db.model.security.PersistentLogin;
 import org.hibernate.Criteria;
@@ -12,6 +10,8 @@ import org.springframework.security.web.authentication.rememberme.PersistentReme
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 
 
 @Repository("tokenRepositoryDao")
@@ -29,7 +29,6 @@ public class HibernateTokenRepositoryImpl extends AbstractHibernateDao<String, P
         persistentLogin.setToken(token.getTokenValue());
         persistentLogin.setLast_used(token.getDate());
         save(persistentLogin);
-
     }
 
     public PersistentRememberMeToken getTokenForSeries(String seriesId) {

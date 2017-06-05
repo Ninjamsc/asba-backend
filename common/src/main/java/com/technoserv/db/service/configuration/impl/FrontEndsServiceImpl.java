@@ -13,7 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
  * Created by sergey on 15.11.2016.
  */
 @Service
-public class FrontEndsServiceImpl extends AbstractService<Long, FrontEnd,FrontEndsDao> implements FrontEndsService {
+public class FrontEndsServiceImpl extends AbstractService<Long, FrontEnd, FrontEndsDao> implements FrontEndsService {
+
     @Override
     @Autowired
     @Qualifier("frontEndsDao")
@@ -27,5 +28,7 @@ public class FrontEndsServiceImpl extends AbstractService<Long, FrontEnd,FrontEn
     }
 
     @Transactional(readOnly = true)
-    public FrontEnd findByWorkstationName(String workstationName) { return getDao().findByWorkstationName(workstationName);}
+    public FrontEnd findByWorkstationName(String workstationName) {
+        return getDao().findByWorkstationName(workstationName);
+    }
 }

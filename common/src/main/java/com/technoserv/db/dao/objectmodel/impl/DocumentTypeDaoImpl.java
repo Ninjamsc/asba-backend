@@ -13,7 +13,7 @@ import java.util.List;
  * Created by sergey on 23.11.2016.
  */
 @Repository("documentTypeDao")
-public class DocumentTypeDaoImpl extends AbstractHibernateDao<Long,DocumentType> implements DocumentTypeDao {
+public class DocumentTypeDaoImpl extends AbstractHibernateDao<Long, DocumentType> implements DocumentTypeDao {
 
     private List<DocumentType> documentTypes;
 

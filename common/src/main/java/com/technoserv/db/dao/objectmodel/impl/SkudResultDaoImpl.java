@@ -1,15 +1,10 @@
 package com.technoserv.db.dao.objectmodel.impl;
 
 import com.technoserv.db.dao.AbstractHibernateDao;
-import com.technoserv.db.dao.objectmodel.api.CompareResultDao;
 import com.technoserv.db.dao.objectmodel.api.SkudResultDao;
-import com.technoserv.db.model.objectmodel.CompareResult;
 import com.technoserv.db.model.objectmodel.SkudResult;
-import com.technoserv.db.model.security.UserProfile;
-import org.hibernate.Criteria;
 import org.hibernate.criterion.Order;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

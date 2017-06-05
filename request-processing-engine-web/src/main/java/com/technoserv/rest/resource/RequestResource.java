@@ -34,10 +34,14 @@ public class RequestResource {
     private PersonService personService;
 
     public static class CreateOrderRequest {
+
         @JsonProperty("_comment")
         private String comment;
+
         private Long iin;
+
         private Long wfmId;
+
         private String username;
 
         public String getComment() {
@@ -74,15 +78,24 @@ public class RequestResource {
     }
 
     public static class GetRequestResponse {
+
         @JsonProperty("_comment")
         private String comment;
+
         private Long iin;
+
         private String username;
+
         private Long wfmid;
+
         private Timestamp timestamp;
+
         private String previewCamURL;
+
         private String fullframeCamURL;
+
         private String previewScanURL;
+
         private String fullframeScanURL;
 
         public String getComment() {
@@ -159,10 +172,14 @@ public class RequestResource {
     }
 
     public static class AddScanPhotoRequest {
+
         @JsonProperty("_comment")
         private String comment;
+
         private Long iin;
+
         private String previewURL;
+
         private String fullframeURL;
 
         public String getComment() {

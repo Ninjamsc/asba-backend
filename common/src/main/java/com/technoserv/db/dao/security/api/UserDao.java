@@ -6,9 +6,7 @@ import com.technoserv.db.model.security.User;
 import java.util.List;
 
 
-
-
-public interface UserDao extends Dao<Integer,User> {
+public interface UserDao extends Dao<Integer, User> {
 
     User findById(int id);
 

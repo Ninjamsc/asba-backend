@@ -1,7 +1,5 @@
 package com.technoserv.db.dao.security.impl;
 
-import java.util.List;
-
 import com.technoserv.db.dao.AbstractHibernateDao;
 import com.technoserv.db.dao.security.api.UserDao;
 import com.technoserv.db.model.security.User;
@@ -13,17 +11,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-
+import java.util.List;
 
 
 @Repository("userDao")
-public class UserDaoImpl extends AbstractHibernateDao<Integer,User> implements UserDao {
+public class UserDaoImpl extends AbstractHibernateDao<Integer, User> implements UserDao {
 
     static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
 
     public User findById(int id) {
         User user = findById(id);
-        if(user!=null){
+        if (user != null) {
             Hibernate.initialize(user.getUserProfiles());
         }
         return user;
@@ -33,8 +31,8 @@ public class UserDaoImpl extends AbstractHibernateDao<Integer,User> implements U
         logger.info("SSO : {}", sso);
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("ssoId", sso));
-        User user = (User)crit.uniqueResult();
-        if(user!=null){
+        User user = (User) crit.uniqueResult();
+        if (user != null) {
             Hibernate.initialize(user.getUserProfiles());
         }
         return user;
@@ -58,7 +56,7 @@ public class UserDaoImpl extends AbstractHibernateDao<Integer,User> implements U
     public void deleteBySSO(String sso) {
         Criteria crit = createEntityCriteria();
         crit.add(Restrictions.eq("ssoId", sso));
-        User user = (User)crit.uniqueResult();
+        User user = (User) crit.uniqueResult();
         delete(user);
     }
 

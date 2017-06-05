@@ -6,10 +6,7 @@ import com.technoserv.db.model.objectmodel.DocumentType;
 import com.technoserv.db.model.objectmodel.Person;
 import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.service.AbstractService;
-import com.technoserv.db.service.objectmodel.api.DocumentService;
-import com.technoserv.db.service.objectmodel.api.DocumentTypeService;
-import com.technoserv.db.service.objectmodel.api.PersonService;
-import com.technoserv.db.service.objectmodel.api.RequestService;
+import com.technoserv.db.service.objectmodel.api.*;
 import com.technoserv.rest.request.RequestSearchCriteria;
 import com.technoserv.utils.HibernateInitializer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +25,15 @@ public class RequestServiceImpl extends AbstractService<Long, Request, RequestDa
 
     @Autowired
     private PersonService personService;
+
     @Autowired
     private DocumentService documentService;
+
     @Autowired
     private DocumentTypeService documentTypeService;
+
+    @Autowired
+    private RequestTraceService requestTraceService;
 
     @Override
     @Autowired
@@ -47,10 +49,8 @@ public class RequestServiceImpl extends AbstractService<Long, Request, RequestDa
 
     @Transactional(readOnly = true)
     public Collection<Request> findByIin(Long id, String... properties) {
-
         Collection<Request> result = dao.findByIin(id);
         HibernateInitializer.initializeProperties(result, properties);
-
         return result;
     }
 
@@ -98,5 +98,11 @@ public class RequestServiceImpl extends AbstractService<Long, Request, RequestDa
     @Transactional(readOnly = true)
     public Integer countByCriteria(RequestSearchCriteria criteria) {
         return getDao().countByCriteria(criteria);
+    }
+
+    @Override
+    public void saveOrUpdate(Request entity) {
+        super.saveOrUpdate(entity);
+        requestTraceService.saveTrace(entity.getId(), entity.getStatus(), "");
     }
 }

@@ -8,7 +8,10 @@ import com.technoserv.rest.request.CompareServiceRequest;
 import io.swagger.annotations.Api;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -28,7 +31,7 @@ public class CompareExternalStubResource {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     @Path("/template")
     public Response find(CompareServiceRequest request) throws IOException {
         String response = "{\n" +
@@ -59,6 +62,6 @@ public class CompareExternalStubResource {
                 "  \"cameraPicture\":{\"pictureURL\":\"<url>\",\"previewURL\":\"<url>\",\"blackLists\":[{\"listId\":5,\"listName\":\"People\",\"photo\":[{\"url\":\"http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg\",\"similarity\":0.02994438539996796},{\"url\":\"http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg\",\"similarity\":0.139474854710958},{\"url\":\"http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg\",\"similarity\":0.139474854710958}],\"similarity\":0.851},{\"listId\":5,\"listName\":\"People\",\"photo\":[{\"url\":\"http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg\",\"similarity\":0.02994438539996796},{\"url\":\"http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg\",\"similarity\":0.139474854710958},{\"url\":\"http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg\",\"similarity\":0.139474854710958}],\"similarity\":0.851},{\"listId\":5,\"listName\":\"People\",\"photo\":[{\"url\":\"http://192.168.167.211:9080/storage/rest/image/78c3e345-490f-4320-803e-f5803fb82015.jpg\",\"similarity\":0.02994438539996796},{\"url\":\"http://192.168.167.211:9080/storage/rest/image/d63fe422-c073-4fe5-961e-83a2770b7f63.jpg\",\"similarity\":0.139474854710958},{\"url\":\"http://192.168.167.211:9080/storage/rest/image/f12ae341-9519-4c79-8774-72b0f0c11184.jpg\",\"similarity\":0.139474854710958}],\"similarity\":0.851}]}\n" +
                 "}";
 
-        return Response.status(Response.Status.OK).entity(new ObjectMapper().readValue(response, JsonNode.class)).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build();
+        return Response.status(Response.Status.OK).entity(new ObjectMapper().readValue(response, JsonNode.class)).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON + "; charset=UTF-8").build();
     }
 }

@@ -1,5 +1,6 @@
 package com.technoserv.db.model.configuration;
 
+import com.google.common.base.MoreObjects;
 import com.technoserv.db.model.BaseEntity;
 
 import javax.persistence.*;
@@ -33,5 +34,13 @@ public class SystemSettings extends BaseEntity<SystemSettingsType> {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("value", value)
+                .toString();
     }
 }

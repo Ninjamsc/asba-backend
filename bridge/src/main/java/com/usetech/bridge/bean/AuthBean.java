@@ -11,6 +11,7 @@ import java.io.Serializable;
 public class AuthBean implements Serializable {
 
     private static final long serialVersionUID = -5054749880970511861L;
+
     @JsonProperty(value = "token")
     @NotNull
     private String token;

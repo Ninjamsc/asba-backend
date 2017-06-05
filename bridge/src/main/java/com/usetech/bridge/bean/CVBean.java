@@ -23,29 +23,40 @@ public class CVBean {
 
     @JsonProperty
     private PreviewProperties previewProperties;
+
     @JsonProperty
     private String yaw_threshold;
+
     @JsonProperty
     private String roll_threshold;
+
     @JsonProperty
     private String pitch_threshold;
+
     @JsonProperty
     private String blur_detection_thres;
+
     @JsonProperty
     private String brithness_thres_low;
+
     @JsonProperty
     private String brithness_thres_high;
+
     @JsonProperty
     private String lips_threshhold;
+
     @JsonProperty
     private String blur_threshhold;
+
     @JsonProperty
     private String video_record_max_duration;
 
     @JsonProperty
     private String yaw_mean;
+
     @JsonProperty
     private String roll_mean;
+
     @JsonProperty
     private String pitch_mean;
 

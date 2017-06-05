@@ -4,6 +4,7 @@ package com.technoserv.db.model.configuration;
  * Created by 90630 on 14.12.2016.
  */
 public enum SystemSettingsType {
+
     PHOTO_PERSIST_SERVICE_URL("http://www.sdorohov.ru/image-storage/rest/image"),
     COMPARE_SERVICE_URL("http://www.sdorohov.ru/compare/api/template"),
     COMPARE_SERVICE_STOP_LIST_URL("http://www.sdorohov.ru/compare/api/stoplist"),
@@ -20,13 +21,13 @@ public enum SystemSettingsType {
     TEVIAN_CORE_VERSION("1"),
     TEVIAN_CORE_LINK("http://localhost:8082/generate");
 
-    private final String defauldValue;
+    private final String defaultValue;
 
-    SystemSettingsType(String defauldValue) {
-        this.defauldValue = defauldValue;
+    SystemSettingsType(String defaultValue) {
+        this.defaultValue = defaultValue;
     }
 
-    public String getDefauldValue() {
-        return defauldValue;
+    public String getDefaultValue() {
+        return defaultValue;
     }
 }

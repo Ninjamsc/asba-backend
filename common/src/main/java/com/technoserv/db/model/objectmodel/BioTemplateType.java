@@ -9,17 +9,19 @@ import java.util.Date;
  * Справочник типов биометрических шаблонов (Фото, вены, отпечатки пальцев и т.п.)
  */
 @Entity
-@Table(name="BIO_TEMPLATES_TYPES")
+@Table(name = "BIO_TEMPLATES_TYPES")
 public class BioTemplateType extends BaseEntity<Long> {
 
-    public enum Type{UNDEF(0,"reserved"), PORTRAIT(1,"портретная свёртка"), FINGERPRINT(2,"пальцы");
+    public enum Type {
+        UNDEF(0, "reserved"), PORTRAIT(1, "портретная свёртка"), FINGERPRINT(2, "пальцы");
         private long value;
         private String description;
 
-        Type(long value,String description) {
+        Type(long value, String description) {
             this.value = value;
             this.description = description;
         }
+
         public long getValue() {
             return value;
         }
@@ -27,7 +29,7 @@ public class BioTemplateType extends BaseEntity<Long> {
         public String getDescription() {
             return description;
         }
-    };
+    }
 
     /**
      * уникальный идентификатор объекта

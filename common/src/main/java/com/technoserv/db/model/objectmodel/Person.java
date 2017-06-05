@@ -28,6 +28,7 @@ public class Person extends BaseEntity<Long> {
     @Id
     @Column(name = "ID")
     private Long id;
+
     /**
      * массив всех заявок
      */

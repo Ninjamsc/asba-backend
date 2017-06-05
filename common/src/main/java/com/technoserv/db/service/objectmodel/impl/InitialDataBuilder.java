@@ -38,13 +38,13 @@ public class InitialDataBuilder implements InitializingBean {
 
     public void afterPropertiesSet() throws Exception {
 
-        if(documentTypeService.countAll()==0) {
+        if (documentTypeService.countAll() == 0) {
             for (DocumentType.Type type : DocumentType.Type.values()) {
                 documentTypeService.save(new DocumentType(type, type.toString()));
             }
         }
 
-        if(bioTemplateTypeService.countAll()==0) {
+        if (bioTemplateTypeService.countAll() == 0) {
             for (BioTemplateType.Type type : BioTemplateType.Type.values()) {
                 BioTemplateType bioTemplateType = new BioTemplateType();
                 bioTemplateType.setDescription(type.getDescription());
@@ -53,18 +53,18 @@ public class InitialDataBuilder implements InitializingBean {
             }
         }
 
-        if(systemSettingService.countAll() != SystemSettingsType.values().length) {
+        if (systemSettingService.countAll() != SystemSettingsType.values().length) {
             for (SystemSettingsType systemSettingsType : SystemSettingsType.values()) {
-                if(systemSettingService.findById(systemSettingsType)==null) {
+                if (systemSettingService.findById(systemSettingsType) == null) {
                     SystemSettings systemSettings = new SystemSettings();
                     systemSettings.setId(systemSettingsType);
-                    systemSettings.setValue(systemSettingsType.getDefauldValue());
+                    systemSettings.setValue(systemSettingsType.getDefaultValue());
                     systemSettingService.saveOrUpdate(systemSettings);
                 }
             }
         }
 
-        if(userService.countAll() == 0) {
+        if (userService.countAll() == 0) {
             User user = new User();
             Set<UserProfile> userProfileSet = new HashSet<UserProfile>();
             user.setSsoId("read");

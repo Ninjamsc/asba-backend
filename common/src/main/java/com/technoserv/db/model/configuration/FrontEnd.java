@@ -19,7 +19,8 @@ public class FrontEnd extends AbstractObject {
         this.clientVersion = clientVersion;
     }
 
-    public FrontEnd(){}
+    public FrontEnd() {
+    }
 
     @Column(name = "UUID", nullable = false)
     private String uuid;

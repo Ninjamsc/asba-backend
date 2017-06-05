@@ -1,7 +1,5 @@
 package com.technoserv.db.dao.security.impl;
 
-import java.util.List;
-
 import com.technoserv.db.dao.AbstractHibernateDao;
 import com.technoserv.db.dao.security.api.UserProfileDao;
 import com.technoserv.db.model.security.UserProfile;
@@ -10,7 +8,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-
+import java.util.List;
 
 
 @Repository("userProfileDao")
@@ -27,10 +25,10 @@ public class UserProfileDaoImpl extends AbstractHibernateDao<Integer, UserProfil
     }
 
     @SuppressWarnings("unchecked")
-    public List<UserProfile> findAll(){
+    public List<UserProfile> findAll() {
         Criteria crit = createEntityCriteria();
         crit.addOrder(Order.asc("type"));
-        return (List<UserProfile>)crit.list();
+        return (List<UserProfile>) crit.list();
     }
 
 }

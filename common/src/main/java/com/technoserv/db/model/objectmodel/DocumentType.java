@@ -1,6 +1,7 @@
 package com.technoserv.db.model.objectmodel;
 
 
+import com.google.common.base.MoreObjects;
 import com.technoserv.db.model.BaseEntity;
 
 import javax.persistence.*;
@@ -13,28 +14,32 @@ import javax.persistence.*;
 @Cacheable
 public class DocumentType extends BaseEntity<Long> {
 
-
     /**
      * 0 - ANY
      * 1 - SCANNER
      * 2 - WEBCAM
      * 3 - STOPLIST
      */
-    public enum Type{ANY(0), SCANNER(1), WEB_CAM(2), STOP_LIST(3);
+    public enum Type {
+        ANY(0), SCANNER(1), WEB_CAM(2), STOP_LIST(3);
         private long value;
 
         Type(long value) {
             this.value = value;
         }
+
         public long getValue() {
             return value;
         }
-    };
+    }
 
-    public DocumentType() { }
+    public DocumentType() {
+    }
+
     public DocumentType(Type type) {
         this.id = type.getValue();
     }
+
     public DocumentType(Type type, String description) {
         this.type = type;
         this.description = description;
@@ -45,7 +50,7 @@ public class DocumentType extends BaseEntity<Long> {
     @GeneratedValue
     private Long id;
 
-    @Column(name = "TYPE",unique = true)
+    @Column(name = "TYPE", unique = true)
     @Enumerated(EnumType.STRING)
     private Type type;
 
@@ -55,6 +60,7 @@ public class DocumentType extends BaseEntity<Long> {
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -73,5 +79,14 @@ public class DocumentType extends BaseEntity<Long> {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("type", type)
+                .add("description", description)
+                .toString();
     }
 }

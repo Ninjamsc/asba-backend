@@ -25,6 +25,7 @@ public abstract class AbstractObject extends BaseEntity<Long> {
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -32,6 +33,7 @@ public abstract class AbstractObject extends BaseEntity<Long> {
     public Date getObjectDate() {
         return objectDate;
     }
+
     public void setObjectDate(Date objectDate) {
         this.objectDate = objectDate;
     }

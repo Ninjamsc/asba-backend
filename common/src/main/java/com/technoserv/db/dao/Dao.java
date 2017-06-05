@@ -6,26 +6,27 @@ import com.technoserv.db.model.BaseEntity;
 import java.io.Serializable;
 import java.util.List;
 
-public interface Dao<ID extends Serializable,T extends BaseEntity<ID>> {
+public interface Dao<ID extends Serializable, T extends BaseEntity<ID>> {
 
     /**
      * Загружает сущность по заданному id и инициализирует указанные поля.
+     *
      * @param id - идентификатор сущности.
      * @return сущность
      */
-    public T get(ID id);
+    T get(ID id);
 
-    public void saveOrUpdate(T entity);
+    void saveOrUpdate(T entity);
 
-    public void update(T entity);
+    void update(T entity);
 
-    public ID save(T entity);
+    ID save(T entity);
 
-    public void delete(T entity);
-    
-    public List<T> getAll();
+    void delete(T entity);
 
-	public int countAll();
+    List<T> getAll();
+
+    int countAll();
 
     List<T> getAll(int page, int max);
 }

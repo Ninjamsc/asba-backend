@@ -12,41 +12,38 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(value = {"/rest"})
+@RequestMapping("/rest")
 public class RequestController {
 
     private static final Logger log = LoggerFactory.getLogger(RequestController.class);
 
-    @Autowired
     private LogStoreService logStoreService;
 
-    @Autowired
     private SendImageService sendImageService;
 
-    @Autowired
     private SendLogService sendLogService;
 
-    @Autowired
     private CommonConfig config;
 
-    private final RestTemplate restTemplate;
-
-    public RequestController() {
-        this.restTemplate = new RestTemplate();
+    @Autowired
+    public RequestController(LogStoreService logStoreService, SendImageService sendImageService,
+                             SendLogService sendLogService, CommonConfig config) {
+        this.logStoreService = logStoreService;
+        this.sendImageService = sendImageService;
+        this.sendLogService = sendLogService;
+        this.config = config;
     }
 
-    @RequestMapping(value = {"/auth"}, method = {RequestMethod.PUT})
+    @PutMapping("/auth")
     public ResponseEntity auth(@Valid @RequestBody AuthBean authBean) {
-        log.info("Incoming AuthBean detected: {}", authBean);
+        log.info("auth authBean: {}", authBean);
 
         CVBean cvs = new CVBean();
         cvs.setBlur_detection_thres(config.getBlur_detection_thres());
@@ -63,14 +60,17 @@ public class RequestController {
         cvs.setPitch_mean(config.getPitch_mean());
         cvs.setPicHeight(config.getPic_height());
         cvs.setPicWidth(config.getPic_width());
-        return ResponseEntity.ok().body((Object) cvs);
+
+        return ResponseEntity.ok().body(cvs);
     }
 
-    @RequestMapping(value = {"/reg"}, method = {RequestMethod.POST})
+    @PostMapping("/reg")
     public ResponseEntity auth(@Valid @RequestBody RegBean regBean) {
-        log.info("Incoming RegBean detected: {}", regBean);
+        log.info("auth regBean detected: {}", regBean);
 
         RestTemplate restTemplate = new RestTemplate();
+
+        // TODO: remove hard coded URL
         String REGISTRATION_URL = "http://localhost:9080/rpe/api/rest/front-ends";
 
         FrontEnd frontEnd = new FrontEnd(
@@ -79,53 +79,56 @@ public class RequestController {
                 regBean.getOsVersion(),
                 regBean.getUsername(),
                 regBean.getClientVersion());
+
         return restTemplate.postForEntity(REGISTRATION_URL, frontEnd, FrontEnd.class);
     }
 
-    @RequestMapping(value = {"/log"}, method = {RequestMethod.GET})
+    @GetMapping("/log")
     public ResponseEntity storeLog(@RequestBody LogStoreBean logStoreBean) {
         if (logStoreService.saveFile(logStoreBean)) {
-            return ResponseEntity.status(HttpStatus.OK).body(null);
+            return ResponseEntity.ok().build();
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        return ResponseEntity.badRequest().build();
     }
 
-    @RequestMapping(value = {"/ping"}, method = {RequestMethod.GET})
+    @GetMapping("/ping")
     public ResponseEntity ping() {
         return ResponseEntity.ok().build();
     }
 
-    @RequestMapping(value = {"/preview"}, method = {RequestMethod.PUT})
-    public ResponseEntity preview(@Valid @RequestBody FrameBean frameBean) {
-        log.debug("preview frameBean: {}", frameBean);
-        return this.send(frameBean, ImageType.PREVIEW);
+    @PutMapping("/preview")
+    public ResponseEntity preview(@Valid @RequestBody FrameBean frameBean, HttpServletRequest request) {
+        log.debug("preview frameBean: {} remoteIp: {}", frameBean, request.getRemoteAddr());
+        return send(frameBean, ImageType.PREVIEW);
     }
 
-    @RequestMapping(value = {"/fullframe"}, method = {RequestMethod.PUT})
-    public ResponseEntity fullframe(@Valid @RequestBody FrameBean frameBean) {
-        log.debug("fullframe frameBean: {}", frameBean);
-        return this.send(frameBean, ImageType.FULLFRAME);
+    @PutMapping("/fullframe")
+    public ResponseEntity fullframe(@Valid @RequestBody FrameBean frameBean, HttpServletRequest request) {
+        log.debug("fullframe frameBean: {} remoteIp: {}", frameBean, request.getRemoteAddr());
+        return send(frameBean, ImageType.FULLFRAME);
     }
 
-    @RequestMapping(value = {"/log"}, method = {RequestMethod.PUT})
-    public ResponseEntity log(@Valid @RequestBody LogBean logBean) {
-        return this.send(logBean);
+    @PutMapping("/log")
+    public ResponseEntity log(@Valid @RequestBody LogBean logBean, HttpServletRequest request) {
+        log.debug("log logBean: {} remoteIp: {}", logBean, request.getRemoteAddr());
+        return send(logBean);
     }
 
     private ResponseEntity send(LogBean logBean) {
-        ResponseEntity responseEntity = this.validate(logBean);
-        if (responseEntity.getStatusCode() == HttpStatus.OK && !this.sendLogService.send(logBean)) {
-            return ResponseEntity.status((HttpStatus) HttpStatus.BAD_REQUEST)
-                    .body((Object) new ErrorBean("failed to deliver message"));
+        ResponseEntity responseEntity = validate(logBean);
+
+        if (responseEntity.getStatusCode() == HttpStatus.OK && !sendLogService.send(logBean)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorBean("failed to deliver message"));
         }
         return responseEntity;
     }
 
     private ResponseEntity send(FrameBean frameBean, ImageType imageType) {
         ResponseEntity responseEntity = this.validate(frameBean, imageType);
-        if (responseEntity.getStatusCode() == HttpStatus.OK && !this.sendImageService.send(frameBean)) {
-            return ResponseEntity.status((HttpStatus) HttpStatus.BAD_REQUEST)
-                    .body((Object) new ErrorBean("failed to deliver message"));
+        if (responseEntity.getStatusCode() == HttpStatus.OK && !sendImageService.send(frameBean)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorBean("failed to deliver message"));
         }
         return responseEntity;
     }
@@ -134,17 +137,17 @@ public class RequestController {
         ImageType image = ImageType.findByCode(frameBean.getType());
         if (image == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body((Object) new ErrorBean("Provided image type " + frameBean.getType() + " is invalid"));
+                    .body(new ErrorBean(String.format("Provided image type %s is invalid", frameBean.getType())));
         }
         if (image != imageType) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body((Object) new ErrorBean(
-                    "Provided image type doesn't match expected " + (Object) ((Object) imageType)));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(new ErrorBean("Provided image type doesn't match expected: " + imageType));
         }
-        return ResponseEntity.status(HttpStatus.OK).body((Object) null);
+        return ResponseEntity.ok().build();
     }
 
     private ResponseEntity validate(LogBean logBean) {
-        return ResponseEntity.status(HttpStatus.OK).body((Object) null);
+        return ResponseEntity.ok().build();
     }
 
 }

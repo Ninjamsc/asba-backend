@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  * Created by sergey on 15.11.2016.
  */
 @Repository("frontEndsDao")
-public class FrontEndsDaoImpl extends AbstractHibernateDao<Long,FrontEnd> implements FrontEndsDao {
+public class FrontEndsDaoImpl extends AbstractHibernateDao<Long, FrontEnd> implements FrontEndsDao {
 
     public FrontEnd findByUuid(String uuid) {
         return (FrontEnd) getSession().createCriteria(getPersistentClass())

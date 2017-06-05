@@ -16,7 +16,8 @@ import java.util.List;
  */
 @Service
 @Transactional
-public class SkudResultServiceImpl extends AbstractService<Long,SkudResult,SkudResultDao> implements SkudResultService {
+public class SkudResultServiceImpl extends AbstractService<Long, SkudResult, SkudResultDao>
+        implements SkudResultService {
 
     @Autowired
     @Qualifier("skudResultDao")
