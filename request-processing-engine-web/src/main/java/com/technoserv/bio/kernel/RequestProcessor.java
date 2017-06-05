@@ -85,7 +85,7 @@ public class RequestProcessor {
 
     private static final int MAX_NUMBER_OF_RETRIES = 5;
 
-    private Object processLock = new Object();
+    private final Object processLock = new Object();
 
     public RequestProcessor() {
     }
@@ -101,7 +101,10 @@ public class RequestProcessor {
             for (Request request : requestList) {
                 processRequest(request, 0);
             }
+            log.debug("Requests cycle complete.");
+
             retryFailedRequests();
+            log.debug("Failed requests queue processed.");
         }
     }
 
@@ -185,7 +188,7 @@ public class RequestProcessor {
             updateRequestStatus(request, Request.Status.FAILED);
             log.warn("Status updated to FAILED for request: {}", request.getId());
 
-            sendToRetryQueue(request, previousRetryCount);
+//            sendToRetryQueue(request, previousRetryCount);
 
             if (isNeedToSentToWorkflowQueue()) {
                 jmsTemplate.convertAndSend(rce.toJSON());
@@ -197,7 +200,7 @@ public class RequestProcessor {
             updateRequestStatus(request, Request.Status.FAILED); // выставляем статус для ретрая
             log.warn("Status updated to FAILED for request: {}", request.getId());
 
-            sendToRetryQueue(request, previousRetryCount);
+//            sendToRetryQueue(request, previousRetryCount);
         }
     }
 
