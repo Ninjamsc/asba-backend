@@ -11,7 +11,7 @@ import java.util.Calendar;
  *
  */
 @Entity
-@Table(name = "request_trace")
+@Table(name = "request_traces")
 public class RequestTrace extends BaseEntity<Long> {
 
     private Long id;

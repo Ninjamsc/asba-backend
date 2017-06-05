@@ -46,6 +46,7 @@ public class RequestController {
         log.info("auth authBean: {}", authBean);
 
         CVBean cvs = new CVBean();
+
         cvs.setBlur_detection_thres(config.getBlur_detection_thres());
         cvs.setBlur_threshhold(config.getBlur_threshhold());
         cvs.setBrithness_thres_high(config.getBrithness_thres_high());
@@ -116,7 +117,6 @@ public class RequestController {
 
     private ResponseEntity send(LogBean logBean) {
         ResponseEntity responseEntity = validate(logBean);
-
         if (responseEntity.getStatusCode() == HttpStatus.OK && !sendLogService.send(logBean)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorBean("failed to deliver message"));
