@@ -95,8 +95,8 @@ public class ArmRequestJmsConsumer {
             if (requestEntity != null) {
                 log.warn("Request: %d already exists in the database: %s", requestEntity.getId(), requestEntity);
                 if (requestEntity.getStatus() == Request.Status.SUCCESS
-                        && requestEntity.getStatus() == Request.Status.FAILED
-                        && requestEntity.getStatus() == Request.Status.REJECTED) {
+                        || requestEntity.getStatus() == Request.Status.FAILED
+                        || requestEntity.getStatus() == Request.Status.REJECTED) {
 
                     log.warn("Request: %d is process already and now its status: %s. Request will NOT be processed again.",
                             requestEntity.getId(), requestEntity.getStatus());
