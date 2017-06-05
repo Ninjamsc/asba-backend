@@ -56,8 +56,8 @@ public class ArmRequestJmsConsumer {
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
-    @Value("${arm-retry.queue.maxRetryCount}")
-    private int maxTryCount = 10;
+//    @Value("${arm-retry.queue.maxRetryCount}")
+//    private int maxTryCount = 10;
 
     public void onReceive(String message) {
         log.debug("onReceive message length: {}", StringUtils.length(message));

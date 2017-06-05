@@ -39,7 +39,7 @@
     <logger name="com.technoserv" level="DEBUG">
     </logger>
 
-    <logger name="com.usetech.bridge" level="DEBUG">
+    <logger name="com.usetech" level="DEBUG">
     </logger>
 
 </configuration>
