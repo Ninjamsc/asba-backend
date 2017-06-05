@@ -2,7 +2,6 @@ package com.technoserv.db.model.objectmodel;
 
 import com.google.common.base.MoreObjects;
 import com.technoserv.db.model.BaseEntity;
-import org.apache.commons.lang.StringUtils;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

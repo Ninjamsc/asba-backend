@@ -7,10 +7,10 @@ var photos = {
 
 var doResize;
 
-$(document).ready(function() {
+$(document).ready(function () {
     ScaleFacePanels();
     $('[data-toggle="tooltip"]').tooltip();
-    $('#photo0').change( function() {
+    $('#photo0').change(function () {
         readURL1(this);
         $('#photo0_wrapper').attr('data-text', $(this).val());
         $('#submit_button').removeClass('pre1');
@@ -18,7 +18,7 @@ $(document).ready(function() {
             $('#submit_button').prop('disabled', false);
         }
     });
-    $('#photo1').change( function() {
+    $('#photo1').change(function () {
         readURL2(this);
         $('#photo1_wrapper').attr('data-text', $(this).val());
         $('#submit_button').removeClass('pre2');
@@ -28,8 +28,8 @@ $(document).ready(function() {
     });
 });
 
-$(window).resize(function(){
-    $('.face-detection').each(function() {
+$(window).resize(function () {
+    $('.face-detection').each(function () {
         $(this).hide();
     });
     clearTimeout(doResize);
@@ -47,7 +47,7 @@ function onResize() {
 }
 
 function ScaleFacePanels() {
-    $('.face-panel').each(function() {
+    $('.face-panel').each(function () {
         var body = $(this).find('.panel-body');
         body.height(body.width());
         var faceCircle = $(this).find('.face-placeholder');
@@ -78,13 +78,13 @@ function TrackImage(photo_idx) {
     image.faceDetection({
         complete: function (faces) {
             var maxConfidence_idx = 0;
-            for (var i=0; i < faces.length; i++) {
+            for (var i = 0; i < faces.length; i++) {
                 var currentFace = faces[i];
                 if (currentFace.confidence > faces[maxConfidence_idx].confidence) {
                     maxConfidence_idx = i;
                 }
             }
-            faceDetection= faces[maxConfidence_idx];
+            faceDetection = faces[maxConfidence_idx];
             if (faceDetection) {
                 faceRect.css({
                     left: image.offset().left + faceDetection.x * faceDetection.scaleX,
@@ -154,7 +154,7 @@ function onImageLoaded(photo_idx) {
 function onImageLoadingError(photo_idx) {
     photos['photo' + photo_idx] = null;
     CheckPhotos();
-    
+
     alert('Ошибка при загрузке фотографии');
     var image = $('#image' + photo_idx);
     var placeholder = $('#placeholder' + photo_idx);
@@ -173,7 +173,7 @@ function SubmitPhotos() {
         alertWaiting.show();
         alertSuccess.hide();
         alertFail.hide();
-        window.scrollTo(0,document.body.scrollHeight);
+        window.scrollTo(0, document.body.scrollHeight);
 
         $.ajax({
             async: true,
@@ -186,7 +186,7 @@ function SubmitPhotos() {
                 var similarity = result['similarity'];
                 similarity = Math.round(similarity * 100) / 100;
                 alertWaiting.hide();
-                $('.result-value').each(function() {
+                $('.result-value').each(function () {
                     $(this).text(similarity);
                     if (similarity < SIMILARITY_THRESHOLD) {
                         alertSuccess.hide();

@@ -1,29 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
-       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation=
-       "http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+               "http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd 
-       http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd 
-       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
-<!--  
-<util:map id="converters" scope="prototype"   map-class="java.util.HashMap"  key-type="java.lang.String" value-type="java.lang.String">
-    <entry key="scanAndWeb" value="com.technoserv.rest.comparator.Compare2Photos" />
-</util:map>
- -->
-<!--    <import resource="security-context.xml"/> -->
+
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--
+    <util:map id="converters" scope="prototype"   map-class="java.util.HashMap"  key-type="java.lang.String" value-type="java.lang.String">
+        <entry key="scanAndWeb" value="com.technoserv.rest.comparator.Compare2Photos" />
+    </util:map>
+     -->
+    <!--    <import resource="security-context.xml"/> -->
     <context:annotation-config/>
     <context:component-scan base-package="com.technoserv.db.*"/>
     <context:component-scan base-package="com.technoserv.rest.*"/>
     <context:component-scan base-package="com.technoserv.rest.resources"/>
-     <context:component-scan base-package="com.technoserv.rest.model"/>
+    <context:component-scan base-package="com.technoserv.rest.model"/>
     <import resource="${data-source-context.xml.name}"/>
     <!--<import resource="data-source-context-prod.xml"/>-->
-    <tx:annotation-driven />
-
+    <tx:annotation-driven/>
 
 </beans>

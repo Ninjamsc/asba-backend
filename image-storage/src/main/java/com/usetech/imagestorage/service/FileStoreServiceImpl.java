@@ -23,7 +23,7 @@ import java.nio.file.Paths;
 @Service
 public class FileStoreServiceImpl implements FileStoreService {
 
-    private final Logger log = LoggerFactory.getLogger(this.getClass());
+    private final Logger log = LoggerFactory.getLogger(FileStoreServiceImpl.class);
 
     @Autowired
     private CommonConfig config;
@@ -48,12 +48,12 @@ public class FileStoreServiceImpl implements FileStoreService {
 
     @Override
     public boolean saveFile(ImageStoreBean imageStoreBean) {
-    	String base64Image;
-    	String encoded_file = imageStoreBean.getFileContent();
-    	if(encoded_file.startsWith("data:image"))
-          base64Image = encoded_file.split(",")[1];
-    	else
-    		base64Image = encoded_file;
+        String base64Image;
+        String encoded_file = imageStoreBean.getFileContent();
+        if (encoded_file.startsWith("data:image"))
+            base64Image = encoded_file.split(",")[1];
+        else
+            base64Image = encoded_file;
 
         byte[] data = Base64.decodeBase64(base64Image.getBytes());
         File file = new File(getFilePathString(imageStoreBean.getFileName()));
@@ -69,7 +69,7 @@ public class FileStoreServiceImpl implements FileStoreService {
     private String getFilePathString(String fileName) {
         StringBuilder builder = new StringBuilder();
         builder.append(config.getImageRootDir());
-        if(!config.getImageRootDir().endsWith(File.separator)) {
+        if (!config.getImageRootDir().endsWith(File.separator)) {
             builder.append(File.separator);
         }
         builder.append(fileName);

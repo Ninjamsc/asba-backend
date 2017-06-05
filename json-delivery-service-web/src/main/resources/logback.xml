@@ -41,19 +41,19 @@
 
 </configuration>
 
-<!--<configuration>-->
+        <!--<configuration>-->
 
-    <!--<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
+        <!--<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
         <!--<layout class="ch.qos.logback.classic.PatternLayout">-->
-            <!--<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>-->
+        <!--<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>-->
         <!--</layout>-->
-    <!--</appender>-->
+        <!--</appender>-->
 
-    <!--<logger name="com.base22" level="TRACE"/>-->
+        <!--<logger name="com.base22" level="TRACE"/>-->
 
 
-    <!--<root level="debug">-->
+        <!--<root level="debug">-->
         <!--<appender-ref ref="STDOUT"/>-->
-    <!--</root>-->
-<!--</configuration>-->
+        <!--</root>-->
+        <!--</configuration>-->
 

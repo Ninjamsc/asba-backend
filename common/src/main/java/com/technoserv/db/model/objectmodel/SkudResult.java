@@ -38,11 +38,10 @@ public class SkudResult extends AbstractObject {
     @Column(name = "SIMILARITY") // degree of similarity
     private Double similarity;
 
-    //from request
+    // from request
     @Column(name = "TIMESTAMP") //TODO absent in db model
     @Temporal(TemporalType.TIMESTAMP)
     private Date orderDate;
-
 
     public SkudResult() {
     }

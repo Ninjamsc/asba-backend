@@ -5,7 +5,6 @@ package com.technoserv.rest.exception;
  */
 public class PhotoAnalizerServiceException extends RestClientException {
 
-
     public PhotoAnalizerServiceException(String error) {
         super(error);
     }

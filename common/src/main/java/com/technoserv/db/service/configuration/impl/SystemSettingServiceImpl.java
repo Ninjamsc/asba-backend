@@ -13,7 +13,8 @@ import org.springframework.stereotype.Service;
  * Created by 90630 on 14.12.2016.
  */
 @Service
-public class SystemSettingServiceImpl extends AbstractService<SystemSettingsType,SystemSettings,SystemSettingDao> implements SystemSettingService {
+public class SystemSettingServiceImpl extends AbstractService<SystemSettingsType, SystemSettings, SystemSettingDao>
+        implements SystemSettingService {
 
     @Override
     @Autowired
@@ -21,4 +22,5 @@ public class SystemSettingServiceImpl extends AbstractService<SystemSettingsType
     public void setDao(SystemSettingDao dao) {
         this.dao = dao;
     }
+
 }

@@ -28,4 +28,5 @@ public class SkudResultServiceImpl extends AbstractService<Long, SkudResult, Sku
     public List<SkudResult> findAll() {
         return dao.findAll();
     }
+
 }

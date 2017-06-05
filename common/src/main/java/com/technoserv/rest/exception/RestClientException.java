@@ -3,7 +3,7 @@ package com.technoserv.rest.exception;
 /**
  * Created by VBasakov on 23.11.2016.
  */
-public abstract class RestClientException extends RuntimeException{
+public abstract class RestClientException extends RuntimeException {
 
     private String error;
 
@@ -16,4 +16,5 @@ public abstract class RestClientException extends RuntimeException{
     }
 
     protected abstract String getServiceName();
+
 }

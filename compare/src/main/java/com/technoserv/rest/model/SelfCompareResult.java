@@ -3,10 +3,12 @@ package com.technoserv.rest.model;
 /**
  * Created by mlevitin on 21.12.2016.
  */
-public class SelfCompareResult
-{
+public class SelfCompareResult {
+
     private boolean isSimilar;
+
     private double threshold;
+
     private double similarity;
 
     public boolean isSimilar() {
@@ -16,7 +18,6 @@ public class SelfCompareResult
     public void setSimilar(boolean similar) {
         isSimilar = similar;
     }
-
 
     public double getThreshold() {
         return threshold;

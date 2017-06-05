@@ -62,7 +62,6 @@ public class CommonConfig {
     @Value(value = "${com.technoserv.pic.width}")
     private String pic_width;
 
-
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();

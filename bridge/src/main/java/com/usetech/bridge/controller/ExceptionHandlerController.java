@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
+
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   HttpHeaders headers, HttpStatus status, WebRequest request) {
         return ResponseEntity.status((HttpStatus) HttpStatus.BAD_REQUEST).body((Object) new ErrorBean(ex.getMessage()));

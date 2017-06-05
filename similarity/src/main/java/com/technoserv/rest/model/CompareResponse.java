@@ -2,45 +2,47 @@ package com.technoserv.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.technoserv.db.model.objectmodel.Document;
-
-import java.util.ArrayList;
+import com.google.common.base.MoreObjects;
 
 public class CompareResponse {
 
-	public String getPictureAURL() {
-		return pictureAURL;
-	}
+    @JsonInclude(Include.NON_EMPTY)
+    private String pictureAURL;
 
-	public void setPictureAURL(String pictureAURL) {
-		this.pictureAURL = pictureAURL;
-	}
+    private String pictureBURL;
 
-	public String getPictureBURL() {
-		return pictureBURL;
-	}
+    private Double similarity;
 
-	public void setPictureBURL(String pictureBURL) {
-		this.pictureBURL = pictureBURL;
-	}
+    public String getPictureAURL() {
+        return pictureAURL;
+    }
 
-	public Double getSimilarity() {
-		return similarity;
-	}
+    public void setPictureAURL(String pictureAURL) {
+        this.pictureAURL = pictureAURL;
+    }
 
-	public void setSimilarity(Double similarity) {
-		this.similarity = similarity;
-	}
+    public String getPictureBURL() {
+        return pictureBURL;
+    }
 
-	@JsonInclude(Include.NON_EMPTY)
+    public void setPictureBURL(String pictureBURL) {
+        this.pictureBURL = pictureBURL;
+    }
 
-	private String pictureAURL;
-	private String pictureBURL;
-	private Double similarity;
+    public Double getSimilarity() {
+        return similarity;
+    }
 
+    public void setSimilarity(Double similarity) {
+        this.similarity = similarity;
+    }
 
-	@Override
-	public String toString() {
-		return "CompareResponse [pictureA URL=" + pictureAURL + ", pictureB URL="+pictureBURL+"]";
-	}
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("pictureAURL", pictureAURL)
+                .add("pictureBURL", pictureBURL)
+                .add("similarity", similarity)
+                .toString();
+    }
 }

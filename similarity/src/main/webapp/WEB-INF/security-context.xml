@@ -12,14 +12,20 @@
 
     <security:http>
 
-        <security:intercept-url method="POST" pattern="/api/stoplist/" access="hasRole('ROLE_ADMIN') or hasRole('ROLE_WRITE')"/>
-        <security:intercept-url method="DELETE" pattern="/api/stoplist/" access="hasRole('ROLE_ADMIN') or hasRole('ROLE_WRITE')"/>
-        <security:intercept-url method="PUT" pattern="/api/stoplist/" access="hasRole('ROLE_ADMIN') or hasRole('ROLE_WRITE')"/>
+        <security:intercept-url method="POST" pattern="/api/stoplist/"
+                                access="hasRole('ROLE_ADMIN') or hasRole('ROLE_WRITE')"/>
+        <security:intercept-url method="DELETE" pattern="/api/stoplist/"
+                                access="hasRole('ROLE_ADMIN') or hasRole('ROLE_WRITE')"/>
+        <security:intercept-url method="PUT" pattern="/api/stoplist/"
+                                access="hasRole('ROLE_ADMIN') or hasRole('ROLE_WRITE')"/>
 
 
-        <security:intercept-url method="POST" pattern="/api/stop-list/**" access="hasRole('ROLE_ADMIN') or hasRole('ROLE_WRITE')"/>
-        <security:intercept-url method="PUT" pattern="/api/stop-list/**" access="hasRole('ROLE_ADMIN') or hasRole('ROLE_WRITE')"/>
-        <security:intercept-url method="DELETE" pattern="/api/stop-list/**" access="hasRole('ROLE_ADMIN' or hasRole('ROLE_WRITE'))"/>
+        <security:intercept-url method="POST" pattern="/api/stop-list/**"
+                                access="hasRole('ROLE_ADMIN') or hasRole('ROLE_WRITE')"/>
+        <security:intercept-url method="PUT" pattern="/api/stop-list/**"
+                                access="hasRole('ROLE_ADMIN') or hasRole('ROLE_WRITE')"/>
+        <security:intercept-url method="DELETE" pattern="/api/stop-list/**"
+                                access="hasRole('ROLE_ADMIN' or hasRole('ROLE_WRITE'))"/>
         <!--<security:intercept-url method="PUT" pattern="/api/stoplist/**" access="hasRole('ROLE_ADMIN')"/>-->
         <security:form-login authentication-failure-url="/#/login?user=403"
                              login-page="/#/login"
@@ -31,7 +37,8 @@
         <security:csrf disabled="true"/>
     </security:http>
 
-    <beans:bean id="customAuthenticationSuccessHandler" class="com.technoserv.rest.handlers.CustomAuthenticationSuccessHandler"/>
+    <beans:bean id="customAuthenticationSuccessHandler"
+                class="com.technoserv.rest.handlers.CustomAuthenticationSuccessHandler"/>
 
     <security:authentication-manager>
         <security:authentication-provider user-service-ref="customUserDetailsService"/>

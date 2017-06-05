@@ -1,37 +1,49 @@
 package com.technoserv.rest.model;
-import java.util.ArrayList;
+
+import com.google.common.base.MoreObjects;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 @XmlRootElement
-public class CompareResponsePictureReport  {
-	
-private String pictureURL;
-private String previewURL;
-private ArrayList<CompareResponseBlackListObject> BlackLists;
+public class CompareResponsePictureReport {
 
+    private String pictureURL;
 
-public ArrayList<CompareResponseBlackListObject> getBlackLists() {
-	return BlackLists;
-}
-public void setBlackLists(ArrayList<CompareResponseBlackListObject> blackLists) {
-	BlackLists = blackLists;
-}
+    private String previewURL;
 
-@Override
-public String toString() {
-	return "CompareResponsePictureReport  [BlackLists=" + BlackLists + "]";
-}
-public String getPictureURL() {
-	return pictureURL;
-}
-public void setPictureURL(String pictureURL) {
-	this.pictureURL = pictureURL;
-}
-public String getPreviewURL() {
-	return previewURL;
-}
-public void setPreviewURL(String previewURL) {
-	this.previewURL = previewURL;
-}
+    private List<CompareResponseBlackListObject> BlackLists;
+
+    public List<CompareResponseBlackListObject> getBlackLists() {
+        return BlackLists;
+    }
+
+    public void setBlackLists(List<CompareResponseBlackListObject> blackLists) {
+        BlackLists = blackLists;
+    }
+
+    public String getPictureURL() {
+        return pictureURL;
+    }
+
+    public void setPictureURL(String pictureURL) {
+        this.pictureURL = pictureURL;
+    }
+
+    public String getPreviewURL() {
+        return previewURL;
+    }
+
+    public void setPreviewURL(String previewURL) {
+        this.previewURL = previewURL;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("pictureURL", pictureURL)
+                .add("previewURL", previewURL)
+                .add("BlackLists", BlackLists)
+                .toString();
+    }
 }

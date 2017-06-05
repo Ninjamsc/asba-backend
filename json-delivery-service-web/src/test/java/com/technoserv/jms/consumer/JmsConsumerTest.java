@@ -17,7 +17,7 @@ public class JmsConsumerTest {
     JsonDeliveryJmsConsumer consumer;
 
     @Test
-    public void good(){
+    public void good() {
         //todo;
     }
 }

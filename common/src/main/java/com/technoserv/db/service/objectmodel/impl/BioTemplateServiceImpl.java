@@ -12,11 +12,14 @@ import org.springframework.stereotype.Service;
  * Created by sergey on 23.11.2016.
  */
 @Service
-public class BioTemplateServiceImpl extends AbstractService<Long, BioTemplate, BioTemplateDao> implements BioTemplateService {
+public class BioTemplateServiceImpl extends AbstractService<Long, BioTemplate, BioTemplateDao>
+        implements BioTemplateService {
+
     @Override
     @Autowired
     @Qualifier("bioTemplateDao")
     public void setDao(BioTemplateDao dao) {
         this.dao = dao;
     }
+
 }

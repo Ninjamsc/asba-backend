@@ -1,15 +1,9 @@
 package com.technoserv.compare.impl;
 
-import com.technoserv.compare.api.CompareService;
-import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
-import com.technoserv.db.service.objectmodel.api.DocumentService;
-import com.technoserv.rest.comparator.CompareServiceStopListElement;
 import com.technoserv.rest.model.CompareResponseBlackListObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by mlevitin on 17.01.17.
@@ -17,9 +11,6 @@ import java.util.HashMap;
 
 @Component
 public class CommonListCompareSerivce extends CompareServiceImpl {
-
-
-
 
     @Override
     public void initialize() {

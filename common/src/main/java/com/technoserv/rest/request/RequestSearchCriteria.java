@@ -1,5 +1,7 @@
 package com.technoserv.rest.request;
 
+import com.google.common.base.MoreObjects;
+
 import java.util.Date;
 
 /**
@@ -8,10 +10,15 @@ import java.util.Date;
 public class RequestSearchCriteria {
 
     private Long requestId;
+
     private Long iin;
+
     private Date from;
+
     private Date to;
+
     private Integer page;
+
     private Integer size;
 
     public Long getRequestId() {
@@ -60,5 +67,17 @@ public class RequestSearchCriteria {
 
     public void setSize(Integer size) {
         this.size = size;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("requestId", requestId)
+                .add("iin", iin)
+                .add("from", from)
+                .add("to", to)
+                .add("page", page)
+                .add("size", size)
+                .toString();
     }
 }

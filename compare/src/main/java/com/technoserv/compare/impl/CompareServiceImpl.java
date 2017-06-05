@@ -8,7 +8,6 @@ import com.technoserv.db.service.objectmodel.api.DocumentService;
 import com.technoserv.db.service.objectmodel.api.StopListService;
 import com.technoserv.rest.comparator.CompareServiceStopListElement;
 import com.technoserv.rest.comparator.CompareServiceStopListVector;
-import com.technoserv.rest.resources.CompareListManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,36 +36,38 @@ public abstract class CompareServiceImpl implements CompareService {
     private static final Log log = LogFactory.getLog(CompareServiceImpl.class);
 
     // map of stoplists which this service controls
-    private HashMap<Long,CompareServiceStopListElement> managedStopLists;
+    private HashMap<Long, CompareServiceStopListElement> managedStopLists;
 
     private String listType;
 
-    public String getListType() { return listType; }
-
-    @Override
-    public void setListType(String listType) { this.listType = listType; }
-
-    @Override
-    public void initialize()
-    {
-        List<StopList> allLists = stopListService.getAll("owner","owner.bioTemplates");
+    public String getListType() {
+        return listType;
     }
-    public void delStopList(Long listId)
-    {
-        log.info("delStopList(): Removing list id="+listId);
-        if ( managedStopLists.get(listId) == null) {
-            log.debug("list id="+listId +" is absent");
+
+    @Override
+    public void setListType(String listType) {
+        this.listType = listType;
+    }
+
+    @Override
+    public void initialize() {
+        List<StopList> allLists = stopListService.getAll("owner", "owner.bioTemplates");
+    }
+
+    public void delStopList(Long listId) {
+        log.info("delStopList(): Removing list id=" + listId);
+        if (managedStopLists.get(listId) == null) {
+            log.debug("list id=" + listId + " is absent");
             return;
         }
         managedStopLists.remove(listId);
     }
 
-    public boolean addList(StopList list)
-    {
+    public boolean addList(StopList list) {
 
         if (list == null) return false;
-        CompareServiceStopListElement e = new CompareServiceStopListElement(list.getStopListName(),list.getId(),list.getSimilarity());
-        if(list.getOwner()!=null) {
+        CompareServiceStopListElement e = new CompareServiceStopListElement(list.getStopListName(), list.getId(), list.getSimilarity());
+        if (list.getOwner() != null) {
             Iterator<Document> id = list.getOwner().iterator();
             while (id.hasNext()) {
                 Document d = id.next();
@@ -77,20 +78,16 @@ public abstract class CompareServiceImpl implements CompareService {
         return true;
     }
 
-    public void delStopListElement(Long listId, Long listElementId)
-    {
-        log.info("delStopListElement(): removing element id="+listElementId+" from list id="+listId);
+    public void delStopListElement(Long listId, Long listElementId) {
+        log.info("delStopListElement(): removing element id=" + listElementId + " from list id=" + listId);
         CompareServiceStopListElement list = this.managedStopLists.get(listId);
-        if(list != null)
-        {
-            ArrayList<CompareServiceStopListVector> elements = list.getVectors();
+        if (list != null) {
+            List<CompareServiceStopListVector> elements = list.getVectors();
             List<CompareServiceStopListVector> toDelete = new ArrayList<>();
-            for(Iterator<CompareServiceStopListVector> it=elements.iterator();it.hasNext();)
-            {
+            for (Iterator<CompareServiceStopListVector> it = elements.iterator(); it.hasNext(); ) {
                 CompareServiceStopListVector el = it.next();
-                if (el.getDocId().longValue() == listElementId.longValue())
-                {
-                    log.debug("delStopListElement(): Document id="+listId+" is deleted from list id="+listId);
+                if (el.getDocId().longValue() == listElementId.longValue()) {
+                    log.debug("delStopListElement(): Document id=" + listId + " is deleted from list id=" + listId);
                     toDelete.add(el);
                 }
 
@@ -99,19 +96,18 @@ public abstract class CompareServiceImpl implements CompareService {
         }
     }
 
-    public void addElement (Long listId, Document vector) throws Exception
-    {
-        log.info("addElement(): adding element id="+vector.getId()+" to list id="+listId);
-        if(vector.getId() == null) {
-            log.error("addElement(): null document id. ignoring for the list_id="+listId);
+    public void addElement(Long listId, Document vector) throws Exception {
+        log.info("addElement(): adding element id=" + vector.getId() + " to list id=" + listId);
+        if (vector.getId() == null) {
+            log.error("addElement(): null document id. ignoring for the list_id=" + listId);
 
         }
         CompareServiceStopListElement sl = managedStopLists.get(listId);
         if (sl != null) sl.addVector(vector);
     }
+
     //
-    public void modify(StopList list)
-    {
+    public void modify(StopList list) {
 
     }
 }

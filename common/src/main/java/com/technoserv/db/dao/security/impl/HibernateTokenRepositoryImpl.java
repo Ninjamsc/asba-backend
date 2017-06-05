@@ -19,7 +19,7 @@ import java.util.Date;
 public class HibernateTokenRepositoryImpl extends AbstractHibernateDao<String, PersistentLogin>
         implements PersistentTokenRepository {
 
-    static final Logger logger = LoggerFactory.getLogger(HibernateTokenRepositoryImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(HibernateTokenRepositoryImpl.class);
 
     public void createNewToken(PersistentRememberMeToken token) {
         logger.info("Creating Token for user : {}", token.getUsername());

@@ -13,7 +13,8 @@ import org.springframework.stereotype.Service;
  * Created by sergey on 15.11.2016.
  */
 @Service
-public class FrontEndConfigurationServiceImpl extends AbstractService<Long, FrontEndConfiguration, FrontEndConfigurationDao> implements FrontEndConfigurationService {
+public class FrontEndConfigurationServiceImpl extends AbstractService<Long, FrontEndConfiguration, FrontEndConfigurationDao>
+        implements FrontEndConfigurationService {
 
     @Override
     @Autowired
@@ -21,4 +22,5 @@ public class FrontEndConfigurationServiceImpl extends AbstractService<Long, Fron
     public void setDao(FrontEndConfigurationDao dao) {
         this.dao = dao;
     }
+
 }

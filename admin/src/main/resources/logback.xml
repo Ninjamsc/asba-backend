@@ -39,21 +39,7 @@
     <logger name="com.technoserv" level="DEBUG">
     </logger>
 
+    <logger name="com.websystique" level="DEBUG">
+    </logger>
+
 </configuration>
-
-<!--<configuration>-->
-
-    <!--<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">-->
-        <!--<layout class="ch.qos.logback.classic.PatternLayout">-->
-            <!--<Pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</Pattern>-->
-        <!--</layout>-->
-    <!--</appender>-->
-
-    <!--<logger name="com.base22" level="TRACE"/>-->
-
-
-    <!--<root level="debug">-->
-        <!--<appender-ref ref="STDOUT"/>-->
-    <!--</root>-->
-<!--</configuration>-->
-

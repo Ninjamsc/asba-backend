@@ -1,7 +1,5 @@
 package com.technoserv.db.service.security.impl;
 
-import java.util.List;
-
 import com.technoserv.db.dao.security.api.UserProfileDao;
 import com.technoserv.db.model.security.UserProfile;
 import com.technoserv.db.service.AbstractService;
@@ -11,9 +9,12 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service("userProfileService")
 @Transactional
-public class UserProfileServiceImpl extends AbstractService<Integer,UserProfile,UserProfileDao> implements UserProfileService {
+public class UserProfileServiceImpl extends AbstractService<Integer, UserProfile, UserProfileDao>
+        implements UserProfileService {
 
     @Autowired
     @Qualifier("userProfileDao")
@@ -25,11 +26,12 @@ public class UserProfileServiceImpl extends AbstractService<Integer,UserProfile,
         return dao.findById(id);
     }
 
-    public UserProfile findByType(String type){
+    public UserProfile findByType(String type) {
         return dao.findByType(type);
     }
 
     public List<UserProfile> findAll() {
         return dao.findAll();
     }
+
 }

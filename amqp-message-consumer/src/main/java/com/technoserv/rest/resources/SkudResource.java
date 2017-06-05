@@ -2,12 +2,8 @@ package com.technoserv.rest.resources;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
-import com.technoserv.db.model.objectmodel.*;
-import com.technoserv.db.service.Service;
-import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
-import com.technoserv.db.service.objectmodel.api.*;
-import com.technoserv.rest.client.PhotoPersistServiceRestClient;
-import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
+import com.technoserv.db.model.objectmodel.SkudResult;
+import com.technoserv.db.service.objectmodel.api.SkudResultService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -15,30 +11,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.*;
-
-//import javax.ws.rs.core.Response;
+import java.util.Collection;
 
 
 @Component
 @Path("")
 //@Api(value = "Compare")
-public class SkudResource implements InitializingBean  {
+public class SkudResource implements InitializingBean {
 
     private static final Log log = LogFactory.getLog(SkudResource.class);
 
-    @Autowired(required = true)
+    @Autowired()
     @Qualifier("skudResultService")
     private SkudResultService skudResultService;
 
-
-
     @Override
     public void afterPropertiesSet() throws Exception {
-
         log.debug("---------------------\n");
         //listManager = new CompareListManager(documentService);
 
@@ -55,18 +48,20 @@ public class SkudResource implements InitializingBean  {
 
     /**
      * Список всех стоп листов
+     *
      * @return Список всех стоп листов
      */
     @Path("/results")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures( serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
-    //@Override
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     public Collection<SkudResult> list() {
-        if(skudResultService == null)  {System.out.println("skudResultService is null"); return null;}
+        if (skudResultService == null) {
+            System.out.println("skudResultService is null");
+            return null;
+        }
         return skudResultService.findAll();
     }
-
 
 }

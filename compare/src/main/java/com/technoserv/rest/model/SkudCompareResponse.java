@@ -1,26 +1,28 @@
 
 package com.technoserv.rest.model;
-		import java.util.ArrayList;
-		import com.fasterxml.jackson.annotation.JsonInclude;
-		import com.fasterxml.jackson.annotation.JsonInclude.Include;
-		import com.technoserv.db.model.objectmodel.Document;
 
-public class SkudCompareResponse  {
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.google.common.base.MoreObjects;
+
+public class SkudCompareResponse {
 
 
-	@JsonInclude(Include.NON_EMPTY)
-	private CompareResponsePhotoObject match;
+    @JsonInclude(Include.NON_EMPTY)
+    private CompareResponsePhotoObject match;
 
-	public CompareResponsePhotoObject getMatch() {
-		return match;
-	}
+    public CompareResponsePhotoObject getMatch() {
+        return match;
+    }
 
-	public void setMatch(CompareResponsePhotoObject match) {
-		this.match = match;
-	}
+    public void setMatch(CompareResponsePhotoObject match) {
+        this.match = match;
+    }
 
-	@Override
-	public String toString() {
-		return "CompareRequest  matches="+match+"]";
-	}
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("match", match)
+                .toString();
+    }
 }

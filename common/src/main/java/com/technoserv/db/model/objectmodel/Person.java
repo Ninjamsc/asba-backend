@@ -50,4 +50,5 @@ public class Person extends BaseEntity<Long> {
     public void setId(Long id) {
         this.id = id;
     }
+
 }

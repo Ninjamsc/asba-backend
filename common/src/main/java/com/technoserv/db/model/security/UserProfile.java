@@ -1,24 +1,20 @@
 package com.technoserv.db.model.security;
 
+import com.google.common.base.MoreObjects;
 import com.technoserv.db.model.BaseEntity;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 @Entity
-@Table(name="USER_PROFILE")
-public class UserProfile extends BaseEntity<Integer> implements Serializable{
+@Table(name = "USER_PROFILE")
+public class UserProfile extends BaseEntity<Integer> implements Serializable {
 
-    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="TYPE", length=15, unique=true, nullable=false)
+    @Column(name = "TYPE", length = 15, unique = true, nullable = false)
     private String type = UserProfileType.READ.getUserProfileType();
 
     public Integer getId() {
@@ -70,10 +66,10 @@ public class UserProfile extends BaseEntity<Integer> implements Serializable{
 
     @Override
     public String toString() {
-        return "UserProfile [id=" + id + ", type=" + type + "]";
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("type", type)
+                .toString();
     }
-
-
-
 
 }

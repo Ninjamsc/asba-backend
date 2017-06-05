@@ -25,8 +25,8 @@ public class DBTest {
 
     @Autowired
     private SessionFactory sessionFactory;
-    private Session currentSession;
 
+    private Session currentSession;
 
     @Before
     public void openSession() {

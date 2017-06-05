@@ -30,6 +30,7 @@ public class CompareResultResource {
 
     @Autowired
     private CompareResultService compareResultService;
+
     @Autowired
     private RequestService requestService;
 
@@ -61,7 +62,6 @@ public class CompareResultResource {
         return compareResult != null ? Response.ok(report).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON + "; charset=UTF-8").build()
                 : Response.status(Response.Status.NOT_FOUND).build();
     }
-
 
     @Path("/{id}")
     @POST

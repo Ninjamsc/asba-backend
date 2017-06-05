@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 public class TestUtils {
 
     public static String readFile(String resourceName) throws Exception { //TODO ...
-
         try (BufferedReader buffer = new BufferedReader(new InputStreamReader(ClassLoader.getSystemResourceAsStream(resourceName)))) {
             //return buffer.lines().collect(Collectors.joining("\n"));
             StringBuilder stringBuilder = new StringBuilder();

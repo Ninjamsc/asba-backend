@@ -2,7 +2,6 @@ package com.technoserv.rest.request;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
  * Created by VBasakov on 23.11.2016.

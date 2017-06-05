@@ -5,7 +5,6 @@ package com.technoserv.rest.exception;
  */
 public class CompareServiceException extends RestClientException {
 
-
     public CompareServiceException(String error) {
         super(error);
     }

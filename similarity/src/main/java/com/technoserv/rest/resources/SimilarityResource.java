@@ -5,7 +5,6 @@ import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
 import com.technoserv.rest.model.CompareRequest;
 import com.technoserv.rest.model.CompareResponse;
 import com.technoserv.rest.request.PhotoTemplate;
-import com.technoserv.utils.TevianVectorComparator;
 import io.swagger.annotations.Api;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,24 +25,22 @@ import java.io.InputStreamReader;
 @Component
 @Path("")
 @Api(value = "Similarity")
-public class SimilarityResource  implements InitializingBean  {
+public class SimilarityResource implements InitializingBean {
 
     private static final Log log = LogFactory.getLog(SimilarityResource.class);
 
-
     @Autowired
     private TemplateBuilderServiceRestClient templateBuilderServiceRestClient;
-
 
     @Autowired
     private PhotoPersistServiceRestClient photoServiceClient;
 
     @Override
     public void afterPropertiesSet() throws Exception {
-
         log.debug("---------------------\nИницаиализация сервиса сравнения");
         System.out.println("Конец инициализации сервиса сравнения\n-------------------------");
     }
+
     /*
      * Сравнить 2 картинки
      */
@@ -51,7 +48,7 @@ public class SimilarityResource  implements InitializingBean  {
     @Path("/ping")
     @Produces(MediaType.TEXT_PLAIN)
     public String ping() {
-        return new String ("Pong");
+        return new String("Pong");
     }
 
     @PUT
@@ -59,12 +56,12 @@ public class SimilarityResource  implements InitializingBean  {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response compare(CompareRequest message) {
-       System.out.println("!!!!"+message.toString());
+        System.out.println("!!!!" + message.toString());
         CompareResponse resp = new CompareResponse();
         //vector
         // A
-        PhotoTemplate tmplt1,tmplt2;
-        ArrayRealVector v1,v2;
+        PhotoTemplate tmplt1, tmplt2;
+        ArrayRealVector v1, v2;
         try {
             String base64Image = message.getPictureA().split(",")[1]; // should skip header data:image/png;base64
             byte[] a = Base64.decode(base64Image.getBytes());
@@ -73,11 +70,9 @@ public class SimilarityResource  implements InitializingBean  {
             base64Image = message.getPictureB().split(",")[1];
             a = Base64.decode(base64Image.getBytes());
             tmplt2 = templateBuilderServiceRestClient.getPhotoTemplate(a);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(resp).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build();
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(resp).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON + "; charset=UTF-8").build();
 
         }
         v1 = new ArrayRealVector(tmplt1.template);
@@ -92,19 +87,19 @@ public class SimilarityResource  implements InitializingBean  {
         double norm = TevianVectorComparator.calculateSimilarity(tmplt1.binTemplate, tmplt2.binTemplate, "1");
         System.out.println("Native method completed");
 */
-        double norm = calculateSimilarity(new String(Base64.encode(tmplt1.binTemplate)),new String(Base64.encode(tmplt2.binTemplate)),"1");//1 / new Exp().value(new Pow().value(0.7*dot, 4));
+        double norm = calculateSimilarity(new String(Base64.encode(tmplt1.binTemplate)), new String(Base64.encode(tmplt2.binTemplate)), "1");//1 / new Exp().value(new Pow().value(0.7*dot, 4));
         resp.setSimilarity(norm);
         resp.setPictureAURL("none");
         resp.setPictureBURL("none");
-        System.out.println("SIMILARITY="+norm);
-        return Response.status(Response.Status.OK).entity(resp).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON+"; charset=UTF-8").build();
+        System.out.println("SIMILARITY=" + norm);
+        return Response.status(Response.Status.OK).entity(resp).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON + "; charset=UTF-8").build();
     }
 
-    public double calculateSimilarity(String base64Vector1, String base64Vector2, String version){
+    public double calculateSimilarity(String base64Vector1, String base64Vector2, String version) {
         double result = 0;
         try {
-            String command = String.format("/bin/bash /opt/biometrics/run-tevian.sh %s %s",base64Vector1,base64Vector2);
-            System.out.println("====+++++=====String COMMAND:\n"+command);
+            String command = String.format("/bin/bash /opt/biometrics/run-tevian.sh %s %s", base64Vector1, base64Vector2);
+            System.out.println("====+++++=====String COMMAND:\n" + command);
             Process p = Runtime.getRuntime().exec(command);
             BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line = null;

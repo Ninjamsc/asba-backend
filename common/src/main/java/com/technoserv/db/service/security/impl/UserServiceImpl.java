@@ -1,32 +1,28 @@
 package com.technoserv.db.service.security.impl;
 
-import java.util.List;
-
 import com.technoserv.db.dao.security.api.UserDao;
 import com.technoserv.db.model.security.User;
 import com.technoserv.db.service.AbstractService;
 import com.technoserv.db.service.security.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-//TODO import org.springframework.security.crypto.password.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
+//TODO import org.springframework.security.crypto.password.*;
 
 
 @Service("userService")
 @Transactional
-public class UserServiceImpl extends AbstractService<Integer,User,UserDao> implements UserService {
+public class UserServiceImpl extends AbstractService<Integer, User, UserDao> implements UserService {
 
     @Autowired
     @Qualifier("userDao")
     public void setDao(UserDao dao) {
         this.dao = dao;
     }
-
-
-    //@Autowired
-    //TODO private PasswordEncoder passwordEncoder;
 
     public User findById(int id) {
         return dao.findById(id);
@@ -50,9 +46,9 @@ public class UserServiceImpl extends AbstractService<Integer,User,UserDao> imple
      */
     public void updateUser(User user) {
         User entity = dao.findById(user.getId());
-        if(entity!=null){
+        if (entity != null) {
             entity.setSsoId(user.getSsoId());
-            if(!user.getPassword().equals(entity.getPassword())){
+            if (!user.getPassword().equals(entity.getPassword())) {
                 //TODO entity.setPassword(passwordEncoder.encode(user.getPassword()));
                 entity.setPassword(user.getPassword());
             }
@@ -62,7 +58,6 @@ public class UserServiceImpl extends AbstractService<Integer,User,UserDao> imple
             entity.setUserProfiles(user.getUserProfiles());
         }
     }
-
 
     public void deleteUserBySSO(String sso) {
         dao.deleteBySSO(sso);
@@ -74,7 +69,7 @@ public class UserServiceImpl extends AbstractService<Integer,User,UserDao> imple
 
     public boolean isUserSSOUnique(Integer id, String sso) {
         User user = findBySSO(sso);
-        return ( user == null || ((id != null) && (user.getId() == id)));
+        return (user == null || ((id != null) && (user.getId() == id)));
     }
 
 }

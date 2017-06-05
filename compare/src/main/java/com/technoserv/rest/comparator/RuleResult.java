@@ -2,40 +2,35 @@ package com.technoserv.rest.comparator;
 
 public class RuleResult {
 
-	private boolean fired; // if true, rule is fired
-	private String ruleId;
-	private String ruleDescription;
-	//ArrayList<CompareResponsePhotoObject> photos;
-	
-	
-	public RuleResult()
-	{
-		
-	}
-	
-	
+    private boolean fired; // if true, rule is fired
+    private String ruleId;
+    private String ruleDescription;
 
-	public boolean isFired() {
-		return fired;
-	}
+    public RuleResult() {
 
-	public void setFired(boolean fired) {
-		this.fired = fired;
-	}
+    }
 
-	public String getRuleId() {
-		return ruleId;
-	}
+    public boolean isFired() {
+        return fired;
+    }
 
-	public void setRuleId(String ruleId) {
-		this.ruleId = ruleId;
-	}
+    public void setFired(boolean fired) {
+        this.fired = fired;
+    }
 
-	public String getRuleDescription() {
-		return ruleDescription;
-	}
+    public String getRuleId() {
+        return ruleId;
+    }
 
-	public void setRuleDescription(String ruleDescription) {
-		this.ruleDescription = ruleDescription;
-	}
+    public void setRuleId(String ruleId) {
+        this.ruleId = ruleId;
+    }
+
+    public String getRuleDescription() {
+        return ruleDescription;
+    }
+
+    public void setRuleDescription(String ruleDescription) {
+        this.ruleDescription = ruleDescription;
+    }
 }

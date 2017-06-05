@@ -21,7 +21,6 @@ import java.util.StringTokenizer;
  */
 public final class HibernateInitializer {
 
-
     // todo: it's possible to add optimization for properties[n] n>2, to avoid count to call reflection methods and hibernate.initialize.
 
     public static void initializeProperties(Object entity_or_collection, String... properties) {
@@ -37,12 +36,13 @@ public final class HibernateInitializer {
             }
         } catch (InvocationTargetException e) {
             throw new RuntimeException(e);
+
         } catch (NoSuchMethodException e) {
             throw new RuntimeException(e);
+
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     private static void recursion_initializeProperties(Object obj_property, String[] props, int idx) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {

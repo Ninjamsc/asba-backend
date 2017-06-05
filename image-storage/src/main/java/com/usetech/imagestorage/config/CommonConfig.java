@@ -15,6 +15,7 @@ public class CommonConfig {
 
     @Value("${com.usetech.imagestorage.rootDir}")
     private String imageRootDir;
+
     @Value("${com.usetech.logstorage.rootDir}")
     private String logRootDir;
 
@@ -26,6 +27,7 @@ public class CommonConfig {
     public String getImageRootDir() {
         return imageRootDir;
     }
+
     public String getLogRootDir() {
         return logRootDir;
     }

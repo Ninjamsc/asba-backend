@@ -12,11 +12,13 @@ import org.springframework.stereotype.Service;
  * Created by 90630 on 14.12.2016.
  */
 @Service
-public class CompareResultServiceImpl extends AbstractService<Long, CompareResult, CompareResultDao> implements CompareResultService {
+public class CompareResultServiceImpl extends AbstractService<Long, CompareResult, CompareResultDao>
+        implements CompareResultService {
 
     @Autowired
     @Qualifier("compareResultDao")
     public void setDao(CompareResultDao dao) {
         this.dao = dao;
     }
+
 }

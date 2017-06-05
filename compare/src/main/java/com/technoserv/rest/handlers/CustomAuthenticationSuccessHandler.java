@@ -43,7 +43,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
 
-    /** Builds the target URL according to the logic defined in the main class Javadoc. */
+    /**
+     * Builds the target URL according to the logic defined in the main class Javadoc.
+     */
     protected String determineTargetUrl(Authentication authentication) {
         boolean isUser = false;
         boolean isAdmin = false;
@@ -71,7 +73,9 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void setRedirectStrategy(RedirectStrategy redirectStrategy) {
         this.redirectStrategy = redirectStrategy;
     }
+
     protected RedirectStrategy getRedirectStrategy() {
         return redirectStrategy;
     }
+
 }

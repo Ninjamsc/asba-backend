@@ -1,8 +1,5 @@
 package com.technoserv.rest.request;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import org.apache.commons.codec.binary.Base64;
 
 /**
@@ -12,10 +9,13 @@ import org.apache.commons.codec.binary.Base64;
  */
 public class Base64Photo {
 
-    /** base46 encoded изображение */
+    /**
+     * base46 encoded изображение
+     */
     public String photo;
 
-    public Base64Photo() {}
+    public Base64Photo() {
+    }
 
     public Base64Photo(byte[] imageByteArray) {
         StringBuilder sb = new StringBuilder();
@@ -31,19 +31,5 @@ public class Base64Photo {
     public void setPhoto(String photo) {
         this.photo = photo;
     }
-    //    public static void main(String[] args) throws IOException {
-//        FileInputStream fileInputStream=null;
-//
-//        File file = new File("D:\\images\\01-spitzer-omeganebula.jpg");
-//
-//        byte[] bFile = new byte[(int) file.length()];
-//
-//            fileInputStream = new FileInputStream(file);
-//            fileInputStream.read(bFile);
-//            fileInputStream.close();
-//
-//
-//            System.out.println(new Base64Photo(bFile).photo);
-//    }
 
 }

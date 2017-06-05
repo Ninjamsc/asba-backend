@@ -26,10 +26,12 @@ public class PersonDaoTest {
     PersonDao dao;
 
     @Before
-    public void setUp(){}
+    public void setUp() {
+    }
 
     @After
-    public void tearDown(){}
+    public void tearDown() {
+    }
 
     @Test
     public void createPerson() throws Exception {

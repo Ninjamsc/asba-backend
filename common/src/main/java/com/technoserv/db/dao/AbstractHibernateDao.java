@@ -15,6 +15,7 @@ import java.util.List;
 public abstract class AbstractHibernateDao<ID extends Serializable, T extends BaseEntity<ID>> implements Dao<ID, T> {
 
     private Class<T> persistentClass;
+
     @Autowired
     protected SessionFactory sessionFactory;
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:beans="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:jms="http://www.springframework.org/schema/jms"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -9,8 +8,7 @@
     http://www.springframework.org/schema/context
     http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd">
 
-
-    <context:component-scan base-package="com.technoserv.jms.*" />
+    <context:component-scan base-package="com.technoserv.jms.*"/>
 
     <!-- =============================================== -->
     <!-- JMS Common, Define JMS connectionFactory       -->
@@ -18,7 +16,7 @@
     <!-- Activemq connection factory -->
     <bean id="amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
         <!-- brokerURL, You may have different IP or port -->
-        <constructor-arg index="0" value="tcp://localhost:61616" />
+        <constructor-arg index="0" value="tcp://localhost:61616"/>
         <property name="trustAllPackages" value="true"/>
     </bean>
 
@@ -26,20 +24,19 @@
         <!-- brokerURL, You may have different IP or port -->
         <!--<constructor-arg index="0" value="tcp://localhost:61616" />-->
         <!--<constructor-arg index="0" value="vm://embedded-broker?create=false" />-->
-        <constructor-arg index="0" value="vm://localhost?create=false" />
+        <constructor-arg index="0" value="vm://localhost?create=false"/>
         <property name="trustAllPackages" value="true"/>
     </bean>
 
     <!--&lt;!&ndash; Pooled Spring connection factory &ndash;&gt;-->
     <bean id="connectionFactory"
           class="org.springframework.jms.connection.CachingConnectionFactory">
-        <constructor-arg ref="amqConnectionFactory" />
+        <constructor-arg ref="amqConnectionFactory"/>
 
     </bean>
     <bean id="connectionFactory2"
           class="org.springframework.jms.connection.CachingConnectionFactory">
-        <constructor-arg ref="amqConnectionFactory2" />
-
+        <constructor-arg ref="amqConnectionFactory2"/>
     </bean>
 
     <!-- ======================================================= -->
@@ -49,37 +46,36 @@
 
     <bean id="external.queue" class="org.apache.activemq.command.ActiveMQQueue">
         <!-- name of the queue -->
-        <constructor-arg index="0" value="external.queue" />
+        <constructor-arg index="0" value="external.queue"/>
     </bean>
 
     <bean id="internal.queue" class="org.apache.activemq.command.ActiveMQQueue">
         <!-- name of the queue -->
-        <constructor-arg index="0" value="internal.queue" />
+        <constructor-arg index="0" value="internal.queue"/>
     </bean>
 
     <!-- JmsTemplate Definition -->
     <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="connectionFactory" ref="connectionFactory"/>
         <property name="defaultDestinationName" value="external.queue"/>
     </bean>
 
     <!-- JmsTemplate Definition -->
     <bean id="jmsTemplate2" class="org.springframework.jms.core.JmsTemplate">
-        <property name="connectionFactory" ref="connectionFactory2" />
+        <property name="connectionFactory" ref="connectionFactory2"/>
         <property name="defaultDestinationName" value="internal.queue"/>
     </bean>
-
 
     <bean id="jmsConsumer" class="com.technoserv.jms.consumer.JsonDeliveryJmsConsumer">
 
     </bean>
 
     <jms:listener-container
-        container-type="default"
-        connection-factory="connectionFactory"
-        acknowledge="auto">
-            <jms:listener destination="external.queue" ref="jmsConsumer" method="onReceive" />
-            <!--<jms:listener destination="internal.queue" ref="jmsConsumer" method="onRetry" />-->
+            container-type="default"
+            connection-factory="connectionFactory"
+            acknowledge="auto">
+        <jms:listener destination="external.queue" ref="jmsConsumer" method="onReceive"/>
+        <!--<jms:listener destination="internal.queue" ref="jmsConsumer" method="onRetry" />-->
     </jms:listener-container>
 
     <jms:listener-container
@@ -87,28 +83,28 @@
             connection-factory="connectionFactory2"
             acknowledge="auto">
         <!--<jms:listener destination="external.queue" ref="jmsConsumer" method="onReceive" />-->
-        <jms:listener destination="internal.queue" ref="jmsConsumer" method="onRetry" />
+        <jms:listener destination="internal.queue" ref="jmsConsumer" method="onRetry"/>
     </jms:listener-container>
 
     <!--<bean id="embedded-broker" class="org.apache.activemq.xbean.BrokerFactoryBean">-->
-        <!--<property name="config" value="classpath:broker.xml" />-->
-        <!--<property name="start" value="true" />-->
+    <!--<property name="config" value="classpath:broker.xml" />-->
+    <!--<property name="start" value="true" />-->
     <!--</bean>-->
 
     <bean id="embeddedBroker" class="org.apache.activemq.broker.BrokerService"
-          destroy-method="stop" init-method="start" >
+          destroy-method="stop" init-method="start">
         <!--<property name="dataDirectory"-->
-                  <!--value="c:\eclipseWithMaven\activemq\working\conversion" />-->
+        <!--value="c:\eclipseWithMaven\activemq\working\conversion" />-->
         <!--<property name="schedulerSupport" value="false" />-->
         <!--<property name="transportConnectorURIs">-->
-            <!--<list>-->
-                <!--<value>tcp://127.0.0.1:600${idOfClusterNode}</value>-->
-            <!--</list>-->
+        <!--<list>-->
+        <!--<value>tcp://127.0.0.1:600${idOfClusterNode}</value>-->
+        <!--</list>-->
         <!--</property>-->
         <!--<property name="managementContext">-->
-            <!--<bean class="org.apache.activemq.broker.jmx.ManagementContext">-->
-                <!--<property name="connectorPort" value="201${idOfClusterNode}" />-->
-            <!--</bean>-->
+        <!--<bean class="org.apache.activemq.broker.jmx.ManagementContext">-->
+        <!--<property name="connectorPort" value="201${idOfClusterNode}" />-->
+        <!--</bean>-->
         <!--</property>-->
     </bean>
 

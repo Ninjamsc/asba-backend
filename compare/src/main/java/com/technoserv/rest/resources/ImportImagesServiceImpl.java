@@ -24,7 +24,7 @@ import static java.nio.file.FileVisitResult.CONTINUE;
  * Created by Andrey on 18.12.2016.
  */
 @Service
-public class ImportImagesServiceImpl implements ImportImagesService{
+public class ImportImagesServiceImpl implements ImportImagesService {
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd_MM_yyyy_hh_mm_ss_SSS");
 
@@ -40,16 +40,16 @@ public class ImportImagesServiceImpl implements ImportImagesService{
                     uploadedFileLocation.toAbsolutePath().toString() + File.separator + fileName);
 
             UploadImagesFileVisitor fileVisitor = new UploadImagesFileVisitor(
-                p -> {
-                    String file = encodeFile(p);
-                    if(file != null) {
-                        StopListElement stopListElement = new StopListElement();
-                        stopListElement.setPhoto(file);
-                        compareResource.add(stopListId, stopListElement);
-                        return true;
-                    }
-                    return  false;
-                });
+                    p -> {
+                        String file = encodeFile(p);
+                        if (file != null) {
+                            StopListElement stopListElement = new StopListElement();
+                            stopListElement.setPhoto(file);
+                            compareResource.add(stopListId, stopListElement);
+                            return true;
+                        }
+                        return false;
+                    });
 
             Path path = Files.walkFileTree(uploadedFileLocation, fileVisitor);
             FileUtils.deleteDirectory(new File(uploadedFileLocation.getFileName().toString()));
@@ -71,7 +71,7 @@ public class ImportImagesServiceImpl implements ImportImagesService{
                 p -> {
                     System.out.println("Upload file: " + p.toAbsolutePath().toString());
                     String file = encodeFile(p);
-                    if(file != null) {
+                    if (file != null) {
                         StopListElement stopListElement = new StopListElement();
                         stopListElement.setPhoto(file);
                         compareResource.add(stopListId, stopListElement);
@@ -97,14 +97,14 @@ public class ImportImagesServiceImpl implements ImportImagesService{
         return report;
     }
 
-    private Map<String, Boolean> unZip(InputStream inputStream, Path uploadedFileLocation){
-        Map<String, Boolean>  report = new HashMap<>();
-        try(ZipInputStream zis = new ZipInputStream(inputStream, Charset.forName("CP866"));) {
+    private Map<String, Boolean> unZip(InputStream inputStream, Path uploadedFileLocation) {
+        Map<String, Boolean> report = new HashMap<>();
+        try (ZipInputStream zis = new ZipInputStream(inputStream, Charset.forName("CP866"));) {
             ZipEntry ze = zis.getNextEntry();
-            while(ze != null){
+            while (ze != null) {
                 boolean res = false;
-                try{
-                    if(ze.isDirectory()) {
+                try {
+                    if (ze.isDirectory()) {
                         Files.createDirectory(uploadedFileLocation.resolve(Paths.get(ze.getName())));
                         res = true;
                     } else {
@@ -120,13 +120,13 @@ public class ImportImagesServiceImpl implements ImportImagesService{
                 report.put(ze.getName(), res);
                 ze = zis.getNextEntry();
             }
-        } catch(IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return report;
     }
 
-    private boolean saveToFile(InputStream uploadedInputStream, String uploadedFileLocation) throws  IOException {
+    private boolean saveToFile(InputStream uploadedInputStream, String uploadedFileLocation) throws IOException {
         try (OutputStream out = new FileOutputStream(uploadedFileLocation)) {
             int read = 0;
             byte[] bytes = new byte[1024];
@@ -154,6 +154,7 @@ public class ImportImagesServiceImpl implements ImportImagesService{
             uploadReport.put(file.getFileName().toString(), res);
             return CONTINUE;
         }
+
         @Override
         public FileVisitResult visitFileFailed(Path file, IOException exc) {
             uploadReport.put(file.getFileName().toString(), false);

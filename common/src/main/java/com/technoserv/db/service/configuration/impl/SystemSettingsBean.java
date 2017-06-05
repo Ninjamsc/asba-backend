@@ -28,7 +28,6 @@ public class SystemSettingsBean implements InitializingBean {
 
     private static final int FIELD_TTL = Calendar.MINUTE; //Единицап измерения времени
 
-
     public void afterPropertiesSet() throws Exception {
         systemSettingsCache = new HashMap<SystemSettingsType, SystemSettings>();
         reloadCache();

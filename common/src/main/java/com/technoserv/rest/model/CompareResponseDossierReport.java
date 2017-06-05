@@ -1,32 +1,36 @@
 package com.technoserv.rest.model;
 
-import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
+import com.google.common.base.MoreObjects;
+
+import java.util.List;
 
 public class CompareResponseDossierReport {
-	
-	private ArrayList<CompareResponsePhotoObject> photos;
-	private Double similarity;
 
+    private List<CompareResponsePhotoObject> photos;
 
-	public Double getSimilarity() {
-		return similarity;
-	}
+    private Double similarity;
 
-	public void setSimilarity(Double similarity) {
-		this.similarity = similarity;
-	}
+    public Double getSimilarity() {
+        return similarity;
+    }
 
-	public ArrayList<CompareResponsePhotoObject> getPhotos() {
-	return photos;
-}
+    public void setSimilarity(Double similarity) {
+        this.similarity = similarity;
+    }
 
-	public void setPhotos(ArrayList<CompareResponsePhotoObject> photos) {
-	this.photos = photos;
-}
+    public List<CompareResponsePhotoObject> getPhotos() {
+        return photos;
+    }
 
-@Override
-public String toString() {
-	return "CompareResponseDossierReport  [photos=" + photos + "]";
-}
+    public void setPhotos(List<CompareResponsePhotoObject> photos) {
+        this.photos = photos;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("photos", photos)
+                .add("similarity", similarity)
+                .toString();
+    }
 }

@@ -30,12 +30,13 @@ public class DocumentDaoTest {
     private DocumentTypeDao documentTypeDao;
 
     @Before
-    public void setUp(){
+    public void setUp() {
 //        documentTypeDao.save(new DocumentType(DocumentType.Type.ANY, "sfsdfdsf"));
     }
 
     @After
-    public void tearDown(){}
+    public void tearDown() {
+    }
 
     @Test
     public void createDocument() throws Exception {

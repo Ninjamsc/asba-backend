@@ -31,4 +31,5 @@ public interface Service<ID extends Serializable, T extends BaseEntity<ID>> {
     int countAll();
 
     List<T> getAll(int page, int max, String... properties);
+
 }

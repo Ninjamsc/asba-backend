@@ -12,4 +12,5 @@ public class PhotoPersistServiceException extends RestClientException {
     protected String getServiceName() {
         return "PhotoPersistService";
     }
+
 }

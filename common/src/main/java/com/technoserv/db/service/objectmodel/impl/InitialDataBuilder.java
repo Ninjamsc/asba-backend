@@ -78,7 +78,6 @@ public class InitialDataBuilder implements InitializingBean {
             user.setEmail("read@nowhere.com");
             userService.saveOrUpdate(user);
 
-
             User admin = new User();
             Set<UserProfile> adminProfileSet = new HashSet<UserProfile>();
             admin.setSsoId("admin");

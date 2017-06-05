@@ -6,9 +6,7 @@ import com.technoserv.db.service.Service;
 import java.util.List;
 
 
-
-
-public interface UserService extends Service<Integer,User>{
+public interface UserService extends Service<Integer, User> {
 
     User findById(int id);
 

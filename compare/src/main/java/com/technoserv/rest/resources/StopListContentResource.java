@@ -17,7 +17,10 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 
 /**
  * Created by sergey on 23.11.2016.
@@ -29,6 +32,7 @@ public class StopListContentResource {
 
     @Autowired
     private StopListService stopListService;
+
     @Autowired
     private ImportImagesService importImagesService;
 
@@ -36,8 +40,8 @@ public class StopListContentResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
-    public StopListResponse get(@PathParam("ID")Long id) {
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
+    public StopListResponse get(@PathParam("ID") Long id) {
         StopList stopList = stopListService.findById(id);
 
         Collection<PersonResource.HistoryRequestResponse> responses = new ArrayList<>();
@@ -60,39 +64,37 @@ public class StopListContentResource {
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
-    public void add(@PathParam("ID")Long id, Document document) {
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
+    public void add(@PathParam("ID") Long id, Document document) {
         StopList stopList = stopListService.findById(id);
-        if(stopList!=null) {
+        if (stopList != null) {
             stopList.getOwner().add(document);
             stopListService.saveOrUpdate(stopList);
         }
-
     }
 
     @Path("/partners/rest/stoplist/{listId}/entry/{itemId}")
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    @JacksonFeatures(serializationEnable =  { SerializationFeature.INDENT_OUTPUT })
-    public void delete(@PathParam("listId")Long listId,@PathParam("itemId")Long itemId) {
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
+    public void delete(@PathParam("listId") Long listId, @PathParam("itemId") Long itemId) {
 
         //todo write native sql
 
         StopList stopList = stopListService.findById(listId);
-        if(stopList!=null) {
+        if (stopList != null) {
             Document delDocument = null;
             for (Document document : stopList.getOwner()) {
-                if(document.getId().equals(itemId)) {
+                if (document.getId().equals(itemId)) {
                     delDocument = document;
                 }
             }
-            if(delDocument!=null) {
+            if (delDocument != null) {
                 stopList.getOwner().remove(delDocument);
                 stopListService.saveOrUpdate(stopList);
             }
         }
-
     }
 
     @POST
@@ -100,8 +102,8 @@ public class StopListContentResource {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
     public Response uploadZipFile(@PathParam("id") Long stopListId,
-            @FormDataParam("file") InputStream uploadedInputStream,
-            @FormDataParam("file") FormDataContentDisposition fileDetail) {
+                                  @FormDataParam("file") InputStream uploadedInputStream,
+                                  @FormDataParam("file") FormDataContentDisposition fileDetail) {
         Map<String, Map<String, Boolean>> report =
                 importImagesService.importImageZip(stopListId, uploadedInputStream, fileDetail.getFileName());
 
@@ -115,7 +117,7 @@ public class StopListContentResource {
     public Response uploadFile(@PathParam("id") Long stopListId,
                                @FormDataParam("file") InputStream uploadedInputStream,
                                @FormDataParam("file") FormDataContentDisposition fileDetail) {
-                importImagesService.importImage(stopListId, uploadedInputStream, fileDetail.getFileName());
+        importImagesService.importImage(stopListId, uploadedInputStream, fileDetail.getFileName());
 
         return Response.status(200).header("Access-Control-Allow-Origin", "*").build();
     }
@@ -188,12 +190,13 @@ public class StopListContentResource {
             this.similarity = similarity;
         }
     }
+
     private PersonResource.PersonResponse toResponse(Person person) {
         PersonResource.PersonResponse response = new PersonResource.PersonResponse();
         //response.setTimestamp(); TODO ...
         response.setIin(person.getId());
 
-        for (Request request : person.getDossier() ) {
+        for (Request request : person.getDossier()) {
             PersonResource.HistoryRequestResponse requestResponse = new PersonResource.HistoryRequestResponse();
             requestResponse.setWfmid(request.getId());
             requestResponse.setUsername(request.getLogin());

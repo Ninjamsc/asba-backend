@@ -5,8 +5,6 @@ import com.technoserv.db.model.security.UserProfile;
 import java.util.List;
 
 
-
-
 public interface UserProfileService {
 
     UserProfile findById(int id);

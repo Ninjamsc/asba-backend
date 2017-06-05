@@ -46,7 +46,6 @@ public class SystemSettingsResource {
         systemSettingService.saveOrUpdate(settings);
     }
 
-
     @Path("/list")
     @GET
     @Produces(MediaType.APPLICATION_JSON)

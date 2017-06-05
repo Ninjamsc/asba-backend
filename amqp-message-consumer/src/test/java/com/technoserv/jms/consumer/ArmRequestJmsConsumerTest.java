@@ -1,12 +1,7 @@
 package com.technoserv.jms.consumer;
 
-import com.technoserv.db.service.objectmodel.api.DocumentService;
-import com.technoserv.db.service.objectmodel.api.PersonService;
-import com.technoserv.db.service.objectmodel.api.RequestService;
 import org.junit.Ignore;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

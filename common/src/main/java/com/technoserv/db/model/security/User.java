@@ -3,47 +3,49 @@ package com.technoserv.db.model.security;
 /**
  * Created by mlevitin on 16.01.17.
  */
-import java.io.Serializable;
-        import java.util.HashSet;
-        import java.util.Set;
 
-import javax.persistence.*;
-
+import com.google.common.base.MoreObjects;
 import com.technoserv.db.model.BaseEntity;
 import org.hibernate.validator.constraints.NotEmpty;
 
-@Entity
-@Table(name="APP_USER")
-public class User extends BaseEntity<Integer> implements Serializable{
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
-    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+@Entity
+@Table(name = "APP_USER")
+public class User extends BaseEntity<Integer> implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @NotEmpty
-    @Column(name="SSO_ID", unique=true, nullable=false)
+    @Column(name = "SSO_ID", unique = true, nullable = false)
     private String ssoId;
 
     @NotEmpty
-    @Column(name="PASSWORD", nullable=false)
+    @Column(name = "PASSWORD", nullable = false)
     private String password;
 
     @NotEmpty
-    @Column(name="FIRST_NAME", nullable=false)
+    @Column(name = "FIRST_NAME", nullable = false)
     private String firstName;
 
     @NotEmpty
-    @Column(name="LAST_NAME", nullable=false)
+    @Column(name = "LAST_NAME", nullable = false)
     private String lastName;
 
     @NotEmpty
-    @Column(name="EMAIL", nullable=false)
+    @Column(name = "EMAIL", nullable = false)
     private String email;
 
     @NotEmpty
-    @ManyToMany(fetch = FetchType.LAZY,cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinTable(name = "APP_USER_USER_PROFILE",
-            joinColumns = { @JoinColumn(name = "USER_ID") },
-            inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
+            joinColumns = {@JoinColumn(name = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "USER_PROFILE_ID")})
     private Set<UserProfile> userProfiles = new HashSet<UserProfile>();
 
     public Integer getId() {
@@ -133,17 +135,18 @@ public class User extends BaseEntity<Integer> implements Serializable{
         return true;
     }
 
-    /*
-     * DO-NOT-INCLUDE passwords in toString function.
-     * It is done here just for convenience purpose.
-     */
     @Override
     public String toString() {
-        return "User [id=" + id + ", ssoId=" + ssoId + ", password=" + password
-                + ", firstName=" + firstName + ", lastName=" + lastName
-                + ", email=" + email + "]";
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("ssoId", ssoId)
+                .add("password", password)
+                .add("firstName", firstName)
+                .add("lastName", lastName)
+                .add("email", email)
+                .add("userProfiles", userProfiles)
+                .toString();
     }
-
 
 
 }
