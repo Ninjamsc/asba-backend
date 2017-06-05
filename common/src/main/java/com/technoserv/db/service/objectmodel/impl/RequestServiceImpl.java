@@ -68,20 +68,22 @@ public class RequestServiceImpl extends AbstractService<Long, Request, RequestDa
         request.setLogin(username);
         request.setPerson(person);
         save(request);
+
         person.setId(iin);
         person.getDossier().add(request);
         return personService.save(person);
     }
 
     @Transactional
-    public void updateDocument(Long wfmId, String previewUrl,
-                               String fullFrameUrl, DocumentType.Type type) {
+    public void updateDocument(Long wfmId, String previewUrl, String fullFrameUrl, DocumentType.Type type) {
         Request request = findById(wfmId);
+
         Document document = new Document();
         document.setOrigImageURL(previewUrl);
         document.setFaceSquare(fullFrameUrl);
         document.setDocumentType(documentTypeService.findByType(type));
         documentService.save(document);
+
         if (DocumentType.Type.SCANNER == type) {
             request.setScannedDocument(document);
         } else if (DocumentType.Type.WEB_CAM == type) {
@@ -101,6 +103,7 @@ public class RequestServiceImpl extends AbstractService<Long, Request, RequestDa
     }
 
     @Override
+    @Transactional
     public void saveOrUpdate(Request entity) {
         super.saveOrUpdate(entity);
         requestTraceService.saveTrace(entity.getId(), entity.getStatus(), "");
