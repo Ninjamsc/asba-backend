@@ -19,6 +19,7 @@ import com.technoserv.rest.exception.RestClientException;
 import com.technoserv.rest.request.CompareServiceRequest;
 import com.technoserv.rest.request.PhotoTemplate;
 import com.technoserv.utils.JsonUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +85,8 @@ public class RequestProcessor {
 
     private static final int MAX_NUMBER_OF_RETRIES = 5;
 
+    private Object processLock = new Object();
+
     public RequestProcessor() {
     }
 
@@ -92,13 +95,14 @@ public class RequestProcessor {
     }
 
     public void process() {
-        List<Request> requestList = findRequestForProcessing();
-        log.info("Number of requests to process: {}", requestList.size());
-        for (Request request : requestList) {
-            processRequest(request, 0);
+        synchronized (processLock) {
+            List<Request> requestList = findRequestForProcessing();
+            log.info("Number of requests to process: {}", requestList.size());
+            for (Request request : requestList) {
+                processRequest(request, 0);
+            }
+            retryFailedRequests();
         }
-
-        retryFailedRequests();
     }
 
     private void processRequest(Request request, int previousRetryCount) {
@@ -153,6 +157,7 @@ public class RequestProcessor {
             } else {
                 compareServiceRequest.setScanTemplate(new double[]{});
             }
+
             if (webCamTemplate != null) {
                 compareServiceRequest.setWebTemplate(webCamTemplate.template);
             } else {
@@ -226,8 +231,7 @@ public class RequestProcessor {
                                 MAX_NUMBER_OF_RETRIES, retry.getRequestId());
                     } else {
                         Request request = requestService.findById(retry.getRequestId());
-                        if (request.getStatus() != Request.Status.SUCCESS
-                                && request.getStatus() != Request.Status.IN_PROCESS) {
+                        if (request.getStatus() == Request.Status.FAILED) {
                             processRequest(request, retry.getRetryCount());
                         }
                     }
@@ -247,8 +251,10 @@ public class RequestProcessor {
     }
 
     private String enrich(String compareResult, Request request) throws Exception {
-        log.debug("compareServiceRequest - scannedTemplate +  webCamTemplate: %s", compareResult.getBytes());
+        log.debug("enrich compareResult length: {}  request: {}", StringUtils.length(compareResult), request);
+
         JsonNode result = objectMapper.readValue(compareResult, JsonNode.class);
+
         Long iin = request.getPerson().getId();
         Long wfm = request.getId();
         ((ObjectNode) result).put("wfNumber", wfm);
@@ -276,7 +282,7 @@ public class RequestProcessor {
         ((ObjectNode) result).put("webCamPicturePreviewURL", request.getCameraDocument().getFaceSquare());
 
         String jsonResult = result.toString();
-        log.debug("jsonResult:", jsonResult);
+        log.debug("jsonResult: {}", jsonResult);
 
         return jsonResult;
     }

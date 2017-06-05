@@ -185,12 +185,13 @@ public class ArmRequestJmsConsumer {
         if (Strings.isNullOrEmpty(picture)) {
             return null;
         }
+        return picture;
 //        if(picture.contains("data:image")) {
 //            String base64Image = picture.split(",")[1];
 //            byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
 //            return new String(imageBytes);
 //        } else {
-        return picture;
+//        return picture;
 //        }
     }
 

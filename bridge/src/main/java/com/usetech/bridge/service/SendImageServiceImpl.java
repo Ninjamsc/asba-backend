@@ -27,14 +27,13 @@ public class SendImageServiceImpl implements SendImageService {
 
     @Override
     public boolean send(FrameBean frameBean) {
-        this.log.info("sending '{}' to '{}'", (Object) this.jmsTemplate.getDefaultDestinationName(),
-                (Object) frameBean);
+        log.info("sending '{}' to '{}'", frameBean, jmsTemplate.getDefaultDestinationName());
         try {
             frameBean.setCamPic(handlePicture(frameBean.getCamPic()));
             frameBean.setScanPic(handlePicture(frameBean.getScanPic()));
-            this.jmsTemplate.convertAndSend((Object) frameBean);
+            this.jmsTemplate.convertAndSend(frameBean);
         } catch (JmsException e) {
-            this.log.error("Failed to send message using jmsTemplate: {}, {}", (Object) this.jmsTemplate, (Object) e);
+            log.error("Failed to send message using jmsTemplate: {}, {}", jmsTemplate, e);
             return false;
         }
         return true;

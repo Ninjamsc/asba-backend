@@ -96,8 +96,8 @@ public class CompareServiceRequest {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("webTemplate", webTemplate)
-                .add("scanTemplate", scanTemplate)
+                .add("webTemplate length", webTemplate.length)
+                .add("scanTemplate length", scanTemplate.length)
                 .add("scanFullFrameURL", scanFullFrameURL)
                 .add("scanPreviewURL", scanPreviewURL)
                 .add("webFullFrameURL", webFullFrameURL)

@@ -59,7 +59,7 @@ public class TemplateBuilderServiceRestClient {
     }
 
     public PhotoTemplate getPhotoTemplateFromTevianCore(byte[] request, boolean isFirstAttempt) {
-        log.debug("getPhotoTemplateFromTevianCore request: {} isFirstAttempt: {}", request, isFirstAttempt);
+        log.debug("getPhotoTemplateFromTevianCore request length: {} isFirstAttempt: {}", request.length, isFirstAttempt);
 
         String url = String.format("%s?version=%s", getTevianCoreLink(), getTevianCoreVersion());
         PhotoTemplate photoTemplate = null;
@@ -70,7 +70,7 @@ public class TemplateBuilderServiceRestClient {
 
             ResponseEntity<String> response = rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, String.class);
 
-            log.debug("Received image vectorBase64: {}", response.getBody());
+            log.debug("Received image vectorBase64 length: {}", response.getBody().length());
             double[] vector = getVectorFromByteArray(Base64.decode(response.getBody().getBytes()));
             byte[] binTemplate = Base64.decode(response.getBody().getBytes());
 
