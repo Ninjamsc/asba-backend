@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.google.common.base.MoreObjects;
 import com.usetech.bridge.service.LocalDateTimeDeserializer;
 import com.usetech.bridge.service.LocalDateTimeSerializer;
+import org.apache.commons.lang.StringUtils;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
@@ -125,8 +126,8 @@ public class FrameBean implements Serializable {
                 .add("username", username)
                 .add("timestamp", timestamp)
                 .add("type", type)
-                .add("camPic", camPic)
-                .add("scanPic", scanPic)
+                .add("camPic", StringUtils.length(camPic))
+                .add("scanPic", StringUtils.length(scanPic))
                 .toString();
     }
 }

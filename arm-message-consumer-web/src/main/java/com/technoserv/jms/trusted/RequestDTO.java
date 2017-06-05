@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.common.base.MoreObjects;
+import org.apache.commons.lang.StringUtils;
 
 import java.sql.Timestamp;
 
@@ -116,8 +117,8 @@ public class RequestDTO {
                 .add("username", username)
                 .add("type", type)
                 .add("timestamp", timestamp)
-                .add("webCameraPicture", webCameraPicture)
-                .add("scannedPicture", scannedPicture)
+                .add("webCameraPicture", StringUtils.length(webCameraPicture))
+                .add("scannedPicture", StringUtils.length(scannedPicture))
                 .toString();
     }
 }

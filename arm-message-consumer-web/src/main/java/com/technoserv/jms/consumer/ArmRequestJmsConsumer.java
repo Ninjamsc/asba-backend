@@ -13,6 +13,7 @@ import com.technoserv.db.service.objectmodel.api.RequestService;
 import com.technoserv.jms.trusted.ArmRequestRetryMessage;
 import com.technoserv.jms.trusted.RequestDTO;
 import com.technoserv.rest.client.PhotoPersistServiceRestClient;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,7 +60,7 @@ public class ArmRequestJmsConsumer {
     private static Integer maxTryCount = 10;
 
     public void onReceive(String message) {
-        log.debug("onReceive message: {}", message);
+        log.debug("onReceive message length: {}", StringUtils.length(message));
         if (!saveRequest(message)) {
             jmsTemplate.convertAndSend(new ArmRequestRetryMessage(message));
         }
