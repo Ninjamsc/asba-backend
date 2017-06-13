@@ -10,6 +10,7 @@ import com.usetech.bridge.service.SendLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,8 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
+import static com.usetech.bridge.config.ConfigValues.FRONT_END_REGISTRATION_URL;
 
 @RestController
 @RequestMapping("/rest")
@@ -32,13 +35,17 @@ public class RequestController {
 
     private CommonConfig config;
 
+    private String frontEndRegistrationUrl;
+
     @Autowired
     public RequestController(LogStoreService logStoreService, SendImageService sendImageService,
-                             SendLogService sendLogService, CommonConfig config) {
+                             SendLogService sendLogService, CommonConfig config,
+                             @Value(FRONT_END_REGISTRATION_URL) String frontEndRegistrationUrl) {
         this.logStoreService = logStoreService;
         this.sendImageService = sendImageService;
         this.sendLogService = sendLogService;
         this.config = config;
+        this.frontEndRegistrationUrl = frontEndRegistrationUrl;
     }
 
     @PutMapping("/auth")
@@ -68,11 +75,7 @@ public class RequestController {
     @PostMapping("/reg")
     public ResponseEntity auth(@Valid @RequestBody RegBean regBean) {
         log.info("auth regBean detected: {}", regBean);
-
         RestTemplate restTemplate = new RestTemplate();
-
-        // TODO: remove hard coded URL
-        String REGISTRATION_URL = "http://localhost:9080/rpe/api/rest/front-ends";
 
         FrontEnd frontEnd = new FrontEnd(
                 regBean.getUuid(),
@@ -81,7 +84,7 @@ public class RequestController {
                 regBean.getUsername(),
                 regBean.getClientVersion());
 
-        return restTemplate.postForEntity(REGISTRATION_URL, frontEnd, FrontEnd.class);
+        return restTemplate.postForEntity(frontEndRegistrationUrl, frontEnd, FrontEnd.class);
     }
 
     @GetMapping("/log")
@@ -117,18 +120,20 @@ public class RequestController {
 
     private ResponseEntity send(LogBean logBean) {
         ResponseEntity responseEntity = validate(logBean);
+
         if (responseEntity.getStatusCode() == HttpStatus.OK && !sendLogService.send(logBean)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorBean("failed to deliver message"));
+                    .body(new ErrorBean("Failed to deliver log message."));
         }
         return responseEntity;
     }
 
     private ResponseEntity send(FrameBean frameBean, ImageType imageType) {
-        ResponseEntity responseEntity = this.validate(frameBean, imageType);
+        ResponseEntity responseEntity = validate(frameBean, imageType);
+
         if (responseEntity.getStatusCode() == HttpStatus.OK && !sendImageService.send(frameBean)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorBean("failed to deliver message"));
+                    .body(new ErrorBean("Failed to deliver image."));
         }
         return responseEntity;
     }

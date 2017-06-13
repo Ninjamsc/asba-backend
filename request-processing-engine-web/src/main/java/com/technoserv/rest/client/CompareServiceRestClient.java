@@ -8,6 +8,8 @@ import com.technoserv.rest.request.CompareServiceRequest;
 import com.technoserv.rest.request.StopListElement;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,7 @@ import java.net.URI;
 @Service
 public class CompareServiceRestClient {
 
-    private static final Log log = LogFactory.getLog(CompareServiceRestClient.class);
+    private static final Logger log = LoggerFactory.getLogger(CompareServiceRestClient.class);
 
     private RestTemplate rest = new RestTemplate();
 
@@ -38,33 +40,30 @@ public class CompareServiceRestClient {
     }
 
     public String compare(CompareServiceRequest request) {
+        log.debug("compare request: {} URL: {}", request, getUrl());
 
-        String url = getUrl();
-
-        if (log.isInfoEnabled()) {
-            log.info(url + " COMPARING TEMPLATE: '" + request + "'");
-        }
         try {
             //todo request -> json with jackson
             HttpHeaders requestHeaders = new HttpHeaders();
             requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<CompareServiceRequest> requestEntity = new HttpEntity<CompareServiceRequest>(request, requestHeaders);
-            ResponseEntity<String> response = rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, String.class);
-            if (log.isInfoEnabled()) {
-                log.info("COMPARING TEMPLATE: DONE");
-            }
+            HttpEntity<CompareServiceRequest> requestEntity = new HttpEntity<>(request, requestHeaders);
+            ResponseEntity<String> response = rest.exchange(URI.create(getUrl()), HttpMethod.PUT, requestEntity, String.class);
+            log.debug("Compare response: {}", response.getBody());
             return response.getBody();
+
         } catch (RestClientResponseException e) {
-            e.printStackTrace();
-            log.error("COMPARING TEMPLATE ERROR CODE " + e.getRawStatusCode());
+            log.error(String.format("Can't compare template. Original error code: %d", e.getRawStatusCode()), e);
+
             switch (e.getRawStatusCode()) {
-                /*Стандартные названия ошибок не совпадают с нашей документацией только коды */
-                case 400:
-                    log.error("BAD_REQUEST");
-                    throw new CompareServiceException(e.getResponseBodyAsString());//BAD_REQUEST:
-                case 500:
-                    log.error("INTERNAL_SERVER_ERROR");
-                    throw new CompareServiceException(e.getResponseBodyAsString());//INTERNAL_SERVER_ERROR:
+                // стандартные названия ошибок не совпадают с нашей документацией только коды
+                case OurErrorCodes.BAD_REQUEST:
+                    log.error("Bad request for: {} URL: {} ", request, getUrl());
+                    throw new CompareServiceException(e.getResponseBodyAsString());
+
+                case OurErrorCodes.INTERNAL_SERVER_ERROR:
+                    log.error("Internal server error for: {} URL: {}", request, getUrl());
+                    throw new CompareServiceException(e.getResponseBodyAsString());
+
                 default:
                     throw new RuntimeException(e.getResponseBodyAsString());
             }
@@ -79,11 +78,11 @@ public class CompareServiceRestClient {
         try {
             HttpHeaders requestHeaders = new HttpHeaders();
             requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<StopListElement> requestEntity = new HttpEntity<StopListElement>(element, requestHeaders);
+            HttpEntity<StopListElement> requestEntity = new HttpEntity<>(element, requestHeaders);
             rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, String.class);
+
         } catch (RestClientResponseException e) {
-            e.printStackTrace();
-            log.error("IMPORT IMAGES ERROR CODE " + e.getRawStatusCode());
+            log.error("IMPORT IMAGES ERROR CODE " + e.getRawStatusCode(), e);
             throw new CompareServiceException("IMPORT IMAGES ERROR CODE: " + e.getResponseBodyAsString());
         }
     }

@@ -1,5 +1,7 @@
 package com.technoserv.rest.response;
 
+import com.google.common.base.MoreObjects;
+
 public class SomeResponse {
 
     private String text;
@@ -12,4 +14,10 @@ public class SomeResponse {
         this.text = text;
     }
 
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("text", text)
+                .toString();
+    }
 }

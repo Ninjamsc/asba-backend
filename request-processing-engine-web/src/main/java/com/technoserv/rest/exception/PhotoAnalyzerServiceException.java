@@ -3,14 +3,14 @@ package com.technoserv.rest.exception;
 /**
  * Created by VBasakov on 23.11.2016.
  */
-public class PhotoAnalizerServiceException extends RestClientException {
+public class PhotoAnalyzerServiceException extends RestClientException {
 
-    public PhotoAnalizerServiceException(String error) {
+    public PhotoAnalyzerServiceException(String error) {
         super(error);
     }
 
     @Override
     protected String getServiceName() {
-        return "PhotoAnalizerService";
+        return "PhotoAnalyzerService";
     }
 }

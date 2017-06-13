@@ -2,6 +2,7 @@
 package com.technoserv.rest.exception;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.MoreObjects;
 
 import java.io.Serializable;
 
@@ -22,5 +23,12 @@ public class ErrorBean implements Serializable {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("message", message)
+                .toString();
     }
 }

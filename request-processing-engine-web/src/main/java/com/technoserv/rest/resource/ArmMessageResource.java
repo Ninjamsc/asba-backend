@@ -19,7 +19,7 @@ import javax.ws.rs.core.Response;
  */
 @Component
 @Path("/rest")
-@Api(value = "Arm Rest API")
+@Api(value = "ARM REST API")
 public class ArmMessageResource {
 
     @Autowired

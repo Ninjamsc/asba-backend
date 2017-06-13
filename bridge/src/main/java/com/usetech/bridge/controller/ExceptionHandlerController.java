@@ -18,18 +18,24 @@ import javax.servlet.http.HttpServletRequest;
 public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return ResponseEntity.status((HttpStatus) HttpStatus.BAD_REQUEST).body((Object) new ErrorBean(ex.getMessage()));
+                                                                  HttpHeaders headers,
+                                                                  HttpStatus status,
+                                                                  WebRequest request) {
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorBean(ex.getMessage()));
     }
 
-    @ExceptionHandler(value = {Exception.class})
+    @ExceptionHandler(value = Exception.class)
     public ResponseEntity<Object> badRequest(HttpServletRequest req, Exception exception) {
-        return ResponseEntity.status((HttpStatus) HttpStatus.INTERNAL_SERVER_ERROR)
-                .body((Object) new ErrorBean(exception.getMessage()));
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new ErrorBean(exception.getMessage()));
     }
 
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
-                                                                  HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return ResponseEntity.status((HttpStatus) HttpStatus.BAD_REQUEST).body((Object) new ErrorBean(ex.getMessage()));
+                                                                  HttpHeaders headers,
+                                                                  HttpStatus status,
+                                                                  WebRequest request) {
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorBean(ex.getMessage()));
     }
 }

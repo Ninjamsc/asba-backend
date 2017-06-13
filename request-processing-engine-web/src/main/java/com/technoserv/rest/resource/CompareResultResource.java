@@ -86,4 +86,5 @@ public class CompareResultResource {
     public List<CompareResult> getAll() {
         return compareResultService.getAll();
     }
+
 }

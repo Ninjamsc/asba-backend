@@ -2,11 +2,11 @@ package com.technoserv.rest.client;
 
 import com.technoserv.db.model.configuration.SystemSettingsType;
 import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
-import com.technoserv.rest.exception.PhotoAnalizerServiceException;
+import com.technoserv.rest.exception.PhotoAnalyzerServiceException;
 import com.technoserv.rest.request.Base64Photo;
 import com.technoserv.rest.response.PhotoAnalyzeResult;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -24,7 +24,7 @@ import java.net.URI;
 @Service
 public class PhotoAnalyzerServiceRestClient {
 
-    private static final Log log = LogFactory.getLog(PhotoAnalyzerServiceRestClient.class);
+    private static final Logger log = LoggerFactory.getLogger(PhotoAnalyzerServiceRestClient.class);
 
     private RestTemplate rest = new RestTemplate();
 
@@ -35,37 +35,36 @@ public class PhotoAnalyzerServiceRestClient {
      * В случае успеха (библиотека анализа изображений не нашла несоответствий) возврат HTTP 200 OK безJSON документа
      */
     public void analyzePhoto(byte[] request) {
-        String url = getUrl();
-        if (request == null) {
+        log.debug("analyzePhoto request (size): {}", request.length);
+        if (request.length == 0) {
+            log.warn("An empty photo is not allowed for the analysis. Photo will not analysed.");
             return;
         }
-        if (log.isInfoEnabled()) {
-            log.info(url + " ANALYZING TEMPLATE: '" + request + "'");
-        }
+
         try {
             HttpHeaders requestHeaders = new HttpHeaders();
             requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<Base64Photo> requestEntity = new HttpEntity<Base64Photo>(new Base64Photo(request), requestHeaders);
-            rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, PhotoAnalyzeResult.class);
-            if (log.isInfoEnabled()) {
-                log.info("ANALYZING TEMPLATE:  DONE");
-            }
+            HttpEntity<Base64Photo> requestEntity = new HttpEntity<>(new Base64Photo(request), requestHeaders);
+            rest.exchange(URI.create(getUrl()), HttpMethod.PUT, requestEntity, PhotoAnalyzeResult.class);
+            log.debug("Photo analysis complete.");
+
         } catch (RestClientResponseException e) {
+            log.error(String.format("Can't analyze photo. Size: %s", request.length), e);
             switch (e.getRawStatusCode()) {
-                //На первом этапе сервис выполняется в виде заглушки, всегда возвращающей HTTP 200 ОК.
-                /*Стандартные названия ошибок не совпадают с нашей документацией  только коды */
-                case 510:
-                    log.error("510 ошибка анализа изображения");
-                    throw new PhotoAnalizerServiceException(e.getResponseBodyAsString());
-                case 400:
-                    log.error("Неполный/неверный запрос");
-                    throw new PhotoAnalizerServiceException(e.getResponseBodyAsString());
-//                case 500://log.error("Прочие ошибки");
+                // На первом этапе сервис выполняется в виде заглушки, всегда возвращающей HTTP 200 ОК.
+                // Стандартные названия ошибок не совпадают с нашей документацией только коды
+                case OurErrorCodes.PHOTO_ANALYSIS_ERROR:
+                    log.error("Ошибка анализа изображения.", e);
+                    throw new PhotoAnalyzerServiceException(e.getResponseBodyAsString());
+
+                case OurErrorCodes.BAD_REQUEST:
+                    log.error("Неполный/неверный запрос.", e);
+                    throw new PhotoAnalyzerServiceException(e.getResponseBodyAsString());
+
                 default:
                     throw new RuntimeException(e.getResponseBodyAsString());
             }
         }
-
     }
 
     public String getUrl() {
@@ -80,8 +79,6 @@ public class PhotoAnalyzerServiceRestClient {
             }
         };
         restClient.analyzePhoto("/9j/4AAQSkZJRgABA".getBytes());
-
     }
-
 
 }
