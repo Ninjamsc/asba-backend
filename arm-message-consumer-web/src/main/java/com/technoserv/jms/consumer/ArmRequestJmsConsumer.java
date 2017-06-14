@@ -17,7 +17,6 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.jms.core.JmsTemplate;
 
 import javax.xml.bind.DatatypeConverter;
@@ -155,7 +154,7 @@ public class ArmRequestJmsConsumer {
 
             return true;
         } catch (IOException e) {
-            log.error(String.format("Can't save request: {}", request), e);
+            log.error(String.format("Can't save request: %s", request), e);
             return false;
         }
     }
