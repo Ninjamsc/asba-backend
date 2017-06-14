@@ -1,7 +1,7 @@
 package com.technoserv.rest.handlers;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -20,7 +20,7 @@ import java.util.Collection;
  */
 public class CustomAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    protected Log logger = LogFactory.getLog(this.getClass());
+    private static final Logger log = LoggerFactory.getLogger(CustomAuthenticationSuccessHandler.class.getSimpleName());
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
@@ -36,7 +36,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         String targetUrl = determineTargetUrl(authentication);
 
         if (response.isCommitted()) {
-            logger.debug("Response has already been committed. Unable to redirect to " + targetUrl);
+            log.debug("Response has already been committed. Unable to redirect to URL: {}", targetUrl);
             return;
         }
 

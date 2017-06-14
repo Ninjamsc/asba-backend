@@ -14,6 +14,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @Path("")
@@ -64,41 +65,43 @@ public class CompareStopListTestResource extends BaseResource<Long, StopList> {
     static {
         data = new CompareResponse();
         // Black lists
-        ArrayList<CompareResponsePhotoObject> pa = new ArrayList<CompareResponsePhotoObject>();
+        List<CompareResponsePhotoObject> pa = new ArrayList<>();
         CompareResponsePhotoObject p = new CompareResponsePhotoObject();
         p.setUrl("url1");
         p.setSimilarity(13.169f);
         pa.add(p);
+
         p = new CompareResponsePhotoObject();
         p.setUrl("url2");
         p.setSimilarity(13.169f);
         pa.add(p);
+
         CompareResponseBlackListObject bl = new CompareResponseBlackListObject();
         bl.setListId(1l);
         bl.setListName("List 1");
         bl.setPhoto(pa);
-        ArrayList<CompareResponseBlackListObject> bla = new ArrayList<>();
+        List<CompareResponseBlackListObject> bla = new ArrayList<>();
         bla.add(bl);
-        //
+
         pa = new ArrayList<>();
         p = new CompareResponsePhotoObject();
         p.setUrl("url1");
         p.setSimilarity(13.169f);
         pa.add(p);
+
         p = new CompareResponsePhotoObject();
         p.setUrl("url2");
         p.setSimilarity(13.169f);
         pa.add(p);
+
         CompareResponseRulesObject rl = new CompareResponseRulesObject();
         rl.setRuleId("1");
         rl.setRuleName("Rule1");
         rl.setPhoto(pa);
-        ArrayList<CompareResponseRulesObject> rla = new ArrayList<CompareResponseRulesObject>();
+        List<CompareResponseRulesObject> rla = new ArrayList<>();
         rla.add(rl);
-        //
-        //data.setBlackLists(bla); TODO
+
         data.setRules(rla);
-        //
         data1 = new ArrayRealVector(a1);
     }
 

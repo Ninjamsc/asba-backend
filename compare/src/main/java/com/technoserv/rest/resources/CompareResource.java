@@ -210,7 +210,7 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
         return new Long(systemSettingsBean.get(SystemSettingsType.COMPARATOR_COMMON_LIST_ID));
     }
 
-    /*
+    /**
      * Сравнить картинки с блеклистами и досье и вернуть отчет
      */
     @PUT

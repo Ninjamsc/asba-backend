@@ -20,6 +20,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+import static org.springframework.security.crypto.codec.Base64.encode;
+
 @Component
 public class CompareListManager implements InitializingBean {
 
@@ -37,41 +39,40 @@ public class CompareListManager implements InitializingBean {
         return this.managedStopLists.get(id);
     }
 
-    /*
+    /**
      * Добавление элемента в существующий список по его ID
      */
     public void addElement(Long listId, Document vector) throws Exception {
-        log.info("addElement(): adding element id=" + vector.getId() + " to list id=" + listId);
+        log.info("addElement: adding element id: {} to listId: {}", vector.getId(), listId);
         if (vector.getId() == null) {
-            log.error("addElement(): null document id. ignoring for the list_id=" + listId);
-
+            log.error("addElement: null document id. Ignoring for the listId: {}", listId);
         }
         CompareServiceStopListElement sl = managedStopLists.get(listId);
-        if (sl != null) sl.addVector(vector);
+        if (sl != null) {
+            sl.addVector(vector);
+        }
     }
 
-    /*
+    /**
      * удаление элемента списка ID по его ID
      */
     public void delStopListElement(Long listId, Long listElementId) {
-        log.info("delStopListElement(): removing element id=" + listElementId + " from list id=" + listId);
+        log.info("delStopListElement: (removing) element: {} from list: {}", listElementId, listId);
         CompareServiceStopListElement list = this.managedStopLists.get(listId);
         if (list != null) {
             List<CompareServiceStopListVector> elements = list.getVectors();
             List<CompareServiceStopListVector> toDelete = new ArrayList<>();
-            for (Iterator<CompareServiceStopListVector> it = elements.iterator(); it.hasNext(); ) {
-                CompareServiceStopListVector el = it.next();
-                if (el.getDocId().longValue() == listElementId.longValue()) {
-                    log.debug("delStopListElement(): Document id=" + listId + " is deleted from list id=" + listId);
+            for (CompareServiceStopListVector el : elements) {
+                if (el.getDocId().equals(listElementId)) {
+                    log.debug("delStopListElement element: {} is deleted from list: {}", listElementId, listId);
                     toDelete.add(el);
                 }
-
             }
             elements.removeAll(toDelete);
         }
     }
 
-    /*
+    /**
      * удаление списка по его ID
      */
     public void delStopList(Long listId) {
@@ -83,18 +84,19 @@ public class CompareListManager implements InitializingBean {
         managedStopLists.remove(listId);
     }
 
-    /*
+    /**
      * Добавление нового стоплиста
      */
     public boolean addList(StopList list) {
-        log.info("addStopList(): Removing list id=" + list.getId());
+        log.info("addStopList: (removing) list: {}", list.getId());
 
         if (list == null) return false;
-        CompareServiceStopListElement e = new CompareServiceStopListElement(list.getStopListName(), list.getId(), list.getSimilarity());
+
+        CompareServiceStopListElement e = new CompareServiceStopListElement(list.getStopListName(), list.getId(),
+                list.getSimilarity());
+
         if (list.getOwner() != null) {
-            Iterator<Document> id = list.getOwner().iterator();
-            while (id.hasNext()) {
-                Document d = id.next();
+            for (Document d : list.getOwner()) {
                 if (!e.addVector(d)) return false;
             }
         }
@@ -102,10 +104,12 @@ public class CompareListManager implements InitializingBean {
         return true;
     }
 
-    // compare with exact list
-    public CompareResponseBlackListObject compare1(double[] vector, Long listId) throws Exception //TODO: specify exception
-    {
-        log.info("compare(double, Long) list size is " + managedStopLists.size());
+    /**
+     * Compare with exact list
+     */
+    public CompareResponseBlackListObject compare1(double[] vector, Long listId) throws Exception {
+        //TODO: specify exception
+        log.info("compare(double, Long) list size: {}", managedStopLists.size());
         double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
         int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
 
@@ -113,24 +117,28 @@ public class CompareListManager implements InitializingBean {
         CompareServiceStopListElement list = managedStopLists.get(listId);
         CompareResponseBlackListObject report = new CompareResponseBlackListObject();
         if (list == null) {
-            log.error("List id=" + listId + " is null or unavailable");
+            log.error("ListId: {} is null or unavailable.", listId);
             return null;
         }
         report.setListId(list.getId());
         report.setListName(list.getListName());
         report.setSimilarity(list.getSimilarity());
+
         List<CompareServiceStopListVector> vectors = list.getVectors();
         for (CompareServiceStopListVector vect : vectors) {
             /*ArrayRealVector diff = arv.subtract(vect.getVector());
             double dot = diff.dotProduct(diff);
 			double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
-            //double norm = TevianVectorComparator.calculateSimilarityWrapper(arv.getDataRef(),vect.getVector().getDataRef());
+            // double norm = TevianVectorComparator.calculateSimilarityWrapper(arv.getDataRef(),vect.getVector().getDataRef());
+
             double norm = TevianVectorComparator.calculateSimilarityCliWrapper(
-                    new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(arv.getDataRef()))),
-                    new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(vect.getVector().getDataRef()))), "1");
-            if (norm > list.getSimilarity()) //HIT
-            {
-                log.debug("compare1 HITT" + list.getListName() + " norm:" + norm + " similarity:" + list.getSimilarity() + "doc=" + vect.getDocId());
+                    new String(encode(TevianVectorComparator.getByteArrayFromVector(arv.getDataRef()))),
+                    new String(encode(TevianVectorComparator.getByteArrayFromVector(vect.getVector().getDataRef()))), "1");
+
+            if (norm > list.getSimilarity()) {
+                log.debug("compare1 HIT: {} norm: {} similarity: {} doc: {}",
+                        list.getListName(), norm, list.getSimilarity(), vect.getDocId());
+
                 Long doc = vect.getDocId();
                 Document d = this.documentService.findById(doc);
                 CompareResponsePhotoObject po = new CompareResponsePhotoObject();
@@ -139,58 +147,68 @@ public class CompareListManager implements InitializingBean {
                 po.setIdentity(d.getId());
                 report.addPhoto(po);
             } else
-                log.debug("compare1 MISS " + list.getListName() + " norm:" + norm + " similarity:" + list.getSimilarity() + " doc=" + vect.getDocId());
+                log.debug("compare1 MISS: {} norm: {} similarity: {} doc: {}",
+                        list.getListName(), norm, list.getSimilarity(), vect.getDocId());
         }
-        if (report.getPhoto().size() > 0) return report;
+        if (report.getPhoto().size() > 0) {
+            return report;
+        }
         return null;
     }
 
-    // compare with all list except specified
-    public ArrayList<CompareResponseBlackListObject> compare2(double[] vector, Long listId) throws Exception //TODO: specify exception
-    {
-        //log.info("COMPARATOR vector is ='"+vector+"'");
-        //System.out.println("COMPARATOR vector is'"+vector+"'");
-
-        log.info("compare(double) list size is " + managedStopLists.size());
+    /**
+     * compare with all list except specified
+     */
+    public List<CompareResponseBlackListObject> compare2(double[] vector, Long listId) throws Exception {
+        //TODO: specify exception
+        log.info("compare (double) list size: {}", managedStopLists.size());
         double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
         int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
-        ArrayList<CompareResponseBlackListObject> bl = new ArrayList<CompareResponseBlackListObject>();
+        List<CompareResponseBlackListObject> bl = new ArrayList<>();
         // Сериализуем строковое представление вектора в ArrayRealVector
         ArrayRealVector arv = new ArrayRealVector(vector);
-        Iterator<Map.Entry<Long, CompareServiceStopListElement>> it = managedStopLists.entrySet().iterator();
-        while (it.hasNext()) {
-            CompareServiceStopListElement list = it.next().getValue();
-            log.debug("!!!! " + list.getId() + "=" + listId);
-            if (list.getId().longValue() == listId.longValue()) {
-                log.debug("skipping common list id=" + listId);
+
+        for (Map.Entry<Long, CompareServiceStopListElement> longCompareServiceStopListElementEntry : managedStopLists.entrySet()) {
+
+            CompareServiceStopListElement list = longCompareServiceStopListElementEntry.getValue();
+            if (list.getId().equals(listId)) {
+                log.debug("skipping common list id: {}", listId);
                 continue;
             }
+
             Double similarity = list.getSimilarity();
             CompareResponseBlackListObject report = new CompareResponseBlackListObject();
             report.setListId(list.getId());
             report.setListName(list.getListName());
             report.setSimilarity(list.getSimilarity());
+
             List<CompareServiceStopListVector> vectors = list.getVectors();
             for (CompareServiceStopListVector vect : vectors) {
                 /*ArrayRealVector diff =arv.subtract(vect.getVector());
                 double dot = diff.dotProduct(diff);
 				double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
-                //double norm = TevianVectorComparator.calculateSimilarityWrapper(arv.getDataRef(),vect.getVector().getDataRef());
+                // double norm = TevianVectorComparator.calculateSimilarityWrapper(arv.getDataRef(),vect.getVector().getDataRef());
                 double norm = TevianVectorComparator.calculateSimilarityCliWrapper(
-                        new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(arv.getDataRef()))),
-                        new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(vect.getVector().getDataRef()))), "1");
-                if (norm > similarity) //HIT
-                {
-                    log.debug(list.getListName() + "compare2 HITT norm:" + norm + " similarity:" + similarity + " list id=" + list.getId() + " doc_id=" + vect.getDocId());
+                        new String(encode(TevianVectorComparator.getByteArrayFromVector(arv.getDataRef()))),
+                        new String(encode(TevianVectorComparator.getByteArrayFromVector(vect.getVector().getDataRef()))), "1");
+
+                if (norm > similarity) {
+                    // HIT
+                    log.debug("compare2 HIT list: {} norm: {} similarity: {} listId: {} docId: {}",
+                            list.getListName(), norm, similarity, list.getId(), vect.getDocId());
+
                     Long doc = vect.getDocId();
+
                     Document d = this.documentService.findById(doc);
                     CompareResponsePhotoObject po = new CompareResponsePhotoObject();
                     po.setUrl(d.getFaceSquare());
                     po.setSimilarity(norm);
                     report.addPhoto(po);
                     bl.add(report);
-                } else
-                    log.debug(list.getListName() + " compare2 MISS norm:" + norm + " similarity:" + similarity + " list id=" + list.getId() + " doc_id=" + vect.getDocId());
+                } else {
+                    log.debug("compare2 MISS list: {} norm: {} similarity: {} list id: {} docId: {}",
+                            list.getListName(), norm, similarity, list.getId(), vect.getDocId());
+                }
             }
         }
         return bl;
@@ -200,21 +218,25 @@ public class CompareListManager implements InitializingBean {
         double similarity = new Double(systemSettingsBean.get(SystemSettingsType.RULE_SELF_SIMILARITY));
         double mult = new Double(systemSettingsBean.get(SystemSettingsType.COMPARATOR_MULTIPLIER));
         int power = new Integer(systemSettingsBean.get(SystemSettingsType.COMPARATOR_POWER));
-		/*ArrayRealVector v1 = new ArrayRealVector(a1);
-		ArrayRealVector v2 = new ArrayRealVector(a2);
+        /*ArrayRealVector v1 = new ArrayRealVector(a1);
+        ArrayRealVector v2 = new ArrayRealVector(a2);
 		ArrayRealVector diff =v1.subtract(v2);
 		double dot = diff.dotProduct(diff);
 		double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
         //double norm = TevianVectorComparator.calculateSimilarityWrapper(a1,a2);
         double norm = TevianVectorComparator.calculateSimilarityCliWrapper(
-                new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(a1))),
-                new String(org.springframework.security.crypto.codec.Base64.encode(TevianVectorComparator.getByteArrayFromVector(a2))), "1");
-        log.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        log.info("SIMILARITY=" + norm + " THRESHOLD+" + similarity);
-        log.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+                new String(encode(TevianVectorComparator.getByteArrayFromVector(a1))),
+                new String(encode(TevianVectorComparator.getByteArrayFromVector(a2))), "1");
+
+
+        log.debug("SIMILARITY: {} THRESHOLD: {}", norm, similarity);
+
         SelfCompareResult result = new SelfCompareResult();
-        if (norm < similarity) result.setSimilar(false);
-        else result.setSimilar(true);
+        if (norm < similarity) {
+            result.setSimilar(false);
+        } else {
+            result.setSimilar(true);
+        }
         result.setThreshold(similarity);
         result.setSimilarity(norm);
         return result;
@@ -222,11 +244,6 @@ public class CompareListManager implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        //this._commonList= this.systemSettingsBean.get(SystemSettingsType.COMPARATOR_COMMON_LIST_ID);
-        this.managedStopLists = new HashMap<Long, CompareServiceStopListElement>();
-        //log.info("++++++++++++++++++++++++++++++++++++++++++++++++++");
-        //log.info("list="+ _commonList);
-        //log.info("++++++++++++++++++++++++++++++++++++++++++++++++++");
-
+        managedStopLists = new HashMap<>();
     }
 }

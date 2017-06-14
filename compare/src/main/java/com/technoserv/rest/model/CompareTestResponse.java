@@ -17,8 +17,9 @@ public class CompareTestResponse {
 
     public void setVector(double[] a) {
         vector = new Double[a.length];
-        for (int i = 0; i < a.length; i++)
+        for (int i = 0; i < a.length; i++) {
             this.vector[i] = new Double(a[i]);
+        }
     }
 
     @Override

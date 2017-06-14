@@ -167,7 +167,7 @@ public class ImportImagesServiceImpl implements ImportImagesService {
     }
 
     private String encodeFile(Path path) {
-        byte[] bytes = null;
+        byte[] bytes;
         try {
             bytes = Files.readAllBytes(path);
         } catch (IOException e) {

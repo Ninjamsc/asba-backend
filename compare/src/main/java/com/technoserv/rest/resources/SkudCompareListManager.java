@@ -11,14 +11,11 @@ import com.technoserv.rest.model.CompareResponseBlackListObject;
 import com.technoserv.rest.model.CompareResponsePhotoObject;
 import com.technoserv.rest.model.SelfCompareResult;
 import com.technoserv.utils.TevianVectorComparator;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -26,16 +23,15 @@ import java.util.*;
 @Component
 public class SkudCompareListManager implements InitializingBean {
 
+    private static final Logger log = LoggerFactory.getLogger(SkudCompareListManager.class);
+
     @Autowired
     private SystemSettingsBean systemSettingsBean;
-
-    private static final Logger log = LoggerFactory.getLogger(SkudCompareListManager.class);
 
     @Autowired
     private DocumentService documentService;
 
     private HashMap<Long, CompareServiceStopListElement> managedStopLists;
-
 
     public boolean addList(StopList list) {
         log.info("addStopList(): Removing list id=" + list.getId());
@@ -53,10 +49,9 @@ public class SkudCompareListManager implements InitializingBean {
         return true;
     }
 
-
-    /*
- * Добавление элемента в существующий список по его ID
- */
+    /**
+     * Добавление элемента в существующий список по его ID
+     */
     public void addElement(Long listId, Document vector) throws Exception {
         log.info("addElement(): adding element id=" + vector.getId() + " to list id=" + listId);
         if (vector.getId() == null) {
@@ -87,7 +82,7 @@ public class SkudCompareListManager implements InitializingBean {
         List<CompareServiceStopListVector> vectors = list.getVectors();
         for (CompareServiceStopListVector vect : vectors) {
             /*ArrayRealVector diff = arv.subtract(vect.getVector());
-			double dot = diff.dotProduct(diff);
+            double dot = diff.dotProduct(diff);
 			double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
             double norm = wrapSimilarityCalculation(arv, vect.getVector());
             if (norm > list.getSimilarity()) //HIT
@@ -134,7 +129,7 @@ public class SkudCompareListManager implements InitializingBean {
             report.setSimilarity(list.getSimilarity());
             List<CompareServiceStopListVector> vectors = list.getVectors();
             for (CompareServiceStopListVector vect : vectors) {
-				/*ArrayRealVector diff =arv.subtract(vect.getVector());
+                /*ArrayRealVector diff =arv.subtract(vect.getVector());
 				double dot = diff.dotProduct(diff);
 				double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
                 double norm = wrapSimilarityCalculation(arv, vect.getVector());

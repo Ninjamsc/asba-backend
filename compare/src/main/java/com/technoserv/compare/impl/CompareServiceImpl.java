@@ -85,7 +85,7 @@ public abstract class CompareServiceImpl implements CompareService {
 
             for (CompareServiceStopListVector el : elements) {
                 if (el.getDocId().longValue() == listElementId.longValue()) {
-                    log.debug("delStopListElement: Document: {} is deleted from list: {}", listElementId, listId);
+                    log.debug("delStopListElement document: {} is deleted from list: {}", listElementId, listId);
                     toDelete.add(el);
                 }
             }
@@ -95,9 +95,9 @@ public abstract class CompareServiceImpl implements CompareService {
     }
 
     public void addElement(Long listId, Document vector) throws Exception {
-        log.info("addElement: (adding) vector: {}  to listId: {}", vector.getId(), listId);
+        log.info("addElement: (adding) vector: {} to listId: {}", vector.getId(), listId);
         if (vector.getId() == null) {
-            log.error("addElement - null document id. ignoring for the list_id: {}", listId);
+            log.error("addElement - null document id. Ignoring for the listId: {}", listId);
         }
         CompareServiceStopListElement sl = managedStopLists.get(listId);
         if (sl != null) sl.addVector(vector);
