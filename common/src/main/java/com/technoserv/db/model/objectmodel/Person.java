@@ -1,5 +1,6 @@
 package com.technoserv.db.model.objectmodel;
 
+import com.google.common.base.MoreObjects;
 import com.technoserv.db.model.BaseEntity;
 
 import javax.persistence.*;
@@ -51,4 +52,11 @@ public class Person extends BaseEntity<Long> {
         this.id = id;
     }
 
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("dossier", dossier)
+                .toString();
+    }
 }

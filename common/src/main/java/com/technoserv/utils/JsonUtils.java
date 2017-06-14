@@ -14,6 +14,10 @@ public class JsonUtils {
 
     private static final Logger logger = Logger.getLogger(JsonUtils.class);
 
+    private JsonUtils() {
+
+    }
+
     public static <T> String serializeJson(T object) {
         String json;
         ObjectMapper mapper = new ObjectMapper();

@@ -5,6 +5,7 @@ angular.module('stop-lists-edit', ['ui.router', 'commons', 'angularFileUpload'])
         $scope.stoplistId = $stateParams.stoplistId;
 
         $log.info($scope.stoplistId);
+
         $scope.refresh = function () {
             console.log('refresh');
             if (!!$scope.stoplistId) {//Редактирование
@@ -28,6 +29,7 @@ angular.module('stop-lists-edit', ['ui.router', 'commons', 'angularFileUpload'])
 
         $scope.zipUploader = new FileUploader();
         $scope.zipUploader.url = '/compare/api/stop-list/' + $scope.stoplistId + '/upload';
+
         $scope.zipUploader.onSuccessItem = function (fileItem, response, status, headers) {
             $log.info('Success upload', response);
             $scope.refresh();
@@ -78,18 +80,18 @@ angular.module('stop-lists-edit', ['ui.router', 'commons', 'angularFileUpload'])
             }
         };
 
-        $scope.removeImg = function(item){
+        $scope.removeImg = function (item) {
             console.log($scope.stoplist);
             console.log(item);
             $httpService.deletePhoto($scope.stoplist.id, item.id, $scope.refresh)
         };
 
-        $scope.$watch('stoplist.similarity', function(newValue,oldValue) {
+        $scope.$watch('stoplist.similarity', function (newValue, oldValue) {
             console.log(newValue);
             var arr = String(newValue).split("");
             if (arr.length === 0) return;
             if (arr.length === 1 && (arr[0] === '.' )) return;
-            if (isNaN(newValue)|| '-' === newValue) {
+            if (isNaN(newValue) || '-' === newValue) {
                 $scope.stoplist.similarity = oldValue;
             }
         });

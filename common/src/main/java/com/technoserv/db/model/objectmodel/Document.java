@@ -3,6 +3,7 @@ package com.technoserv.db.model.objectmodel;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.MoreObjects;
+import org.apache.commons.lang.StringUtils;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public class Document extends AbstractObject {
                 .add("description", description)
                 .add("documentType", documentType)
                 .add("origImageURL", origImageURL)
-                .add("faceSquare", faceSquare)
+                .add("faceSquare", StringUtils.length(faceSquare))
                 .add("bioTemplates", bioTemplates)
                 .toString();
     }

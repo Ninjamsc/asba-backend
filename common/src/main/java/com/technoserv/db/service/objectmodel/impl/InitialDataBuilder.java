@@ -21,7 +21,7 @@ import java.util.Set;
 /**
  * Created by sergey on 23.11.2016.
  */
-@Service("initialDataBuilder") //TODO ...
+@Service("initialDataBuilder")
 public class InitialDataBuilder implements InitializingBean {
 
     @Autowired

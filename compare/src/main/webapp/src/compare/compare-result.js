@@ -5,13 +5,13 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
         // console.log($stateParams);
 
         $scope.findRequest = function () {
-            $log.info("$scope.findRequest requestId =", $scope.creditRequestIdForSearch);
-            $httpService.findCompareResult($scope.creditRequestIdForSearch, function (result) {
-                var data = result.data;
-                // console.log(data);
-                //data.rules = []; //todo remove
+            $log.info("$scope.findRequest requestId:", $scope.creditRequestIdForSearch);
 
+            $httpService.findCompareResult($scope.creditRequestIdForSearch, function (response) {
+                var data = response.data;
+                console.log(JSON.stringify(data));
                 var result = data;
+
                 result.biometricCoreResponse = { //todo remove
                     "creditRequestId": data.wfNumber,
                     "clientId": data.IIN,
@@ -27,16 +27,18 @@ angular.module('compare-result-view', ['ui.router', 'commons'])
 
                 if (!!$scope.compareResult.similarPictures &&
                     !!$scope.compareResult.similarPictures.photos &&
-                    !!$scope.compareResult.similarPictures.photos.length > 0){
+                    $scope.compareResult.similarPictures.photos.length > 0){
+
                     $scope.similarPicturesMatrix = $c.arrayToMatrix($scope.compareResult.similarPictures.photos, 5);
-                    // console.log($scope.similarPicturesMatrix);
+                    console.log($scope.similarPicturesMatrix);
                 }
 
                 if (!!$scope.compareResult.othernessPictures &&
                     !!$scope.compareResult.othernessPictures.photos &&
-                    !!$scope.compareResult.othernessPictures.photos.length > 0){
+                    $scope.compareResult.othernessPictures.photos.length > 0){
+
                     $scope.othernessPicturesMatrix = $c.arrayToMatrix($scope.compareResult.othernessPictures.photos, 5);
-                    // console.log($scope.othernessPicturesMatrix);
+                    console.log($scope.othernessPicturesMatrix);
                 }
             });
         };

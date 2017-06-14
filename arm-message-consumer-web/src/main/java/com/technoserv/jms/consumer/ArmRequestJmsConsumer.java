@@ -30,7 +30,6 @@ import java.util.UUID;
 /**
  * Created by sergey on 22.11.2016.
  */
-@PropertySource("classpath:arm-consumer.properties")
 public class ArmRequestJmsConsumer {
 
     private static final Logger log = LoggerFactory.getLogger(ArmRequestJmsConsumer.class);
@@ -55,9 +54,6 @@ public class ArmRequestJmsConsumer {
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
-//    @Value("${arm-retry.queue.maxRetryCount}")
-//    private int maxTryCount = 10;
-
     public void onReceive(String message) {
         log.debug("onReceive message length: {}", StringUtils.length(message));
         if (!saveRequest(message)) {
@@ -65,39 +61,23 @@ public class ArmRequestJmsConsumer {
         }
     }
 
-//    public void onReceive(ArmRequestRetryMessage message) {
-//        if(message.getTryCount()<=maxTryCount) {
-//            if (!saveRequest(message.getMessage())) {
-//                message.incTryCount();
-//                jmsTemplate.convertAndSend(message);
-//            }
-//        } else {
-//            try {
-//                writeToFile(message);
-//            } catch (IOException e) {
-//                log.error(e);
-//            }
-//        }
-//    }
-
     private boolean saveRequest(String request) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setDateFormat(DATE_FORMAT);
         try {
-            //todo переделать маппинг из очереди 1 в сервис фоток и Request
             RequestDTO requestDTO = objectMapper.readValue(request, RequestDTO.class);
-            log.debug("Request: %d comes from workstation queue: %s", requestDTO.getWfNumber(), request);
+            log.debug("Request: {} comes from workstation queue: {}", requestDTO.getWfNumber(), request);
 
             Request requestEntity = requestService.findByOrderNumber(requestDTO.getWfNumber());
 
             // do not save request which was already processed
             if (requestEntity != null) {
-                log.warn("Request: %d already exists in the database: %s", requestEntity.getId(), requestEntity);
+                log.warn("Request: {} already exists in the database: {}", requestEntity.getId(), requestEntity);
                 if (requestEntity.getStatus() == Request.Status.SUCCESS
                         || requestEntity.getStatus() == Request.Status.FAILED
                         || requestEntity.getStatus() == Request.Status.REJECTED) {
 
-                    log.warn("Request: %d is process already and now its status: %s. Request will NOT be processed again.",
+                    log.warn("Request: {} is process already and now its status: {}. Request will NOT be processed again.",
                             requestEntity.getId(), requestEntity.getStatus());
 
                     return true;
@@ -175,7 +155,7 @@ public class ArmRequestJmsConsumer {
 
             return true;
         } catch (IOException e) {
-            log.error(String.format("Can't save request: %s", request), e);
+            log.error(String.format("Can't save request: {}", request), e);
             return false;
         }
     }
@@ -185,14 +165,6 @@ public class ArmRequestJmsConsumer {
             return null;
         }
         return picture;
-//        if(picture.contains("data:image")) {
-//            String base64Image = picture.split(",")[1];
-//            byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
-//            return new String(imageBytes);
-//        } else {
-//        return picture;
-//        }
     }
-
 
 }

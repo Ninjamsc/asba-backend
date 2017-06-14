@@ -1,5 +1,8 @@
 package com.technoserv.db.model.objectmodel;
 
+import com.google.common.base.MoreObjects;
+import org.apache.commons.lang.StringUtils;
+
 import javax.persistence.*;
 
 /**
@@ -68,5 +71,16 @@ public class BioTemplate extends AbstractObject {
 
     public void setTemplateVector(String templateVector) {
         this.templateVector = templateVector;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("document", document)
+                .add("bioTemplateType", bioTemplateType)
+                .add("bioTemplateVersion", bioTemplateVersion)
+                .add("insUser", insUser)
+                .add("templateVector", StringUtils.length(templateVector))
+                .toString();
     }
 }

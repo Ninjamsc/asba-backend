@@ -30,4 +30,5 @@ public enum SystemSettingsType {
     public String getDefaultValue() {
         return defaultValue;
     }
+
 }

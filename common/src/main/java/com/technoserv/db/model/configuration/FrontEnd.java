@@ -1,6 +1,7 @@
 package com.technoserv.db.model.configuration;
 
 
+import com.google.common.base.MoreObjects;
 import com.technoserv.db.model.objectmodel.AbstractObject;
 
 import javax.persistence.Column;
@@ -82,12 +83,12 @@ public class FrontEnd extends AbstractObject {
 
     @Override
     public String toString() {
-        return "FrontEnd{" +
-                "uuid='" + uuid + '\'' +
-                ", workstationName='" + workstationName + '\'' +
-                ", osVersion='" + osVersion + '\'' +
-                ", username='" + username + '\'' +
-                ", clientVersion='" + clientVersion + '\'' +
-                '}';
+        return MoreObjects.toStringHelper(this)
+                .add("uuid", uuid)
+                .add("workstationName", workstationName)
+                .add("osVersion", osVersion)
+                .add("username", username)
+                .add("clientVersion", clientVersion)
+                .toString();
     }
 }

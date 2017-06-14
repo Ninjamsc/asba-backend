@@ -55,7 +55,6 @@ public class CompareStopListTestResource extends BaseResource<Long, StopList> {
             0.09935737, -0.04691097, 0.10817883, 0.14009495, -0.00141741,
             0.04819384, -0.10831979, 0.02511743, -0.02743166, 0.05107384,
             -0.07011004, 0.05036785, -0.05941105
-
     };
 
     private static CompareResponse data;
@@ -78,10 +77,10 @@ public class CompareStopListTestResource extends BaseResource<Long, StopList> {
         bl.setListId(1l);
         bl.setListName("List 1");
         bl.setPhoto(pa);
-        ArrayList<CompareResponseBlackListObject> bla = new ArrayList<CompareResponseBlackListObject>();
+        ArrayList<CompareResponseBlackListObject> bla = new ArrayList<>();
         bla.add(bl);
         //
-        pa = new ArrayList<CompareResponsePhotoObject>();
+        pa = new ArrayList<>();
         p = new CompareResponsePhotoObject();
         p.setUrl("url1");
         p.setSimilarity(13.169f);
@@ -109,7 +108,6 @@ public class CompareStopListTestResource extends BaseResource<Long, StopList> {
     public CompareTestResponse testMessage() {
         CompareTestResponse r = new CompareTestResponse();
         r.setVector(data1.getDataRef());
-        //System.out.println("!!!!!"+r.getVector());
         return r;
     }
 }

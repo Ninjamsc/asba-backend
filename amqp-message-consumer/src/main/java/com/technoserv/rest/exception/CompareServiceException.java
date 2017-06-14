@@ -13,4 +13,5 @@ public class CompareServiceException extends RestClientException {
     protected String getServiceName() {
         return "CompareService";
     }
+
 }

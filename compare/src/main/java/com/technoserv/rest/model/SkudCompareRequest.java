@@ -31,9 +31,8 @@ public class SkudCompareRequest {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("template", template.length)
+                .add("template length:", template.length)
                 .add("pictureURL", pictureURL)
                 .toString();
     }
-
 }

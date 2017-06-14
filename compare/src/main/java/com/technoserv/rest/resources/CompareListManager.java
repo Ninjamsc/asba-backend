@@ -11,9 +11,9 @@ import com.technoserv.rest.model.CompareResponseBlackListObject;
 import com.technoserv.rest.model.CompareResponsePhotoObject;
 import com.technoserv.rest.model.SelfCompareResult;
 import com.technoserv.utils.TevianVectorComparator;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math3.linear.ArrayRealVector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,7 +23,7 @@ import java.util.*;
 @Component
 public class CompareListManager implements InitializingBean {
 
-    private static final Log log = LogFactory.getLog(CompareListManager.class);
+    private static final Logger log = LoggerFactory.getLogger(CompareListManager.class);
 
     @Autowired
     private SystemSettingsBean systemSettingsBean;
@@ -173,7 +173,7 @@ public class CompareListManager implements InitializingBean {
             List<CompareServiceStopListVector> vectors = list.getVectors();
             for (CompareServiceStopListVector vect : vectors) {
                 /*ArrayRealVector diff =arv.subtract(vect.getVector());
-				double dot = diff.dotProduct(diff);
+                double dot = diff.dotProduct(diff);
 				double norm = 1 / new Exp().value(new Pow().value(mult*dot, power));*/
                 //double norm = TevianVectorComparator.calculateSimilarityWrapper(arv.getDataRef(),vect.getVector().getDataRef());
                 double norm = TevianVectorComparator.calculateSimilarityCliWrapper(

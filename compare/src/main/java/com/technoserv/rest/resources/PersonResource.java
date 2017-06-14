@@ -6,6 +6,7 @@ import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 import com.technoserv.db.model.objectmodel.Person;
 import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.service.objectmodel.api.PersonService;
+import com.technoserv.utils.HttpUtils;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -28,8 +29,8 @@ public class PersonResource {
     private PersonService personService;
 
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(HttpUtils.APPLICATION_JSON_UTF8)
+    @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
     @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     @Path("/{iin}")
     public PersonResponse history(@PathParam("iin") Long id) {
@@ -60,6 +61,7 @@ public class PersonResource {
     }
 
     public static class HistoryRequestResponse {
+
         @JsonProperty("_comment")
         private String comment;
         private String username;
@@ -136,10 +138,14 @@ public class PersonResource {
     }
 
     public static class PersonResponse {
+
         @JsonProperty("_comment")
         private String comment;
+
         private Long iin;
+
         private Timestamp timestamp;
+
         private Collection<HistoryRequestResponse> dossier = new ArrayList<>();
 
         public String getComment() {

@@ -14,7 +14,7 @@
             <!-- daily rollover -->
             <fileNamePattern>/opt/biometrics/log/biometrics-arm-mc-web.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
-            <!-- keep 30 days' worth of history capped at 3GB total size -->
+            <!-- keep 30 days' worth of history capped at 1GB total size -->
             <maxHistory>30</maxHistory>
             <totalSizeCap>1GB</totalSizeCap>
         </rollingPolicy>

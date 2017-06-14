@@ -1,5 +1,7 @@
 package com.technoserv.db.model;
 
+import com.google.common.base.MoreObjects;
+
 import java.io.Serializable;
 
 public abstract class BaseEntity<ID extends Serializable> implements Serializable {

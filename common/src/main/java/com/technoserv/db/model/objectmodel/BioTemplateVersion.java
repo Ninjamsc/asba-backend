@@ -1,5 +1,6 @@
 package com.technoserv.db.model.objectmodel;
 
+import com.google.common.base.MoreObjects;
 import com.technoserv.db.model.BaseEntity;
 
 import javax.persistence.*;
@@ -52,5 +53,14 @@ public class BioTemplateVersion extends BaseEntity<Long> {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("objectDate", objectDate)
+                .add("description", description)
+                .toString();
     }
 }

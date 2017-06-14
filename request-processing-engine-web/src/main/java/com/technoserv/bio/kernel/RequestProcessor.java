@@ -230,7 +230,7 @@ public class RequestProcessor {
 
                     RequestRetry retry = objectMapper.readValue(retryJson, RequestRetry.class);
                     if (retry.getRetryCount() > MAX_NUMBER_OF_RETRIES) {
-                        log.warn("Maximum number of retries (%d) is reached for request: %d. Retry will NOT proceed.",
+                        log.warn("Maximum number of retries ({}) is reached for request: {}. Retry will NOT proceed.",
                                 MAX_NUMBER_OF_RETRIES, retry.getRequestId());
                     } else {
                         Request request = requestService.findById(retry.getRequestId());

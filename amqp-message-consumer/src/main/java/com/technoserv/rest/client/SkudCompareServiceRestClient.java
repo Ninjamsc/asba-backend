@@ -1,13 +1,12 @@
 package com.technoserv.rest.client;
 
 
+import com.technoserv.config.ConfigValues;
 import com.technoserv.db.model.configuration.SystemSettingsType;
 import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
 import com.technoserv.rest.exception.CompareServiceException;
 import com.technoserv.rest.model.SkudCompareRequest;
 import com.technoserv.rest.model.SkudCompareResponse;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +31,8 @@ public class SkudCompareServiceRestClient {
     @Autowired
     private SystemSettingsBean systemSettingsBean;
 
-    @Value("")
+    @Value(ConfigValues.API_COMPARE)
+    private String compareApiUrl;
 
     public String getUrl() {
         return systemSettingsBean.get(SystemSettingsType.COMPARE_SERVICE_URL);
@@ -43,34 +43,31 @@ public class SkudCompareServiceRestClient {
     }
 
     public SkudCompareResponse compare(SkudCompareRequest request) {
+        log.debug("compare skud request: {} URL: {}", request, compareApiUrl);
 
-        String url = "http://localhost:9080/compare/api/skud"; //TODO HARDCODE
-
-        if (log.isInfoEnabled()) {
-            log.info(url + " COMPARING  (SKUD) TEMPLATE: '" + request + "'");
-        }
         try {
-            //todo request -> json with jackson
+            // TODO: request -> json with jackson
             HttpHeaders requestHeaders = new HttpHeaders();
             requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-            //HttpEntity<SkudCompareRequest> requestEntity = new HttpEntity<SkudCompareRequest>(request,requestHeaders);
-            HttpEntity<SkudCompareRequest> requestEntity = new HttpEntity<SkudCompareRequest>(request, requestHeaders);
-            ResponseEntity<SkudCompareResponse> response = rest.exchange(URI.create(url), HttpMethod.PUT, requestEntity, SkudCompareResponse.class);
-            if (log.isInfoEnabled()) {
-                log.info("COMPARING TEMPLATE: DONE");
-            }
+            HttpEntity<SkudCompareRequest> requestEntity = new HttpEntity<>(request, requestHeaders);
+            ResponseEntity<SkudCompareResponse> response = rest.exchange(URI.create(compareApiUrl),
+                    HttpMethod.PUT, requestEntity, SkudCompareResponse.class);
+
+            log.debug("compare skud response code: {} body: {}", response.getStatusCodeValue(), response.getBody());
             return response.getBody();
+
         } catch (RestClientResponseException e) {
-            e.printStackTrace();
-            log.error("COMPARING TEMPLATE ERROR CODE " + e.getRawStatusCode());
+            log.error("Can't process SKUD compare request.", e);
             switch (e.getRawStatusCode()) {
-                /*Стандартные названия ошибок не совпадают с нашей документацией только коды */
+                // Стандартные названия ошибок не совпадают с нашей документацией только коды
                 case 400:
                     log.error("BAD_REQUEST");
-                    throw new CompareServiceException(e.getResponseBodyAsString());//BAD_REQUEST:
+                    throw new CompareServiceException(e.getResponseBodyAsString());
+
                 case 500:
                     log.error("INTERNAL_SERVER_ERROR");
-                    throw new CompareServiceException(e.getResponseBodyAsString());//INTERNAL_SERVER_ERROR:
+                    throw new CompareServiceException(e.getResponseBodyAsString());
+
                 default:
                     throw new RuntimeException(e.getResponseBodyAsString());
             }

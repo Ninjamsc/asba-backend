@@ -1,11 +1,10 @@
-
 package com.technoserv.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.google.common.base.MoreObjects;
 
 public class SkudCompareResponse {
-
 
     @JsonInclude(Include.NON_EMPTY)
     private CompareResponsePhotoObject match;
@@ -20,6 +19,8 @@ public class SkudCompareResponse {
 
     @Override
     public String toString() {
-        return "CompareRequest  matches=" + match + "]";
+        return MoreObjects.toStringHelper(this)
+                .add("match", match)
+                .toString();
     }
 }

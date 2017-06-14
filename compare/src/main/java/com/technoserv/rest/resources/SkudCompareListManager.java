@@ -14,6 +14,8 @@ import com.technoserv.utils.TevianVectorComparator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.math3.linear.ArrayRealVector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -27,7 +29,7 @@ public class SkudCompareListManager implements InitializingBean {
     @Autowired
     private SystemSettingsBean systemSettingsBean;
 
-    private static final Log log = LogFactory.getLog(SkudCompareListManager.class);
+    private static final Logger log = LoggerFactory.getLogger(SkudCompareListManager.class);
 
     @Autowired
     private DocumentService documentService;

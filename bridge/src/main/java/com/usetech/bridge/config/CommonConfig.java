@@ -1,4 +1,3 @@
-/*** Eclipse Class Decompiler plugin, copyright (c) 2016 Chen Chao (cnfree2000@hotmail.com) ***/
 package com.usetech.bridge.config;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -8,58 +7,58 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @Configuration
-@PropertySource(value = {"classpath:application.properties"})
+@PropertySource("classpath:application.properties")
 public class CommonConfig {
 
-    @Value(value = "${com.technoserv.logstorage.rootDir}")
+    @Value("${com.technoserv.logstorage.rootDir}")
     private String logRootDir;
 
-    @Value(value = "${com.technoserv.client.queueName}")
+    @Value("${com.technoserv.client.queueName}")
     private String queueName;
 
-    @Value(value = "${com.technoserv.client.brokerUrl}")
+    @Value("${com.technoserv.client.brokerUrl}")
     private String brokerUrl;
 
-    @Value(value = "${com.technoserv.video.yaw_threshold}")
+    @Value("${com.technoserv.video.yaw_threshold}")
     private String yaw_threshold;
 
-    @Value(value = "${com.technoserv.video.roll_threshold}")
+    @Value("${com.technoserv.video.roll_threshold}")
     private String roll_threshold;
 
-    @Value(value = "${com.technoserv.video.pitch_threshold}")
+    @Value("${com.technoserv.video.pitch_threshold}")
     private String pitch_threshold;
 
-    @Value(value = "${com.technoserv.video.blur_detection_thres}")
+    @Value("${com.technoserv.video.blur_detection_thres}")
     private String blur_detection_thres;
 
-    @Value(value = "${com.technoserv.video.brithness_thres_low}")
+    @Value("${com.technoserv.video.brithness_thres_low}")
     private String brithness_thres_low;
 
-    @Value(value = "${com.technoserv.video.brithness_thres_high}")
+    @Value("${com.technoserv.video.brithness_thres_high}")
     private String brithness_thres_high;
 
-    @Value(value = "${com.technoserv.video.lips_threshhold}")
+    @Value("${com.technoserv.video.lips_threshhold}")
     private String lips_threshhold;
 
-    @Value(value = "${com.technoserv.video.blur_threshhold}")
+    @Value("${com.technoserv.video.blur_threshhold}")
     private String blur_threshhold;
 
-    @Value(value = "${com.technoserv.video.video_record_max_duration}")
+    @Value("${com.technoserv.video.video_record_max_duration}")
     private String video_record_max_duration;
 
-    @Value(value = "${com.technoserv.video.yaw_mean}")
+    @Value("${com.technoserv.video.yaw_mean}")
     private String yaw_mean;
 
-    @Value(value = "${com.technoserv.video.roll_mean}")
+    @Value("${com.technoserv.video.roll_mean}")
     private String roll_mean;
 
-    @Value(value = "${com.technoserv.video.pitch_mean}")
+    @Value("${com.technoserv.video.pitch_mean}")
     private String pitch_mean;
 
-    @Value(value = "${com.technoserv.pic.heigth}")
+    @Value("${com.technoserv.pic.heigth}")
     private String pic_height;
 
-    @Value(value = "${com.technoserv.pic.width}")
+    @Value("${com.technoserv.pic.width}")
     private String pic_width;
 
     @Bean
@@ -190,4 +189,5 @@ public class CommonConfig {
     public String getLogRootDir() {
         return logRootDir;
     }
+
 }

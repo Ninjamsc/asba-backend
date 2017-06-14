@@ -1,6 +1,5 @@
 package com.usetech.bridge.service;
 
-
 import com.usetech.bridge.bean.LogStoreBean;
 import com.usetech.bridge.config.CommonConfig;
 import org.apache.commons.codec.binary.Base64;

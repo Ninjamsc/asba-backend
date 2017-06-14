@@ -169,6 +169,11 @@
             <artifactId>jersey-container-servlet-core</artifactId>
             <version>RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.5.4</version>
+        </dependency>
     </dependencies>
 
     <build>

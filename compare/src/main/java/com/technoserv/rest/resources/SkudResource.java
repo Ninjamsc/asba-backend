@@ -13,6 +13,7 @@ import com.technoserv.rest.model.CompareResponseBlackListObject;
 import com.technoserv.rest.model.CompareResponsePhotoObject;
 import com.technoserv.rest.model.SkudCompareRequest;
 import com.technoserv.rest.model.SkudCompareResponse;
+import com.technoserv.utils.HttpUtils;
 import io.swagger.annotations.Api;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,7 +27,10 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 //import javax.ws.rs.core.Response;
 
@@ -83,8 +87,8 @@ public class SkudResource extends BaseResource<Long, StopList> implements Initia
     */
     @PUT
     @Path("/skud")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
+    @Produces(HttpUtils.APPLICATION_JSON_UTF8)
     public Response skudCompareImages(SkudCompareRequest message) {
         if (message == null) {
             log.info("++++++++++ NULL Request ++++++++++++");
@@ -101,7 +105,7 @@ public class SkudResource extends BaseResource<Long, StopList> implements Initia
             if (res == null)
                 return Response.status(Response.Status.OK).entity(response).header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON + "; charset=UTF-8").build();
 
-           List<CompareResponsePhotoObject> res1 = res.getPhoto();
+            List<CompareResponsePhotoObject> res1 = res.getPhoto();
             if (res1.size() > 0) //writing most similar element
             {
                 Double simil = 0d;
@@ -121,15 +125,14 @@ public class SkudResource extends BaseResource<Long, StopList> implements Initia
 
     @Path("/results")
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(HttpUtils.APPLICATION_JSON_UTF8)
+    @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
     @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     public Collection<SkudResult> skud() {
         if (skudResultService == null) {
             System.out.println("skudResultService is null");
             return null;
         }
-        //return skudResultService.getAll();
         return skudResultService.findAll();
     }
 

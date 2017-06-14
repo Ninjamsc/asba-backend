@@ -21,6 +21,8 @@
         <java.version>1.8</java.version>
         <commons-codec.version>1.10</commons-codec.version>
         <commons-io.version>2.5</commons-io.version>
+        <commons-lang3.version>3.5</commons-lang3.version>
+        <guava.version>22.0</guava.version>
         <war.filename>storage</war.filename>
     </properties>
 
@@ -55,6 +57,16 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>${commons-io.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
     </dependencies>
 </project>

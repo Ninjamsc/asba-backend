@@ -7,6 +7,7 @@ import com.technoserv.db.model.objectmodel.Person;
 import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.model.objectmodel.StopList;
 import com.technoserv.db.service.objectmodel.api.StopListService;
+import com.technoserv.utils.HttpUtils;
 import io.swagger.annotations.Api;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Component;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.io.*;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -38,8 +39,8 @@ public class StopListContentResource {
 
     @Path("/lists/rest/stoplist/{ID}/entry")
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(HttpUtils.APPLICATION_JSON_UTF8)
+    @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
     @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     public StopListResponse get(@PathParam("ID") Long id) {
         StopList stopList = stopListService.findById(id);
@@ -62,8 +63,8 @@ public class StopListContentResource {
 
     @Path("/lists/rest/stoplist/{ID}/entry")
     @PUT
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(HttpUtils.APPLICATION_JSON_UTF8)
+    @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
     @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     public void add(@PathParam("ID") Long id, Document document) {
         StopList stopList = stopListService.findById(id);
@@ -75,8 +76,8 @@ public class StopListContentResource {
 
     @Path("/partners/rest/stoplist/{listId}/entry/{itemId}")
     @DELETE
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(HttpUtils.APPLICATION_JSON_UTF8)
+    @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
     @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     public void delete(@PathParam("listId") Long listId, @PathParam("itemId") Long itemId) {
 
@@ -100,7 +101,7 @@ public class StopListContentResource {
     @POST
     @Path("/stop-list/{id}/upload")  //Your Path or URL to call this service
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(HttpUtils.APPLICATION_JSON_UTF8)
     public Response uploadZipFile(@PathParam("id") Long stopListId,
                                   @FormDataParam("file") InputStream uploadedInputStream,
                                   @FormDataParam("file") FormDataContentDisposition fileDetail) {
@@ -113,7 +114,7 @@ public class StopListContentResource {
     @POST
     @Path("/stop-list/{id}/upload-photo")  //Your Path or URL to call this service
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(HttpUtils.APPLICATION_JSON_UTF8)
     public Response uploadFile(@PathParam("id") Long stopListId,
                                @FormDataParam("file") InputStream uploadedInputStream,
                                @FormDataParam("file") FormDataContentDisposition fileDetail) {
@@ -122,32 +123,16 @@ public class StopListContentResource {
         return Response.status(200).header("Access-Control-Allow-Origin", "*").build();
     }
 
-    private void saveToFile(InputStream uploadedInputStream, String uploadedFileLocation) {
-        try {
-            OutputStream out = null;
-            int read = 0;
-            byte[] bytes = new byte[1024];
-
-            out = new FileOutputStream(new File(uploadedFileLocation));
-            while ((read = uploadedInputStream.read(bytes)) != -1) {
-                out.write(bytes, 0, read);
-            }
-            out.flush();
-            out.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private static class StopListResponse {
-        //TODO ..
+
         private String type;
-        //TODO ..
+
         private String description;
-        //TODO ..
+
         private String name;
-        //TODO ..
+
         private Double similarity;
+
         private Collection<PersonResource.HistoryRequestResponse> requestResponses = Collections.emptyList();
 
         public Collection<PersonResource.HistoryRequestResponse> getRequestResponses() {

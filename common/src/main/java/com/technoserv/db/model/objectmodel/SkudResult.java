@@ -1,5 +1,7 @@
 package com.technoserv.db.model.objectmodel;
 
+import com.google.common.base.MoreObjects;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -35,7 +37,10 @@ public class SkudResult extends AbstractObject {
     @Column(name = "BLUR")
     private Double blur;
 
-    @Column(name = "SIMILARITY") // degree of similarity
+    /**
+     * Degree of similarity
+     */
+    @Column(name = "SIMILARITY")
     private Double similarity;
 
     // from request
@@ -126,4 +131,19 @@ public class SkudResult extends AbstractObject {
         this.blur = blur;
     }
 
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("faceId", faceId)
+                .add("videoSrc", videoSrc)
+                .add("faceSquare", faceSquare)
+                .add("person", person)
+                .add("url", url)
+                .add("height", height)
+                .add("width", width)
+                .add("blur", blur)
+                .add("similarity", similarity)
+                .add("orderDate", orderDate)
+                .toString();
+    }
 }

@@ -1,5 +1,7 @@
 package com.technoserv.jms.trusted;
 
+import com.google.common.base.MoreObjects;
+
 import java.io.Serializable;
 
 /**
@@ -41,4 +43,29 @@ public class ArmRequestRetryMessage implements Serializable {
         tryCount++;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ArmRequestRetryMessage that = (ArmRequestRetryMessage) o;
+
+        if (tryCount != that.tryCount) return false;
+        return message.equals(that.message);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = message.hashCode();
+        result = 31 * result + tryCount;
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("message", message)
+                .add("tryCount", tryCount)
+                .toString();
+    }
 }

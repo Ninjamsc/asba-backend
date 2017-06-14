@@ -1,6 +1,5 @@
 package com.technoserv.rest.resources;
 
-
 import com.technoserv.db.model.BaseEntity;
 import com.technoserv.db.service.Service;
 

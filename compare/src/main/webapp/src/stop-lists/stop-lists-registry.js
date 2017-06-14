@@ -1,16 +1,16 @@
-angular.module('stop-lists-registry', ['ui.router','commons'])
-    .controller('stopListsRegistryController', function ($rootScope,$scope, $log, $httpService, $state, $stateParams) {
-        if(!!$stateParams.auth) {
-            $httpService.userInfo(function (user){
+angular.module('stop-lists-registry', ['ui.router', 'commons'])
+
+    .controller('stopListsRegistryController', function ($rootScope, $scope, $log, $httpService, $state, $stateParams) {
+        if (!!$stateParams.auth) {
+            $httpService.userInfo(function (user) {
                 $rootScope.user = user.data;
                 console.log($rootScope.user);
                 console.log('$rootScope.user = ' + $rootScope.user);
                 console.log('$rootScope.user.admin = ' + $rootScope.user.admin);
             });
         }
+
         $scope.stopLists = [];
-
-
 
         $scope.editStopList = function (stopList) {
             window.location.replace('#/stoplists/edit?stoplistId=' + stopList.id);
@@ -24,7 +24,7 @@ angular.module('stop-lists-registry', ['ui.router','commons'])
 
         $scope.deleteStopList = function (stoplist) {
             console.log('Deleting stop list');
-            if (!stoplist){
+            if (!stoplist) {
                 console.log('StopList not found');
             }
             $httpService.deleteStoplist(stoplist.id, function () {
@@ -34,13 +34,12 @@ angular.module('stop-lists-registry', ['ui.router','commons'])
         };
 
         $scope.getOwnerId = function (stopList) {
-            if (!!stopList && !!stopList.owner && stopList.owner.length > 0){
+            if (!!stopList && !!stopList.owner && stopList.owner.length > 0) {
                 return stopList.owner[0].id;
             }
         };
 
-
-         $scope.refresh = function() {
+        $scope.refresh = function () {
             $httpService.findStopLists(function (result) {
                 $scope.stopLists = result.data;
             });
@@ -49,7 +48,7 @@ angular.module('stop-lists-registry', ['ui.router','commons'])
         //Инициализация
         $scope.refresh();
 
-        $scope.login = function() {
+        $scope.login = function () {
             window.location.replace('#/login');
         }
     });

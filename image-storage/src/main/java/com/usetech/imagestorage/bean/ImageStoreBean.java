@@ -1,6 +1,8 @@
 package com.usetech.imagestorage.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.MoreObjects;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serializable;
 
@@ -31,5 +33,13 @@ public class ImageStoreBean implements Serializable {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("fileContent", StringUtils.length(fileContent))
+                .add("fileName", fileName)
+                .toString();
     }
 }

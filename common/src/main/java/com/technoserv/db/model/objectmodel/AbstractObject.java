@@ -1,6 +1,7 @@
 package com.technoserv.db.model.objectmodel;
 
 
+import com.google.common.base.MoreObjects;
 import com.technoserv.db.model.BaseEntity;
 
 import javax.persistence.*;
@@ -15,6 +16,7 @@ public abstract class AbstractObject extends BaseEntity<Long> {
     @Column(name = "ID")
     @GeneratedValue
     private Long id;
+
     /**
      * дата создания объекта
      */
@@ -36,5 +38,13 @@ public abstract class AbstractObject extends BaseEntity<Long> {
 
     public void setObjectDate(Date objectDate) {
         this.objectDate = objectDate;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("objectDate", objectDate)
+                .toString();
     }
 }
