@@ -2,9 +2,10 @@ package com.technoserv.jms.trusted;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.MoreObjects;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mlevitin on 14.02.2016.
@@ -25,13 +26,13 @@ public class RequestDTO {
     private Timestamp timestamp;
 
     @JsonProperty("Photos")
-    private ArrayList<Snapshot> snapshots;
+    private List<Snapshot> snapshots;
 
-    public ArrayList<Snapshot> getSnapshots() {
+    public List<Snapshot> getSnapshots() {
         return snapshots;
     }
 
-    public void setSnapshots(ArrayList<Snapshot> snapshots) {
+    public void setSnapshots(List<Snapshot> snapshots) {
         this.snapshots = snapshots;
     }
 
@@ -67,4 +68,14 @@ public class RequestDTO {
         this.timestamp = timestamp;
     }
 
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("videoSource", videoSource)
+                .add("sourceName", sourceName)
+                .add("faceId", faceId)
+                .add("timestamp", timestamp)
+                .add("snapshots", snapshots)
+                .toString();
+    }
 }

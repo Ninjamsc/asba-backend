@@ -8,7 +8,10 @@ import com.technoserv.rest.model.SkudCompareRequest;
 import com.technoserv.rest.model.SkudCompareResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientResponseException;
@@ -22,12 +25,14 @@ import java.net.URI;
 @Service
 public class SkudCompareServiceRestClient {
 
-    private static final Log log = LogFactory.getLog(SkudCompareServiceRestClient.class);
+    private static final Logger log = LoggerFactory.getLogger(SkudCompareServiceRestClient.class);
 
     private RestTemplate rest = new RestTemplate();
 
     @Autowired
     private SystemSettingsBean systemSettingsBean;
+
+    @Value("")
 
     public String getUrl() {
         return systemSettingsBean.get(SystemSettingsType.COMPARE_SERVICE_URL);

@@ -1,6 +1,7 @@
 package com.technoserv.jms.trusted;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.MoreObjects;
 
 /**
  * Created by mlevitin on 15.02.17.
@@ -51,4 +52,13 @@ public class Snapshot {
         this.blur = blur;
     }
 
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("snapshot", snapshot)
+                .add("height", height)
+                .add("width", width)
+                .add("blur", blur)
+                .toString();
+    }
 }
