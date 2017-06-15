@@ -413,14 +413,16 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
         RequestSearchCriteria criteria = new RequestSearchCriteria();
         if(startDate==null && endDate==null) {
             //По умолчанию берем сегодгня
-            Date d = new Date();
-            criteria.setFrom(new Date(System.currentTimeMillis() - 86400000));
+            Date d = DateUtils.truncate(new Date(), Calendar.DATE);
+            criteria.setFrom(new Date(System.currentTimeMillis() + 86400000));
             criteria.setTo(d);
         } else {
-            System.out.println("+++++++++++++++++++++start+++++ "+DateUtils.truncate(new Date(startDate), Calendar.DATE));
-            System.out.println("+++++++++++++++++++++end+++++ "+DateUtils.truncate(new Date(endDate), Calendar.DATE));
             criteria.setFrom(DateUtils.truncate(new Date(startDate), Calendar.DATE));
-            criteria.setTo(DateUtils.truncate(new Date(endDate), Calendar.DATE));
+            Date endOfDay = new Date(endDate);
+            endOfDay.setHours(23);
+            endOfDay.setMinutes(59);
+            endOfDay.setSeconds(59);
+            criteria.setTo(endOfDay);
         }
         return requestService.countByCriteria(criteria);
     }

@@ -71,20 +71,29 @@ angular.module('stop-lists-registry', ['ui.router', 'commons'])
 
         $scope.todaycount = 15;
         $scope.yesterdaycount = 43;
+        $scope.total = 0;
 
         $http.get("/compare/api/requestcount",
             {params:{
-                    startDate: $scope.today.getTime()-86400000,
-                    endDate: $scope.today.getTime()
+                    startDate: $scope.today.getTime(),
+                    endDate: $scope.today.getTime()//+86400000
                 }}).success(function (data) {
                     $scope.todaycount=data;
             });
 
         $http.get("/compare/api/requestcount",
             {params:{
-                    startDate: $scope.yesterday.getTime()-86400000,
-                    endDate: $scope.yesterday.getTime()
+                    startDate: $scope.yesterday.getTime(),
+                    endDate: $scope.yesterday.getTime()//+86400000
                 }}).success(function (data) {
                     $scope.yesterdaycount=data;
             });
+
+        $http.get("/compare/api/requestcount",
+            {params:{
+                startDate: $scope.yesterday.getTime(),
+                endDate: $scope.today.getTime()//+86400000
+            }}).success(function (data) {
+            $scope.total=data;
+        });
     });
