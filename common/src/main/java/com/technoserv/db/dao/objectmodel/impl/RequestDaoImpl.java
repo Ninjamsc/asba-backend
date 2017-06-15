@@ -101,7 +101,7 @@ public class RequestDaoImpl extends AbstractHibernateDao<Long, Request> implemen
         return c;
     }
 
-    public Integer countByCriteria(RequestSearchCriteria criteria) {
-        return (Integer) createSearchCriteria(criteria).setProjection(Projections.rowCount()).uniqueResult();
+    public Long countByCriteria(RequestSearchCriteria criteria) {
+        return (Long) createSearchCriteria(criteria).setProjection(Projections.rowCount()).uniqueResult();
     }
 }

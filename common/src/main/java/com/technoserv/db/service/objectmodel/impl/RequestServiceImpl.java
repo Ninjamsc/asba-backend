@@ -98,7 +98,7 @@ public class RequestServiceImpl extends AbstractService<Long, Request, RequestDa
     }
 
     @Transactional(readOnly = true)
-    public Integer countByCriteria(RequestSearchCriteria criteria) {
+    public Long countByCriteria(RequestSearchCriteria criteria) {
         return getDao().countByCriteria(criteria);
     }
 

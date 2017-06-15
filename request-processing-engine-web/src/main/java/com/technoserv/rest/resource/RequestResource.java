@@ -219,7 +219,7 @@ public class RequestResource {
 
         private List<Request> result;
 
-        private Integer total;
+        private Long total;
 
         public void setResult(List<Request> result) {
             this.result = result;
@@ -229,11 +229,11 @@ public class RequestResource {
             return result;
         }
 
-        public void setTotal(Integer total) {
+        public void setTotal(Long total) {
             this.total = total;
         }
 
-        public Integer getTotal() {
+        public Long getTotal() {
             return total;
         }
     }

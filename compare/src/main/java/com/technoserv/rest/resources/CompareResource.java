@@ -12,17 +12,21 @@ import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
 import com.technoserv.rest.model.*;
 import com.technoserv.rest.request.PhotoTemplate;
+import com.technoserv.rest.request.RequestSearchCriteria;
 import com.technoserv.utils.HttpUtils;
 import com.technoserv.utils.JsonUtils;
 import com.technoserv.utils.TevianVectorComparator;
 import io.swagger.annotations.Api;
+import org.apache.commons.lang.time.DateUtils;
 import org.apache.commons.math3.linear.ArrayRealVector;
+import org.hibernate.Criteria;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.ws.rs.*;
@@ -397,6 +401,28 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
     @Override
     public StopList get(@PathParam("id") Long id) {
         return stopListService.findById(id);
+    }
+
+    @GET
+    @Produces(HttpUtils.APPLICATION_JSON_UTF8)
+    @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
+    @Path("/requestcount")
+    public Long getTodayRequestCount(@QueryParam("startDate") Long startDate,
+                                     @QueryParam("endDate") Long endDate) {
+        RequestSearchCriteria criteria = new RequestSearchCriteria();
+        if(startDate==null && endDate==null) {
+            //По умолчанию берем сегодгня
+            Date d = new Date();
+            criteria.setFrom(new Date(System.currentTimeMillis() - 86400000));
+            criteria.setTo(d);
+        } else {
+            System.out.println("+++++++++++++++++++++start+++++ "+DateUtils.truncate(new Date(startDate), Calendar.DATE));
+            System.out.println("+++++++++++++++++++++end+++++ "+DateUtils.truncate(new Date(endDate), Calendar.DATE));
+            criteria.setFrom(DateUtils.truncate(new Date(startDate), Calendar.DATE));
+            criteria.setTo(DateUtils.truncate(new Date(endDate), Calendar.DATE));
+        }
+        return requestService.countByCriteria(criteria);
     }
 
     /**
