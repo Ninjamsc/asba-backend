@@ -51,8 +51,8 @@ public class SkudResource extends BaseResource<Long, StopList> implements Initia
     @Autowired
     private SystemSettingsBean systemSettingsBean;
 
-    @Value(SKUD_STOP_LIST_ID)
-    private long skudStopListId;
+    //@Value(SKUD_STOP_LIST_ID)
+    private long skudStopListId=6119L;
 
     @Resource
     @Qualifier(value = "converters")
