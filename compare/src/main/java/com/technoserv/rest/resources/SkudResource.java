@@ -52,7 +52,7 @@ public class SkudResource extends BaseResource<Long, StopList> implements Initia
     private SystemSettingsBean systemSettingsBean;
 
     @Value(SKUD_STOP_LIST_ID)
-    private int skudStopListId;
+    private long skudStopListId;
 
     @Resource
     @Qualifier(value = "converters")
@@ -77,7 +77,7 @@ public class SkudResource extends BaseResource<Long, StopList> implements Initia
 
         log.info("Before load TevianVectorComparator");
         System.loadLibrary("TevianVectorComparator");
-        log.info("After load TevianVectorComparator+");
+        log.info("After load TevianVectorComparator");
 
         log.debug("Конец инициализации сервиса сравнения Bioskud");
     }
@@ -103,7 +103,7 @@ public class SkudResource extends BaseResource<Long, StopList> implements Initia
         response.setMatch(po);
 
         try {
-            CompareResponseBlackListObject compareResponse = skudListManager.compare1(message.getTemplate(), (long) skudStopListId);
+            CompareResponseBlackListObject compareResponse = skudListManager.compare1(message.getTemplate(), skudStopListId);
             if (compareResponse == null) {
                 return Response.ok(response).build();
             }
