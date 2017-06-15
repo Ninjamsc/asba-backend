@@ -118,6 +118,18 @@ public class StopListContentResource {
         return Response.status(200).header("Access-Control-Allow-Origin", "*").build();
     }
 
+    private static class RequestCountResponse {
+        private Integer count;
+
+        public Integer getCount() {
+            return count;
+        }
+
+        public void setCount(Integer count) {
+            this.count = count;
+        }
+    }
+
     private static class StopListResponse {
 
         private String type;

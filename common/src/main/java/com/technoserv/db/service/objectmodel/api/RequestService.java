@@ -26,6 +26,6 @@ public interface RequestService extends Service<Long, Request> {
 
     List<Request> findByCriteria(RequestSearchCriteria criteria);
 
-    Integer countByCriteria(RequestSearchCriteria criteria);
+    Long countByCriteria(RequestSearchCriteria criteria);
 
 }
