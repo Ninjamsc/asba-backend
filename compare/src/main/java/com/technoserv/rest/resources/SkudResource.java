@@ -52,7 +52,7 @@ public class SkudResource extends BaseResource<Long, StopList> implements Initia
     private SystemSettingsBean systemSettingsBean;
 
     @Value(SKUD_STOP_LIST_ID)
-    private long skudStopListId;
+    private int skudStopListId;
 
     @Resource
     @Qualifier(value = "converters")
@@ -86,7 +86,7 @@ public class SkudResource extends BaseResource<Long, StopList> implements Initia
      * Сравнить картинки с блеклистами и досье и вернуть отчет.
      */
     @PUT
-    @Path("/getSkudResults")
+    @Path("/scud")
     @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
     @Produces(HttpUtils.APPLICATION_JSON_UTF8)
     public Response skudCompareImages(SkudCompareRequest message) {
@@ -103,7 +103,7 @@ public class SkudResource extends BaseResource<Long, StopList> implements Initia
         response.setMatch(po);
 
         try {
-            CompareResponseBlackListObject compareResponse = skudListManager.compare1(message.getTemplate(), skudStopListId);
+            CompareResponseBlackListObject compareResponse = skudListManager.compare1(message.getTemplate(), (long) skudStopListId);
             if (compareResponse == null) {
                 return Response.ok(response).build();
             }

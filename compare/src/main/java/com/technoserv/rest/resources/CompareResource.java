@@ -565,7 +565,7 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
     }
 
     private void addBioTemplateToDocument(Document document, PhotoTemplate scannedTemplate) throws IOException {
-
+        log.debug("addBioTemplateToDocument document: {} scannedTemplate: {}", document, scannedTemplate);
         BioTemplate bioTemplate = new BioTemplate();
         bioTemplate.setInsUser("StopLists");
         bioTemplate.setTemplateVector(JsonUtils.serializeJson(scannedTemplate.template));
