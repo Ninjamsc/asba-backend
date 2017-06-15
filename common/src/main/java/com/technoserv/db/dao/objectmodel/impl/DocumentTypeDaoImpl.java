@@ -15,24 +15,9 @@ import java.util.List;
 @Repository("documentTypeDao")
 public class DocumentTypeDaoImpl extends AbstractHibernateDao<Long, DocumentType> implements DocumentTypeDao {
 
-    private List<DocumentType> documentTypes;
-
-    @PostConstruct
-    public void postConstruct() {
-        //documentTypes = getAll();
-    }
-
-//    public DocumentType findByType(DocumentType.Type type) {
-//        for (DocumentType documentType: documentTypes) {
-//            if(documentType.getId() == type.getValue()) {
-//                return documentType;
-//            }
-//        }
-//        return null;
-//    }
-
     public DocumentType findByType(DocumentType.Type type) {
         return (DocumentType) getSession().createCriteria(getPersistentClass())
-                .add(Property.forName("type").eq(type)).uniqueResult();
+                .add(Property.forName("type").eq(type))
+                .uniqueResult();
     }
 }

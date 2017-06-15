@@ -3,7 +3,7 @@ package com.technoserv.compare.impl;
 import com.technoserv.rest.model.CompareResponseBlackListObject;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mlevitin on 17.01.17.
@@ -18,12 +18,12 @@ public class CommonListCompareSerivce extends CompareServiceImpl {
     }
 
     @Override
-    public ArrayList<CompareResponseBlackListObject> compare(double[] vector) {
+    public List<CompareResponseBlackListObject> compare(double[] vector) {
         return null;
     }
 
     @Override
-    public ArrayList<CompareResponseBlackListObject> compare(double[] vector, Long listId) {
+    public List<CompareResponseBlackListObject> compare(double[] vector, Long listId) {
         return null;
     }
 }

@@ -46,11 +46,6 @@ public class StopListContentResource {
         StopList stopList = stopListService.findById(id);
 
         Collection<PersonResource.HistoryRequestResponse> responses = new ArrayList<>();
-//        stopList.getPersons().forEach(p -> {
-//            PersonResource.HistoryRequestResponse response = new PersonResource.HistoryRequestResponse();
-//            //response.setComment();
-//            responses.add(response);
-//        });
 
         StopListResponse stopListResponse = new StopListResponse();
         stopListResponse.setSimilarity(stopList.getSimilarity());
@@ -186,14 +181,19 @@ public class StopListContentResource {
             requestResponse.setWfmid(request.getId());
             requestResponse.setUsername(request.getLogin());
             requestResponse.setTimestamp(request.getTimestamp());
+
             requestResponse.setPreviewCamURL(request.getCameraDocument() != null ?
                     request.getCameraDocument().getOrigImageURL() : "");
+
             requestResponse.setFullframeCamURL(request.getCameraDocument() != null ?
                     request.getCameraDocument().getFaceSquare() : "");
+
             requestResponse.setPreviewScanURL(request.getScannedDocument() != null ?
                     request.getScannedDocument().getOrigImageURL() : "");
+
             requestResponse.setFullframeScanURL(request.getScannedDocument() != null ?
                     request.getScannedDocument().getFaceSquare() : "");
+
             response.getDossier().add(requestResponse);
         }
         return response;

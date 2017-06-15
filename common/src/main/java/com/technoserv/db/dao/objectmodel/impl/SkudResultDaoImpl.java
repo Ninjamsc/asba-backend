@@ -17,7 +17,9 @@ public class SkudResultDaoImpl extends AbstractHibernateDao<Long, SkudResult> im
     @SuppressWarnings("unchecked")
     public List<SkudResult> findAll() {
         //return (List<SkudResult>) getSession().createCriteria(getPersistentClass()).addOrder(Order.desc("faceId")).uniqueResult();
-        return getSession().createCriteria(getPersistentClass()).addOrder(Order.desc("orderDate")).list();
+        return getSession().createCriteria(getPersistentClass())
+                .addOrder(Order.desc("orderDate")).list();
+
         /*Criteria crit = createEntityCriteria();
         crit.addOrder(Order.asc("orderDate"));
         return (List<SkudResult>)crit.list();*/

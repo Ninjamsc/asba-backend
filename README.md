@@ -13,8 +13,12 @@
 
 ## Настройки
 * Для работы приложения необходимо создать базу данных в PostgreSQL,
-прописать настройки соединения в конфигуарционных файлах подключений (data-source-context-....xml).
+прописать настройки соединения в конфигуарционных файлах подключений (data-source-context-...xml).
 
 
 ## Сборка без запуска тестов (быстрее)
 mvn clean install -P prod -DskipTests
+
+Для компиляции на Windows необходимо указывать кодировку UTF8:
+
+mvn clean install -P prod -DskipTests -Dfile.encoding=UTF8

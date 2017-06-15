@@ -84,7 +84,7 @@ public abstract class CompareServiceImpl implements CompareService {
             List<CompareServiceStopListVector> toDelete = new ArrayList<>();
 
             for (CompareServiceStopListVector el : elements) {
-                if (el.getDocId().longValue() == listElementId.longValue()) {
+                if (el.getDocId().equals(listElementId)) {
                     log.debug("delStopListElement document: {} is deleted from list: {}", listElementId, listId);
                     toDelete.add(el);
                 }

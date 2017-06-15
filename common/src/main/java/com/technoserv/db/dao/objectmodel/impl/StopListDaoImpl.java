@@ -25,9 +25,10 @@ public class StopListDaoImpl extends AbstractHibernateDao<Long, StopList> implem
     }
 
     public StopListElement getItem(Long listId, Long itemId) {
-        Criteria criteria = getSession().createCriteria(getPersistentClass()).add(Property.forName("lists_id").eq(listId));
+        Criteria criteria = getSession().createCriteria(getPersistentClass())
+                .add(Property.forName("lists_id").eq(listId));
+
         StopList s = (StopList) criteria.uniqueResult();
-        System.out.println(s.getStopListName());
         return null;
     }
 }
