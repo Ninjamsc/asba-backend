@@ -2,7 +2,6 @@ package com.technoserv.rest.resources;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
-import com.technoserv.db.model.objectmodel.SkudResult;
 import com.technoserv.db.model.objectmodel.StopList;
 import com.technoserv.db.service.Service;
 import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
@@ -13,6 +12,7 @@ import com.technoserv.rest.model.CompareResponsePhotoObject;
 import com.technoserv.rest.model.SkudCompareRequest;
 import com.technoserv.rest.model.SkudCompareResponse;
 import com.technoserv.utils.HttpUtils;
+import com.technoserv.utils.NativeLibraryHelper;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +25,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,10 +33,12 @@ import static com.technoserv.config.ConfigValues.SKUD_STOP_LIST_ID;
 
 @Component
 @Path("")
-@Api(value = "Skud")
+@Api(value = "SkudResource")
 public class SkudResource extends BaseResource<Long, StopList> implements InitializingBean {
 
     private static final Logger log = LoggerFactory.getLogger(SkudResource.class);
+
+    private static final String LIBRARY_TEVIAN_VECTOR_COMPARATOR = "TevianVectorComparator";
 
     @Autowired
     private SkudCompareListManager skudListManager;
@@ -75,9 +76,19 @@ public class SkudResource extends BaseResource<Long, StopList> implements Initia
             log.debug("Stop list added: {} ", stopList);
         }
 
-        log.info("Before load TevianVectorComparator");
-        System.loadLibrary("TevianVectorComparator");
-        log.info("After load TevianVectorComparator");
+        // native library loading
+
+        log.info("Before load {}", LIBRARY_TEVIAN_VECTOR_COMPARATOR);
+
+        if (NativeLibraryHelper.isLibraryLoaded(LIBRARY_TEVIAN_VECTOR_COMPARATOR, ClassLoader.getSystemClassLoader())) {
+            log.warn("{} is already loaded.", LIBRARY_TEVIAN_VECTOR_COMPARATOR);
+
+        } else {
+            log.info("{} is not loaded. Loading...", LIBRARY_TEVIAN_VECTOR_COMPARATOR);
+            System.loadLibrary(LIBRARY_TEVIAN_VECTOR_COMPARATOR);
+        }
+
+        log.info("After load {}", LIBRARY_TEVIAN_VECTOR_COMPARATOR);
 
         log.debug("Конец инициализации сервиса сравнения Bioskud");
     }
@@ -130,9 +141,14 @@ public class SkudResource extends BaseResource<Long, StopList> implements Initia
     @Produces(HttpUtils.APPLICATION_JSON_UTF8)
     @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
     @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
-    public Collection<SkudResult> getSkudResults() {
-        log.debug("getSkudResults");
-        return skudResultService.findAll();
+    public Response getSkudResults() {
+        log.debug("getSkudResults with CORS headers");
+        return Response.ok()
+                .entity(skudResultService.findAll())
+                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
+                .allow("OPTIONS")
+                .build();
     }
 
 }
