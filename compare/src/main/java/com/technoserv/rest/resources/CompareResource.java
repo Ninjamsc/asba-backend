@@ -476,14 +476,11 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
             startDate = prepareBeginOfDay(new Date(startDate)).getTime();
             Date endOfDay = prepareEndOfDay(new Date(endDate));
             long diff = getDifferenceDays(new Date(startDate), endOfDay);
-            System.out.println("diff="+diff);
-            for (int i=1;i<=diff;i++){
+            for (int i=0;i<=diff;i++){
                 criteria = new RequestSearchCriteria();
                 Date startTmp = addDays(new Date(startDate),i);
-                System.out.println("i="+i);
                 criteria.setFrom(startTmp);
                 criteria.setTo(prepareEndOfDay(startTmp));
-                System.out.println("++++++From="+criteria.getFrom()+" TO="+criteria.getTo());
                 result.add(new CountByDateObject(startTmp.getTime(),startTmp.getTime()+86400000,requestService.countByCriteria(criteria)));
             }
         }
