@@ -52,48 +52,4 @@ angular.module('stop-lists-registry', ['ui.router', 'commons'])
             window.location.replace('#/login');
         }
 
-        $scope.createDate = function (dateVal,isShowTime) {
-            if (dateVal == null) return "Не запланирован";
-            var date = new Date(dateVal);
-            var result = (date.getDate().toString().length == 1 ? '0' + date.getDate() : date.getDate()) + "."
-                + ((date.getMonth() + 1).toString().length == 1 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + "."
-                + date.getFullYear();
-
-            if(isShowTime) result += " " + date.getHours() + ":" + (date.getMinutes()>9 ? date.getMinutes() : "0"+date.getMinutes());
-            return result;
-        };
-
-        $scope.today = new Date();
-        $scope.yesterday = new Date(Math.round(new Date().getTime()) - 86400000);
-
-        console.log("today="+$scope.today.getTime());
-        console.log("yesterday="+$scope.yesterday.getTime());
-
-        $scope.todaycount = 15;
-        $scope.yesterdaycount = 43;
-        $scope.total = 0;
-
-        $http.get("/compare/api/requestcount",
-            {params:{
-                    startDate: $scope.today.getTime(),
-                    endDate: $scope.today.getTime()//+86400000
-                }}).success(function (data) {
-                    $scope.todaycount=data;
-            });
-
-        $http.get("/compare/api/requestcount",
-            {params:{
-                    startDate: $scope.yesterday.getTime(),
-                    endDate: $scope.yesterday.getTime()//+86400000
-                }}).success(function (data) {
-                    $scope.yesterdaycount=data;
-            });
-
-        $http.get("/compare/api/requestcount",
-            {params:{
-                startDate: $scope.yesterday.getTime(),
-                endDate: $scope.today.getTime()//+86400000
-            }}).success(function (data) {
-            $scope.total=data;
-        });
     });

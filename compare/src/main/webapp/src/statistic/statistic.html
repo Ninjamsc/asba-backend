@@ -1,0 +1,28 @@
+
+<div class="container main">
+    <h2>Реестр заявок АРМ</h2>
+    <div class="row">
+        <div class="col-xs-5 col-md-5">
+            <md-datepicker ng-model="startDate" md-placeholder="Дата с" ng-change="setDate('start')"></md-datepicker>
+
+            <md-datepicker ng-model="endDate" md-placeholder="Дата по" ng-change="setDate('end')"></md-datepicker>
+        </div>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th style="width:26%">Дата</th>
+            <th style="width:23%">Количество заявок</th>
+        </tr>
+        </thead>
+        <tr ng-repeat="c in countArray">
+            <td style="vertical-align: middle;">{{ createDate(c.startDate) }}</td>
+            <td style="vertical-align: middle;">{{ c.requestCount }}</td>
+        </tr>
+
+        <tr>
+            <td style="vertical-align: middle;"><b>Всего</b></td>
+            <td style="vertical-align: middle;">{{total}}</td>
+        </tr>
+    </table>
+</div>
