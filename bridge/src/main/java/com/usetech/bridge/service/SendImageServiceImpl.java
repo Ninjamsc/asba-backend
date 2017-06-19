@@ -30,7 +30,7 @@ public class SendImageServiceImpl implements SendImageService {
         try {
             frameBean.setCamPic(handlePicture(frameBean.getCamPic()));
             frameBean.setScanPic(handlePicture(frameBean.getScanPic()));
-            this.jmsTemplate.convertAndSend(frameBean);
+            jmsTemplate.convertAndSend(frameBean);
         } catch (JmsException e) {
             log.error("Failed to send message using jmsTemplate: {}, {}", jmsTemplate, e);
             return false;
@@ -44,8 +44,6 @@ public class SendImageServiceImpl implements SendImageService {
         }
         if (picture.contains("data:image")) {
             String base64Image = picture.split(",")[1];
-//            byte[] imageBytes = javax.xml.bind.DatatypeConverter.parseBase64Binary(base64Image);
-            //return new String(imageBytes);
             return base64Image;
         } else {
             return picture;

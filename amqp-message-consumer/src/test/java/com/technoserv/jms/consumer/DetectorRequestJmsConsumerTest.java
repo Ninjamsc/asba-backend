@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @ActiveProfiles({"test"})
 @Ignore
-public class ArmRequestJmsConsumerTest {
+public class DetectorRequestJmsConsumerTest {
 
     @Autowired
     private PersonService personService;
@@ -29,7 +29,7 @@ public class ArmRequestJmsConsumerTest {
     private DocumentService documentService;
 
     @Autowired
-    private ArmRequestJmsConsumer consumer;
+    private DetectorRequestJmsConsumer consumer;
 
     @Autowired
     private RequestService requestService;

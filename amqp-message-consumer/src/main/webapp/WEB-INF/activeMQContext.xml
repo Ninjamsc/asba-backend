@@ -10,12 +10,8 @@
 
     <context:component-scan base-package="com.technoserv.jms.*"/>
 
-    <!-- =============================================== -->
-    <!-- JMS Common, Define JMS connectionFactory       -->
-    <!-- =============================================== -->
     <!-- Activemq connection factory -->
     <bean id="amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
-        <!-- brokerURL, You may have different IP or port -->
         <constructor-arg index="0" value="tcp://localhost:61616"/>
         <property name="trustAllPackages" value="true"/>
     </bean>
@@ -26,11 +22,7 @@
         <constructor-arg ref="amqConnectionFactory"/>
     </bean>
 
-    <!-- ======================================================= -->
-    <!-- JMS Send, define default destination and JmsTemplate    -->
-    <!-- ======================================================= -->
     <!-- Default Destination Queue Definition -->
-
     <bean id="bioskud.queue" class="org.apache.activemq.command.ActiveMQQueue">
         <!-- name of the queue -->
         <constructor-arg index="0" value="bioskud.queue"/>
@@ -42,7 +34,7 @@
         <property name="defaultDestinationName" value="bioskud.queue"/>
     </bean>
 
-    <bean id="jmsConsumer" class="com.technoserv.jms.consumer.ArmRequestJmsConsumer">
+    <bean id="jmsConsumer" class="com.technoserv.jms.consumer.DetectorRequestJmsConsumer">
     </bean>
 
     <jms:listener-container

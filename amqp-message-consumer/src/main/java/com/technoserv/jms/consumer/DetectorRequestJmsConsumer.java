@@ -5,6 +5,7 @@ import com.google.common.base.Strings;
 import com.technoserv.config.ConfigValues;
 import com.technoserv.db.model.objectmodel.SkudResult;
 import com.technoserv.db.service.objectmodel.api.SkudResultService;
+import com.technoserv.dto.Notification;
 import com.technoserv.jms.trusted.RequestDTO;
 import com.technoserv.jms.trusted.Snapshot;
 import com.technoserv.rest.client.PhotoPersistServiceRestClient;
@@ -13,6 +14,7 @@ import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
 import com.technoserv.rest.model.SkudCompareRequest;
 import com.technoserv.rest.model.SkudCompareResponse;
 import com.technoserv.rest.request.PhotoTemplate;
+import com.technoserv.service.NotificationService;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,23 +32,36 @@ import java.util.UUID;
 /**
  * Created by sergey on 22.11.2016.
  */
-public class ArmRequestJmsConsumer {
+public class DetectorRequestJmsConsumer {
 
-    private static final Logger log = LoggerFactory.getLogger(ArmRequestJmsConsumer.class);
-
-    @Autowired
-    private PhotoPersistServiceRestClient photoServiceClient;
-
-    @Autowired
-    private SkudCompareServiceRestClient compareServiceClient;
-
-    @Autowired
-    private TemplateBuilderServiceRestClient templateBuilderServiceClient;
-
-    @Autowired
-    private SkudResultService skudResultService;
+    private static final Logger log = LoggerFactory.getLogger(DetectorRequestJmsConsumer.class);
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss.S");
+
+    private PhotoPersistServiceRestClient photoServiceClient;
+
+    private SkudCompareServiceRestClient compareServiceClient;
+
+    private TemplateBuilderServiceRestClient templateBuilderServiceClient;
+
+    private SkudResultService skudResultService;
+
+    private NotificationService notificationService;
+
+
+    @Autowired
+    public DetectorRequestJmsConsumer(PhotoPersistServiceRestClient photoServiceClient,
+                                      SkudCompareServiceRestClient compareServiceClient,
+                                      TemplateBuilderServiceRestClient templateBuilderServiceClient,
+                                      SkudResultService skudResultService,
+                                      NotificationService notificationService) {
+
+        this.photoServiceClient = photoServiceClient;
+        this.compareServiceClient = compareServiceClient;
+        this.templateBuilderServiceClient = templateBuilderServiceClient;
+        this.skudResultService = skudResultService;
+        this.notificationService = notificationService;
+    }
 
     @Value(ConfigValues.ARM_QUEUE_MAX_NUMBER_OF_RETRIES)
     private static Integer maxTryCount = 10;
@@ -90,14 +105,14 @@ public class ArmRequestJmsConsumer {
                     ArrayRealVector arv = new ArrayRealVector(photoTemplate.template);
                     templates.add(arv);
 
-                    SkudResult t = new SkudResult();
-                    t.setFaceId(new Long(requestDTO.getFaceId()));
-                    t.setFaceSquare(shotURL);
-                    t.setHeight(new Long(temp.getHeight()));
-                    t.setWidth(new Long(temp.getWidth()));
-                    t.setBlur(new Double(temp.getBlur()));
-                    t.setVideoSrc(requestDTO.getSourceName());
-                    t.setTimestamp(requestDTO.getTimestamp());
+                    SkudResult skudResult = new SkudResult();
+                    skudResult.setFaceId(new Long(requestDTO.getFaceId()));
+                    skudResult.setFaceSquare(shotURL);
+                    skudResult.setHeight(new Long(temp.getHeight()));
+                    skudResult.setWidth(new Long(temp.getWidth()));
+                    skudResult.setBlur(new Double(temp.getBlur()));
+                    skudResult.setVideoSrc(requestDTO.getSourceName());
+                    skudResult.setTimestamp(requestDTO.getTimestamp());
 
                     SkudCompareRequest r = new SkudCompareRequest();
                     r.setPictureURL(shotURL);
@@ -111,12 +126,13 @@ public class ArmRequestJmsConsumer {
                     }
 
                     if (response != null && response.getMatch() != null) {
-                        t.setSimilarity(response.getMatch().getSimilarity());
-                        t.setPerson(response.getMatch().getIdentity());
-                        t.setUrl(response.getMatch().getUrl());
+                        skudResult.setSimilarity(response.getMatch().getSimilarity());
+                        skudResult.setPerson(response.getMatch().getIdentity());
+                        skudResult.setUrl(response.getMatch().getUrl());
                         log.debug("Compare response: {}", response);
                     }
-                    skudResultService.save(t);
+                    skudResultService.save(skudResult);
+                    notificationService.send(new Notification(skudResult.getId(), ""));
                 }
             }
 

@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created by sergey on 20.11.2016.
  */
-public class ArmRequestRetryMessage implements Serializable {
+public class RequestRetryMessage implements Serializable {
     /**
      * Тело сообщения
      */
@@ -18,9 +18,9 @@ public class ArmRequestRetryMessage implements Serializable {
      */
     private int tryCount;
 
-    public ArmRequestRetryMessage(String message) {
+    public RequestRetryMessage(String message) {
         this.message = message;
-        tryCount = 1;
+        this.tryCount = 1;
     }
 
     public String getMessage() {
@@ -48,7 +48,7 @@ public class ArmRequestRetryMessage implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        ArmRequestRetryMessage that = (ArmRequestRetryMessage) o;
+        RequestRetryMessage that = (RequestRetryMessage) o;
 
         if (tryCount != that.tryCount) return false;
         return message.equals(that.message);

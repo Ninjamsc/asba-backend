@@ -15,9 +15,6 @@
     <name>Admin Service</name>
 
     <properties>
-        <springframework.version>4.2.5.RELEASE</springframework.version>
-        <springsecurity.version>4.0.4.RELEASE</springsecurity.version>
-        <hibernate.version>4.3.11.Final</hibernate.version>
         <mysql.connector.version>5.1.31</mysql.connector.version>
     </properties>
 
@@ -32,27 +29,27 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
-            <version>${springframework.version}</version>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
-            <version>${springframework.version}</version>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
-            <version>${springframework.version}</version>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
-            <version>${springframework.version}</version>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
-            <version>${springframework.version}</version>
+            <version>${spring.version}</version>
         </dependency>
 
         <!-- Spring Security -->

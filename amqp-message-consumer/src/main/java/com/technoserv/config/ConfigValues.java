@@ -9,6 +9,10 @@ public class ConfigValues {
 
     public static final String API_COMPARE = "${api.compare.skud}";
 
+    public static final String BROKER_URL = "${com.technoserv.queues.brokerUrl}";
+
+    public static final String SKUD_NOTIFICATION_QUEUE = "${com.technoserv.queues.skud-notification-queue}";
+
     private ConfigValues() {
 
     }

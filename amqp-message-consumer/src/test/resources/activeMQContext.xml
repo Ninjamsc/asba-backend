@@ -42,7 +42,7 @@
         <property name="defaultDestinationName" value="arm-retry.queue"/>
     </bean>
 
-    <bean id="jmsConsumer" class="com.technoserv.jms.consumer.ArmRequestJmsConsumer">
+    <bean id="jmsConsumer" class="com.technoserv.jms.consumer.DetectorRequestJmsConsumer">
     </bean>
 
     <jms:listener-container
