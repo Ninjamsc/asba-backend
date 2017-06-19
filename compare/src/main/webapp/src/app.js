@@ -2,10 +2,14 @@ var myApp = angular.module('myApp', [
     'ui.router',
     'ngRoute',
     'ngCookies',
+    'ngAria',
+    'ngAnimate',
+    'ngMaterial',
     'stop-lists-registry',
     'stop-lists-edit',
     'compare-result-view',
     'login',
+    'statistic',
     'commons']);
 
 
@@ -41,6 +45,10 @@ myApp.config(function ($stateProvider, $routeProvider, $urlRouterProvider) {
         url: '/login',
         templateUrl: 'src/login/login.html',
         controller: 'loginController'
+    }).state('statistic', {
+        url: '/statistic',
+        templateUrl: 'src/statistic/statistic.html',
+        controller: 'statisticController'
     });
 
 });

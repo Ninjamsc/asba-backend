@@ -34,6 +34,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 
 @Component
@@ -413,16 +414,77 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
         RequestSearchCriteria criteria = new RequestSearchCriteria();
         if(startDate==null && endDate==null) {
             //По умолчанию берем сегодгня
-            Date d = new Date();
-            criteria.setFrom(new Date(System.currentTimeMillis() - 86400000));
+            Date d = DateUtils.truncate(new Date(), Calendar.DATE);
+            criteria.setFrom(new Date(System.currentTimeMillis() + 86400000));
             criteria.setTo(d);
         } else {
-            System.out.println("+++++++++++++++++++++start+++++ "+DateUtils.truncate(new Date(startDate), Calendar.DATE));
-            System.out.println("+++++++++++++++++++++end+++++ "+DateUtils.truncate(new Date(endDate), Calendar.DATE));
             criteria.setFrom(DateUtils.truncate(new Date(startDate), Calendar.DATE));
-            criteria.setTo(DateUtils.truncate(new Date(endDate), Calendar.DATE));
+            Date endOfDay = new Date(endDate);
+            endOfDay.setHours(23);
+            endOfDay.setMinutes(59);
+            endOfDay.setSeconds(59);
+            criteria.setTo(endOfDay);
         }
         return requestService.countByCriteria(criteria);
+    }
+
+    public static long getDifferenceDays(Date d1, Date d2) {
+        long diff = d2.getTime() - d1.getTime();
+        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+    }
+
+    public static Date prepareBeginOfDay(Date start){
+        Date endOfDay = (Date) start.clone();
+        endOfDay.setHours(0);
+        endOfDay.setMinutes(0);
+        endOfDay.setSeconds(0);
+        return endOfDay;
+    }
+
+    public static Date prepareEndOfDay(Date start){
+        Date endOfDay = (Date) start.clone();
+        endOfDay.setHours(23);
+        endOfDay.setMinutes(59);
+        endOfDay.setSeconds(59);
+        return endOfDay;
+    }
+
+    public static Date addDays(Date date, int days)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days); //minus number would decrement the days
+        return cal.getTime();
+    }
+
+    @GET
+    @Produces(HttpUtils.APPLICATION_JSON_UTF8)
+    @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
+    @Path("/requestcount/list")
+    public List<CountByDateObject> getListRequestCount(@QueryParam("startDate") Long startDate,
+                                                        @QueryParam("endDate") Long endDate) {
+        RequestSearchCriteria criteria = new RequestSearchCriteria();
+        List<CountByDateObject> result = new LinkedList<>();
+        if(startDate==null && endDate==null) {
+            //По умолчанию берем сегодгня
+            Date d = DateUtils.truncate(new Date(), Calendar.DATE);
+            criteria.setFrom(new Date(System.currentTimeMillis() + 86400000));
+            criteria.setTo(d);
+            result.add(new CountByDateObject(System.currentTimeMillis(),System.currentTimeMillis()+86400000,requestService.countByCriteria(criteria)));
+        } else {
+            startDate = prepareBeginOfDay(new Date(startDate)).getTime();
+            Date endOfDay = prepareEndOfDay(new Date(endDate));
+            long diff = getDifferenceDays(new Date(startDate), endOfDay);
+            for (int i=0;i<=diff;i++){
+                criteria = new RequestSearchCriteria();
+                Date startTmp = addDays(new Date(startDate),i);
+                criteria.setFrom(startTmp);
+                criteria.setTo(prepareEndOfDay(startTmp));
+                result.add(new CountByDateObject(startTmp.getTime(),startTmp.getTime()+86400000,requestService.countByCriteria(criteria)));
+            }
+        }
+        return result;
     }
 
     /**
