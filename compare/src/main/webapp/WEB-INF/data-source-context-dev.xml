@@ -19,6 +19,10 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
+    <bean id="jdbcCall" class="org.springframework.jdbc.core.simple.SimpleJdbcCall">
+        <constructor-arg ref="dataSource"></constructor-arg>
+    </bean>
+
     <bean id="sessionFactory"
           class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />

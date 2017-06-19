@@ -82,7 +82,14 @@ public class CompareResultResource {
             result = new CompareResult();
             result.setId(id);
         }
+        try {
+            CompareReport report = objectMapper.readValue(json, CompareReport.class);
+            result.setSimilarity(report.getPicSimilarity());
+        } catch (IOException e) {
+            log.debug("Wrong json");
+        }
         result.setJson(json);
+
         compareResultService.saveOrUpdate(result);
         return Response.ok().build();
     }
