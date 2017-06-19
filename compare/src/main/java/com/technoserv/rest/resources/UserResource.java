@@ -39,4 +39,5 @@ public class UserResource {
     public UserDTO getCurrentUser() {
         return (UserDTO) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
+
 }

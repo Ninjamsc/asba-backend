@@ -12,7 +12,6 @@ import com.technoserv.rest.model.CompareResponsePhotoObject;
 import com.technoserv.rest.model.SkudCompareRequest;
 import com.technoserv.rest.model.SkudCompareResponse;
 import com.technoserv.utils.HttpUtils;
-import com.technoserv.utils.NativeLibraryHelper;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,17 +77,17 @@ public class SkudResource extends BaseResource<Long, StopList> implements Initia
 
         // native library loading
 
-        log.info("Before load {}", LIBRARY_TEVIAN_VECTOR_COMPARATOR);
-
-        if (NativeLibraryHelper.isLibraryLoaded(LIBRARY_TEVIAN_VECTOR_COMPARATOR, ClassLoader.getSystemClassLoader())) {
-            log.warn("{} is already loaded.", LIBRARY_TEVIAN_VECTOR_COMPARATOR);
-
-        } else {
-            log.info("{} is not loaded. Loading...", LIBRARY_TEVIAN_VECTOR_COMPARATOR);
-            System.loadLibrary(LIBRARY_TEVIAN_VECTOR_COMPARATOR);
-        }
-
-        log.info("After load {}", LIBRARY_TEVIAN_VECTOR_COMPARATOR);
+//        log.info("Before load {}", LIBRARY_TEVIAN_VECTOR_COMPARATOR);
+//
+//        if (NativeLibraryHelper.isLibraryLoaded(LIBRARY_TEVIAN_VECTOR_COMPARATOR, ClassLoader.getSystemClassLoader())) {
+//            log.warn("{} is already loaded.", LIBRARY_TEVIAN_VECTOR_COMPARATOR);
+//
+//        } else {
+//            log.info("{} is not loaded. Loading...", LIBRARY_TEVIAN_VECTOR_COMPARATOR);
+//            System.loadLibrary(LIBRARY_TEVIAN_VECTOR_COMPARATOR);
+//        }
+//
+//        log.info("After load {}", LIBRARY_TEVIAN_VECTOR_COMPARATOR);
 
         log.debug("Конец инициализации сервиса сравнения Bioskud");
     }
@@ -142,12 +141,9 @@ public class SkudResource extends BaseResource<Long, StopList> implements Initia
     @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
     @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     public Response getSkudResults() {
-        log.debug("getSkudResults with CORS headers");
+        log.debug("getSkudResults");
         return Response.ok()
                 .entity(skudResultService.findAll())
-                .header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
-                .allow("OPTIONS")
                 .build();
     }
 
