@@ -1,0 +1,2 @@
+ALTER TABLE compare_results
+  ADD COLUMN similarity NUMERIC DEFAULT NULL;

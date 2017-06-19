@@ -2,6 +2,8 @@ package com.technoserv.rest.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.type.MapType;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
 import com.technoserv.db.model.configuration.SystemSettingsType;
 import com.technoserv.db.model.objectmodel.*;
@@ -25,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -33,6 +36,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -45,10 +50,17 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
     private static final Logger log = LoggerFactory.getLogger(CompareResource.class);
 
     @Autowired
+    @Qualifier("jdbcCall")
+    SimpleJdbcCall jdbcCall;
+
+    @Autowired
     private CompareListManager listManager;
 
     @Autowired
     private RequestService requestService;
+
+    @Autowired
+    private CompareResultService compareResultService;
 
     @Autowired
     private PersonService personService;
@@ -80,6 +92,8 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
     @Autowired
     private SystemSettingsBean systemSettingsBean;
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     @Resource
     @Qualifier(value = "converters")
     private HashMap<String, String> compareRules;
@@ -96,6 +110,28 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
         List<StopList> allLists = stopListService.getAll("owner", "owner.bioTemplates");
         log.debug("Number of stop lists: {}", allLists.size());
 
+        //Проверяем compareResults
+
+        ObjectMapper mapper;
+        TypeFactory factory;
+        MapType type;
+
+        factory = TypeFactory.defaultInstance();
+        type    = factory.constructMapType(HashMap.class, String.class, Object.class);
+        mapper  = new ObjectMapper();
+        List<CompareResult> compareResults = compareResultService.getAll();
+
+        compareResults.stream().filter((cr)->cr.getSimilarity()==null).peek((cr)->{
+            Map<String, Object> result;
+            try {
+                result = mapper.readValue(cr.getJson(), type);
+                cr.setSimilarity((Double) result.get("picSimilarity"));
+
+            } catch (IOException e) {
+                log.info("++++++++CANT_PARSE_JSON_TO_MAP+++++++++");
+            }
+        }).forEach(cr->compareResultService.saveOrUpdate(cr));
+
         for (StopList stopList : allLists) {
             listManager.addList(stopList);
             log.debug("Stop list: {}", stopList);
@@ -104,7 +140,7 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
                 log.debug("Stop list document: {}", document);
 
                 for (BioTemplate bioTemplate : document.getBioTemplates()) {
-                    ObjectMapper mapper = new ObjectMapper();
+                    //ObjectMapper mapper = new ObjectMapper();
                     double[] array = mapper.readValue(bioTemplate.getTemplateVector(), double[].class);
                     ArrayRealVector arv = new ArrayRealVector(array);
                     log.debug("BioTemplate vector length: {}", arv.toString().length());
@@ -471,7 +507,7 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
             Date d = DateUtils.truncate(new Date(), Calendar.DATE);
             criteria.setFrom(new Date(System.currentTimeMillis() + 86400000));
             criteria.setTo(d);
-            result.add(new CountByDateObject(System.currentTimeMillis(),System.currentTimeMillis()+86400000,requestService.countByCriteria(criteria)));
+            result.add(new CountByDateObject(System.currentTimeMillis(),System.currentTimeMillis()+86400000,requestService.countByCriteria(criteria),0L));
         } else {
             startDate = prepareBeginOfDay(new Date(startDate)).getTime();
             Date endOfDay = prepareEndOfDay(new Date(endDate));
@@ -481,9 +517,72 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
                 Date startTmp = addDays(new Date(startDate),i);
                 criteria.setFrom(startTmp);
                 criteria.setTo(prepareEndOfDay(startTmp));
-                result.add(new CountByDateObject(startTmp.getTime(),startTmp.getTime()+86400000,requestService.countByCriteria(criteria)));
+                result.add(new CountByDateObject(startTmp.getTime(),startTmp.getTime()+86400000,requestService.countByCriteria(criteria),0L));
             }
         }
+
+        return result;
+    }
+
+    @GET
+    @Produces(HttpUtils.APPLICATION_JSON_UTF8)
+    @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
+    @Path("/requestcount/range/list")
+    public List<CountByDateObject> getRangeListRequestCount(@QueryParam("startDate") Long startDate,
+                                                       @QueryParam("endDate") Long endDate) throws ParseException {
+        RequestSearchCriteria criteria = new RequestSearchCriteria();
+        List<CountByDateObject> result = new LinkedList<>();
+        List<Map<String, Object>> resultNative = new LinkedList<>();
+        if(startDate==null && endDate==null) {
+            startDate = System.currentTimeMillis()-86400000*2;
+            endDate = System.currentTimeMillis();
+            resultNative = jdbcCall.getJdbcTemplate().queryForList(
+                    "SELECT daytotal, to_char(one.timestamp, 'yyyy-MM-dd HH:mm:ss') as timestamp, bigger FROM (SELECT count(*) as daytotal,timestamp FROM requests\n" +
+                  //  "WHERE status='SUCCESS'\n" +
+                    "GROUP BY timestamp) as one\n" +
+                    "FULL OUTER JOIN (SELECT count(*) as bigger,timestamp FROM requests\n" +
+                    "FULL JOIN compare_results ON requests.wfm_id = compare_results.id\n" +
+     /*status='SUCCESS' and*/               "WHERE  compare_results.similarity>"+new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS))+"\n" +
+                    "GROUP BY timestamp) as two ON (one.timestamp=two.timestamp);");
+        } else {
+            startDate = prepareBeginOfDay(new Date(startDate)).getTime();
+            Date endOfDay = prepareEndOfDay(new Date(endDate));
+            long diff = getDifferenceDays(new Date(startDate), endOfDay);
+            for (int i=0;i<=diff;i++){
+                criteria = new RequestSearchCriteria();
+                Date startTmp = addDays(new Date(startDate),i);
+                criteria.setFrom(startTmp);
+                criteria.setTo(prepareEndOfDay(startTmp));
+                result.add(new CountByDateObject(startTmp.getTime(),startTmp.getTime()+86400000,requestService.countByCriteria(criteria),0L));
+            }
+        }
+        startDate = prepareBeginOfDay(new Date(startDate)).getTime();
+        Date endOfDay = prepareEndOfDay(new Date(endDate));
+        long diff = getDifferenceDays(new Date(startDate), endOfDay);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (int i=0;i<=diff;i++){
+            Date startTmp = addDays(new Date(startDate),i);
+            result.add(new CountByDateObject(startTmp.getTime(),startTmp.getTime()+86400000,0L,0L));
+        }
+
+        for (CountByDateObject item : result){
+            for (Map<String, Object> thrueVal : resultNative) {
+                try {
+                    Date resultDate = dateFormat.parse((String) thrueVal.get("timestamp"));
+                    if (resultDate.after(new Date(item.getStartDate())) && resultDate.before(new Date(item.getEndDate()))) {
+                        Long daytotal = thrueVal.get("daytotal") == null ? 0L : (Long) thrueVal.get("daytotal"), bigger = thrueVal.get("bigger")==null ? 0L : (Long) thrueVal.get("bigger");
+                        item.setRequestCount(daytotal);
+                        item.setBiggerCount(bigger);
+                        System.out.println("biggger="+bigger+" daytotal="+daytotal);
+                        item.setLowerCount(daytotal-bigger);
+                    }
+                } catch (ParseException e) {
+                    log.info("++++++++CANT_PARSE_datyeFormat+++++++++"+thrueVal.get("timestamp"));
+                }
+            }
+        }
+
         return result;
     }
 

@@ -16,6 +16,7 @@ import com.technoserv.rest.client.PhotoAnalyzerServiceRestClient;
 import com.technoserv.rest.client.PhotoPersistServiceRestClient;
 import com.technoserv.rest.client.TemplateBuilderServiceRestClient;
 import com.technoserv.rest.exception.RestClientException;
+import com.technoserv.rest.model.CompareReport;
 import com.technoserv.rest.request.CompareServiceRequest;
 import com.technoserv.rest.request.PhotoTemplate;
 import com.technoserv.utils.JsonUtils;
@@ -172,7 +173,8 @@ public class RequestProcessor {
             String compareResult = compareServiceRestClient.compare(compareServiceRequest);
             String jsonResult = enrich(compareResult, request);
 
-            compareResultService.saveOrUpdate(new CompareResult(request.getId(), jsonResult));
+            CompareReport report = objectMapper.readValue(jsonResult, CompareReport.class);
+            compareResultService.saveOrUpdate(new CompareResult(request.getId(), jsonResult, report.getPicSimilarity()));
 
             if (isNeedToSentToWorkflowQueue()) {
                 jmsTemplate.convertAndSend(jsonResult);

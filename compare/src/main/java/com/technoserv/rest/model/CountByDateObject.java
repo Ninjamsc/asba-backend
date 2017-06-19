@@ -2,15 +2,19 @@ package com.technoserv.rest.model;
 
 public class CountByDateObject {
 
-    public CountByDateObject(Long startDate, Long endDate, Long requestCount) {
+    public CountByDateObject(Long startDate, Long endDate, Long requestCount,Long biggerCount) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.requestCount = requestCount;
+        this.biggerCount = biggerCount;
+        this.lowerCount = requestCount - biggerCount;
     }
 
     private Long startDate;
     private Long endDate;
     private Long requestCount;
+    private Long biggerCount;
+    private Long lowerCount;
 
     public Long getStartDate() {
         return startDate;
@@ -34,5 +38,21 @@ public class CountByDateObject {
 
     public void setRequestCount(Long requestCount) {
         this.requestCount = requestCount;
+    }
+
+    public Long getBiggerCount() {
+        return biggerCount;
+    }
+
+    public void setBiggerCount(Long biggerCount) {
+        this.biggerCount = biggerCount;
+    }
+
+    public Long getLowerCount() {
+        return lowerCount;
+    }
+
+    public void setLowerCount(Long lowerCount) {
+        this.lowerCount = lowerCount;
     }
 }
