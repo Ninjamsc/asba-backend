@@ -13,16 +13,16 @@
         <tr>
             <th style="width:26%">Дата</th>
             <th style="width:23%">Количество заявок</th>
+            <th style="width:23%">Выше биометрического порога</th>
+            <th style="width:23%">Ниже биометрического порога</th>
         </tr>
         </thead>
         <tr ng-repeat="c in countArray">
-            <td style="vertical-align: middle;">{{ createDate(c.startDate) }}</td>
+            <td style="vertical-align: middle;">{{ c.text || createDate(c.startDate) }}</td>
             <td style="vertical-align: middle;">{{ c.requestCount }}</td>
+            <td style="vertical-align: middle;">{{ c.biggerCount }}</td>
+            <td style="vertical-align: middle;">{{ c.lowerCount }}</td>
         </tr>
 
-        <tr>
-            <td style="vertical-align: middle;"><b>Всего</b></td>
-            <td style="vertical-align: middle;">{{total}}</td>
-        </tr>
     </table>
 </div>

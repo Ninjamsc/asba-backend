@@ -533,29 +533,16 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
                                                        @QueryParam("endDate") Long endDate) throws ParseException {
         RequestSearchCriteria criteria = new RequestSearchCriteria();
         List<CountByDateObject> result = new LinkedList<>();
-        List<Map<String, Object>> resultNative = new LinkedList<>();
+        List<Map<String, Object>> resultNative = jdbcCall.getJdbcTemplate().queryForList("SELECT daytotal,to_char(one.timestamp, 'yyyy-MM-dd HH:mm:ss') as timestamp,bigger FROM (SELECT count(*) as daytotal,timestamp FROM requests\n" +
+                "WHERE status='SUCCESS'\n" +
+                "GROUP BY timestamp) as one\n" +
+                "FULL OUTER JOIN (SELECT count(*) as bigger,timestamp FROM requests\n" +
+                "FULL JOIN compare_results ON requests.wfm_id = compare_results.id\n" +
+                "WHERE status='SUCCESS' and compare_results.similarity>"+systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)+"\n" +
+                "GROUP BY timestamp) as two ON (one.timestamp=two.timestamp)");
         if(startDate==null && endDate==null) {
             startDate = System.currentTimeMillis()-86400000*2;
             endDate = System.currentTimeMillis();
-            resultNative = jdbcCall.getJdbcTemplate().queryForList(
-                    "SELECT daytotal, to_char(one.timestamp, 'yyyy-MM-dd HH:mm:ss') as timestamp, bigger FROM (SELECT count(*) as daytotal,timestamp FROM requests\n" +
-                  //  "WHERE status='SUCCESS'\n" +
-                    "GROUP BY timestamp) as one\n" +
-                    "FULL OUTER JOIN (SELECT count(*) as bigger,timestamp FROM requests\n" +
-                    "FULL JOIN compare_results ON requests.wfm_id = compare_results.id\n" +
-     /*status='SUCCESS' and*/               "WHERE  compare_results.similarity>"+new Double(systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS))+"\n" +
-                    "GROUP BY timestamp) as two ON (one.timestamp=two.timestamp);");
-        } else {
-            startDate = prepareBeginOfDay(new Date(startDate)).getTime();
-            Date endOfDay = prepareEndOfDay(new Date(endDate));
-            long diff = getDifferenceDays(new Date(startDate), endOfDay);
-            for (int i=0;i<=diff;i++){
-                criteria = new RequestSearchCriteria();
-                Date startTmp = addDays(new Date(startDate),i);
-                criteria.setFrom(startTmp);
-                criteria.setTo(prepareEndOfDay(startTmp));
-                result.add(new CountByDateObject(startTmp.getTime(),startTmp.getTime()+86400000,requestService.countByCriteria(criteria),0L));
-            }
         }
         startDate = prepareBeginOfDay(new Date(startDate)).getTime();
         Date endOfDay = prepareEndOfDay(new Date(endDate));
@@ -566,6 +553,8 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
             result.add(new CountByDateObject(startTmp.getTime(),startTmp.getTime()+86400000,0L,0L));
         }
 
+        CountByDateObject finalCounter = new CountByDateObject(startDate,endDate,0L,0L);
+        finalCounter.setText("Всего:");
         for (CountByDateObject item : result){
             for (Map<String, Object> thrueVal : resultNative) {
                 try {
@@ -574,15 +563,17 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
                         Long daytotal = thrueVal.get("daytotal") == null ? 0L : (Long) thrueVal.get("daytotal"), bigger = thrueVal.get("bigger")==null ? 0L : (Long) thrueVal.get("bigger");
                         item.setRequestCount(daytotal);
                         item.setBiggerCount(bigger);
-                        System.out.println("biggger="+bigger+" daytotal="+daytotal);
                         item.setLowerCount(daytotal-bigger);
+                        finalCounter.setRequestCount(finalCounter.getRequestCount()+daytotal);
+                        finalCounter.setBiggerCount(finalCounter.getBiggerCount()+bigger);
+                        finalCounter.setLowerCount(finalCounter.getLowerCount()+(daytotal-bigger));
                     }
                 } catch (ParseException e) {
                     log.info("++++++++CANT_PARSE_datyeFormat+++++++++"+thrueVal.get("timestamp"));
                 }
             }
         }
-
+        result.add(finalCounter);
         return result;
     }
 

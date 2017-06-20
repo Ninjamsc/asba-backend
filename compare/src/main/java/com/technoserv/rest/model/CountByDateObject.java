@@ -15,6 +15,7 @@ public class CountByDateObject {
     private Long requestCount;
     private Long biggerCount;
     private Long lowerCount;
+    private String text;
 
     public Long getStartDate() {
         return startDate;
@@ -54,5 +55,13 @@ public class CountByDateObject {
 
     public void setLowerCount(Long lowerCount) {
         this.lowerCount = lowerCount;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 }

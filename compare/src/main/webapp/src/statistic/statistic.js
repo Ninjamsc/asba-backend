@@ -18,7 +18,7 @@ angular.module('statistic', ['ui.router', 'commons'])
             console.log("setDate startDate"+$scope.startDate);
             console.log("endDate endDate"+$scope.endDate);
 
-            $http.get("/compare/api/requestcount/list",
+            $http.get("/compare/api/requestcount/range/list",
                 {params:{
                     startDate: $scope.startDate.getTime(),
                     endDate: $scope.endDate.getTime()
@@ -27,15 +27,6 @@ angular.module('statistic', ['ui.router', 'commons'])
                     $scope.countArray = data;
             });
 
-                $http.get("/compare/api/requestcount",
-                    {params:{
-                        startDate: $scope.startDate.getTime(),
-                        endDate: $scope.endDate.getTime()
-                    }}).success(function (data) {
-                    $scope.total=data;
-                });
-
-           // }
         };
 
         $scope.startDate = new Date(Math.round(new Date().getTime()) - 86400000);
