@@ -15,11 +15,13 @@ import com.technoserv.rest.model.SkudCompareRequest;
 import com.technoserv.rest.model.SkudCompareResponse;
 import com.technoserv.rest.request.PhotoTemplate;
 import com.technoserv.service.NotificationService;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.math3.linear.ArrayRealVector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Component;
@@ -34,22 +36,25 @@ import java.util.UUID;
 /**
  * Created by sergey on 22.11.2016.
  */
+@EnableJms
 @Component
 public class DetectorRequestJmsConsumer {
 
     private static final Logger log = LoggerFactory.getLogger(DetectorRequestJmsConsumer.class);
 
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss.S");
+    private final PhotoPersistServiceRestClient photoServiceClient;
 
-    private PhotoPersistServiceRestClient photoServiceClient;
+    private final SkudCompareServiceRestClient compareServiceClient;
 
-    private SkudCompareServiceRestClient compareServiceClient;
+    private final TemplateBuilderServiceRestClient templateBuilderServiceClient;
 
-    private TemplateBuilderServiceRestClient templateBuilderServiceClient;
+    private final SkudResultService skudResultService;
 
-    private SkudResultService skudResultService;
+    private final NotificationService notificationService;
 
-    private NotificationService notificationService;
+    private final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss.S");
+
+    private final ObjectMapper objectMapper;
 
 
     @Autowired
@@ -64,6 +69,10 @@ public class DetectorRequestJmsConsumer {
         this.templateBuilderServiceClient = templateBuilderServiceClient;
         this.skudResultService = skudResultService;
         this.notificationService = notificationService;
+
+        // TODO: autowire
+        objectMapper = new ObjectMapper();
+        objectMapper.setDateFormat(DATE_FORMAT);
     }
 
     @Value(ConfigValues.ARM_QUEUE_MAX_NUMBER_OF_RETRIES)
@@ -71,7 +80,8 @@ public class DetectorRequestJmsConsumer {
 
     @JmsListener(destination = "bioskud.queue", containerFactory = "containerFactory")
     public void onReceive(String message) throws Exception {
-        log.debug("onReceive message: {}", message);
+        log.debug("onReceive message length: {}", StringUtils.length(message));
+        log.trace("onReceive message: {}", message);
         if (!saveRequest(message)) {
             log.error("Can't process request.");
         }
@@ -80,8 +90,7 @@ public class DetectorRequestJmsConsumer {
     boolean saveRequest(String request) {
         log.debug("saveRequest request: {}", request);
         List<ArrayRealVector> templates = new ArrayList<>();
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setDateFormat(DATE_FORMAT);
+
         try {
             //todo переделать маппинг из очереди 1 в сервис фоток и Request
             RequestDTO requestDTO = objectMapper.readValue(request, RequestDTO.class);
@@ -142,7 +151,7 @@ public class DetectorRequestJmsConsumer {
 
             log.info("Number of templates built: {}", templates.size());
             for (ArrayRealVector t : templates) {
-                log.debug(t.toString());
+                log.trace(t.toString());
             }
 
         } catch (IOException e) {

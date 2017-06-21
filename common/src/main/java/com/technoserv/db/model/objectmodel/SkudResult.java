@@ -20,10 +20,13 @@ public class SkudResult extends AbstractObject {
     private String videoSrc;
 
     @Column(name = "FACE_SQUARE", length = 2048) // picture URL
-    private String faceSquare; //TODO String HTTP URL
+    private String faceSquare;
 
-    @Column(name = "PERSON") // person ID
+    @Column(name = "PERSON") // actually stop_lists_contents.doc_id
     private Long person;
+
+//    @Column(name = "PERSONNEL_NUMBER")
+//    private Long personnelNumber;
 
     @Column(name = "URL") // URL to picture of similar person
     private String url;
@@ -44,7 +47,7 @@ public class SkudResult extends AbstractObject {
     private Double similarity;
 
     // from request
-    @Column(name = "TIMESTAMP") //TODO absent in db model
+    @Column(name = "TIMESTAMP")
     @Temporal(TemporalType.TIMESTAMP)
     private Date orderDate;
 
@@ -59,16 +62,16 @@ public class SkudResult extends AbstractObject {
         this.faceSquare = faceSquare;
     }
 
-    public Timestamp getTimestamp() {
-        return orderDate != null ? new Timestamp(orderDate.getTime()) : new Timestamp(0);
-    }
-
     public String getUrl() {
         return url;
     }
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public Timestamp getTimestamp() {
+        return orderDate != null ? new Timestamp(orderDate.getTime()) : new Timestamp(0);
     }
 
     public void setTimestamp(Timestamp timestamp) {
@@ -90,6 +93,14 @@ public class SkudResult extends AbstractObject {
     public void setPerson(Long person) {
         this.person = person;
     }
+
+//    public Long getPersonnelNumber() {
+//        return personnelNumber;
+//    }
+//
+//    public void setPersonnelNumber(Long personnelNumber) {
+//        this.personnelNumber = personnelNumber;
+//    }
 
     public Double getSimilarity() {
         return similarity;

@@ -3,6 +3,9 @@
 ALTER TABLE persons
   ADD COLUMN personnel_number VARCHAR(50) NOT NULL DEFAULT '';
 
+
+-- HR_Persons
+
 CREATE TABLE hr_persons (
   id               BIGSERIAL   NOT NULL,
   personnel_number VARCHAR(50) NOT NULL,
@@ -12,9 +15,6 @@ CREATE TABLE hr_persons (
   created_at       TIMESTAMP   NOT NULL,
   updated_at       TIMESTAMP   NOT NULL
 );
-
-
--- HR_Persons
 
 ALTER TABLE hr_persons
     ADD CONSTRAINT hr_persons_pk PRIMARY KEY (id);

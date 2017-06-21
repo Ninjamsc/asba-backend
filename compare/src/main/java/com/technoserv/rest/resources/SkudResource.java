@@ -32,7 +32,7 @@ import static com.technoserv.config.ConfigValues.SKUD_STOP_LIST_ID;
 
 @Component
 @Path("")
-@Api(value = "SkudResource")
+@Api(value = "Compare")
 public class SkudResource extends BaseResource<Long, StopList> implements InitializingBean {
 
     private static final Logger log = LoggerFactory.getLogger(SkudResource.class);
@@ -96,7 +96,7 @@ public class SkudResource extends BaseResource<Long, StopList> implements Initia
      * Сравнить картинки с блеклистами и досье и вернуть отчет.
      */
     @PUT
-    @Path("/scud")
+    @Path("/skud")
     @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
     @Produces(HttpUtils.APPLICATION_JSON_UTF8)
     public Response skudCompareImages(SkudCompareRequest message) {
