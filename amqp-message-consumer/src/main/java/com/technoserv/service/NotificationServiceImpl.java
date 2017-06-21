@@ -1,5 +1,7 @@
 package com.technoserv.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.technoserv.dto.Notification;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,18 +20,26 @@ public class NotificationServiceImpl implements NotificationService {
 
     private JmsTemplate jmsTemplate;
 
+    private ObjectMapper objectMapper;
+
     @Autowired
-    public NotificationServiceImpl(JmsTemplate jmsTemplate) {
+    public NotificationServiceImpl(JmsTemplate jmsTemplate, ObjectMapper objectMapper) {
         this.jmsTemplate = jmsTemplate;
+        this.objectMapper = objectMapper;
     }
 
     @Override
     public boolean send(Notification notification) {
-        log.info("sending '{}' to '{}'", notification, jmsTemplate.getDefaultDestinationName());
+        log.debug("send notification: {} to queue: {}", notification, jmsTemplate.getDefaultDestinationName());
         try {
-            jmsTemplate.convertAndSend(notification);
-        } catch (JmsException e) {
-            log.error("Failed to send message using jmsTemplate: {}, {}", jmsTemplate, e);
+            String notificationJson = objectMapper.writeValueAsString(notification);
+            log.debug("notificationJson: {}", notificationJson);
+
+            jmsTemplate.convertAndSend(notificationJson);
+        } catch (JsonProcessingException | JmsException e) {
+            log.error("Failed to send notification: {} to queue: {} using jmsTemplate.",
+                    notification, jmsTemplate.getDefaultDestinationName(), e);
+
             return false;
         }
         return true;
