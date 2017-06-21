@@ -12,9 +12,6 @@ public class ConfigValues {
 
     public static final String SKUD_STOP_LIST_ID = "${skud.stop-list.id}";
 
-    private ConfigValues() {
-    }
-
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();

@@ -72,8 +72,8 @@ public class RequestController {
     }
 
     @PostMapping("/reg")
-    public ResponseEntity auth(@Valid @RequestBody RegBean regBean) {
-        log.info("auth regBean detected: {}", regBean);
+    public ResponseEntity reg(@Valid @RequestBody RegBean regBean) {
+        log.info("reg regBean: {}", regBean);
         RestTemplate restTemplate = new RestTemplate();
 
         FrontEnd frontEnd = new FrontEnd(
@@ -88,6 +88,7 @@ public class RequestController {
 
     @GetMapping("/log")
     public ResponseEntity storeLog(@RequestBody LogStoreBean logStoreBean) {
+        log.debug("storeLog logStoreBean: {}", logStoreBean);
         if (logStoreService.saveFile(logStoreBean)) {
             return ResponseEntity.ok().build();
         }
@@ -96,6 +97,7 @@ public class RequestController {
 
     @GetMapping("/ping")
     public ResponseEntity ping() {
+        log.trace("ping");
         return ResponseEntity.ok().build();
     }
 

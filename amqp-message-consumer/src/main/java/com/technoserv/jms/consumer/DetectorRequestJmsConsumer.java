@@ -20,7 +20,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.security.crypto.codec.Base64;
+import org.springframework.stereotype.Component;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
@@ -32,6 +34,7 @@ import java.util.UUID;
 /**
  * Created by sergey on 22.11.2016.
  */
+@Component
 public class DetectorRequestJmsConsumer {
 
     private static final Logger log = LoggerFactory.getLogger(DetectorRequestJmsConsumer.class);
@@ -66,6 +69,7 @@ public class DetectorRequestJmsConsumer {
     @Value(ConfigValues.ARM_QUEUE_MAX_NUMBER_OF_RETRIES)
     private static Integer maxTryCount = 10;
 
+    @JmsListener(destination = "bioskud.queue", containerFactory = "containerFactory")
     public void onReceive(String message) throws Exception {
         log.debug("onReceive message: {}", message);
         if (!saveRequest(message)) {
