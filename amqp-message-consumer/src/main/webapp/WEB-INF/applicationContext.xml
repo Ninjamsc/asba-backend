@@ -15,10 +15,10 @@
     <import resource="classpath:common-context.xml"/>
     <import resource="${data-source-context.xml.name}"/>
 
-    <!--<bean id="photoServiceClient" class="com.technoserv.rest.client.PhotoPersistServiceRestClient"/>-->
+    <bean id="photoServiceClient" class="com.technoserv.rest.client.PhotoPersistServiceRestClient"/>
     <!--<bean id="templateServiceClient" class="com.technoserv.rest.client.TemplateBuilderServiceRestClient"/>-->
-    <!--<bean id="compareServiceClient" class="com.technoserv.rest.client.SkudCompareServiceRestClient"/>-->
-    <!--<bean id="skudResource" class="com.technoserv.rest.resources.SkudResource"/>-->
-    <!--<bean id="skudResultService" class="com.technoserv.db.service.objectmodel.impl.SkudResultServiceImpl"/>-->
+    <bean id="compareServiceClient" class="com.technoserv.rest.client.SkudCompareServiceRestClient"/>
+    <bean id="skudResource" class="com.technoserv.rest.resources.SkudResource"/>
+    <bean id="skudResultService" class="com.technoserv.db.service.objectmodel.impl.SkudResultServiceImpl"/>
 
 </beans>
