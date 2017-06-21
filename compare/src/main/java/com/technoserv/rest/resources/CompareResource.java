@@ -561,9 +561,9 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
                     Date resultDate = dateFormat.parse((String) thrueVal.get("timestamp"));
                     if (resultDate.after(new Date(item.getStartDate())) && resultDate.before(new Date(item.getEndDate()))) {
                         Long daytotal = thrueVal.get("daytotal") == null ? 0L : (Long) thrueVal.get("daytotal"), bigger = thrueVal.get("bigger")==null ? 0L : (Long) thrueVal.get("bigger");
-                        item.setRequestCount(daytotal);
-                        item.setBiggerCount(bigger);
-                        item.setLowerCount(daytotal-bigger);
+                        item.setRequestCount(item.getRequestCount()+daytotal);
+                        item.setBiggerCount(item.getBiggerCount()+bigger);
+                        item.setLowerCount(item.getLowerCount()+(daytotal-bigger));
                         finalCounter.setRequestCount(finalCounter.getRequestCount()+daytotal);
                         finalCounter.setBiggerCount(finalCounter.getBiggerCount()+bigger);
                         finalCounter.setLowerCount(finalCounter.getLowerCount()+(daytotal-bigger));
