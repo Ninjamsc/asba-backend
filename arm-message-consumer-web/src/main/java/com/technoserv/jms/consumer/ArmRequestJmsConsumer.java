@@ -65,7 +65,7 @@ public class ArmRequestJmsConsumer {
         objectMapper.setDateFormat(DATE_FORMAT);
         try {
             RequestDTO requestDTO = objectMapper.readValue(request, RequestDTO.class);
-            log.debug("Request: {} comes from workstation queue: {}", requestDTO.getWfNumber(), request);
+            //log.debug("Request: {} comes from workstation queue: {}", requestDTO.getWfNumber(), request);
 
             Request requestEntity = requestService.findByOrderNumber(requestDTO.getWfNumber());
 
