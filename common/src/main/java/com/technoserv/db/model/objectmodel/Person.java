@@ -56,7 +56,7 @@ public class Person extends BaseEntity<Long> {
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("id", id)
-                .add("dossier", dossier)
+                //.add("dossier", dossier)
                 .toString();
     }
 }
