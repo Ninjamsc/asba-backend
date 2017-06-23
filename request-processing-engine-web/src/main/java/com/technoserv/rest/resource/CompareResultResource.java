@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
@@ -59,7 +60,7 @@ public class CompareResultResource {
     @Produces(HttpUtils.APPLICATION_JSON_UTF8)
     @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
     @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
-    @Path("/list") //id as wfm
+    @Path("/list")
     public Response findAll() throws IOException {
         List<CompareResult> compareResults = compareResultService.getAll();
         List<Request> req = requestService.getAll();
@@ -105,8 +106,19 @@ public class CompareResultResource {
     @Path("/{id}") //id as wfm
     public Response find(@PathParam("id") Long id) throws IOException {
         log.debug("find id: {}", id);
+        //TODO: В случае отсутствия заявки в compareResul и request проверить её номер во временном хранилище.
+        //Дёрнуть REST который в brige
 
         CompareResult compareResult = compareResultService.findById(id);
+
+        if (compareResult == null){
+            RestTemplate restTemplate = new RestTemplate();
+            CompareReport report = restTemplate.getForEntity("http://localhost:9080/client/rest/isenqueued/"+id,CompareReport.class).getBody();
+            return (report != null)
+                    ? Response.ok(report).build()
+                    : Response.status(Status.NOT_FOUND).build();
+        }
+
         Request req = requestService.findByOrderNumber(id);
         CompareReport report = objectMapper.readValue(compareResult.getJson(), CompareReport.class);
 

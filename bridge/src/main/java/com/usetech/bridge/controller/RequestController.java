@@ -18,6 +18,14 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
 import static com.usetech.bridge.config.ConfigValues.FRONT_END_REGISTRATION_URL;
 
 @RestController
@@ -35,6 +43,9 @@ public class RequestController {
     private CommonConfig config;
 
     private String frontEndRegistrationUrl;
+
+    private static Map<Long,String> enquedRequests = new ConcurrentHashMap<>();
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
 
     @Autowired
     public RequestController(LogStoreService logStoreService, SendImageService sendImageService,
@@ -101,15 +112,99 @@ public class RequestController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/isenqueued/{wfmId}")
+    public ResponseEntity ping(@PathVariable Long wfmId) {
+        log.info("/isenqueued/"+wfmId);
+        log.info("enquedRequests = "+enquedRequests.size());
+        String date = enquedRequests.get(wfmId);
+        Map<String,Object> report = new HashMap<>();
+        List<Map<String,Object>> rules = new ArrayList<>();
+        Map<String,Object> rule = new HashMap<>();
+        if (date != null) {
+            report.put("wfNumber", wfmId);
+            rule.put("ruleId","4.2.6");
+            rule.put("ruleName","Заявка находится в обработке");
+            rule.put("photo",null);
+        } else {
+            report.put("wfNumber", null);
+            rule.put("ruleId","4.2.7");
+            rule.put("ruleName","Заявка "+wfmId+" в обработку не поступала");
+            rule.put("photo",null);
+        }
+        report.put("timestamp",date);
+        report.put("created-at",date);
+        report.put("picSimilarity",null);
+        report.put("picSimilarityThreshold",null);
+        report.put("username",null);
+        report.put("iin",null);
+
+        report.put("scannedPicturePreviewURL",null);
+        report.put("webCamPicturePreviewURL",null);
+        report.put("scannedPictureURL",null);
+        report.put("webCamPictureURL",null);
+        report.put("IIN",null);
+
+        report.put("scannedPicture",new HashMap<>());
+        report.put("cameraPicture",new HashMap<>());
+        report.put("othernessPictures",new HashMap<>());
+        report.put("similarPictures",new HashMap<>());
+
+        rules.add(rule);
+        report.put("rules",rules);
+        /*
+        {
+            "picSimilarity" : 0.864625,
+          "picSimilarityThreshold" : 0.83,
+          "wfNumber" : 85040,
+          "username" : "KAZPOST\\P.KANAPIYANOVA",
+          "timestamp" : "23.06.2017 11:29:31",
+          "scannedPicturePreviewURL" : "http://172.30.73.54:9080/storage/rest/image/Yjk1NjFhOGUtODMxZC00Zjk5LTkxYjktYTRiOTJhZWQ0OWMy.png",
+          "webCamPicturePreviewURL" : "http://172.30.73.54:9080/storage/rest/image/MzY0ZDc5YmEtMTQ0OC00YTc3LWExZmItNWU4OWMyY2Y2Y2Iy.png",
+          "scannedPictureURL" : "http://172.30.73.54:9080/storage/rest/image/MWJmYTI5OTYtMTI0MC00NjJhLWJlNTMtMDUxNTYxZWRlNjE0.png",
+          "webCamPictureURL" : "http://172.30.73.54:9080/storage/rest/image/YWJlYzhjZDUtNjdmZi00ODcyLTgxZGEtNTRhYWJjZTBlODBm.png",
+          "iin" : 951121400183,
+          "rules" : [ {
+            "ruleId" : "4.2.1",
+            "ruleName" : "Фотография, прикрепленная к заявке, существенно отличается от других фотографий заемщика, имеющихся в базе",
+            "photo" : null
+          }, {
+            "ruleId" : "4.2.2",
+            "ruleName" : "Фотография, прикрепленная к заявке, идентична имеющейся в базе",
+            "photo" : null
+          } ],
+          "IIN" : 951121400183,
+          "created-at" : "23.06.2017 11:30:35"
+        }
+         */
+        return ResponseEntity.ok(report);
+    }
+
+    //TODO: Удаление PUT
+    @PutMapping("/dequeue/{wfmId}")
+    public ResponseEntity dequeueWfmId(@PathVariable Long wfmId) {
+        //TODO: Сохраять wfmId в спец контейнере
+        enquedRequests.remove(wfmId);
+        return ResponseEntity.ok().build();
+    }
+
+
     @PutMapping("/preview")
     public ResponseEntity preview(@Valid @RequestBody FrameBean frameBean, HttpServletRequest request) {
         log.debug("preview frameBean: {} remoteIp: {}", frameBean, request.getRemoteAddr());
+        //TODO: Сохраять wfmId в спец контейнере
+        enquedRequests.put(frameBean.getWfmId(),frameBean.getTimestamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")));
+        log.debug("frameBean.getWfmId().equals(new Long(88884))={}", frameBean.getWfmId().equals(new Long(88884)));
+        if (frameBean.getWfmId().equals(new Long(88884))) return ResponseEntity.ok().build();
         return send(frameBean, ImageType.PREVIEW);
     }
 
     @PutMapping("/fullframe")
     public ResponseEntity fullframe(@Valid @RequestBody FrameBean frameBean, HttpServletRequest request) {
         log.debug("fullframe frameBean: {} remoteIp: {}", frameBean, request.getRemoteAddr());
+        //TODO: Сохраять wfmId в спец контейнере
+        enquedRequests.put(frameBean.getWfmId(),frameBean.getTimestamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")));
+        log.debug("frameBean.getWfmId().equals(new Long(88884))={}", frameBean.getWfmId().equals(new Long(88884)));
+        if (frameBean.getWfmId().equals(new Long(88884))) return ResponseEntity.ok().build();
         return send(frameBean, ImageType.FULLFRAME);
     }
 

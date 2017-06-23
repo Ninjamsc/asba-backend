@@ -18,12 +18,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.web.client.RestTemplate;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.UUID;
 
 /**
@@ -151,6 +153,9 @@ public class ArmRequestJmsConsumer {
             requestEntity.setObjectDate(new Date());
             requestEntity.setStatus(Request.Status.SAVED);
             requestService.saveOrUpdate(requestEntity);
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.put("http://localhost:9080/client/rest/dequeue/"+requestEntity.getId(),new HashMap<>());
+            //CompareReport report = restTemplate.getForEntity("http://localhost:9080/client/rest/dequeue/"+requestEntity.getId(),CompareReport.class).getBody();
 
             return true;
         } catch (IOException e) {

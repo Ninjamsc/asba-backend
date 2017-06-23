@@ -26,10 +26,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -324,6 +326,8 @@ public class RequestProcessor {
     private void updateRequestStatus(Request request, Request.Status status) {
         request.setStatus(status);
         requestService.saveOrUpdate(request);
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.put("http://localhost:9080/client/rest/dequeue/"+request.getId(),new HashMap<>());
     }
 
     public void setRequestService(RequestService requestService) {
