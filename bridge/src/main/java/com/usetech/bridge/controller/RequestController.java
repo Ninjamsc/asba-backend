@@ -151,37 +151,13 @@ public class RequestController {
 
         rules.add(rule);
         report.put("rules",rules);
-        /*
-        {
-            "picSimilarity" : 0.864625,
-          "picSimilarityThreshold" : 0.83,
-          "wfNumber" : 85040,
-          "username" : "KAZPOST\\P.KANAPIYANOVA",
-          "timestamp" : "23.06.2017 11:29:31",
-          "scannedPicturePreviewURL" : "http://172.30.73.54:9080/storage/rest/image/Yjk1NjFhOGUtODMxZC00Zjk5LTkxYjktYTRiOTJhZWQ0OWMy.png",
-          "webCamPicturePreviewURL" : "http://172.30.73.54:9080/storage/rest/image/MzY0ZDc5YmEtMTQ0OC00YTc3LWExZmItNWU4OWMyY2Y2Y2Iy.png",
-          "scannedPictureURL" : "http://172.30.73.54:9080/storage/rest/image/MWJmYTI5OTYtMTI0MC00NjJhLWJlNTMtMDUxNTYxZWRlNjE0.png",
-          "webCamPictureURL" : "http://172.30.73.54:9080/storage/rest/image/YWJlYzhjZDUtNjdmZi00ODcyLTgxZGEtNTRhYWJjZTBlODBm.png",
-          "iin" : 951121400183,
-          "rules" : [ {
-            "ruleId" : "4.2.1",
-            "ruleName" : "Фотография, прикрепленная к заявке, существенно отличается от других фотографий заемщика, имеющихся в базе",
-            "photo" : null
-          }, {
-            "ruleId" : "4.2.2",
-            "ruleName" : "Фотография, прикрепленная к заявке, идентична имеющейся в базе",
-            "photo" : null
-          } ],
-          "IIN" : 951121400183,
-          "created-at" : "23.06.2017 11:30:35"
-        }
-         */
         return ResponseEntity.ok(report);
     }
 
     //TODO: Удаление PUT
     @PutMapping("/dequeue/{wfmId}")
     public ResponseEntity dequeueWfmId(@PathVariable Long wfmId) {
+        log.debug("dequeue wfmId: {}", wfmId);
         //TODO: Сохраять wfmId в спец контейнере
         enquedRequests.remove(wfmId);
         return ResponseEntity.ok().build();
@@ -193,8 +169,7 @@ public class RequestController {
         log.debug("preview frameBean: {} remoteIp: {}", frameBean, request.getRemoteAddr());
         //TODO: Сохраять wfmId в спец контейнере
         enquedRequests.put(frameBean.getWfmId(),frameBean.getTimestamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")));
-        log.debug("frameBean.getWfmId().equals(new Long(88884))={}", frameBean.getWfmId().equals(new Long(88884)));
-        if (frameBean.getWfmId().equals(new Long(88884))) return ResponseEntity.ok().build();
+        log.debug("frameBean.getWfmId()={}", frameBean.getWfmId());
         return send(frameBean, ImageType.PREVIEW);
     }
 
@@ -203,8 +178,7 @@ public class RequestController {
         log.debug("fullframe frameBean: {} remoteIp: {}", frameBean, request.getRemoteAddr());
         //TODO: Сохраять wfmId в спец контейнере
         enquedRequests.put(frameBean.getWfmId(),frameBean.getTimestamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")));
-        log.debug("frameBean.getWfmId().equals(new Long(88884))={}", frameBean.getWfmId().equals(new Long(88884)));
-        if (frameBean.getWfmId().equals(new Long(88884))) return ResponseEntity.ok().build();
+        log.debug("frameBean.getWfmId()={}", frameBean.getWfmId());
         return send(frameBean, ImageType.FULLFRAME);
     }
 

@@ -24,6 +24,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -111,7 +112,9 @@ public class CompareResultResource {
 
         CompareResult compareResult = compareResultService.findById(id);
 
-        if (compareResult == null){
+        Request req = requestService.findByOrderNumber(id);
+
+        if (compareResult == null && req == null){
             RestTemplate restTemplate = new RestTemplate();
             CompareReport report = restTemplate.getForEntity("http://localhost:9080/client/rest/isenqueued/"+id,CompareReport.class).getBody();
             return (report != null)
@@ -119,7 +122,40 @@ public class CompareResultResource {
                     : Response.status(Status.NOT_FOUND).build();
         }
 
-        Request req = requestService.findByOrderNumber(id);
+        //В случае когда запрос в БД есть а результат не SUCCESS тоже надо показывать результат
+        if(compareResult == null && req != null){
+            Map<String,Object> report = new HashMap<>();
+            List<Map<String,Object>> rules = new ArrayList<>();
+            Map<String,Object> rule = new HashMap<>();
+            report.put("wfNumber", null);
+            rule.put("ruleId","4.2.8");
+            rule.put("ruleName","Заявка "+req.getId()+" " + (req.getStatus().equals(Request.Status.FAILED) ? "не обработана! Системная ошибка!" : "обрабатывается"));
+            rule.put("photo",null);
+            report.put("timestamp",req.getTimestamp().toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")));
+            report.put("created-at",req.getTimestamp().toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")));
+            report.put("picSimilarity",null);
+            report.put("picSimilarityThreshold",null);
+            report.put("username",null);
+            report.put("iin",null);
+
+            report.put("scannedPicturePreviewURL",null);
+            report.put("webCamPicturePreviewURL",null);
+            report.put("scannedPictureURL",null);
+            report.put("webCamPictureURL",null);
+            report.put("IIN",null);
+
+            report.put("scannedPicture",new HashMap<>());
+            report.put("cameraPicture",new HashMap<>());
+            report.put("othernessPictures",new HashMap<>());
+            report.put("similarPictures",new HashMap<>());
+
+            rules.add(rule);
+            report.put("rules",rules);
+            return (report != null)
+                    ? Response.ok(report).build()
+                    : Response.status(Status.NOT_FOUND).build();
+        }
+
         CompareReport report = objectMapper.readValue(compareResult.getJson(), CompareReport.class);
 
         if (req != null) {
