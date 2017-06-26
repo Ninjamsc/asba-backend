@@ -129,7 +129,7 @@ public class CompareResultResource {
             Map<String,Object> rule = new HashMap<>();
             report.put("wfNumber", null);
             rule.put("ruleId","4.2.8");
-            rule.put("ruleName","Заявка "+req.getId()+" " + (req.getStatus().equals(Request.Status.FAILED) ? "не обработана! Системная ошибка!" : "обрабатывается"));
+            rule.put("ruleName","Заявка "+req.getId()+" " + (req.getStatus().equals(Request.Status.FAILED) ? "не обработана! Системная ошибка!" : "ожидает полного набора данных от АРМ"));
             rule.put("photo",null);
             report.put("timestamp",req.getTimestamp().toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")));
             report.put("created-at",req.getTimestamp().toLocalDateTime().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")));

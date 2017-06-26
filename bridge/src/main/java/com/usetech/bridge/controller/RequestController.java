@@ -123,7 +123,7 @@ public class RequestController {
         if (date != null) {
             report.put("wfNumber", wfmId);
             rule.put("ruleId","4.2.6");
-            rule.put("ruleName","Заявка находится в обработке");
+            rule.put("ruleName","Заявка "+wfmId+" находится в обработке");
             rule.put("photo",null);
         } else {
             report.put("wfNumber", null);
@@ -169,7 +169,7 @@ public class RequestController {
         log.debug("preview frameBean: {} remoteIp: {}", frameBean, request.getRemoteAddr());
         //TODO: Сохраять wfmId в спец контейнере
         enquedRequests.put(frameBean.getWfmId(),frameBean.getTimestamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")));
-        log.debug("frameBean.getWfmId()={}", frameBean.getWfmId());
+        log.debug("/preview frameBean.getWfmId()={}", frameBean.getWfmId());
         return send(frameBean, ImageType.PREVIEW);
     }
 
@@ -178,7 +178,7 @@ public class RequestController {
         log.debug("fullframe frameBean: {} remoteIp: {}", frameBean, request.getRemoteAddr());
         //TODO: Сохраять wfmId в спец контейнере
         enquedRequests.put(frameBean.getWfmId(),frameBean.getTimestamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")));
-        log.debug("frameBean.getWfmId()={}", frameBean.getWfmId());
+        log.debug("/fullframe frameBean.getWfmId()={}", frameBean.getWfmId());
         return send(frameBean, ImageType.FULLFRAME);
     }
 
