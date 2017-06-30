@@ -577,6 +577,40 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
         return result;
     }
 
+    @GET
+    @Produces(HttpUtils.APPLICATION_JSON_UTF8)
+    @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
+    @Path("/requestids/approved")
+    public List<Long> getRequestIdsListApproved(@QueryParam("startDate") Long startDate,
+                                                @QueryParam("endDate") Long endDate) throws ParseException {
+        List<Long> result = new ArrayList<>();
+        if (startDate==null || endDate==null) return result;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        List<Map<String, Object>> resultNative = jdbcCall.getJdbcTemplate().queryForList("SELECT wfm_id FROM requests\n" +
+                "JOIN compare_results ON requests.wfm_id=compare_results.id\n" +
+                "WHERE timestamp BETWEEN '"+dateFormat.format(new Date(startDate))+"' AND '"+dateFormat.format(new Date(endDate))+"' and compare_results.similarity>"+systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS));
+        resultNative.stream().forEach(r->{result.add((Long) r.get("wfm_id"));});
+        return result;
+    }
+
+    @GET
+    @Produces(HttpUtils.APPLICATION_JSON_UTF8)
+    @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
+    @Path("/requestids/disapproved")
+    public List<Long> getRequestIdsListDisapproved(@QueryParam("startDate") Long startDate,
+                                                    @QueryParam("endDate") Long endDate) throws ParseException {
+        List<Long> result = new ArrayList<>();
+        if (startDate==null || endDate==null) return result;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        List<Map<String, Object>> resultNative = jdbcCall.getJdbcTemplate().queryForList("SELECT wfm_id FROM requests\n" +
+                "JOIN compare_results ON requests.wfm_id=compare_results.id\n" +
+                "WHERE timestamp BETWEEN '"+dateFormat.format(new Date(startDate))+"' AND '"+dateFormat.format(new Date(endDate))+"' and compare_results.similarity<"+systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS));
+        resultNative.stream().forEach(r->{result.add((Long) r.get("wfm_id"));});
+        return result;
+    }
+
     /**
      * Список всех стоп листов
      *

@@ -20,8 +20,14 @@
         <tr ng-repeat="c in countArray">
             <td style="vertical-align: middle;">{{ c.text || createDate(c.startDate) }}</td>
             <td style="vertical-align: middle;">{{ c.requestCount }}</td>
-            <td style="vertical-align: middle;">{{ c.biggerCount }}</td>
-            <td style="vertical-align: middle;">{{ c.lowerCount }}</td>
+            <td style="vertical-align: middle;">
+                <a ng-click="loadGoodIds(c)">{{ c.biggerCount }}</a>
+                <div ng-repeat="id in c.biggerCountIds">{{id}}</div>
+            </td>
+            <td style="vertical-align: middle;">
+                <a ng-click="loadLowIds(c)">{{ c.lowerCount }}</a>
+                <div ng-repeat="id in c.lowerCountIds">{{id}}</div>
+            </td>
         </tr>
 
     </table>

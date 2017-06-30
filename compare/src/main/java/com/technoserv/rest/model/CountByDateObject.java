@@ -1,5 +1,8 @@
 package com.technoserv.rest.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CountByDateObject {
 
     public CountByDateObject(Long startDate, Long endDate, Long requestCount,Long biggerCount) {
@@ -16,6 +19,9 @@ public class CountByDateObject {
     private Long biggerCount;
     private Long lowerCount;
     private String text;
+
+    private List<Long> biggerCountIds = new ArrayList<>();
+    private List<Long> lowerCountIds = new ArrayList<>();
 
     public Long getStartDate() {
         return startDate;
@@ -63,5 +69,21 @@ public class CountByDateObject {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public List<Long> getBiggerCountIds() {
+        return biggerCountIds;
+    }
+
+    public void setBiggerCountIds(List<Long> biggerCountIds) {
+        this.biggerCountIds = biggerCountIds;
+    }
+
+    public List<Long> getLowerCountIds() {
+        return lowerCountIds;
+    }
+
+    public void setLowerCountIds(List<Long> lowerCountIds) {
+        this.lowerCountIds = lowerCountIds;
     }
 }

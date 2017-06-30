@@ -23,7 +23,6 @@ angular.module('statistic', ['ui.router', 'commons'])
                     startDate: $scope.startDate.getTime(),
                     endDate: $scope.endDate.getTime()
                 }}).success(function (data) {
-                    console.log(data);
                     $scope.countArray = data;
             });
 
@@ -43,5 +42,24 @@ angular.module('statistic', ['ui.router', 'commons'])
             }}).success(function (data) {
             $scope.total=data;
         });
+
+        $scope.loadGoodIds = function (c) {
+            $http.get("/compare/api/requestids/approved",
+                {params:{
+                    startDate: c.startDate,
+                    endDate: c.endDate//+86400000
+                }}).success(function (data) {
+                c.biggerCountIds=data;
+            });
+        }
+        $scope.loadLowIds = function (c) {
+            $http.get("/compare/api/requestids/disapproved",
+                {params:{
+                    startDate: c.startDate,
+                    endDate: c.endDate//+86400000
+                }}).success(function (data) {
+                c.lowerCountIds=data;
+            });
+        }
 
     });
