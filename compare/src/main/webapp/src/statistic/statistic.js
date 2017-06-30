@@ -44,22 +44,32 @@ angular.module('statistic', ['ui.router', 'commons'])
         });
 
         $scope.loadGoodIds = function (c) {
-            $http.get("/compare/api/requestids/approved",
-                {params:{
-                    startDate: c.startDate,
-                    endDate: c.endDate//+86400000
-                }}).success(function (data) {
-                c.biggerCountIds=data;
-            });
+            if (c.isbiggerView == undefined || c.isbiggerView == null || !c.isbiggerView) {
+                c.isbiggerView = true;
+                $http.get("/compare/api/requestids/approved",
+                    {
+                        params: {
+                            startDate: c.startDate,
+                            endDate: c.endDate//+86400000
+                        }
+                    }).success(function (data) {
+                    c.biggerCountIds = data;
+                });
+            } else c.isbiggerView = false;
         }
         $scope.loadLowIds = function (c) {
-            $http.get("/compare/api/requestids/disapproved",
-                {params:{
-                    startDate: c.startDate,
-                    endDate: c.endDate//+86400000
-                }}).success(function (data) {
-                c.lowerCountIds=data;
-            });
+            if (c.isloverView == undefined || c.isloverView == null || !c.isloverView) {
+                c.isloverView = true;
+                $http.get("/compare/api/requestids/disapproved",
+                    {
+                        params: {
+                            startDate: c.startDate,
+                            endDate: c.endDate//+86400000
+                        }
+                    }).success(function (data) {
+                    c.lowerCountIds = data;
+                });
+            } else c.isloverView = false;
         }
 
     });

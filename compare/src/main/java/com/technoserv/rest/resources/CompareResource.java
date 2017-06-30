@@ -538,7 +538,7 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
                 "GROUP BY timestamp) as one\n" +
                 "FULL OUTER JOIN (SELECT count(*) as bigger,timestamp FROM requests\n" +
                 "FULL JOIN compare_results ON requests.wfm_id = compare_results.id\n" +
-                "WHERE status='SUCCESS' and compare_results.similarity>"+systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS)+"\n" +
+                "WHERE status='SUCCESS' and compare_results.similarity>"+systemSettingsBean.get(SystemSettingsType.RULE_SELF_SIMILARITY)+"\n" +
                 "GROUP BY timestamp) as two ON (one.timestamp=two.timestamp)");
         if(startDate==null && endDate==null) {
             startDate = System.currentTimeMillis()-86400000*2;
@@ -589,7 +589,7 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         List<Map<String, Object>> resultNative = jdbcCall.getJdbcTemplate().queryForList("SELECT wfm_id FROM requests\n" +
                 "JOIN compare_results ON requests.wfm_id=compare_results.id\n" +
-                "WHERE timestamp BETWEEN '"+dateFormat.format(new Date(startDate))+"' AND '"+dateFormat.format(new Date(endDate))+"' and compare_results.similarity>"+systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS));
+                "WHERE timestamp BETWEEN '"+dateFormat.format(new Date(startDate))+"' AND '"+dateFormat.format(new Date(endDate))+"' and compare_results.similarity>"+systemSettingsBean.get(SystemSettingsType.RULE_SELF_SIMILARITY));
         resultNative.stream().forEach(r->{result.add((Long) r.get("wfm_id"));});
         return result;
     }
@@ -606,7 +606,7 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         List<Map<String, Object>> resultNative = jdbcCall.getJdbcTemplate().queryForList("SELECT wfm_id FROM requests\n" +
                 "JOIN compare_results ON requests.wfm_id=compare_results.id\n" +
-                "WHERE timestamp BETWEEN '"+dateFormat.format(new Date(startDate))+"' AND '"+dateFormat.format(new Date(endDate))+"' and compare_results.similarity<"+systemSettingsBean.get(SystemSettingsType.DOSSIER_OTHERNESS));
+                "WHERE timestamp BETWEEN '"+dateFormat.format(new Date(startDate))+"' AND '"+dateFormat.format(new Date(endDate))+"' and compare_results.similarity<"+systemSettingsBean.get(SystemSettingsType.RULE_SELF_SIMILARITY));
         resultNative.stream().forEach(r->{result.add((Long) r.get("wfm_id"));});
         return result;
     }
