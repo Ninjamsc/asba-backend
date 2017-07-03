@@ -26,6 +26,7 @@ import javax.ws.rs.core.Response.Status;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by sergey on 27.11.2016.
@@ -170,6 +171,14 @@ public class CompareResultResource {
                 report.getScannedPicture().setPictureURL(scan.getOrigImageURL());
             }
         }
+
+        //Убирать дубликаты из report.getOthernessPictures().getPhotos() и report.getSimilarPictures().getPhotos()
+        report.getOthernessPictures().setPhotos(
+                report.getOthernessPictures().getPhotos().stream().distinct().collect(Collectors.toList())
+        );
+        report.getSimilarPictures().setPhotos(
+                report.getSimilarPictures().getPhotos().stream().distinct().collect(Collectors.toList())
+        );
 
         return (compareResult != null)
                 ? Response.ok(report).build()
