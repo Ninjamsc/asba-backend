@@ -174,10 +174,10 @@ public class CompareResultResource {
 
         //Убирать дубликаты из report.getOthernessPictures().getPhotos() и report.getSimilarPictures().getPhotos()
         report.getOthernessPictures().setPhotos(
-                report.getOthernessPictures().getPhotos().stream().distinct().collect(Collectors.toList())
+                report.getOthernessPictures().getPhotos().stream().distinct().limit(10).collect(Collectors.toList())
         );
         report.getSimilarPictures().setPhotos(
-                report.getSimilarPictures().getPhotos().stream().distinct().collect(Collectors.toList())
+                report.getSimilarPictures().getPhotos().stream().distinct().limit(10).collect(Collectors.toList())
         );
 
         return (compareResult != null)
