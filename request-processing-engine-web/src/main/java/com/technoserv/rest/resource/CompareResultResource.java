@@ -174,12 +174,16 @@ public class CompareResultResource {
         }
 
         //Убирать дубликаты из report.getOthernessPictures().getPhotos() и report.getSimilarPictures().getPhotos()
-        report.getOthernessPictures().setPhotos(
-                report.getOthernessPictures().getPhotos().stream().distinct().limit(10).collect(Collectors.toList())
-        );
-        report.getSimilarPictures().setPhotos(
-                report.getSimilarPictures().getPhotos().stream().distinct().limit(10).collect(Collectors.toList())
-        );
+        if (report.getOthernessPictures() != null) {
+            report.getOthernessPictures().setPhotos(
+                    report.getOthernessPictures().getPhotos().stream().distinct().limit(10).collect(Collectors.toList())
+            );
+        }
+        if(report.getSimilarPictures() != null) {
+            report.getSimilarPictures().setPhotos(
+                    report.getSimilarPictures().getPhotos().stream().distinct().limit(10).collect(Collectors.toList())
+            );
+        }
 
         return (compareResult != null)
                 ? Response.ok(report).build()
