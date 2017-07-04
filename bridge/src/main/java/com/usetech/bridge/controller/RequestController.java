@@ -93,7 +93,8 @@ public class RequestController {
                 regBean.getOsVersion(),
                 regBean.getUsername(),
                 regBean.getClientVersion());
-
+        frontEndRegistrationUrl = "http://localhost:9080/rpe/api/rest/front-ends";
+        log.info("frontEndRegistrationUrl: {}", frontEndRegistrationUrl);
         return restTemplate.postForEntity(frontEndRegistrationUrl, frontEnd, FrontEnd.class);
     }
 
@@ -159,6 +160,7 @@ public class RequestController {
     public ResponseEntity dequeueWfmId(@PathVariable Long wfmId) {
         log.debug("dequeue wfmId: {}", wfmId);
         //TODO: Сохраять wfmId в спец контейнере
+        //Перед удалением, если номер заявочки тестовый, то вычитаем дату прихода из сейчас и пишем КУДА? В файл /opt/biometrics/loadResult
         enquedRequests.remove(wfmId);
         return ResponseEntity.ok().build();
     }

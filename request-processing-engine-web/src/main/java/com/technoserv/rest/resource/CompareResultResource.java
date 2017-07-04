@@ -9,6 +9,7 @@ import com.technoserv.db.model.objectmodel.Request;
 import com.technoserv.db.service.objectmodel.api.CompareResultService;
 import com.technoserv.db.service.objectmodel.api.DocumentService;
 import com.technoserv.db.service.objectmodel.api.RequestService;
+import com.technoserv.db.service.objectmodel.api.StopListService;
 import com.technoserv.rest.model.CompareReport;
 import com.technoserv.rest.model.CompareResponseDossierReport;
 import com.technoserv.rest.model.CompareResponsePhotoObject;
@@ -46,6 +47,11 @@ public class CompareResultResource {
 
     @Autowired
     private DocumentService documentService;
+
+
+    @Autowired
+    private StopListService stopListService;
+
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
