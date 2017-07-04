@@ -48,11 +48,6 @@ public class CompareResultResource {
     @Autowired
     private DocumentService documentService;
 
-
-    @Autowired
-    private StopListService stopListService;
-
-
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     void addToList(Collection list, String value){
