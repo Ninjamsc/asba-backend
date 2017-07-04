@@ -18,12 +18,12 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static com.usetech.bridge.config.ConfigValues.FRONT_END_REGISTRATION_URL;
@@ -33,6 +33,9 @@ import static com.usetech.bridge.config.ConfigValues.FRONT_END_REGISTRATION_URL;
 public class RequestController {
 
     private static final Logger log = LoggerFactory.getLogger(RequestController.class);
+
+    private static final Long START_TEST_RANGE = 0l;
+    private static final Long END_TEST_RANGE = 3999999l;
 
     private LogStoreService logStoreService;
 
@@ -157,10 +160,23 @@ public class RequestController {
 
     //TODO: Удаление PUT
     @PutMapping("/dequeue/{wfmId}")
-    public ResponseEntity dequeueWfmId(@PathVariable Long wfmId) {
+    public ResponseEntity dequeueWfmId(@PathVariable Long wfmId) throws ParseException {
         log.debug("dequeue wfmId: {}", wfmId);
         //TODO: Сохраять wfmId в спец контейнере
-        //Перед удалением, если номер заявочки тестовый, то вычитаем дату прихода из сейчас и пишем КУДА? В файл /opt/biometrics/loadResult
+        //Перед удалением, если номер заявочки тестовый, то вычитаем дату прихода из сейчас и пишем КУДА? В файл /opt/biometrics/loadRunTest.txt
+        if (wfmId>START_TEST_RANGE && wfmId<END_TEST_RANGE && enquedRequests.get(wfmId) != null) {
+            Long start, finish = System.currentTimeMillis(), result;
+            Date startDate = DATE_FORMAT.parse(enquedRequests.get(wfmId));
+            start = startDate.getTime();
+            result = finish - start;
+            //Записываем в /opt/biometrics/loadRunTest.txt
+            try(FileWriter writer = new FileWriter("/opt/biometrics/loadRunTest.txt",true)) {
+                String text = wfmId+":"+result+"\n"; writer.append(text);
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         enquedRequests.remove(wfmId);
         return ResponseEntity.ok().build();
     }
@@ -170,7 +186,7 @@ public class RequestController {
     public ResponseEntity preview(@Valid @RequestBody FrameBean frameBean, HttpServletRequest request) {
         log.debug("preview frameBean: {} remoteIp: {}", frameBean, request.getRemoteAddr());
         //TODO: Сохраять wfmId в спец контейнере
-        enquedRequests.put(frameBean.getWfmId(),frameBean.getTimestamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")));
+        if (enquedRequests.get(frameBean.getWfmId()) == null) enquedRequests.put(frameBean.getWfmId(),DATE_FORMAT.format(new Date()));//frameBean.getTimestamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"))
         log.debug("/preview frameBean.getWfmId()={}", frameBean.getWfmId());
         return send(frameBean, ImageType.PREVIEW);
     }
@@ -178,8 +194,7 @@ public class RequestController {
     @PutMapping("/fullframe")
     public ResponseEntity fullframe(@Valid @RequestBody FrameBean frameBean, HttpServletRequest request) {
         log.debug("fullframe frameBean: {} remoteIp: {}", frameBean, request.getRemoteAddr());
-        //TODO: Сохраять wfmId в спец контейнере
-        enquedRequests.put(frameBean.getWfmId(),frameBean.getTimestamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")));
+        if (enquedRequests.get(frameBean.getWfmId()) == null) enquedRequests.put(frameBean.getWfmId(),DATE_FORMAT.format(new Date()));//frameBean.getTimestamp().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss"))
         log.debug("/fullframe frameBean.getWfmId()={}", frameBean.getWfmId());
         return send(frameBean, ImageType.FULLFRAME);
     }

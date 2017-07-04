@@ -3,16 +3,15 @@ package com.technoserv.rest.resource;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.jaxrs.annotation.JacksonFeatures;
+import com.technoserv.db.model.objectmodel.BioTemplate;
 import com.technoserv.db.model.objectmodel.CompareResult;
 import com.technoserv.db.model.objectmodel.Document;
 import com.technoserv.db.model.objectmodel.Request;
-import com.technoserv.db.service.objectmodel.api.CompareResultService;
-import com.technoserv.db.service.objectmodel.api.DocumentService;
-import com.technoserv.db.service.objectmodel.api.RequestService;
-import com.technoserv.db.service.objectmodel.api.StopListService;
+import com.technoserv.db.service.objectmodel.api.*;
 import com.technoserv.rest.model.CompareReport;
 import com.technoserv.rest.model.CompareResponseDossierReport;
 import com.technoserv.rest.model.CompareResponsePhotoObject;
+import com.technoserv.rest.request.RequestSearchCriteria;
 import com.technoserv.utils.HttpUtils;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
@@ -24,6 +23,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import java.io.File;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -47,6 +47,9 @@ public class CompareResultResource {
 
     @Autowired
     private DocumentService documentService;
+
+    @Autowired
+    private BioTemplateService bioTemplateService;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -109,8 +112,6 @@ public class CompareResultResource {
     @Path("/{id}") //id as wfm
     public Response find(@PathParam("id") Long id) throws IOException {
         log.debug("find id: {}", id);
-        //TODO: В случае отсутствия заявки в compareResul и request проверить её номер во временном хранилище.
-        //Дёрнуть REST который в brige
 
         CompareResult compareResult = compareResultService.findById(id);
 

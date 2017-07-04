@@ -35,6 +35,7 @@ import javax.annotation.Resource;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -97,6 +98,100 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
     @Resource
     @Qualifier(value = "converters")
     private HashMap<String, String> compareRules;
+
+    void addToList(Collection list, String value){
+
+        if (value != null){
+            int lastSlashPosition = value.lastIndexOf("/");
+            list.add(value.substring(lastSlashPosition+1,value.length()));
+        }
+
+    }
+
+    private static final Long START_TEST_RANGE = 0l;
+    private static final Long END_TEST_RANGE = 3999999l;
+    @GET
+    @Produces(HttpUtils.APPLICATION_JSON_UTF8)
+    @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
+    @Path("/removetest")
+    public Response removeTest() throws IOException {
+        //Вытаскиваем request,compare_results,web_doc_id,scan_doc_id,templates по этим докам,
+        //Удаление в обратном порядке: 1.templates 2.documents с файлами 3. compare_results с файлами 4. request
+        /*
+        Удаление файла
+        File file = new File("/Users/prologistic/file.txt");
+        if(file.delete()){
+            System.out.println("/Users/prologistic/file.txt файл удален");
+        }else System.out.println("Файла /Users/prologistic/file.txt не обнаружено");
+         */
+        Set<String> imagesToremove = new TreeSet<>();
+        List<CompareResult> compareResultsToRemove = new ArrayList<>();
+        List<Request> reqToRemove = new ArrayList<>();
+        List<Document> documentsToRemove = new ArrayList<>();
+        List<CompareResult> compareResults = compareResultService.getAll();
+        List<Request> req = requestService.getAll();
+
+        for (CompareResult cr:compareResults){
+            if (cr.getId()>START_TEST_RANGE && cr.getId()<END_TEST_RANGE){
+                compareResultsToRemove.add(cr);
+                CompareReport report = objectMapper.readValue(cr.getJson(), CompareReport.class);
+                addToList(imagesToremove,report.getScannedPicture().getPictureURL());
+                addToList(imagesToremove,report.getScannedPicture().getPreviewURL());
+                addToList(imagesToremove,report.getCameraPicture().getPictureURL());
+                addToList(imagesToremove,report.getCameraPicture().getPreviewURL());
+                addToList(imagesToremove,report.getScannedPicturePreviewURL());
+                addToList(imagesToremove,report.getWebCamPicturePreviewURL());
+                addToList(imagesToremove,report.getScannedPictureURL());
+                addToList(imagesToremove,report.getWebCamPictureURL());
+                if(report.getOthernessPictures() != null) for (CompareResponsePhotoObject po : report.getOthernessPictures().getPhotos()){
+                    addToList(imagesToremove,po.getUrl());
+                }
+                if(report.getSimilarPictures() != null) for (CompareResponsePhotoObject po : report.getSimilarPictures().getPhotos()){
+                    addToList(imagesToremove,po.getUrl());
+                }
+            }
+        }
+
+        for (Request r:req){
+            if (r.getId()>START_TEST_RANGE && r.getId()<END_TEST_RANGE){
+                reqToRemove.add(r);
+                if(r.getCameraDocument() != null) {
+                    addToList(imagesToremove, r.getCameraDocument().getFaceSquare());
+                    addToList(imagesToremove, r.getCameraDocument().getOrigImageURL());
+                    documentsToRemove.add(r.getCameraDocument());
+                }
+                if(r.getScannedDocument() != null) {
+                    addToList(imagesToremove, r.getScannedDocument().getFaceSquare());
+                    addToList(imagesToremove, r.getScannedDocument().getOrigImageURL());
+                    documentsToRemove.add(r.getScannedDocument());
+                }
+            }
+        }
+        //Start to delete
+        //1.Image
+        for (String image:imagesToremove){
+            File file = new File("/opt/biometrics/photos/"+image);
+            if(file.delete()){
+                log.info("/opt/biometrics/photos/"+image+" файл удален");
+            }else System.out.println("Файла /opt/biometrics/photos/"+image+" не обнаружено");
+        }
+
+        for (CompareResult cr:compareResultsToRemove) compareResultService.delete(cr);
+        for (Request r:reqToRemove) requestService.delete(r);
+        //2.Templates & documents
+        for (Document d:documentsToRemove){
+            //1.Template
+            jdbcCall.getJdbcTemplate().execute("DELETE FROM bio_templates where doc_id="+d.getId());
+            //2.Document
+            documentService.delete(d.getId());
+        }
+        File file = new File("/opt/biometrics/loadRunTest.txt");
+        if(file.delete()){
+            log.info("/opt/biometrics/loadRunTest.txt файл удален");
+        }else System.out.println("Файла /opt/biometrics/loadRunTest.txt не обнаружено");
+        return Response.ok().build();
+    }
 
     @Override
     protected Service<Long, StopList> getBaseService() {
