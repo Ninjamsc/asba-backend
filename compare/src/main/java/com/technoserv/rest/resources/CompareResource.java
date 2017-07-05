@@ -35,8 +35,13 @@ import javax.annotation.Resource;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -115,7 +120,7 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
     @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
     @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     @Path("/removetest")
-    public Response removeTest() throws IOException {
+    public Long removeTest() throws IOException {
         //Вытаскиваем request,compare_results,web_doc_id,scan_doc_id,templates по этим докам,
         //Удаление в обратном порядке: 1.templates 2.documents с файлами 3. compare_results с файлами 4. request
         /*
@@ -186,11 +191,24 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
             //2.Document
             documentService.delete(d.getId());
         }
-        File file = new File("/opt/biometrics/loadRunTest.txt");
-        if(file.delete()){
-            log.info("/opt/biometrics/loadRunTest.txt файл удален");
-        }else System.out.println("Файла /opt/biometrics/loadRunTest.txt не обнаружено");
-        return Response.ok().build();
+        //Считаем среднее время прохождения заявки
+        Long average = 0l;
+        try {
+            File file = new File("/opt/biometrics/loadRunTest.txt");
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            final long[] totalTime = {0};
+            long count = br.lines().count();
+            Files.lines(Paths.get("/opt/biometrics/loadRunTest.txt"), StandardCharsets.UTF_8).forEach(s -> {
+                totalTime[0] += Long.valueOf(s.split(":")[1]);
+            });
+            average = totalTime[0] / count;
+            if (file.delete()) {
+                log.info("/opt/biometrics/loadRunTest.txt файл удален");
+            } else System.out.println("Файла /opt/biometrics/loadRunTest.txt не обнаружено");
+        } catch (java.io.FileNotFoundException e){
+            log.info("Файла /opt/biometrics/loadRunTest.txt не обнаружено");
+        }
+        return average;
     }
 
     @Override

@@ -154,7 +154,7 @@ public class ArmRequestJmsConsumer {
             requestEntity.setStatus(Request.Status.SAVED);
             requestService.saveOrUpdate(requestEntity);
             RestTemplate restTemplate = new RestTemplate();
-            restTemplate.put("http://localhost:9080/client/rest/dequeue/"+requestEntity.getId(),new HashMap<>());
+            //restTemplate.put("http://localhost:9080/client/rest/dequeue/"+requestEntity.getId(),new HashMap<>());
             //CompareReport report = restTemplate.getForEntity("http://localhost:9080/client/rest/dequeue/"+requestEntity.getId(),CompareReport.class).getBody();
 
             return true;
