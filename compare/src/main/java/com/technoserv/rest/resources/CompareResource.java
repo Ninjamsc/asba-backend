@@ -42,6 +42,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -114,13 +115,13 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
     }
 
     private static final Long START_TEST_RANGE = 0l;
-    private static final Long END_TEST_RANGE = 3999999l;
+    private static final Long END_TEST_RANGE = 4000000l;
     @GET
     @Produces(HttpUtils.APPLICATION_JSON_UTF8)
     @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
     @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
     @Path("/removetest")
-    public Long removeTest() throws IOException {
+    public Long removeTest() throws IOException, ParseException {
         //Вытаскиваем request,compare_results,web_doc_id,scan_doc_id,templates по этим докам,
         //Удаление в обратном порядке: 1.templates 2.documents с файлами 3. compare_results с файлами 4. request
         /*
@@ -136,9 +137,31 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
         List<Document> documentsToRemove = new ArrayList<>();
         List<CompareResult> compareResults = compareResultService.getAll();
         List<Request> req = requestService.getAll();
+        DateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        Date DATE_RANGE;
+        Set<Long> wfm_ids_to_remove = new TreeSet<>();
+
+        DATE_RANGE = formatter.parse("01.05.2017");
+
+        for (Request r:req){
+            if (r.getId()>START_TEST_RANGE && r.getId()<END_TEST_RANGE && r.getTimestamp().before(DATE_RANGE)){
+                wfm_ids_to_remove.add(r.getId());
+                reqToRemove.add(r);
+                if(r.getCameraDocument() != null) {
+                    addToList(imagesToremove, r.getCameraDocument().getFaceSquare());
+                    addToList(imagesToremove, r.getCameraDocument().getOrigImageURL());
+                    documentsToRemove.add(r.getCameraDocument());
+                }
+                if(r.getScannedDocument() != null) {
+                    addToList(imagesToremove, r.getScannedDocument().getFaceSquare());
+                    addToList(imagesToremove, r.getScannedDocument().getOrigImageURL());
+                    documentsToRemove.add(r.getScannedDocument());
+                }
+            }
+        }
 
         for (CompareResult cr:compareResults){
-            if (cr.getId()>START_TEST_RANGE && cr.getId()<END_TEST_RANGE){
+            if (wfm_ids_to_remove.contains(cr.getId())){
                 compareResultsToRemove.add(cr);
                 CompareReport report = objectMapper.readValue(cr.getJson(), CompareReport.class);
                 addToList(imagesToremove,report.getScannedPicture().getPictureURL());
@@ -158,21 +181,6 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
             }
         }
 
-        for (Request r:req){
-            if (r.getId()>START_TEST_RANGE && r.getId()<END_TEST_RANGE){
-                reqToRemove.add(r);
-                if(r.getCameraDocument() != null) {
-                    addToList(imagesToremove, r.getCameraDocument().getFaceSquare());
-                    addToList(imagesToremove, r.getCameraDocument().getOrigImageURL());
-                    documentsToRemove.add(r.getCameraDocument());
-                }
-                if(r.getScannedDocument() != null) {
-                    addToList(imagesToremove, r.getScannedDocument().getFaceSquare());
-                    addToList(imagesToremove, r.getScannedDocument().getOrigImageURL());
-                    documentsToRemove.add(r.getScannedDocument());
-                }
-            }
-        }
         //Start to delete
         //1.Image
         for (String image:imagesToremove){
@@ -183,7 +191,10 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
         }
 
         for (CompareResult cr:compareResultsToRemove) compareResultService.delete(cr);
-        for (Request r:reqToRemove) requestService.delete(r);
+        for (Request r:reqToRemove){
+            jdbcCall.getJdbcTemplate().execute("DELETE FROM request_traces WHERE request_wfm_id="+r.getId());
+            requestService.delete(r);
+        }
         //2.Templates & documents
         for (Document d:documentsToRemove){
             //1.Template

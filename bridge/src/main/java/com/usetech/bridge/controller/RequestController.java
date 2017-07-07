@@ -35,7 +35,7 @@ public class RequestController {
     private static final Logger log = LoggerFactory.getLogger(RequestController.class);
 
     private static final Long START_TEST_RANGE = 0l;
-    private static final Long END_TEST_RANGE = 3999999l;
+    private static final Long END_TEST_RANGE = 4000000l;
 
     private LogStoreService logStoreService;
 
