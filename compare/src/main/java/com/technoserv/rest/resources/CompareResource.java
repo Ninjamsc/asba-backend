@@ -141,7 +141,7 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
         Date DATE_RANGE;
         Set<Long> wfm_ids_to_remove = new TreeSet<>();
 
-        DATE_RANGE = formatter.parse("01.05.2017");
+        DATE_RANGE = formatter.parse("16.06.2017");
 
         for (Request r:req){
             if (r.getId()>START_TEST_RANGE && r.getId()<END_TEST_RANGE && r.getTimestamp().before(DATE_RANGE)){
