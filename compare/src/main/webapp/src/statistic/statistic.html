@@ -15,6 +15,7 @@
             <th style="width:23%">Количество заявок</th>
             <th style="width:23%">Выше биометрического порога</th>
             <th style="width:23%">Ниже биометрического порога</th>
+            <th style="width:23%">Необработанные заявки</th>
         </tr>
         </thead>
         <tr ng-repeat="c in countArray">
@@ -22,11 +23,21 @@
             <td style="vertical-align: middle;">{{ c.requestCount }}</td>
             <td style="vertical-align: middle;">
                 <a ng-click="loadGoodIds(c)" style="cursor: pointer;">{{ c.biggerCount }}</a>
-                <div ng-show="c.isbiggerView" ng-repeat="id in c.biggerCountIds">{{id}}</div>
+                <div ng-show="c.isbiggerView" ng-repeat="id in c.biggerCountIds">{{id}}
+                    <a href="{{'/#/compare?requestId='+id}}" target="_blank" style="font-size: xx-small">подробнее</a>
+                </div>
             </td>
             <td style="vertical-align: middle;">
                 <a ng-click="loadLowIds(c)" style="cursor: pointer;">{{ c.lowerCount }}</a>
-                <div ng-show="c.isloverView" ng-repeat="id in c.lowerCountIds">{{id}}</div>
+                <div ng-show="c.isloverView" ng-repeat="id in c.lowerCountIds">{{id}}
+                    <a href="{{'/#/compare?requestId='+id}}" target="_blank" style="font-size: xx-small">подробнее</a>
+                </div>
+            </td>
+            <td style="vertical-align: middle;">
+                <a ng-click="loadOtherIds(c)" style="cursor: pointer;">{{ c.otherCount }}</a>
+                <div ng-show="c.istherView" ng-repeat="id in c.otherCountIds">{{id}}
+                    <a href="{{'/#/compare?requestId='+id}}" target="_blank" style="font-size: xx-small">подробнее</a>
+                </div>
             </td>
         </tr>
 

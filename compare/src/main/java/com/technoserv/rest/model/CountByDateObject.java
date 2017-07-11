@@ -5,12 +5,13 @@ import java.util.List;
 
 public class CountByDateObject {
 
-    public CountByDateObject(Long startDate, Long endDate, Long requestCount,Long biggerCount) {
+    public CountByDateObject(Long startDate, Long endDate, Long requestCount,Long biggerCount,Long otherCount) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.requestCount = requestCount;
         this.biggerCount = biggerCount;
         this.lowerCount = requestCount - biggerCount;
+        this.otherCount = otherCount;
     }
 
     private Long startDate;
@@ -18,6 +19,7 @@ public class CountByDateObject {
     private Long requestCount;
     private Long biggerCount;
     private Long lowerCount;
+    private Long otherCount;
     private String text;
 
     private List<Long> biggerCountIds = new ArrayList<>();
@@ -85,5 +87,13 @@ public class CountByDateObject {
 
     public void setLowerCountIds(List<Long> lowerCountIds) {
         this.lowerCountIds = lowerCountIds;
+    }
+
+    public Long getOtherCount() {
+        return otherCount;
+    }
+
+    public void setOtherCount(Long otherCount) {
+        this.otherCount = otherCount;
     }
 }

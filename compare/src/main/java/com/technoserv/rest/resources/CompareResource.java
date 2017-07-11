@@ -631,7 +631,7 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
             Date d = DateUtils.truncate(new Date(), Calendar.DATE);
             criteria.setFrom(new Date(System.currentTimeMillis() + 86400000));
             criteria.setTo(d);
-            result.add(new CountByDateObject(System.currentTimeMillis(),System.currentTimeMillis()+86400000,requestService.countByCriteria(criteria),0L));
+            result.add(new CountByDateObject(System.currentTimeMillis(),System.currentTimeMillis()+86400000,requestService.countByCriteria(criteria),0L,0L));
         } else {
             startDate = prepareBeginOfDay(new Date(startDate)).getTime();
             Date endOfDay = prepareEndOfDay(new Date(endDate));
@@ -641,7 +641,7 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
                 Date startTmp = addDays(new Date(startDate),i);
                 criteria.setFrom(startTmp);
                 criteria.setTo(prepareEndOfDay(startTmp));
-                result.add(new CountByDateObject(startTmp.getTime(),startTmp.getTime()+86400000,requestService.countByCriteria(criteria),0L));
+                result.add(new CountByDateObject(startTmp.getTime(),startTmp.getTime()+86400000,requestService.countByCriteria(criteria),0L,0L));
             }
         }
 
@@ -657,13 +657,16 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
                                                        @QueryParam("endDate") Long endDate) throws ParseException {
         RequestSearchCriteria criteria = new RequestSearchCriteria();
         List<CountByDateObject> result = new LinkedList<>();
-        List<Map<String, Object>> resultNative = jdbcCall.getJdbcTemplate().queryForList("SELECT daytotal,to_char(one.timestamp, 'yyyy-MM-dd HH:mm:ss') as timestamp,bigger FROM (SELECT count(*) as daytotal,timestamp FROM requests\n" +
-                "WHERE status='SUCCESS'\n" +
+        List<Map<String, Object>> resultNative = jdbcCall.getJdbcTemplate().queryForList(
+                "SELECT daytotal,to_char(one.timestamp, 'yyyy-MM-dd HH:mm:ss') as timestamp,bigger,other FROM (SELECT count(*) as daytotal,timestamp FROM requests\n" +
+                //"WHERE status='SUCCESS'\n" +
                 "GROUP BY timestamp) as one\n" +
                 "FULL OUTER JOIN (SELECT count(*) as bigger,timestamp FROM requests\n" +
                 "FULL JOIN compare_results ON requests.wfm_id = compare_results.id\n" +
                 "WHERE status='SUCCESS' and compare_results.similarity>"+systemSettingsBean.get(SystemSettingsType.RULE_SELF_SIMILARITY)+"\n" +
-                "GROUP BY timestamp) as two ON (one.timestamp=two.timestamp)");
+                "GROUP BY timestamp) as two ON (one.timestamp=two.timestamp)"+
+                "FULL OUTER JOIN (SELECT count(*) as other,timestamp FROM requests WHERE status!='SUCCESS' GROUP BY timestamp) as three ON (one.timestamp=three.timestamp)"
+        );
         if(startDate==null && endDate==null) {
             startDate = System.currentTimeMillis()-86400000*2;
             endDate = System.currentTimeMillis();
@@ -674,10 +677,10 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         for (int i=0;i<=diff;i++){
             Date startTmp = addDays(new Date(startDate),i);
-            result.add(new CountByDateObject(startTmp.getTime(),startTmp.getTime()+86400000,0L,0L));
+            result.add(new CountByDateObject(startTmp.getTime(),startTmp.getTime()+86400000,0L,0L,0L));
         }
 
-        CountByDateObject finalCounter = new CountByDateObject(startDate,endDate,0L,0L);
+        CountByDateObject finalCounter = new CountByDateObject(startDate,endDate,0L,0L,0L);
         finalCounter.setText("Всего:");
         for (CountByDateObject item : result){
             for (Map<String, Object> thrueVal : resultNative) {
@@ -685,12 +688,15 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
                     Date resultDate = dateFormat.parse((String) thrueVal.get("timestamp"));
                     if (resultDate.after(new Date(item.getStartDate())) && resultDate.before(new Date(item.getEndDate()))) {
                         Long daytotal = thrueVal.get("daytotal") == null ? 0L : (Long) thrueVal.get("daytotal"), bigger = thrueVal.get("bigger")==null ? 0L : (Long) thrueVal.get("bigger");
+                        Long other = thrueVal.get("other") == null ? 0L : (Long) thrueVal.get("other");
                         item.setRequestCount(item.getRequestCount()+daytotal);
                         item.setBiggerCount(item.getBiggerCount()+bigger);
-                        item.setLowerCount(item.getLowerCount()+(daytotal-bigger));
+                        item.setOtherCount(item.getOtherCount()+other);
+                        item.setLowerCount(item.getLowerCount()+(daytotal-(bigger+other)));
                         finalCounter.setRequestCount(finalCounter.getRequestCount()+daytotal);
                         finalCounter.setBiggerCount(finalCounter.getBiggerCount()+bigger);
-                        finalCounter.setLowerCount(finalCounter.getLowerCount()+(daytotal-bigger));
+                        finalCounter.setOtherCount(finalCounter.getOtherCount()+other);
+                        finalCounter.setLowerCount(finalCounter.getLowerCount()+(daytotal-(bigger+other)));
                     }
                 } catch (ParseException e) {
                     log.info("++++++++CANT_PARSE_datyeFormat+++++++++"+thrueVal.get("timestamp"));
@@ -731,6 +737,24 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
         List<Map<String, Object>> resultNative = jdbcCall.getJdbcTemplate().queryForList("SELECT wfm_id FROM requests\n" +
                 "JOIN compare_results ON requests.wfm_id=compare_results.id\n" +
                 "WHERE timestamp BETWEEN '"+dateFormat.format(new Date(startDate))+"' AND '"+dateFormat.format(new Date(endDate))+"' and compare_results.similarity<"+systemSettingsBean.get(SystemSettingsType.RULE_SELF_SIMILARITY));
+        resultNative.stream().forEach(r->{result.add((Long) r.get("wfm_id"));});
+        return result;
+    }
+
+    @GET
+    @Produces(HttpUtils.APPLICATION_JSON_UTF8)
+    @Consumes(HttpUtils.APPLICATION_JSON_UTF8)
+    @JacksonFeatures(serializationEnable = {SerializationFeature.INDENT_OUTPUT})
+    @Path("/requestids/other")
+    public List<Long> getRequestIdsListOther(@QueryParam("startDate") Long startDate,
+                                                   @QueryParam("endDate") Long endDate) throws ParseException {
+        List<Long> result = new ArrayList<>();
+        if (startDate==null || endDate==null) return result;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        List<Map<String, Object>> resultNative = jdbcCall.getJdbcTemplate().queryForList("SELECT wfm_id FROM requests\n" +
+                "WHERE timestamp BETWEEN '"+dateFormat.format(new Date(startDate))+
+                "' AND '"+dateFormat.format(new Date(endDate))+
+                "' AND status!='SUCCESS'");
         resultNative.stream().forEach(r->{result.add((Long) r.get("wfm_id"));});
         return result;
     }

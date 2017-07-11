@@ -72,4 +72,18 @@ angular.module('statistic', ['ui.router', 'commons'])
             } else c.isloverView = false;
         }
 
+        $scope.loadOtherIds = function (c) {
+            if (c.isotherView == undefined || c.istherView == null || !c.istherView) {
+                c.istherView = true;
+                $http.get("/compare/api/requestids/other",
+                    {
+                        params: {
+                            startDate: c.startDate,
+                            endDate: c.endDate//+86400000
+                        }
+                    }).success(function (data) {
+                    c.otherCountIds = data;
+                });
+            } else c.istherView = false;
+        }
     });
