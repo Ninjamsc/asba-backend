@@ -73,7 +73,7 @@ angular.module('statistic', ['ui.router', 'commons'])
         }
 
         $scope.loadOtherIds = function (c) {
-            if (c.isotherView == undefined || c.istherView == null || !c.istherView) {
+            if (c.istherView == undefined || c.istherView == null || !c.istherView) {
                 c.istherView = true;
                 $http.get("/compare/api/requestids/other",
                     {

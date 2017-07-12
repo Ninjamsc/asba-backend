@@ -11,8 +11,8 @@
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th style="width:26%">Дата</th>
-            <th style="width:23%">Количество заявок</th>
+            <th style="width:15%">Дата</th>
+            <th style="width:15%">Количество заявок</th>
             <th style="width:23%">Выше биометрического порога</th>
             <th style="width:23%">Ниже биометрического порога</th>
             <th style="width:23%">Необработанные заявки</th>
@@ -22,21 +22,18 @@
             <td style="vertical-align: middle;">{{ c.text || createDate(c.startDate) }}</td>
             <td style="vertical-align: middle;">{{ c.requestCount }}</td>
             <td style="vertical-align: middle;">
-                <a ng-click="loadGoodIds(c)" style="cursor: pointer;">{{ c.biggerCount }}</a>
-                <div ng-show="c.isbiggerView" ng-repeat="id in c.biggerCountIds">{{id}}
-                    <a href="{{'/#/compare?requestId='+id}}" target="_blank" style="font-size: xx-small">подробнее</a>
+                <a ng-click="loadGoodIds(c)" style="cursor: pointer;">{{ c.biggerCount }}</a><br/><br/>
+                <div ng-show="c.isbiggerView" ng-repeat="id in c.biggerCountIds"><a href="{{'/#/compare?requestId='+id}}" target="_blank">{{id}}</a>
                 </div>
             </td>
             <td style="vertical-align: middle;">
-                <a ng-click="loadLowIds(c)" style="cursor: pointer;">{{ c.lowerCount }}</a>
-                <div ng-show="c.isloverView" ng-repeat="id in c.lowerCountIds">{{id}}
-                    <a href="{{'/#/compare?requestId='+id}}" target="_blank" style="font-size: xx-small">подробнее</a>
+                <a ng-click="loadLowIds(c)" style="cursor: pointer;">{{ c.lowerCount }}</a><br/><br/>
+                <div ng-show="c.isloverView" ng-repeat="id in c.lowerCountIds"><a href="{{'/#/compare?requestId='+id}}" target="_blank">{{id}}</a>
                 </div>
             </td>
             <td style="vertical-align: middle;">
-                <a ng-click="loadOtherIds(c)" style="cursor: pointer;">{{ c.otherCount }}</a>
-                <div ng-show="c.istherView" ng-repeat="id in c.otherCountIds">{{id}}
-                    <a href="{{'/#/compare?requestId='+id}}" target="_blank" style="font-size: xx-small">подробнее</a>
+                <a ng-click="loadOtherIds(c)" style="cursor: pointer;">{{ c.otherCount }}</a><br/><br/>
+                <div ng-show="c.istherView" ng-repeat="id in c.otherCountIds"><a href="{{'/#/compare?requestId='+id}}" target="_blank">{{id}}</a>
                 </div>
             </td>
         </tr>
