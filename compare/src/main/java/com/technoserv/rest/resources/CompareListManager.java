@@ -1,9 +1,11 @@
 package com.technoserv.rest.resources;
 
 import com.technoserv.db.model.configuration.SystemSettingsType;
+import com.technoserv.db.model.objectmodel.BioTemplate;
 import com.technoserv.db.model.objectmodel.Document;
 import com.technoserv.db.model.objectmodel.StopList;
 import com.technoserv.db.service.configuration.impl.SystemSettingsBean;
+import com.technoserv.db.service.objectmodel.api.BioTemplateService;
 import com.technoserv.db.service.objectmodel.api.DocumentService;
 import com.technoserv.rest.comparator.CompareServiceStopListElement;
 import com.technoserv.rest.comparator.CompareServiceStopListVector;
@@ -32,6 +34,10 @@ public class CompareListManager implements InitializingBean {
 
     @Autowired
     private DocumentService documentService;
+
+
+    @Autowired
+    private BioTemplateService bioTemplateService;
 
     private HashMap<Long, CompareServiceStopListElement> managedStopLists;
 
@@ -95,8 +101,15 @@ public class CompareListManager implements InitializingBean {
         CompareServiceStopListElement e = new CompareServiceStopListElement(list.getStopListName(), list.getId(),
                 list.getSimilarity());
 
+
+
         if (list.getOwner() != null) {
             for (Document d : list.getOwner()) {
+                if (d.getBioTemplates().isEmpty()){
+                    List<BioTemplate> bts = bioTemplateService.getAllByDocument(d);
+                    log.info("bioTemplatesIsEmpty! find {} templates",bts.size());
+                    d.setBioTemplates(bts);
+                }
                 if (!e.addVector(d)) return false;
             }
         }

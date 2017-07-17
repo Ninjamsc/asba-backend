@@ -32,12 +32,12 @@ public class CompareServiceStopListElement {
         CompareServiceStopListVector v = new CompareServiceStopListVector();
         ObjectMapper mapper = new ObjectMapper();
         try {
-            double[] array = mapper.readValue(doc.getBioTemplates().get(0).getTemplateVector(), double[].class);
+            double[] array = mapper.readValue(doc.getBioTemplates().get(0).getTemplateVector(), double[].class); //ЗДЕСЬ!!! doc.getBioTemplates() пустой
             v.setVector(new ArrayRealVector(array));
             v.setDocId(doc.getId());
             vectors.add(v);
         } catch (Exception e) {
-            System.out.println(e);
+            System.out.println(e); //!! java.lang.IndexOutOfBoundsException: Index: 0, Size: 0
             return false;
         }
         return true;

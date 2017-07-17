@@ -2,16 +2,21 @@ package com.technoserv.db.service.objectmodel.impl;
 
 import com.technoserv.db.dao.objectmodel.api.BioTemplateDao;
 import com.technoserv.db.model.objectmodel.BioTemplate;
+import com.technoserv.db.model.objectmodel.Document;
 import com.technoserv.db.service.AbstractService;
 import com.technoserv.db.service.objectmodel.api.BioTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 /**
  * Created by sergey on 23.11.2016.
  */
 @Service
+@Transactional
 public class BioTemplateServiceImpl extends AbstractService<Long, BioTemplate, BioTemplateDao>
         implements BioTemplateService {
 
@@ -22,4 +27,8 @@ public class BioTemplateServiceImpl extends AbstractService<Long, BioTemplate, B
         this.dao = dao;
     }
 
+
+    public List<BioTemplate> getAllByDocument(Document d) {
+        return dao.getAllByDocument(d);
+    }
 }
