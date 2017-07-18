@@ -41,6 +41,10 @@ public class CompareListManager implements InitializingBean {
 
     private HashMap<Long, CompareServiceStopListElement> managedStopLists;
 
+    public HashMap<Long, CompareServiceStopListElement> getManagedStopLists(){
+        return this.managedStopLists;
+    }
+
     public CompareServiceStopListElement getList(Long id) {
         return this.managedStopLists.get(id);
     }
@@ -217,7 +221,7 @@ public class CompareListManager implements InitializingBean {
                     po.setUrl(d.getFaceSquare());
                     po.setSimilarity(norm);
                     report.addPhoto(po);
-                    bl.add(report);
+                    if (!bl.contains(report)) bl.add(report);
                 } else {
                     log.debug("compare2 MISS list: {} norm: {} similarity: {} list id: {} docId: {}",
                             list.getListName(), norm, similarity, list.getId(), vect.getDocId());

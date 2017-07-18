@@ -80,7 +80,7 @@ public class Document extends AbstractObject {
                 .add("documentType", documentType)
                 .add("origImageURL", origImageURL)
                 .add("faceSquare", StringUtils.length(faceSquare))
-                .add("bioTemplates count", bioTemplates.size())
+                .add("bioTemplates count", bioTemplates == null ? "null" : bioTemplates.size())
                 .toString();
     }
 }

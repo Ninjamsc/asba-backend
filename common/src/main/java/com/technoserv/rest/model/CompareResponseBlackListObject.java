@@ -52,4 +52,25 @@ public class CompareResponseBlackListObject {
     public void setSimilarity(Double similarity) {
         this.similarity = similarity;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CompareResponseBlackListObject that = (CompareResponseBlackListObject) o;
+
+        if (!listId.equals(that.listId)) return false;
+        if (!listName.equals(that.listName)) return false;
+        return similarity.equals(that.similarity);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = listId.hashCode();
+        result = 31 * result + listName.hashCode();
+        result = 31 * result + similarity.hashCode();
+        return result;
+    }
 }

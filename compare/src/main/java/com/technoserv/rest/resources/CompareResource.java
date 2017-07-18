@@ -387,7 +387,8 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
         CompareResponse response = new CompareResponse();
         List<CompareResponseRulesObject> firedRules = new ArrayList<>();
         try {
-            log.debug("compareImages 1.");
+            log.info("Before stoplist compare {}",listManager.getManagedStopLists().size());
+            log.debug("compareImages 1."+getCommonListId());
             // compare scanned pic
             List<CompareResponseBlackListObject> ls = listManager.compare2(message.getTemplate_scan(), getCommonListId());
             CompareResponseBlackListObject CommonScan = listManager.compare1(message.getTemplate_scan(), getCommonListId());
@@ -396,7 +397,7 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
             reportScan.setPictureURL(message.getScanFullFrameURL());
             reportScan.setPreviewURL(message.getScanPreviewURL());
 
-            log.debug("compareImages 2.");
+            log.debug("compareImages 2."+getCommonListId());
 
             // compare webcam pic
             List<CompareResponseBlackListObject> lw = listManager.compare2(message.getTemplate_web(), getCommonListId());
@@ -405,7 +406,7 @@ public class CompareResource extends BaseResource<Long, StopList> implements Ini
             reportWeb.setBlackLists(lw);
             reportWeb.setPictureURL(message.getWebFullFrameURL());
             reportWeb.setPreviewURL(message.getWebPreviewURL());
-            log.debug("compareImages 3.");
+            log.debug("compareImages 3."+getCommonListId());
 
             response.setCameraPicture(reportWeb);
             response.setScannedPicture(reportScan);
