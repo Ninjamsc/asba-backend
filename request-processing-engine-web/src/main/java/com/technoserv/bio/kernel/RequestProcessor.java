@@ -20,6 +20,7 @@ import com.technoserv.rest.model.CompareReport;
 import com.technoserv.rest.request.CompareServiceRequest;
 import com.technoserv.rest.request.PhotoTemplate;
 import com.technoserv.utils.JsonUtils;
+import org.apache.commons.lang.NullArgumentException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,29 +112,42 @@ public class RequestProcessor {
         }
     }
 
+    private PhotoTemplate preparePhotoTemplate(Document doc){
+        PhotoTemplate template = null;
+        byte[] photo = photoPersistServiceRestClient.getPhoto(doc.getFaceSquare());
+        log.debug("Downloaded scannedPhoto size: {} URL: {}", photo.length, doc.getFaceSquare());
+        try {
+            template = templateBuilderServiceRestClient.getPhotoTemplate(photo);
+        } catch (Exception e){
+            log.debug("Cached exception on preview: "+e.getMessage());
+            photo = photoPersistServiceRestClient.getPhoto(doc.getOrigImageURL());
+            try {
+                template = templateBuilderServiceRestClient.getPhotoTemplate(photo);
+            } catch (Exception e2){
+                log.debug("Cached exception on fullframe: "+e.getMessage());
+            }
+        }
+        return template;
+    }
+
     private void processRequest(Request request, int previousRetryCount) {
         try {
             log.debug("Process request: {}", request);
-
             updateRequestStatus(request, Request.Status.IN_PROCESS);
             log.debug("Status updated to IN_PROCESS for request id: {}", request.getId());
 
-            byte[] scannedPhoto = photoPersistServiceRestClient.getPhoto(request.getScannedDocument().getFaceSquare());
-            log.debug("Downloaded scannedPhoto size: {} URL: {}", scannedPhoto.length, request.getScannedDocument().getFaceSquare());
-
-            byte[] webCamPhoto = photoPersistServiceRestClient.getPhoto(request.getCameraDocument().getFaceSquare());
-            log.debug("Downloaded webCamPhoto size: {} URL: {}", webCamPhoto.length, request.getCameraDocument().getFaceSquare());
-
-            // шаг 4 построение шаблона
-            // компонент 7. Сервис построения шаблонов(биометрическое ядро)
-            PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(scannedPhoto);
+            PhotoTemplate scannedTemplate = preparePhotoTemplate(request.getScannedDocument());
+            //PhotoTemplate scannedTemplate = templateBuilderServiceRestClient.getPhotoTemplate(scannedPhoto);
             log.debug("scannedPhoto -> scannedTemplate: {}", scannedTemplate);
+            if (scannedTemplate == null) throw new NullArgumentException("scannedPhoto -> scannedTemplate CANT BUILT TEMPLATE");
 
             addBioTemplateToDocument(request, request.getScannedDocument(), scannedTemplate);
             log.debug("Saved scannedTemplate: {}", scannedTemplate);
 
-            PhotoTemplate webCamTemplate = templateBuilderServiceRestClient.getPhotoTemplate(webCamPhoto);
+            PhotoTemplate webCamTemplate = preparePhotoTemplate(request.getCameraDocument());
+            //PhotoTemplate webCamTemplate = templateBuilderServiceRestClient.getPhotoTemplate(webCamPhoto);
             log.debug("webCamPhoto -> webCamTemplate: {}", webCamTemplate);
+            if (webCamTemplate == null) throw new NullArgumentException("webCamPhoto -> webCamTemplate CANT BUILT TEMPLATE");
 
             addBioTemplateToDocument(request, request.getCameraDocument(), webCamTemplate);
             log.debug("saved webCamTemplate: {}", webCamTemplate);
@@ -141,10 +155,10 @@ public class RequestProcessor {
             //шаг 5 Построение фильтров
             // компонент 8 Сервис анализа изображений
 //                photoAnalyzerServiceRestClient.analyzePhoto(scannedPhoto);//todo uncomment me
-            log.debug("analyzed scannedPhoto size: {}", scannedPhoto.length);
+//            log.debug("analyzed scannedPhoto size: {}", scannedPhoto.length);
 
 //                photoAnalyzerServiceRestClient.analyzePhoto(webCamPhoto);//todo uncomment me
-            log.debug("analyzed webCamPhoto size: {}", webCamPhoto.length);
+ //           log.debug("analyzed webCamPhoto size: {}", webCamPhoto.length);
 
             //шаг в 6 Сравнение со списками
             // компонент 9 Сервис сравнения
@@ -191,20 +205,20 @@ public class RequestProcessor {
 
             updateRequestStatus(request, Request.Status.FAILED);
             log.warn("Status updated to FAILED for request: {}", request.getId());
-
-//            sendToRetryQueue(request, previousRetryCount);
-
             if (isNeedToSentToWorkflowQueue()) {
                 jmsTemplate.convertAndSend(rce.toJSON());
             }
 
+        } catch (NullArgumentException nae) {
+            log.error(String.format("Can't process request: %d", request.getId()), nae);
+
+            updateRequestStatus(request, Request.Status.NO_VECTOR); // выставляем статус для ретрая
+            log.warn("Status updated to NO_VECTOR for request: {}", request.getId());
         } catch (Throwable e) {
             log.error(String.format("Can't process request: %d", request.getId()), e);
 
             updateRequestStatus(request, Request.Status.FAILED); // выставляем статус для ретрая
             log.warn("Status updated to FAILED for request: {}", request.getId());
-
-//            sendToRetryQueue(request, previousRetryCount);
         }
     }
 

@@ -16,7 +16,7 @@ import java.util.Date;
 @Table(name = "REQUESTS")
 public class Request extends BaseEntity<Long> {
 
-    public enum Status {SAVED, IN_PROCESS, SUCCESS, FAILED, REJECTED}
+    public enum Status {SAVED, IN_PROCESS, SUCCESS, FAILED, REJECTED, NO_VECTOR}
 
     /**
      * номер заявки из BPM
