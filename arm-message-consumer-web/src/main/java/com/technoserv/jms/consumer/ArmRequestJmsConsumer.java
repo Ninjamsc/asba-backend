@@ -74,7 +74,7 @@ public class ArmRequestJmsConsumer {
             // do not save request which was already processed
             if (requestEntity != null) {
                 log.warn("Request: {} already exists in the database: {}", requestEntity.getId(), requestEntity);
-                if (requestEntity.getStatus() == Request.Status.SUCCESS
+                if ((requestEntity.getStatus() == Request.Status.SUCCESS && requestDTO.getType() != RequestDTO.Type.FULLFRAME)
                         || requestEntity.getStatus() == Request.Status.FAILED
                         || requestEntity.getStatus() == Request.Status.REJECTED) {
 
@@ -151,6 +151,7 @@ public class ArmRequestJmsConsumer {
             requestEntity.setScannedDocument(scan);
             requestEntity.setLogin(requestDTO.getUsername());
             requestEntity.setObjectDate(new Date());
+            //TODO: Проверка на Status.SUCCESS если обработано, то не меняем, но если FAILED то запускаем снова
             requestEntity.setStatus(Request.Status.SAVED);
             requestService.saveOrUpdate(requestEntity);
             RestTemplate restTemplate = new RestTemplate();

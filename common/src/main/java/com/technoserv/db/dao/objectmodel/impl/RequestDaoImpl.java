@@ -59,10 +59,10 @@ public class RequestDaoImpl extends AbstractHibernateDao<Long, Request> implemen
         criteria.createCriteria("cameraDocument", "cd");
 
         Conjunction conjunction = Restrictions.conjunction();
-
-        conjunction.add(Property.forName("sd.origImageURL").isNotNull());
+        //TODO: Сделать выборку только по faceSquare
+        //conjunction.add(Property.forName("sd.origImageURL").isNotNull());
         conjunction.add(Property.forName("sd.faceSquare").isNotNull());
-        conjunction.add(Property.forName("cd.origImageURL").isNotNull());
+        //conjunction.add(Property.forName("cd.origImageURL").isNotNull());
         conjunction.add(Property.forName("cd.faceSquare").isNotNull());
 
         Disjunction disjunction = Restrictions.disjunction();
