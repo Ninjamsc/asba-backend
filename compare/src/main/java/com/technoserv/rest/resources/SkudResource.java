@@ -113,7 +113,7 @@ public class SkudResource extends BaseResource<Long, StopList> implements Initia
         response.setMatch(po);
 
         try {
-            CompareResponseBlackListObject compareResponse = skudListManager.compare1(message.getTemplate(), skudStopListId);
+            CompareResponseBlackListObject compareResponse = skudListManager.compareAll(message.getTemplate());
             if (compareResponse == null) {
                 return Response.ok(response).build();
             }

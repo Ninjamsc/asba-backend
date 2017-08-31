@@ -113,6 +113,20 @@ public class SkudCompareListManager implements InitializingBean {
         return null;
     }
 
+    // compare with all lists and return single result
+    public CompareResponseBlackListObject compareAll(double[] vector) throws Exception {
+        List<CompareResponseBlackListObject> results = compare2(vector, null);
+        if (results.size() == 0) return null;
+        CompareResponseBlackListObject report = null;
+        Double maxSimilarity = 0.0;
+        for (CompareResponseBlackListObject stopListResult : results) {
+            if (stopListResult.getSimilarity() > maxSimilarity) {
+                report = stopListResult;
+            }
+        }
+        return report;
+    }
+
     // compare with all list except specified
     public List<CompareResponseBlackListObject> compare2(double[] vector, Long listId) throws Exception {
         log.debug("compare2 (double) list size: {}", managedStopLists.size());
@@ -157,6 +171,7 @@ public class SkudCompareListManager implements InitializingBean {
                     CompareResponsePhotoObject po = new CompareResponsePhotoObject();
                     po.setUrl(document.getFaceSquare());
                     po.setSimilarity(norm);
+                    po.setIdentity(document.getId());
                     report.addPhoto(po);
                     bl.add(report);
 
