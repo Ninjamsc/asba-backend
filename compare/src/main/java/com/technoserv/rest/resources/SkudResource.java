@@ -147,4 +147,17 @@ public class SkudResource extends BaseResource<Long, StopList> implements Initia
                 .build();
     }
 
+    @Path("/reload-stoplists")
+    @POST
+    public Response reloadStoplists() {
+        log.debug("reload stoplists from DB");
+
+        List<StopList> allLists = stopListService.getAll("owner", "owner.bioTemplates");
+        log.debug("Number of stop lists is: {}", allLists.size());
+
+        skudListManager.updateStoplistCache(allLists);
+
+        return Response.ok().build();
+    }
+
 }

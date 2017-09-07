@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static org.springframework.security.crypto.codec.Base64.encode;
 
@@ -36,7 +37,7 @@ public class SkudCompareListManager implements InitializingBean {
     @Autowired
     private DocumentService documentService;
 
-    private HashMap<Long, CompareServiceStopListElement> managedStopLists;
+    private ConcurrentHashMap<Long, CompareServiceStopListElement> managedStopLists;
 
     public boolean addList(StopList list) {
         log.debug("addList list: {}", list);
@@ -51,6 +52,14 @@ public class SkudCompareListManager implements InitializingBean {
         }
         managedStopLists.put(list.getId(), e);
         return true;
+    }
+
+    public void updateStoplistCache(List<StopList> allStopLists) {
+        managedStopLists.clear();
+        for (StopList stopList : allStopLists) {
+            addList(stopList);
+            log.debug("Stop list added: {} ", stopList);
+        }
     }
 
     /**
@@ -210,7 +219,7 @@ public class SkudCompareListManager implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        this.managedStopLists = new HashMap<>();
+        this.managedStopLists = new ConcurrentHashMap<>();
     }
 
     private double wrapSimilarityCalculation(ArrayRealVector v1, ArrayRealVector v2) {
