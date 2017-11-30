@@ -38,6 +38,8 @@ public class UserDTO implements UserDetails {
         return user.getSsoId();
     }
 
+    public String getName() { return user.getFirstName() + " " + user.getLastName(); }
+
     public boolean isAccountNonExpired() {
         return true;
     }
